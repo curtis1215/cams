@@ -157,5 +157,9 @@ export default {
   transferRequestSubmitted: 'Transfer request submitted',
   availableOutflow: 'Available Outflow',
   availableInflow: 'Available Inflow',
-  balance: 'Balance'
+  balance: 'Balance',
+  confirmTransfer: 'Confirm Transfer',
+  fromWalletInfo: 'From Wallet Information',
+  toWalletInfo: 'To Wallet Information',
+  pleaseSelectMerchant: 'Please Select Merchant'
 } 

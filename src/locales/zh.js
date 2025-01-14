@@ -159,6 +159,9 @@ export default {
   transferRequestSubmitted: '轉帳請求已提交',
   availableOutflow: '可用轉出量',
   availableInflow: '可用轉入量',
-  balance: '餘額'
+  balance: '餘額',
+  confirmTransfer: '確認轉帳',
+  fromWalletInfo: '轉出錢包資訊',
+  toWalletInfo: '轉入錢包資訊'
   // 根據需求添加更多翻譯
 } 
