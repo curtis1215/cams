@@ -11,7 +11,7 @@
         />
         <a-select
           v-model:value="currentLocale"
-          style="width: 100px; margin: 0 16px"
+          style="width: 120px; margin: 0 16px"
           @change="changeLocale"
         >
           <a-select-option value="zh">中文</a-select-option>

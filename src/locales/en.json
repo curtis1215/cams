@@ -175,5 +175,11 @@
   "onChain": "On Chain",
   "confirming": "Confirming",
   "successful": "Successful",
-  "failed": "Failed"
+  "failed": "Failed",
+  "queryCondition": "Query Condition",
+  "detail": "Detail",
+  "pleaseInputAuditReason": "Please input audit reason",
+  "pleaseSelectAuditOperation": "Please select audit operation",
+  "auditSuccess": "Audit successful",
+  "auditFailed": "Audit failed"
 } 

@@ -175,5 +175,11 @@
   "onChain": "上鏈",
   "confirming": "確認中",
   "successful": "成功",
-  "failed": "失敗"
+  "failed": "失敗",
+  "queryCondition": "查詢條件",
+  "detail": "詳細",
+  "pleaseInputAuditReason": "請輸入審核原因",
+  "pleaseSelectAuditOperation": "請選擇審核操作",
+  "auditSuccess": "審核成功",
+  "auditFailed": "審核失敗"
 } 

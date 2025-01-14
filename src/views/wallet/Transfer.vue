@@ -236,17 +236,128 @@
         </a-card>
       </div>
     </a-modal>
+
+    <!-- 轉帳申請查詢 -->
+    <a-card :title="$t('transferQueryTitle')" class="transfer-card query-card">
+      <a-form layout="inline" class="query-form">
+        <div class="form-row">
+          <a-form-item :label="$t('merchant')" class="form-item">
+            <merchant-select v-model="queryParams.merchant" class="full-width" />
+          </a-form-item>
+          <a-form-item :label="$t('chainType')" class="form-item">
+            <chain-type-select v-model="queryParams.chainType" class="full-width" />
+          </a-form-item>
+          <a-form-item :label="$t('currency')" class="form-item">
+            <currency-select v-model="queryParams.currency" class="full-width" />
+          </a-form-item>
+          <a-form-item :label="$t('walletType')" class="form-item">
+            <wallet-type-select v-model="queryParams.walletType" class="full-width" />
+          </a-form-item>
+        </div>
+        <div class="form-row">
+          <a-form-item :label="$t('address')" class="form-item address-input">
+            <a-input v-model:value="queryParams.address" class="full-width" :placeholder="$t('pleaseInputAddress')" />
+          </a-form-item>
+          <a-form-item :label="'\u00A0'" class="form-item query-button">
+            <a-space>
+              <a-button type="primary" @click="handleQuery">{{ $t('query') }}</a-button>
+              <a-button @click="handleReset">{{ $t('reset') }}</a-button>
+            </a-space>
+          </a-form-item>
+        </div>
+      </a-form>
+    </a-card>
+
+    <!-- 轉帳列表 -->
+    <a-card :title="$t('transferList')" class="transfer-card list-card">
+      <a-table 
+        :dataSource="transferList" 
+        :columns="columns" 
+        :loading="loading" 
+        :pagination="pagination" 
+        @change="handleTableChange"
+        :scroll="{ y: 480 }"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'action'">
+            <a-space>
+              <a-button 
+                type="primary" 
+                size="small" 
+                v-if="record.auditStatus === 'pending'"
+                @click="handleAudit(record)"
+              >
+                {{ $t('audit') }}
+              </a-button>
+              <a-button 
+                type="link" 
+                size="small" 
+                v-if="['approved', 'rejected'].includes(record.auditStatus)"
+                @click="handleViewAuditDetail(record)"
+              >
+                {{ $t('detail') }}
+              </a-button>
+            </a-space>
+          </template>
+        </template>
+      </a-table>
+    </a-card>
+
+    <!-- 審核操作彈窗 -->
+    <a-modal
+      v-model:visible="auditModalVisible"
+      :title="$t('auditOperation')"
+      @ok="handleConfirmAudit"
+      @cancel="handleCancelAudit"
+      :confirmLoading="auditLoading"
+    >
+      <a-form :model="auditForm" layout="vertical">
+        <a-form-item :label="$t('auditOperation')" required>
+          <a-select v-model:value="auditForm.status" style="width: 100%">
+            <a-select-option value="approved">{{ $t('approved') }}</a-select-option>
+            <a-select-option value="rejected">{{ $t('rejected') }}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item :label="$t('auditReason')" required>
+          <a-textarea 
+            v-model:value="auditForm.reason"
+            :rows="4"
+            :placeholder="$t('pleaseInputAuditReason')"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 審核詳情彈窗 -->
+    <a-modal
+      v-model:visible="auditDetailModalVisible"
+      :title="$t('auditDetail')"
+      @cancel="() => auditDetailModalVisible = false"
+      :footer="null"
+    >
+      <div class="audit-detail">
+        <div class="audit-detail-item">
+          <span class="audit-detail-label">{{ $t('auditOperation') }}：</span>
+          <span class="audit-detail-value">{{ selectedRecord?.auditStatus === 'approved' ? $t('approved') : $t('rejected') }}</span>
+        </div>
+        <div class="audit-detail-item">
+          <span class="audit-detail-label">{{ $t('auditReason') }}：</span>
+          <span class="audit-detail-value">{{ selectedRecord?.auditReason }}</span>
+        </div>
+      </div>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
+import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 
 const { t } = useI18n()
 
@@ -362,6 +473,298 @@ const handleConfirmTransfer = async () => {
 const handleCancelTransfer = () => {
   confirmModalVisible.value = false
 }
+
+// 查詢參數
+const queryParams = reactive({
+  merchant: undefined,
+  chainType: undefined,
+  currency: undefined,
+  walletType: undefined,
+  address: ''
+})
+
+// 轉帳列表數據
+const transferList = ref([])
+const loading = ref(false)
+
+// 表格列定義
+const columns = [
+  {
+    title: '轉出商戶',
+    dataIndex: 'fromMerchant',
+    key: 'fromMerchant',
+    width: 120
+  },
+  {
+    title: '轉出錢包ID',
+    dataIndex: 'fromWalletId',
+    key: 'fromWalletId',
+    width: 140
+  },
+  {
+    title: '轉出鏈類型',
+    dataIndex: 'fromChainType',
+    key: 'fromChainType',
+    width: 100
+  },
+  {
+    title: '轉出幣種',
+    dataIndex: 'fromCurrency',
+    key: 'fromCurrency',
+    width: 100
+  },
+  {
+    title: '轉帳數量',
+    dataIndex: 'amount',
+    key: 'amount',
+    width: 140,
+    align: 'right'
+  },
+  {
+    title: '轉入商戶',
+    dataIndex: 'toMerchant',
+    key: 'toMerchant',
+    width: 120
+  },
+  {
+    title: '轉入錢包ID',
+    dataIndex: 'toWalletId',
+    key: 'toWalletId',
+    width: 140
+  },
+  {
+    title: '轉入鏈類型',
+    dataIndex: 'toChainType',
+    key: 'toChainType',
+    width: 100
+  },
+  {
+    title: '轉入幣種',
+    dataIndex: 'toCurrency',
+    key: 'toCurrency',
+    width: 100
+  },
+  {
+    title: '建立時間',
+    dataIndex: 'createTime',
+    key: 'createTime',
+    width: 160
+  },
+  {
+    title: '審核時間',
+    dataIndex: 'auditTime',
+    key: 'auditTime',
+    width: 160
+  },
+  {
+    title: '審核狀態',
+    dataIndex: 'auditStatus',
+    key: 'auditStatus',
+    width: 100,
+    customRender: ({ text }) => {
+      const statusMap = {
+        pending: '待審核',
+        approved: '通過',
+        rejected: '駁回'
+      }
+      return statusMap[text] || text
+    }
+  },
+  {
+    title: '轉帳狀態',
+    dataIndex: 'transferStatus',
+    key: 'transferStatus',
+    width: 120,
+    customRender: ({ text, record }) => {
+      if (['pending', 'rejected'].includes(record.auditStatus)) {
+        return ''
+      }
+      const statusMap = {
+        submitted: '提交',
+        onchain: '上鏈',
+        confirming: (record) => `確認中(${record.confirmations}/${record.requiredConfirmations})`,
+        completed: '成功',
+        failed: '失敗'
+      }
+      return typeof statusMap[text] === 'function' ? statusMap[text](record) : statusMap[text] || text
+    }
+  },
+  {
+    title: '操作',
+    key: 'action',
+    width: 80,
+    fixed: 'right'
+  }
+]
+
+// 格式化表格分頁
+const pagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 100,
+  showSizeChanger: true,
+  showQuickJumper: true
+})
+
+// 生成模擬數據
+const generateMockData = () => {
+  const data = []
+  const statuses = ['pending', 'approved', 'rejected']
+  const transferStatuses = ['submitted', 'onchain', 'confirming', 'completed', 'failed']
+  const merchants = ['商戶A', '商戶B', '商戶C']
+  const chainTypes = ['BTC', 'ETH', 'TRX']
+  const currencies = ['BTC', 'ETH', 'USDT']
+
+  for (let i = 0; i < 10; i++) {
+    const auditStatus = statuses[Math.floor(Math.random() * statuses.length)]
+    const transferStatus = ['pending', 'rejected'].includes(auditStatus) 
+      ? null 
+      : transferStatuses[Math.floor(Math.random() * transferStatuses.length)]
+    
+    const confirmations = transferStatus === 'confirming' ? Math.floor(Math.random() * 5) + 1 : null
+    const requiredConfirmations = transferStatus === 'confirming' ? 12 : null
+
+    data.push({
+      key: i,
+      fromMerchant: merchants[Math.floor(Math.random() * merchants.length)],
+      fromWalletId: `W${String(Math.floor(Math.random() * 1000000)).padStart(6, '0')}`,
+      fromChainType: chainTypes[Math.floor(Math.random() * chainTypes.length)],
+      fromCurrency: currencies[Math.floor(Math.random() * currencies.length)],
+      amount: (Math.random() * 1000).toFixed(8),
+      toMerchant: merchants[Math.floor(Math.random() * merchants.length)],
+      toWalletId: `W${String(Math.floor(Math.random() * 1000000)).padStart(6, '0')}`,
+      toChainType: chainTypes[Math.floor(Math.random() * chainTypes.length)],
+      toCurrency: currencies[Math.floor(Math.random() * currencies.length)],
+      createTime: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }),
+      auditTime: auditStatus !== 'pending' ? new Date(Date.now() - Math.floor(Math.random() * 1000000000)).toLocaleString('zh-TW', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }) : null,
+      auditStatus,
+      transferStatus,
+      confirmations,
+      requiredConfirmations
+    })
+  }
+  return data
+}
+
+// 更新查詢方法
+const handleQuery = () => {
+  loading.value = true
+  // 模擬API調用
+  setTimeout(() => {
+    transferList.value = generateMockData()
+    loading.value = false
+  }, 1000)
+}
+
+// 初始化數據
+onMounted(() => {
+  handleQuery()
+})
+
+// 重置方法
+const handleReset = () => {
+  queryParams.merchant = undefined
+  queryParams.chainType = undefined
+  queryParams.currency = undefined
+  queryParams.walletType = undefined
+  queryParams.address = ''
+}
+
+// 審核相關
+const auditModalVisible = ref(false)
+const auditDetailModalVisible = ref(false)
+const auditLoading = ref(false)
+const selectedRecord = ref(null)
+const auditForm = reactive({
+  status: undefined,
+  reason: ''
+})
+
+// 處理審核按鈕點擊
+const handleAudit = (record) => {
+  selectedRecord.value = record
+  auditForm.status = undefined
+  auditForm.reason = ''
+  auditModalVisible.value = true
+}
+
+// 處理確認審核
+const handleConfirmAudit = async () => {
+  if (!auditForm.status) {
+    message.error(t('pleaseSelectAuditOperation'))
+    return
+  }
+  if (!auditForm.reason) {
+    message.error(t('pleaseInputAuditReason'))
+    return
+  }
+
+  auditLoading.value = true
+  try {
+    // TODO: 實現審核邏輯
+    await new Promise(resolve => setTimeout(resolve, 1000)) // 模擬 API 調用
+    
+    // 更新本地數據
+    const index = transferList.value.findIndex(item => item.key === selectedRecord.value.key)
+    if (index !== -1) {
+      transferList.value[index] = {
+        ...transferList.value[index],
+        auditStatus: auditForm.status,
+        auditReason: auditForm.reason,
+        auditTime: new Date().toLocaleString('zh-TW', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        })
+      }
+    }
+    
+    message.success(t('auditSuccess'))
+    auditModalVisible.value = false
+  } catch (error) {
+    message.error(t('auditFailed'))
+  } finally {
+    auditLoading.value = false
+  }
+}
+
+// 處理取消審核
+const handleCancelAudit = () => {
+  auditModalVisible.value = false
+}
+
+// 處理查看審核詳情
+const handleViewAuditDetail = (record) => {
+  selectedRecord.value = record
+  auditDetailModalVisible.value = true
+}
+
+// 處理表格變更
+const handleTableChange = (pag) => {
+  pagination.current = pag.current
+  pagination.pageSize = pag.pageSize
+  handleQuery()
+}
 </script>
 
 <style scoped>
@@ -371,177 +774,184 @@ const handleCancelTransfer = () => {
   display: flex;
   flex-direction: column;
   gap: 24px;
-}
-
-.transfer-card,
-.detail-card {
-  height: 252px;
-}
-
-.transfer-card :deep(.ant-card-head),
-.detail-card :deep(.ant-card-head) {
-  height: 56px;
-  min-height: 56px;
-  padding: 0 24px;
-  border-bottom: 1px solid #303030;
-}
-
-.transfer-card :deep(.ant-card-body),
-.detail-card :deep(.ant-card-body) {
-  height: 196px;
-  padding: 20px 24px !important;
-  overflow: auto;
-}
-
-.transfer-card :deep(.ant-form) {
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin: 0;
-}
 
-.transfer-card :deep(.ant-form-item) {
-  margin: 0;
-}
+  :deep(.ant-row) {
+    flex: 1;
+    display: flex;
+    margin-bottom: 0;
+  }
 
-.form-row {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin: 0;
-}
+  :deep(.ant-col) {
+    height: auto;
+    display: flex;
+    flex-direction: column;
+  }
 
-.form-row .ant-form-item {
-  margin: 0;
-  flex: 1;
-  min-width: 200px;
-}
+  .transfer-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    
+    &.from-wallet,
+    &.to-wallet {
+      min-height: 280px;
 
-.form-row .address-input {
-  flex: 4;
-  min-width: 300px;
-}
+      .ant-form {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow: auto;
+        padding: 16px 0;
 
-.form-row .query-button {
-  flex: 0 0 auto;
-  min-width: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-}
+        .form-row {
+          flex-shrink: 0;
+          display: flex;
+          gap: 16px;
+          margin-bottom: 0;
 
-.detail-content {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+          .form-item {
+            flex: 1;
+            min-width: 0;
+            margin-bottom: 0;
+          }
 
-.detail-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+          .query-button {
+            flex: 0 0 auto;
+            margin-left: auto;
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
 
-.transfer-info {
-  width: 100%;
-}
+  .detail-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-height: 200px;
 
-.transfer-amount-container {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
+    .detail-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 16px 0;
+      overflow: auto;
+    }
 
-:deep(.ant-form-item-label) {
-  padding: 0;
-}
+    .detail-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
 
-.form-label {
-  margin-bottom: 4px;
-}
+      .detail-label {
+        color: rgba(255, 255, 255, 0.45);
+        min-width: 80px;
+      }
 
-.full-width {
-  width: 100% !important;
-}
+      .detail-value {
+        color: rgba(255, 255, 255, 0.85);
+      }
+    }
+  }
 
-.form-row {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin: 0;
-}
+  .query-card {
+    margin-bottom: 16px;
 
-.form-row .form-item {
-  flex: 1;
-  margin: 0;
-}
+    :deep(.ant-card-body) {
+      padding: 24px;
+    }
 
-.confirm-content {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
+    .query-form {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
 
-.confirm-card {
-  background: #1f1f1f;
-  border: 1px solid #303030;
-}
+      .form-row {
+        display: flex;
+        align-items: flex-start;
+        gap: 24px;
+        margin: 0;
+        flex-wrap: nowrap;
 
-.confirm-card :deep(.ant-card-head) {
-  background-color: #1f1f1f;
-  border-bottom: 1px solid #303030;
-  min-height: 48px;
-  padding: 0 20px;
-}
+        .form-item {
+          flex: 1;
+          min-width: 0;
+          margin: 0;
+          
+          :deep(.ant-form-item-label) {
+            padding-bottom: 8px;
+          }
 
-.confirm-card :deep(.ant-card-head-title) {
-  padding: 12px 0;
-}
+          :deep(.ant-form-item-control-input) {
+            width: 100%;
+          }
 
-.confirm-card :deep(.ant-card-body) {
-  padding: 16px 20px;
-  background-color: #141414;
-}
+          :deep(.ant-select),
+          :deep(.ant-input),
+          :deep(.ant-select-selector) {
+            width: 100% !important;
+          }
 
-.confirm-card-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+          &.address-input {
+            flex: 2;
+          }
 
-.confirm-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+          &.query-button {
+            flex: 0 0 auto;
+            margin: 0;
 
-.confirm-label {
-  color: rgba(255, 255, 255, 0.45);
-}
+            :deep(.ant-form-item-control) {
+              margin-top: 30px;
+            }
 
-.confirm-value {
-  color: rgba(255, 255, 255, 0.85);
-  font-family: monospace;
-}
+            :deep(.ant-space) {
+              gap: 8px !important;
+            }
+          }
+        }
+      }
+    }
+  }
 
-.confirm-value.highlight {
-  color: var(--ant-primary-color);
-  font-size: 16px;
-  font-weight: 500;
-}
+  .list-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
 
-.amount-title {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+    :deep(.ant-card-body) {
+      flex: 1;
+      padding: 0;
+      overflow: hidden;
 
-.amount-value {
-  color: var(--ant-primary-color);
-  font-size: 16px;
-  font-weight: 500;
-  font-family: monospace;
+      .ant-table-wrapper {
+        height: 100%;
+      }
+
+      .ant-spin-nested-loading,
+      .ant-spin-container,
+      .ant-table {
+        height: 100%;
+      }
+
+      .ant-table-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .ant-table-body {
+        flex: 1;
+        overflow: auto;
+      }
+    }
+  }
 }
 </style> 
