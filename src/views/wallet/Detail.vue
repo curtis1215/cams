@@ -1,39 +1,33 @@
 <template>
   <div class="wallet-detail">
-    <!-- 篩選器卡片 -->
-    <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="filter-card">
+    <!-- 查詢表單 -->
+    <a-card :bordered="false" class="filter-card">
       <template #title>
-        <span class="card-title">{{ $t('walletDetail') }}</span>
+        <span class="card-title">{{ $t('queryCondition') }}</span>
       </template>
-      
-      <a-form layout="inline" :model="queryParams" class="query-form">
+      <a-form layout="inline" :model="queryParams">
+        <a-form-item :label="$t('merchant')">
+          <merchant-select v-model="queryParams.merchant" :style="{ width: '180px' }" />
+        </a-form-item>
+        <a-form-item :label="$t('chainType')">
+          <chain-type-select v-model="queryParams.chainType" :style="{ width: '180px' }" />
+        </a-form-item>
+        <a-form-item :label="$t('currency')">
+          <currency-select v-model="queryParams.currency" :style="{ width: '180px' }" />
+        </a-form-item>
         <a-form-item :label="$t('address')">
           <a-input
             v-model:value="queryParams.address"
             :placeholder="$t('pleaseInputAddress')"
-            style="width: 400px"
+            :style="{ width: '300px' }"
             allow-clear
           />
         </a-form-item>
-
-        <a-form-item :label="$t('chainType')">
-          <chain-type-select
-            v-model="queryParams.chainType"
-            :style="{ width: '200px' }"
-          />
-        </a-form-item>
-
         <a-form-item>
-          <a-space>
-            <a-button type="primary" @click="handleQuery">
-              <template #icon><SearchOutlined /></template>
-              {{ $t('query') }}
-            </a-button>
-            <a-button @click="handleReset">
-              <template #icon><ReloadOutlined /></template>
-              {{ $t('reset') }}
-            </a-button>
-          </a-space>
+          <a-button type="primary" @click="handleQuery">
+            <template #icon><SearchOutlined /></template>
+            {{ $t('query') }}
+          </a-button>
         </a-form-item>
       </a-form>
     </a-card>
@@ -378,14 +372,18 @@ import {
 } from '@ant-design/icons-vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
+import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
+import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
 
 const { t } = useI18n()
 const route = useRoute()
 
 // 查詢參數
 const queryParams = reactive({
-  address: '',
-  chainType: undefined
+  merchant: undefined,
+  chainType: undefined,
+  currency: undefined,
+  address: ''
 })
 
 // 錢包信息

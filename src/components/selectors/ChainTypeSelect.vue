@@ -2,36 +2,35 @@
   <a-select
     :value="modelValue"
     :placeholder="$t('pleaseSelectChainType')"
-    :style="style"
     show-search
     :filter-option="filterOption"
     allow-clear
-    @change="handleChange"
+    @update:value="handleChange"
   >
-    <a-select-option v-for="type in chainTypes" :key="type.value" :value="type.value">
-      {{ type.label }}
+    <a-select-option v-for="item in chainTypes" :key="item.value" :value="item.value">
+      {{ item.label }}
     </a-select-option>
   </a-select>
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
 const props = defineProps({
   modelValue: {
-    type: [String, Number],
+    type: String,
     default: undefined
   },
   style: {
     type: Object,
-    default: () => ({ width: '200px' })
+    default: () => ({})
   }
 })
 
-const emit = defineEmits(['update:modelValue', 'change'])
+const emit = defineEmits(['update:modelValue'])
 
 // 鏈類型選項
 const chainTypes = [
@@ -44,15 +43,13 @@ const chainTypes = [
 // 處理選擇變更
 const handleChange = (value) => {
   emit('update:modelValue', value)
-  emit('change', value)
 }
 
-// 搜索過濾邏輯
 const filterOption = (input, option) => {
-  const label = option?.label?.toLowerCase() || ''
-  const value = option?.value?.toLowerCase() || ''
-  const searchText = input.toLowerCase()
-  return label.includes(searchText) || value.includes(searchText)
+  return (
+    option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
+    option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
+  )
 }
 </script>
 

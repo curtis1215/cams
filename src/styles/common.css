@@ -1,0 +1,143 @@
+/* 卡片樣式 */
+.filter-card,
+.info-card,
+.token-card,
+.transfer-card,
+.detail-card,
+.transfer-info {
+  margin-bottom: 24px;
+}
+
+:deep(.ant-card-head) {
+  background-color: #1f1f1f;
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-card-body) {
+  background-color: #141414;
+}
+
+.filter-card:last-child,
+.info-card:last-child,
+.token-card:last-child,
+.transfer-card:last-child,
+.detail-card:last-child,
+.transfer-info:last-child {
+  margin-bottom: 0;
+}
+
+.card-title {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 表單樣式 */
+.query-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.form-row:last-child {
+  margin-bottom: 0;
+}
+
+.form-row .ant-form-item {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+/* 詳情樣式 */
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detail-label {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.detail-value {
+  font-family: monospace;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 深色模式覆蓋樣式 */
+:deep(.ant-card) {
+  background: #1f1f1f;
+}
+
+:deep(.ant-card-head-title) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-form-item-label > label) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 表格樣式 */
+:deep(.ant-table) {
+  background: transparent;
+}
+
+:deep(.ant-table-thead > tr > th) {
+  background: #1f1f1f;
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-tbody > tr > td) {
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-tbody > tr:hover > td) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* 分頁器樣式 */
+:deep(.ant-pagination-item),
+:deep(.ant-pagination-prev),
+:deep(.ant-pagination-next),
+:deep(.ant-pagination-jump-prev),
+:deep(.ant-pagination-jump-next) {
+  background: transparent;
+  border-color: #303030;
+}
+
+/* 狀態標籤樣式 */
+.status-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.status-enabled {
+  background: rgba(82, 196, 26, 0.2);
+  color: #52c41a;
+}
+
+.status-disabled {
+  background: rgba(255, 77, 79, 0.2);
+  color: #ff4d4f;
+} 

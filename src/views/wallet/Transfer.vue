@@ -1,120 +1,139 @@
 <template>
   <div class="wallet-transfer">
-    <div class="transfer-container">
+    <a-row :gutter="24">
       <!-- 左側轉出錢包 -->
-      <a-card :bordered="false" class="transfer-card from-wallet">
-        <template #title>
-          <span class="card-title">{{ $t('fromWallet') }}</span>
-        </template>
-        <a-form layout="vertical" :model="fromWalletForm">
-          <div class="form-row">
-            <a-form-item :label="$t('merchant')">
-              <merchant-select v-model="fromWalletForm.merchant" />
-            </a-form-item>
-            <a-form-item :label="$t('chainType')">
-              <chain-type-select v-model="fromWalletForm.chainType" />
-            </a-form-item>
-            <a-form-item :label="$t('currency')">
-              <currency-select v-model="fromWalletForm.currency" />
-            </a-form-item>
-          </div>
-          <div class="form-row">
-            <a-form-item :label="$t('address')" class="address-input">
-              <a-input
-                v-model:value="fromWalletForm.address"
-                :placeholder="$t('pleaseInputAddress')"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item class="query-button">
-              <a-button type="primary" @click="handleFromWalletQuery">
-                <template #icon><SearchOutlined /></template>
-                {{ $t('query') }}
-              </a-button>
-            </a-form-item>
-          </div>
-        </a-form>
-      </a-card>
+      <a-col :span="12">
+        <a-card :bordered="false" class="transfer-card from-wallet">
+          <template #title>
+            <span class="card-title">{{ $t('fromWallet') }}</span>
+          </template>
+          <a-form layout="vertical" :model="fromWalletForm">
+            <div class="form-row">
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('merchant') }}</div>
+                <merchant-select v-model="fromWalletForm.merchant" class="full-width" />
+              </a-form-item>
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('chainType') }}</div>
+                <chain-type-select v-model="fromWalletForm.chainType" class="full-width" />
+              </a-form-item>
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('currency') }}</div>
+                <currency-select v-model="fromWalletForm.currency" class="full-width" />
+              </a-form-item>
+            </div>
+            <div class="form-row">
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('address') }}</div>
+                <a-input
+                  v-model:value="fromWalletForm.address"
+                  :placeholder="$t('pleaseInputAddress')"
+                  class="full-width"
+                  allow-clear
+                />
+              </a-form-item>
+              <a-form-item class="query-button">
+                <div class="form-label">&nbsp;</div>
+                <a-button type="primary" @click="handleFromWalletQuery">
+                  <template #icon><SearchOutlined /></template>
+                  {{ $t('query') }}
+                </a-button>
+              </a-form-item>
+            </div>
+          </a-form>
+        </a-card>
+      </a-col>
 
       <!-- 右側轉入錢包 -->
-      <a-card :bordered="false" class="transfer-card to-wallet">
-        <template #title>
-          <span class="card-title">{{ $t('toWallet') }}</span>
-        </template>
-        <a-form layout="vertical" :model="toWalletForm">
-          <div class="form-row">
-            <a-form-item :label="$t('merchant')">
-              <merchant-select v-model="toWalletForm.merchant" />
-            </a-form-item>
-            <a-form-item :label="$t('chainType')">
-              <chain-type-select v-model="toWalletForm.chainType" />
-            </a-form-item>
-            <a-form-item :label="$t('currency')">
-              <currency-select v-model="toWalletForm.currency" />
-            </a-form-item>
-          </div>
-          <div class="form-row">
-            <a-form-item :label="$t('address')" class="address-input">
-              <a-input
-                v-model:value="toWalletForm.address"
-                :placeholder="$t('pleaseInputAddress')"
-                allow-clear
-              />
-            </a-form-item>
-            <a-form-item class="query-button">
-              <a-button type="primary" @click="handleToWalletQuery">
-                <template #icon><SearchOutlined /></template>
-                {{ $t('query') }}
-              </a-button>
-            </a-form-item>
-          </div>
-        </a-form>
-      </a-card>
-    </div>
+      <a-col :span="12">
+        <a-card :bordered="false" class="transfer-card to-wallet">
+          <template #title>
+            <span class="card-title">{{ $t('toWallet') }}</span>
+          </template>
+          <a-form layout="vertical" :model="toWalletForm">
+            <div class="form-row">
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('merchant') }}</div>
+                <merchant-select v-model="toWalletForm.merchant" class="full-width" />
+              </a-form-item>
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('chainType') }}</div>
+                <chain-type-select v-model="toWalletForm.chainType" class="full-width" />
+              </a-form-item>
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('currency') }}</div>
+                <currency-select v-model="toWalletForm.currency" class="full-width" />
+              </a-form-item>
+            </div>
+            <div class="form-row">
+              <a-form-item class="form-item">
+                <div class="form-label">{{ $t('address') }}</div>
+                <a-input
+                  v-model:value="toWalletForm.address"
+                  :placeholder="$t('pleaseInputAddress')"
+                  class="full-width"
+                  allow-clear
+                />
+              </a-form-item>
+              <a-form-item label="&nbsp;" class="query-button">
+                <a-button type="primary" @click="handleToWalletQuery">
+                  <template #icon><SearchOutlined /></template>
+                  {{ $t('query') }}
+                </a-button>
+              </a-form-item>
+            </div>
+          </a-form>
+        </a-card>
+      </a-col>
+    </a-row>
 
-    <div class="wallet-details">
+    <a-row :gutter="24">
       <!-- 轉出錢包詳情 -->
-      <a-card :bordered="false" class="detail-card from-detail">
-        <template #title>
-          <span class="card-title">{{ $t('fromWalletDetail') }}</span>
-        </template>
-        <div class="detail-content">
-          <div class="detail-item">
-            <span class="detail-label">{{ $t('currency') }}</span>
-            <span class="detail-value">{{ fromWalletDetail.currency }}</span>
+      <a-col :span="12">
+        <a-card :bordered="false" class="detail-card from-detail">
+          <template #title>
+            <span class="card-title">{{ $t('fromWalletDetail') }}</span>
+          </template>
+          <div class="detail-content">
+            <div class="detail-item">
+              <span class="detail-label">{{ $t('currency') }}</span>
+              <span class="detail-value">{{ fromWalletDetail.currency }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ $t('balance') }}</span>
+              <span class="detail-value">{{ formatNumber(fromWalletDetail.balance) }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ $t('availableOutflow') }}</span>
+              <span class="detail-value">{{ formatNumber(fromWalletDetail.availableOutflow) }}</span>
+            </div>
           </div>
-          <div class="detail-item">
-            <span class="detail-label">{{ $t('balance') }}</span>
-            <span class="detail-value">{{ formatNumber(fromWalletDetail.balance) }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">{{ $t('availableOutflow') }}</span>
-            <span class="detail-value">{{ formatNumber(fromWalletDetail.availableOutflow) }}</span>
-          </div>
-        </div>
-      </a-card>
+        </a-card>
+      </a-col>
 
       <!-- 轉入錢包詳情 -->
-      <a-card :bordered="false" class="detail-card to-detail">
-        <template #title>
-          <span class="card-title">{{ $t('toWalletDetail') }}</span>
-        </template>
-        <div class="detail-content">
-          <div class="detail-item">
-            <span class="detail-label">{{ $t('currency') }}</span>
-            <span class="detail-value">{{ toWalletDetail.currency }}</span>
+      <a-col :span="12">
+        <a-card :bordered="false" class="detail-card to-detail">
+          <template #title>
+            <span class="card-title">{{ $t('toWalletDetail') }}</span>
+          </template>
+          <div class="detail-content">
+            <div class="detail-item">
+              <span class="detail-label">{{ $t('currency') }}</span>
+              <span class="detail-value">{{ toWalletDetail.currency }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ $t('balance') }}</span>
+              <span class="detail-value">{{ formatNumber(toWalletDetail.balance) }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">{{ $t('availableInflow') }}</span>
+              <span class="detail-value">{{ formatNumber(toWalletDetail.availableInflow) }}</span>
+            </div>
           </div>
-          <div class="detail-item">
-            <span class="detail-label">{{ $t('balance') }}</span>
-            <span class="detail-value">{{ formatNumber(toWalletDetail.balance) }}</span>
-          </div>
-          <div class="detail-item">
-            <span class="detail-label">{{ $t('availableInflow') }}</span>
-            <span class="detail-value">{{ formatNumber(toWalletDetail.availableInflow) }}</span>
-          </div>
-        </div>
-      </a-card>
-    </div>
+        </a-card>
+      </a-col>
+    </a-row>
 
     <!-- 轉帳資訊 -->
     <a-card :bordered="false" class="transfer-info">
@@ -247,64 +266,74 @@ const handleTransfer = () => {
 </script>
 
 <style scoped>
+@import '../../styles/common.css';
+
 .wallet-transfer {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.transfer-container {
-  display: flex;
-  gap: 24px;
+.transfer-card,
+.detail-card {
+  height: 252px;
 }
 
-.transfer-card {
-  flex: 1;
-  min-width: 0;
+.transfer-card :deep(.ant-card-head),
+.detail-card :deep(.ant-card-head) {
+  height: 56px;
+  min-height: 56px;
+  padding: 0 24px;
+  border-bottom: 1px solid #303030;
+}
+
+.transfer-card :deep(.ant-card-body),
+.detail-card :deep(.ant-card-body) {
+  height: 196px;
+  padding: 20px 24px !important;
+  overflow: auto;
+}
+
+.transfer-card :deep(.ant-form) {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+}
+
+.transfer-card :deep(.ant-form-item) {
+  margin: 0;
 }
 
 .form-row {
   display: flex;
   gap: 16px;
-  margin-bottom: 24px;
-}
-
-.form-row:last-child {
-  margin-bottom: 0;
+  flex-wrap: wrap;
+  margin: 0;
 }
 
 .form-row .ant-form-item {
+  margin: 0;
   flex: 1;
-  margin-bottom: 0;
+  min-width: 200px;
 }
 
-.address-input {
+.form-row .address-input {
   flex: 4;
+  min-width: 300px;
 }
 
-.query-button {
+.form-row .query-button {
   flex: 0 0 auto;
-  margin-left: 16px;
+  min-width: auto;
   display: flex;
-  align-items: flex-end;
-  margin-bottom: 0;
-}
-
-.query-button :deep(.ant-form-item-control-input) {
-  min-height: auto;
-}
-
-.wallet-details {
-  display: flex;
-  gap: 24px;
-}
-
-.detail-card {
-  flex: 1;
-  min-width: 0;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .detail-content {
+  height: 100%;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -314,16 +343,6 @@ const handleTransfer = () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.detail-label {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.detail-value {
-  font-family: monospace;
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.85);
 }
 
 .transfer-info {
@@ -336,15 +355,27 @@ const handleTransfer = () => {
   gap: 16px;
 }
 
-:deep(.ant-card) {
-  background: #1f1f1f;
+:deep(.ant-form-item-label) {
+  padding: 0;
 }
 
-:deep(.ant-card-head-title) {
-  color: rgba(255, 255, 255, 0.85);
+.form-label {
+  margin-bottom: 4px;
 }
 
-:deep(.ant-form-item-label > label) {
-  color: rgba(255, 255, 255, 0.85);
+.full-width {
+  width: 100% !important;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.form-row .form-item {
+  flex: 1;
+  margin: 0;
 }
 </style> 

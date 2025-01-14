@@ -1,70 +1,33 @@
 <template>
   <div class="wallet-query">
-    <!-- 篩選器卡片 -->
-    <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="filter-card">
+    <!-- 查詢表單 -->
+    <a-card :bordered="false" class="filter-card">
       <template #title>
-        <span class="card-title">{{ $t('walletQuery') }}</span>
+        <span class="card-title">{{ $t('queryCondition') }}</span>
       </template>
-      
-      <a-form
-        layout="inline"
-        :model="queryParams"
-        class="query-form"
-      >
-        <a-form-item :label="$t('merchant')">
-          <merchant-select v-model="queryParams.merchant" />
+      <a-form layout="inline" :model="queryParams" class="query-form">
+        <a-form-item :label="$t('merchant')" class="form-item">
+          <merchant-select v-model="queryParams.merchant" :style="{ width: '180px' }" />
         </a-form-item>
-
-        <a-form-item :label="$t('userId')">
-          <a-input
-            v-model:value="queryParams.userId"
-            :placeholder="$t('pleaseInputUserId')"
-            style="width: 200px"
-            allow-clear
-          />
+        <a-form-item :label="$t('chainType')" class="form-item">
+          <chain-type-select v-model="queryParams.chainType" :style="{ width: '180px' }" />
         </a-form-item>
-
-        <a-form-item :label="$t('walletType')">
-          <wallet-type-select v-model="queryParams.walletType" />
+        <a-form-item :label="$t('currency')" class="form-item">
+          <currency-select v-model="queryParams.currency" :style="{ width: '180px' }" />
         </a-form-item>
-
-        <a-form-item :label="$t('chainType')">
-          <chain-type-select v-model="queryParams.chainType" />
-        </a-form-item>
-
-        <a-form-item :label="$t('status')">
-          <a-select
-            v-model:value="queryParams.status"
-            style="width: 200px"
-            :placeholder="$t('pleaseSelectStatus')"
-            allow-clear
-          >
-            <a-select-option v-for="option in statusOptions" :key="option.value" :value="option.value">
-              {{ option.label }}
-            </a-select-option>
-          </a-select>
-        </a-form-item>
-
-        <a-form-item :label="$t('address')">
+        <a-form-item :label="$t('address')" class="form-item">
           <a-input
             v-model:value="queryParams.address"
             :placeholder="$t('pleaseInputAddress')"
-            style="width: 400px"
+            :style="{ width: '300px' }"
             allow-clear
           />
         </a-form-item>
-
-        <a-form-item>
-          <a-space>
-            <a-button type="primary" @click="handleQuery">
-              <template #icon><SearchOutlined /></template>
-              {{ $t('query') }}
-            </a-button>
-            <a-button @click="handleReset">
-              <template #icon><ReloadOutlined /></template>
-              {{ $t('reset') }}
-            </a-button>
-          </a-space>
+        <a-form-item class="form-item">
+          <a-button type="primary" @click="handleQuery">
+            <template #icon><SearchOutlined /></template>
+            {{ $t('query') }}
+          </a-button>
         </a-form-item>
       </a-form>
     </a-card>
@@ -743,13 +706,11 @@ const handleCancelAdd = () => {
 .query-form {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  align-items: flex-start;
+  gap: 8px;
 }
 
-:deep(.ant-form-item) {
-  margin-bottom: 0;
-  margin-right: 0;
+.form-item {
+  margin: 0;
 }
 
 .table-container {
