@@ -106,6 +106,27 @@
 
         <div class="info-item">
           <span class="info-label">
+            <CheckCircleOutlined /> {{ $t('status') }}
+          </span>
+          <span class="info-value wallet-status-container">
+            <span :class="['status-tag', walletInfo.isDisabled ? 'status-disabled' : 'status-enabled']">
+              {{ walletInfo.isDisabled ? t('disabled') : t('enabled') }}
+            </span>
+            <a-space>
+              <a-button type="primary" @click="handleChangeStatus">
+                <template #icon><EditOutlined /></template>
+                {{ $t('changeStatus') }}
+              </a-button>
+              <a-button @click="showStatusHistory">
+                <template #icon><HistoryOutlined /></template>
+                {{ $t('changeHistory') }}
+              </a-button>
+            </a-space>
+          </span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">
             <KeyOutlined /> {{ $t('privateKeyManagement') }}
           </span>
           <span class="info-value">
@@ -301,6 +322,49 @@
         :scroll="{ x: 2000 }"
       />
     </a-modal>
+
+    <!-- 添加變更狀態的 Modal -->
+    <a-modal
+      v-model:open="changeStatusModalVisible"
+      :title="t('changeStatus')"
+      @ok="confirmChangeStatus"
+    >
+      <a-form :model="changeStatusForm">
+        <a-form-item :label="$t('status')" required>
+          <a-select
+            v-model:value="changeStatusForm.status"
+            style="width: 100%"
+            :placeholder="$t('pleaseSelectStatus')"
+          >
+            <a-select-option value="enabled">{{ $t('enabled') }}</a-select-option>
+            <a-select-option value="disabled">{{ $t('disabled') }}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item :label="$t('operationReason')" required>
+          <a-textarea
+            v-model:value="changeStatusForm.reason"
+            :placeholder="$t('pleaseInputReason')"
+            :rows="4"
+            :maxLength="200"
+            show-count
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:open="statusHistoryModalVisible"
+      :title="t('changeHistory')"
+      :footer="null"
+      width="800px"
+    >
+      <a-table
+        :columns="statusHistoryColumns"
+        :data-source="statusHistoryData"
+        :pagination="false"
+        :bordered="true"
+      />
+    </a-modal>
   </div>
 </template>
 
@@ -321,7 +385,8 @@ import {
   UserOutlined,
   AppstoreOutlined,
   KeyOutlined,
-  EditOutlined
+  EditOutlined,
+  CheckCircleOutlined
 } from '@ant-design/icons-vue'
 
 const { t } = useI18n()
@@ -347,7 +412,8 @@ const walletInfo = reactive({
   address: '0x1234567890abcdef1234567890abcdef12345678',
   merchant: 'Fameex',
   userId: 'U123456',
-  walletType: '用戶錢包'
+  walletType: '用戶錢包',
+  isDisabled: false
 })
 
 // 查詢方法
@@ -1153,6 +1219,89 @@ onBeforeUnmount(() => {
   sortState.sortField = ''
   sortState.sortOrder = null
 })
+
+// 添加變更狀態相關方法
+const changeStatusModalVisible = ref(false)
+const changeStatusForm = reactive({
+  status: 'enabled',
+  reason: ''
+})
+
+const handleChangeStatus = () => {
+  changeStatusForm.status = walletInfo.isDisabled ? 'enabled' : 'disabled'
+  changeStatusForm.reason = ''
+  changeStatusModalVisible.value = true
+}
+
+const showStatusHistory = () => {
+  statusHistoryModalVisible.value = true
+}
+
+const confirmChangeStatus = () => {
+  if (!changeStatusForm.reason.trim()) {
+    message.error(t('pleaseInputReason'))
+    return
+  }
+  
+  // 這裡添加變更狀態的邏輯
+  walletInfo.isDisabled = changeStatusForm.status === 'disabled'
+  message.success(t('changeSuccess'))
+  changeStatusModalVisible.value = false
+}
+
+// 添加狀態變更記錄的 Modal
+const statusHistoryModalVisible = ref(false)
+const statusHistoryColumns = [
+  {
+    title: t('operatorUser'),
+    dataIndex: 'operator',
+    key: 'operator',
+    width: 120,
+  },
+  {
+    title: t('operationReason'),
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 200,
+  },
+  {
+    title: t('beforeStatus'),
+    dataIndex: 'beforeStatus',
+    key: 'beforeStatus',
+    width: 150,
+  },
+  {
+    title: t('afterStatus'),
+    dataIndex: 'afterStatus',
+    key: 'afterStatus',
+    width: 150,
+  },
+  {
+    title: t('operationTime'),
+    dataIndex: 'time',
+    key: 'time',
+    width: 180,
+  }
+]
+
+const statusHistoryData = [
+  {
+    key: '1',
+    operator: 'Admin',
+    reason: '風控要求',
+    beforeStatus: t('enabled'),
+    afterStatus: t('disabled'),
+    time: '2024-03-15 10:30:25'
+  },
+  {
+    key: '2',
+    operator: 'Manager',
+    reason: '解除風控',
+    beforeStatus: t('disabled'),
+    afterStatus: t('enabled'),
+    time: '2024-03-14 15:45:30'
+  }
+]
 </script>
 
 <style scoped>
@@ -1399,5 +1548,28 @@ onBeforeUnmount(() => {
 /* 添加轉帳記錄表格的樣式 */
 :deep(.ant-table-thead > tr > th) {
   white-space: nowrap;
+}
+
+.wallet-status-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.status-enabled {
+  background: rgba(82, 196, 26, 0.2);
+  color: #52c41a;
+}
+
+.status-disabled {
+  background: rgba(255, 77, 79, 0.2);
+  color: #ff4d4f;
 }
 </style> 

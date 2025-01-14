@@ -114,7 +114,7 @@ export default {
   privateKeyManagement: '私鑰管理',
   downloadPrivateKey: '下載私鑰',
   privateKeyHistory: '私鑰記錄',
-  operatorUser: '操作用戶',
+  operatorUser: '操作人',
   operationReason: '操作原因',
   operationTime: '操作時間',
   privateKeyDownloaded: '私鑰下載成功',
@@ -138,6 +138,9 @@ export default {
   completeTime: '完成時間',
   enabled: '啟用',
   disabled: '禁用',
-  pleaseSelectStatus: '請選擇狀態'
+  pleaseSelectStatus: '請選擇狀態',
+  changeStatus: '變更狀態',
+  beforeStatus: '變更前狀態',
+  afterStatus: '變更後狀態'
   // 根據需求添加更多翻譯
 } 
