@@ -1,0 +1,26 @@
+{
+  "name": "cams",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@ant-design/icons-vue": "^7.0.1",
+    "@vueuse/core": "^12.4.0",
+    "ant-design-vue": "^4.2.6",
+    "echarts": "^5.6.0",
+    "vue": "^3.5.13",
+    "vue-echarts": "^7.0.3",
+    "vue-i18n": "^9.14.2",
+    "vue-router": "^4.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "less": "^4.2.1",
+    "vite": "^6.0.5"
+  }
+}
