@@ -167,7 +167,7 @@
 
     <!-- 轉帳確認彈窗 -->
     <a-modal
-      v-model:visible="confirmModalVisible"
+      v-model:open="confirmModalVisible"
       :title="$t('confirmTransfer')"
       @ok="handleConfirmTransfer"
       @cancel="handleCancelTransfer"
@@ -305,7 +305,7 @@
 
     <!-- 審核操作彈窗 -->
     <a-modal
-      v-model:visible="auditModalVisible"
+      v-model:open="auditModalVisible"
       :title="$t('auditOperation')"
       @ok="handleConfirmAudit"
       @cancel="handleCancelAudit"
@@ -330,7 +330,7 @@
 
     <!-- 審核詳情彈窗 -->
     <a-modal
-      v-model:visible="auditDetailModalVisible"
+      v-model:open="auditDetailModalVisible"
       :title="$t('auditDetail')"
       @cancel="() => auditDetailModalVisible = false"
       :footer="null"

@@ -114,6 +114,7 @@ import {
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
+import storage from '../services/storage'
 
 const router = useRouter()
 const route = useRoute()
@@ -156,20 +157,26 @@ watch(() => route.path, () => {
   setSelectedKeysByRoute()
 }, { immediate: true })
 
+const getUserInfo = () => {
+  const user = storage.get('user')
+  if (!user || !user.token) {
+    router.push('/login')
+    return
+  }
+  username.value = user.username
+}
+
+const handleLogout = () => {
+  storage.remove('user')
+  router.push('/login')
+}
+
 onMounted(() => {
-  const user = JSON.parse(localStorage.getItem('user') || '{}')
-  username.value = user.username || 'Guest'
-  setSelectedKeysByRoute()
+  getUserInfo()
 })
 
 const changeLocale = (value) => {
   locale.value = value
-}
-
-const handleLogout = () => {
-  localStorage.removeItem('user')
-  message.success('登出成功')
-  router.push('/login')
 }
 
 const localeOptions = [

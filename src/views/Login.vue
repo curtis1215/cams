@@ -5,7 +5,7 @@
         :model="formState"
         name="basic"
         autocomplete="off"
-        @finish="onFinish"
+        @finish="handleLogin"
       >
         <a-form-item
           :label="$t('username')"
@@ -47,29 +47,42 @@ import { useRouter } from 'vue-router'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useDark } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+import storage from '../services/storage'
 
 const router = useRouter()
 const loading = ref(false)
 const isDark = useDark()
+const { t } = useI18n()
+
 const formState = reactive({
   username: '',
   password: '',
 })
 
-const onFinish = async () => {
-  if (!formState.username || !formState.password) return
-  
+const handleLogin = async (values) => {
+  if (!values.username || !values.password) {
+    message.error(t('pleaseInputAllRequired'))
+    return
+  }
+
   loading.value = true
   try {
+    // TODO: 實現登入邏輯
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    localStorage.setItem('user', JSON.stringify({
-      username: formState.username,
-      token: 'dummy-token'
-    }))
+    // 模擬登入成功，使用 sessionStorage
+    const userData = {
+      username: values.username,
+      token: 'mock-token',
+      loginTime: new Date().toISOString()
+    }
     
-    message.success('登入成功')
+    storage.set('user', userData)
     router.push('/')
+  } catch (error) {
+    console.error('Login failed:', error)
+    message.error(error.message || t('loginFailed'))
   } finally {
     loading.value = false
   }
