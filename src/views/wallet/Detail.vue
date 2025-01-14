@@ -209,8 +209,8 @@
 
     <!-- 私鑰相關的 Modal 保持不變 -->
     <a-modal
-      v-model:visible="downloadModalVisible"
-      :title="$t('downloadPrivateKey')"
+      v-model:open="downloadModalVisible"
+      :title="t('downloadPrivateKey')"
       @ok="confirmDownload"
     >
       <a-form :model="downloadForm">
@@ -227,8 +227,8 @@
     </a-modal>
 
     <a-modal
-      v-model:visible="historyModalVisible"
-      :title="$t('privateKeyHistory')"
+      v-model:open="historyModalVisible"
+      :title="t('privateKeyHistory')"
       :footer="null"
       width="800px"
     >
@@ -242,8 +242,8 @@
 
     <!-- 添加變更類型的 Modal -->
     <a-modal
-      v-model:visible="changeTypeModalVisible"
-      :title="$t('changeType')"
+      v-model:open="changeTypeModalVisible"
+      :title="t('changeType')"
       @ok="confirmChangeType"
     >
       <a-form :model="changeTypeForm">
@@ -273,8 +273,8 @@
 
     <!-- 添加變更記錄的 Modal -->
     <a-modal
-      v-model:visible="typeHistoryModalVisible"
-      :title="$t('changeHistory')"
+      v-model:open="typeHistoryModalVisible"
+      :title="t('changeHistory')"
       :footer="null"
       width="800px"
     >
@@ -285,11 +285,27 @@
         :bordered="true"
       />
     </a-modal>
+
+    <!-- 添加轉帳記錄的 Modal -->
+    <a-modal
+      v-model:open="transferHistoryModalVisible"
+      :title="t('transferHistory')"
+      :footer="null"
+      width="1200px"
+    >
+      <a-table
+        :columns="transferHistoryColumns"
+        :data-source="transferHistoryData"
+        :pagination="false"
+        :bordered="true"
+        :scroll="{ x: 2000 }"
+      />
+    </a-modal>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, computed } from 'vue'
+import { ref, reactive, onMounted, computed, onBeforeUnmount, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -362,6 +378,7 @@ const downloadForm = reactive({
 })
 
 const handleDownloadPrivateKey = () => {
+  downloadForm.reason = ''
   downloadModalVisible.value = true
 }
 
@@ -416,6 +433,7 @@ const historyData = [
 ]
 
 const showPrivateKeyHistory = () => {
+  console.log('查看私鑰下載記錄')
   historyModalVisible.value = true
 }
 
@@ -707,13 +725,15 @@ const tokenData = [
 // 處理轉帳記錄按鈕點擊
 const showTransferHistory = (record) => {
   console.log('查看轉帳記錄:', record)
-  // 實現查看轉帳記錄的邏輯
+  // 這裡可以根據 record 的幣種來過濾或獲取對應的轉帳記錄
+  transferHistoryModalVisible.value = true
 }
 
 // 處理交易明細按鈕點擊
 const showTransactionDetail = (record) => {
   console.log('查看交易明細:', record)
-  // 實現查看交易明細的邏輯
+  // 這裡添加查看交易明細的具體邏輯
+  // 可以跳轉到新頁面或打開新的 Modal
 }
 
 // 頁面加載時從路由獲取參數
@@ -805,8 +825,334 @@ const typeHistoryData = [
 ]
 
 const showTypeHistory = () => {
+  console.log('查看類型變更記錄')
   typeHistoryModalVisible.value = true
 }
+
+// 轉帳記錄相關
+const transferHistoryModalVisible = ref(false)
+const transferHistoryColumns = [
+  {
+    title: t('transferId'),
+    dataIndex: 'transferId',
+    key: 'transferId',
+    width: 150,
+  },
+  {
+    title: t('fromWallet'),
+    dataIndex: 'fromWallet',
+    key: 'fromWallet',
+    width: 150,
+  },
+  {
+    title: t('toWallet'),
+    dataIndex: 'toWallet',
+    key: 'toWallet',
+    width: 150,
+  },
+  {
+    title: t('amount'),
+    dataIndex: 'amount',
+    key: 'amount',
+    width: 150,
+    align: 'right',
+  },
+  {
+    title: t('price'),
+    dataIndex: 'price',
+    key: 'price',
+    width: 120,
+    align: 'right',
+  },
+  {
+    title: t('cost'),
+    dataIndex: 'cost',
+    key: 'cost',
+    width: 120,
+    align: 'right',
+  },
+  {
+    title: t('status'),
+    dataIndex: 'status',
+    key: 'status',
+    width: 150,
+    customRender: ({ text, record }) => {
+      const statusMap = {
+        submitted: t('statusSubmitted'),
+        onChain: t('statusOnChain'),
+        confirming: t('statusConfirming'),
+        completed: t('statusCompleted'),
+        failed: t('statusFailed')
+      }
+
+      const statusStyles = {
+        submitted: { background: '#303030' },  // 灰底
+        onChain: { background: 'rgba(24, 144, 255, 0.2)' },  // 藍底
+        confirming: { background: 'rgba(24, 144, 255, 0.2)' },  // 藍底
+        completed: { background: 'rgba(82, 196, 26, 0.2)' },  // 綠底
+        failed: { background: 'rgba(255, 77, 79, 0.2)' }  // 紅底
+      }
+      
+      let statusText = statusMap[text] || text
+      if (text === 'confirming') {
+        statusText = `${t('statusConfirming')} (${record.confirmations}/${record.requiredConfirmations})`
+      } else if (text === 'completed') {
+        statusText = `${t('statusCompleted')} (${record.requiredConfirmations}/${record.requiredConfirmations})`
+      }
+      
+      return h('span', {
+        style: {
+          padding: '4px 8px',
+          borderRadius: '4px',
+          ...statusStyles[text]
+        }
+      }, statusText)
+    }
+  },
+  {
+    title: t('createTime'),
+    dataIndex: 'createTime',
+    key: 'createTime',
+    width: 180,
+  },
+  {
+    title: t('submitTime'),
+    dataIndex: 'submitTime',
+    key: 'submitTime',
+    width: 180,
+  },
+  {
+    title: t('onChainTime'),
+    dataIndex: 'onChainTime',
+    key: 'onChainTime',
+    width: 180,
+  },
+  {
+    title: t('completeTime'),
+    dataIndex: 'completeTime',
+    key: 'completeTime',
+    width: 180,
+  },
+  {
+    title: t('updateTime'),
+    dataIndex: 'updateTime',
+    key: 'updateTime',
+    width: 180,
+  },
+  {
+    title: t('remark'),
+    dataIndex: 'remark',
+    key: 'remark',
+    width: 200,
+  }
+]
+
+const transferHistoryData = [
+  {
+    key: '1',
+    transferId: 'T202403150001',
+    fromWallet: 'W123456789',
+    toWallet: 'W987654321',
+    amount: '1000.00000000',
+    price: '1.0000',
+    cost: '1000.00',
+    status: 'completed',
+    confirmations: 12,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 10:00:00',
+    submitTime: '2024-03-15 10:00:05',
+    onChainTime: '2024-03-15 10:01:30',
+    completeTime: '2024-03-15 10:05:00',
+    updateTime: '2024-03-15 10:05:00',
+    remark: '正常轉帳'
+  },
+  {
+    key: '2',
+    transferId: 'T202403150002',
+    fromWallet: 'W234567890',
+    toWallet: 'W876543210',
+    amount: '500.00000000',
+    price: '1.0000',
+    cost: '500.00',
+    status: 'confirming',
+    confirmations: 6,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 10:30:00',
+    submitTime: '2024-03-15 10:30:10',
+    onChainTime: '2024-03-15 10:31:00',
+    completeTime: null,
+    updateTime: '2024-03-15 10:35:00',
+    remark: '等待確認中'
+  },
+  {
+    key: '3',
+    transferId: 'T202403150003',
+    fromWallet: 'W345678901',
+    toWallet: 'W765432109',
+    amount: '2000.00000000',
+    price: '1.0000',
+    cost: '2000.00',
+    status: 'failed',
+    confirmations: 0,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 11:00:00',
+    submitTime: '2024-03-15 11:00:15',
+    onChainTime: null,
+    completeTime: null,
+    updateTime: '2024-03-15 11:05:00',
+    remark: '餘額不足'
+  },
+  {
+    key: '4',
+    transferId: 'T202403150004',
+    fromWallet: 'W456789012',
+    toWallet: 'W654321098',
+    amount: '300.00000000',
+    price: '1.0000',
+    cost: '300.00',
+    status: 'onChain',
+    confirmations: 0,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 11:30:00',
+    submitTime: '2024-03-15 11:30:20',
+    onChainTime: '2024-03-15 11:31:00',
+    completeTime: null,
+    updateTime: '2024-03-15 11:31:00',
+    remark: '等待上鏈'
+  },
+  {
+    key: '5',
+    transferId: 'T202403150005',
+    fromWallet: 'W567890123',
+    toWallet: 'W543210987',
+    amount: '1500.00000000',
+    price: '1.0000',
+    cost: '1500.00',
+    status: 'submitted',
+    confirmations: 0,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 12:00:00',
+    submitTime: '2024-03-15 12:00:30',
+    onChainTime: null,
+    completeTime: null,
+    updateTime: '2024-03-15 12:00:30',
+    remark: '已提交'
+  },
+  {
+    key: '6',
+    transferId: 'T202403150006',
+    fromWallet: 'W678901234',
+    toWallet: 'W432109876',
+    amount: '800.00000000',
+    price: '1.0000',
+    cost: '800.00',
+    status: 'confirming',
+    confirmations: 3,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 12:30:00',
+    submitTime: '2024-03-15 12:30:15',
+    onChainTime: '2024-03-15 12:31:00',
+    completeTime: null,
+    updateTime: '2024-03-15 12:35:00',
+    remark: '確認中(3/12)'
+  },
+  {
+    key: '7',
+    transferId: 'T202403150007',
+    fromWallet: 'W789012345',
+    toWallet: 'W321098765',
+    amount: '1200.00000000',
+    price: '1.0000',
+    cost: '1200.00',
+    status: 'completed',
+    confirmations: 12,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 13:00:00',
+    submitTime: '2024-03-15 13:00:20',
+    onChainTime: '2024-03-15 13:01:30',
+    completeTime: '2024-03-15 13:05:00',
+    updateTime: '2024-03-15 13:05:00',
+    remark: '轉帳完成'
+  },
+  {
+    key: '8',
+    transferId: 'T202403150008',
+    fromWallet: 'W890123456',
+    toWallet: 'W210987654',
+    amount: '3000.00000000',
+    price: '1.0000',
+    cost: '3000.00',
+    status: 'failed',
+    confirmations: 0,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 13:30:00',
+    submitTime: '2024-03-15 13:30:25',
+    onChainTime: null,
+    completeTime: null,
+    updateTime: '2024-03-15 13:35:00',
+    remark: '手續費不足'
+  },
+  {
+    key: '9',
+    transferId: 'T202403150009',
+    fromWallet: 'W901234567',
+    toWallet: 'W109876543',
+    amount: '600.00000000',
+    price: '1.0000',
+    cost: '600.00',
+    status: 'onChain',
+    confirmations: 0,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 14:00:00',
+    submitTime: '2024-03-15 14:00:30',
+    onChainTime: '2024-03-15 14:01:00',
+    completeTime: null,
+    updateTime: '2024-03-15 14:01:00',
+    remark: '已上鏈'
+  },
+  {
+    key: '10',
+    transferId: 'T202403150010',
+    fromWallet: 'W012345678',
+    toWallet: 'W098765432',
+    amount: '2500.00000000',
+    price: '1.0000',
+    cost: '2500.00',
+    status: 'confirming',
+    confirmations: 9,
+    requiredConfirmations: 12,
+    createTime: '2024-03-15 14:30:00',
+    submitTime: '2024-03-15 14:30:15',
+    onChainTime: '2024-03-15 14:31:00',
+    completeTime: null,
+    updateTime: '2024-03-15 14:35:00',
+    remark: '確認中(9/12)'
+  }
+]
+
+// 添加清理函數
+onBeforeUnmount(() => {
+  // 清理所有的 ref 和 reactive 狀態
+  downloadModalVisible.value = false
+  historyModalVisible.value = false
+  changeTypeModalVisible.value = false
+  typeHistoryModalVisible.value = false
+  transferHistoryModalVisible.value = false
+  searchText.value = ''
+  
+  // 重置表單數據
+  downloadForm.reason = ''
+  changeTypeForm.type = undefined
+  changeTypeForm.reason = ''
+  
+  // 重置查詢參數
+  queryParams.address = ''
+  queryParams.chainType = undefined
+  
+  // 重置排序狀態
+  sortState.sortField = ''
+  sortState.sortOrder = null
+})
 </script>
 
 <style scoped>
@@ -1048,5 +1394,10 @@ const showTypeHistory = () => {
 /* 幣種列標題保持左對齊 */
 :deep(.ant-table-column-coin .ant-table-column-title) {
   text-align: left;
+}
+
+/* 添加轉帳記錄表格的樣式 */
+:deep(.ant-table-thead > tr > th) {
+  white-space: nowrap;
 }
 </style> 

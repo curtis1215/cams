@@ -130,6 +130,10 @@ export default {
   beforeType: '操作前類型',
   afterType: '操作後類型',
   pleaseInputAllRequired: '請填寫所有必填項目',
-  changeSuccess: '變更成功'
+  changeSuccess: '變更成功',
+  price: '幣價',
+  cost: '成本',
+  status: '狀態',
+  completeTime: '完成時間'
   // 根據需求添加更多翻譯
 } 

@@ -131,5 +131,9 @@ export default {
   updateTime: 'Update Time',
   remark: 'Remark',
   transferHistory: 'Transfer History',
-  transactionDetail: 'Transaction Detail'
+  transactionDetail: 'Transaction Detail',
+  price: 'Price',
+  cost: 'Cost',
+  status: 'Status',
+  completeTime: 'Complete Time'
 } 
