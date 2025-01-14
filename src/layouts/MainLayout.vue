@@ -72,6 +72,10 @@
               <FileSearchOutlined />
               {{ $t('walletDetail') }}
             </a-menu-item>
+            <a-menu-item key="walletTransfer" @click="router.push('/wallet/transfer')">
+              <SwapOutlined />
+              {{ $t('walletTransfer') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="system">
             <template #title>
@@ -105,7 +109,8 @@ import {
   FundOutlined,
   WalletOutlined,
   SearchOutlined,
-  FileSearchOutlined
+  FileSearchOutlined,
+  SwapOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -138,6 +143,8 @@ const setSelectedKeysByRoute = () => {
     selectedKeys.value = ['walletQuery']
   } else if (path.includes('/wallet/detail')) {
     selectedKeys.value = ['walletDetail']
+  } else if (path.includes('/wallet/transfer')) {
+    selectedKeys.value = ['walletTransfer']
   } else if (path.includes('/system/users')) {
     selectedKeys.value = ['users']
   } else if (path.includes('/system/roles')) {

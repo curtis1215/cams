@@ -147,6 +147,18 @@ export default {
   addWallet: '新增錢包',
   currency: '幣種',
   pleaseSelectCurrency: '請選擇幣種',
-  addSuccess: '新增成功'
+  addSuccess: '新增成功',
+  walletTransfer: '錢包轉帳',
+  fromWalletDetail: '轉出錢包詳情',
+  toWalletDetail: '轉入錢包詳情',
+  transferInfo: '轉帳資訊',
+  transferAmount: '轉帳數量',
+  maxAmount: '最大數量',
+  pleaseSelectFromAndToWallet: '請選擇轉出和轉入錢包',
+  pleaseInputTransferAmount: '請輸入轉帳數量',
+  transferRequestSubmitted: '轉帳請求已提交',
+  availableOutflow: '可用轉出量',
+  availableInflow: '可用轉入量',
+  balance: '餘額'
   // 根據需求添加更多翻譯
 } 

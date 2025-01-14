@@ -34,18 +34,23 @@ const routes = [
         component: () => import('../views/wallet/Query.vue')
       },
       {
+        path: 'wallet/detail',
+        name: 'WalletDetail',
+        component: () => import('../views/wallet/Detail.vue')
+      },
+      {
+        path: 'wallet/transfer',
+        name: 'WalletTransfer',
+        component: () => import('../views/wallet/Transfer.vue')
+      },
+      {
         path: 'system/users',
         component: () => import('../views/system/Users.vue')
       },
       {
         path: 'system/roles',
         component: () => import('../views/system/Roles.vue')
-      },
-      {
-        path: 'wallet/detail',
-        name: 'WalletDetail',
-        component: () => import('../views/wallet/Detail.vue')
-      },
+      }
     ]
   }
 ]

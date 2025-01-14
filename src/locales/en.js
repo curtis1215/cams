@@ -145,5 +145,17 @@ export default {
   addWallet: 'Add Wallet',
   currency: 'Currency',
   pleaseSelectCurrency: 'Please select currency',
-  addSuccess: 'Added successfully'
+  addSuccess: 'Added successfully',
+  walletTransfer: 'Wallet Transfer',
+  fromWalletDetail: 'From Wallet Detail',
+  toWalletDetail: 'To Wallet Detail',
+  transferInfo: 'Transfer Information',
+  transferAmount: 'Transfer Amount',
+  maxAmount: 'Max Amount',
+  pleaseSelectFromAndToWallet: 'Please select from and to wallets',
+  pleaseInputTransferAmount: 'Please input transfer amount',
+  transferRequestSubmitted: 'Transfer request submitted',
+  availableOutflow: 'Available Outflow',
+  availableInflow: 'Available Inflow',
+  balance: 'Balance'
 } 
