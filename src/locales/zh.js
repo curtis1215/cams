@@ -124,6 +124,12 @@ export default {
   systemMaintenance: '系統維護',
   pleaseInputReason: '請輸入操作原因',
   pleaseSelectMerchant: '請選擇商戶',
-  tokenDetail: '代幣詳情'
+  tokenDetail: '代幣詳情',
+  changeType: '變更類型',
+  changeHistory: '變更記錄',
+  beforeType: '操作前類型',
+  afterType: '操作後類型',
+  pleaseInputAllRequired: '請填寫所有必填項目',
+  changeSuccess: '變更成功'
   // 根據需求添加更多翻譯
 } 
