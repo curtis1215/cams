@@ -141,5 +141,9 @@ export default {
   beforeStatus: 'Before Status',
   afterStatus: 'After Status',
   nodeHeightAlertSettings: 'Node Height Alert Settings',
-  addRule: 'Add Rule'
+  addRule: 'Add Rule',
+  addWallet: 'Add Wallet',
+  currency: 'Currency',
+  pleaseSelectCurrency: 'Please select currency',
+  addSuccess: 'Added successfully'
 } 

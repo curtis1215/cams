@@ -12,16 +12,7 @@
         class="query-form"
       >
         <a-form-item :label="$t('merchant')">
-          <a-select
-            v-model:value="queryParams.merchant"
-            style="width: 200px"
-            :placeholder="$t('pleaseSelectMerchant')"
-            allow-clear
-          >
-            <a-select-option v-for="merchant in merchants" :key="merchant.value" :value="merchant.value">
-              {{ merchant.label }}
-            </a-select-option>
-          </a-select>
+          <merchant-select v-model="queryParams.merchant" />
         </a-form-item>
 
         <a-form-item :label="$t('userId')">
@@ -34,29 +25,11 @@
         </a-form-item>
 
         <a-form-item :label="$t('walletType')">
-          <a-select
-            v-model:value="queryParams.walletType"
-            style="width: 200px"
-            :placeholder="$t('pleaseSelectWalletType')"
-            allow-clear
-          >
-            <a-select-option v-for="type in walletTypes" :key="type.value" :value="type.value">
-              {{ type.label }}
-            </a-select-option>
-          </a-select>
+          <wallet-type-select v-model="queryParams.walletType" />
         </a-form-item>
 
         <a-form-item :label="$t('chainType')">
-          <a-select
-            v-model:value="queryParams.chainType"
-            style="width: 200px"
-            :placeholder="$t('pleaseSelectChainType')"
-            allow-clear
-          >
-            <a-select-option v-for="type in chainTypes" :key="type.value" :value="type.value">
-              {{ type.label }}
-            </a-select-option>
-          </a-select>
+          <chain-type-select v-model="queryParams.chainType" />
         </a-form-item>
 
         <a-form-item :label="$t('status')">
@@ -99,7 +72,13 @@
     <!-- 錢包列表卡片 -->
     <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="table-card">
       <template #title>
-        <span class="card-title">{{ $t('walletList') }}</span>
+        <div style="display: flex; justify-content: space-between; align-items: center">
+          <span class="card-title">{{ $t('walletList') }}</span>
+          <a-button type="primary" @click="showAddWalletModal">
+            <template #icon><PlusOutlined /></template>
+            {{ $t('addWallet') }}
+          </a-button>
+        </div>
       </template>
       
       <div class="table-container">
@@ -150,15 +129,63 @@
         </a-table>
       </div>
     </a-card>
+
+    <!-- 新增錢包彈窗 -->
+    <a-modal
+      v-model:visible="addWalletModalVisible"
+      :title="$t('addWallet')"
+      @ok="handleAddWallet"
+      @cancel="handleCancelAdd"
+      :confirmLoading="confirmLoading"
+    >
+      <a-form
+        :model="addWalletForm"
+        :rules="addWalletRules"
+        ref="addWalletFormRef"
+        layout="vertical"
+      >
+        <!-- 鏈類型 -->
+        <a-form-item :label="$t('chainType')" name="chainType">
+          <chain-type-select v-model="addWalletForm.chainType" />
+        </a-form-item>
+
+        <!-- 幣種 -->
+        <a-form-item :label="$t('currency')" name="currency">
+          <currency-select v-model="addWalletForm.currency" />
+        </a-form-item>
+
+        <!-- 錢包類型 -->
+        <a-form-item :label="$t('walletType')" name="walletType">
+          <wallet-type-select v-model="addWalletForm.walletType" @change="handleWalletTypeChange" />
+        </a-form-item>
+
+        <!-- 錢包地址（僅當選擇外轉錢包時顯示） -->
+        <a-form-item
+          v-if="addWalletForm.walletType === 'transfer'"
+          :label="$t('address')"
+          name="address"
+        >
+          <a-input
+            v-model:value="addWalletForm.address"
+            :placeholder="$t('pleaseInputAddress')"
+            allow-clear
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { SearchOutlined, ReloadOutlined, CopyOutlined } from '@ant-design/icons-vue'
+import { SearchOutlined, ReloadOutlined, CopyOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
+import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
+import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
+import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
+import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
 
 const { t } = useI18n()
 
@@ -173,29 +200,6 @@ const queryParams = reactive({
   status: 'enabled',
   address: ''
 })
-
-// 商戶選項
-const merchants = [
-  { value: 'all', label: t('allMerchants') },
-  { value: 'fameex', label: 'Fameex' },
-  { value: 'cnx', label: 'CNX' }
-]
-
-// 錢包類型選項
-const walletTypes = [
-  { value: 'user', label: t('userWallet') },
-  { value: 'collection', label: t('collectionWallet') },
-  { value: 'withdrawal', label: t('withdrawalWallet') },
-  { value: 'transfer', label: t('transferWallet') }
-]
-
-// 鏈類型選項
-const chainTypes = [
-  { value: 'evm', label: 'EVM' },
-  { value: 'btc', label: 'BTC' },
-  { value: 'tron', label: 'TRON' },
-  { value: 'eos', label: 'EOS' }
-]
 
 // 狀態選項
 const statusOptions = [
@@ -638,6 +642,67 @@ const handleTableChange = (pagination, filters, sorter) => {
     })
   }
 }
+
+// 新增錢包相關
+const addWalletModalVisible = ref(false)
+const confirmLoading = ref(false)
+const addWalletFormRef = ref(null)
+
+// 新增錢包表單數據
+const addWalletForm = reactive({
+  chainType: undefined,
+  currency: undefined,
+  walletType: undefined,
+  address: '',
+})
+
+// 表單驗證規則
+const addWalletRules = {
+  chainType: [{ required: true, message: t('pleaseSelectChainType') }],
+  currency: [{ required: true, message: t('pleaseSelectCurrency') }],
+  walletType: [{ required: true, message: t('pleaseSelectWalletType') }],
+  address: [{ required: true, message: t('pleaseInputAddress'), trigger: 'blur' }],
+}
+
+// 顯示新增錢包彈窗
+const showAddWalletModal = () => {
+  addWalletModalVisible.value = true
+}
+
+// 處理錢包類型變更
+const handleWalletTypeChange = (value) => {
+  if (value !== 'transfer') {
+    addWalletForm.address = ''
+  }
+}
+
+// 處理新增錢包
+const handleAddWallet = async () => {
+  try {
+    await addWalletFormRef.value.validate()
+    confirmLoading.value = true
+    
+    // TODO: 實現新增錢包的 API 調用
+    console.log('新增錢包表單數據:', addWalletForm)
+    
+    // 模擬 API 調用
+    setTimeout(() => {
+      message.success(t('addSuccess'))
+      addWalletModalVisible.value = false
+      confirmLoading.value = false
+      // 重置表單
+      addWalletFormRef.value.resetFields()
+    }, 1000)
+  } catch (error) {
+    console.error('表單驗證失敗:', error)
+  }
+}
+
+// 取消新增
+const handleCancelAdd = () => {
+  addWalletModalVisible.value = false
+  addWalletFormRef.value.resetFields()
+}
 </script>
 
 <style scoped>
@@ -839,5 +904,27 @@ const handleTableChange = (pagination, filters, sorter) => {
 .status-disabled {
   background: rgba(255, 77, 79, 0.2);
   color: #ff4d4f;
+}
+
+/* 新增錢包按鈕樣式 */
+:deep(.ant-modal-content),
+:deep(.ant-modal-header) {
+  background-color: #1f1f1f;
+}
+
+:deep(.ant-modal-title) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-modal-close) {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+:deep(.ant-modal-close:hover) {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+:deep(.ant-form-item-label > label) {
+  color: rgba(255, 255, 255, 0.85);
 }
 </style> 

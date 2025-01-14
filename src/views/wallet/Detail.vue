@@ -17,16 +17,10 @@
         </a-form-item>
 
         <a-form-item :label="$t('chainType')">
-          <a-select
-            v-model:value="queryParams.chainType"
-            style="width: 200px"
-            :placeholder="$t('pleaseSelectChainType')"
-            allow-clear
-          >
-            <a-select-option v-for="type in chainTypes" :key="type.value" :value="type.value">
-              {{ type.label }}
-            </a-select-option>
-          </a-select>
+          <chain-type-select
+            v-model="queryParams.chainType"
+            :style="{ width: '200px' }"
+          />
         </a-form-item>
 
         <a-form-item>
@@ -266,19 +260,13 @@
       v-model:open="changeTypeModalVisible"
       :title="t('changeType')"
       @ok="confirmChangeType"
+      @cancel="() => changeTypeModalVisible = false"
     >
       <a-form :model="changeTypeForm">
         <a-form-item :label="$t('walletType')" required>
-          <a-select
-            v-model:value="changeTypeForm.type"
-            style="width: 100%"
-            :placeholder="$t('pleaseSelectWalletType')"
-          >
-            <a-select-option value="userWallet">{{ $t('userWallet') }}</a-select-option>
-            <a-select-option value="collectionWallet">{{ $t('collectionWallet') }}</a-select-option>
-            <a-select-option value="withdrawalWallet">{{ $t('withdrawalWallet') }}</a-select-option>
-            <a-select-option value="transferWallet">{{ $t('transferWallet') }}</a-select-option>
-          </a-select>
+          <wallet-type-select
+            v-model="changeTypeForm.type"
+          />
         </a-form-item>
         <a-form-item :label="$t('operationReason')" required>
           <a-textarea
@@ -388,6 +376,8 @@ import {
   EditOutlined,
   CheckCircleOutlined
 } from '@ant-design/icons-vue'
+import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
+import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -397,14 +387,6 @@ const queryParams = reactive({
   address: '',
   chainType: undefined
 })
-
-// 鏈類型選項
-const chainTypes = [
-  { value: 'evm', label: 'EVM' },
-  { value: 'btc', label: 'BTC' },
-  { value: 'tron', label: 'TRON' },
-  { value: 'eos', label: 'EOS' }
-]
 
 // 錢包信息
 const walletInfo = reactive({

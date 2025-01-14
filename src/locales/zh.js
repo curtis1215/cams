@@ -143,6 +143,10 @@ export default {
   beforeStatus: '變更前狀態',
   afterStatus: '變更後狀態',
   nodeHeightAlertSettings: '節點高度告警設置',
-  addRule: '新增規則'
+  addRule: '新增規則',
+  addWallet: '新增錢包',
+  currency: '幣種',
+  pleaseSelectCurrency: '請選擇幣種',
+  addSuccess: '新增成功'
   // 根據需求添加更多翻譯
 } 
