@@ -34,11 +34,6 @@ const routes = [
         component: () => import('../views/wallet/Query.vue')
       },
       {
-        path: 'wallet/settings',
-        name: 'WalletSettings',
-        component: () => import('../views/wallet/Settings.vue')
-      },
-      {
         path: 'system/users',
         component: () => import('../views/system/Users.vue')
       },

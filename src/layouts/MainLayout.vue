@@ -72,10 +72,6 @@
               <FileSearchOutlined />
               {{ $t('walletDetail') }}
             </a-menu-item>
-            <a-menu-item key="walletSettings" @click="router.push('/wallet/settings')">
-              <SettingOutlined />
-              {{ $t('walletSettings') }}
-            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="system">
             <template #title>
@@ -142,8 +138,6 @@ const setSelectedKeysByRoute = () => {
     selectedKeys.value = ['walletQuery']
   } else if (path.includes('/wallet/detail')) {
     selectedKeys.value = ['walletDetail']
-  } else if (path.includes('/wallet/settings')) {
-    selectedKeys.value = ['walletSettings']
   } else if (path.includes('/system/users')) {
     selectedKeys.value = ['users']
   } else if (path.includes('/system/roles')) {
