@@ -44,12 +44,52 @@ const routes = [
         component: () => import('../views/wallet/Transfer.vue')
       },
       {
+        path: 'wallet/token-exchange',
+        name: 'TokenExchangeManagement',
+        component: () => import('../views/wallet/TokenExchange.vue')
+      },
+      {
+        path: 'params/blockchain',
+        name: 'BlockchainManagement',
+        component: () => import('../views/params/Blockchain.vue')
+      },
+      {
+        path: 'params/contract-coin',
+        name: 'ContractCoinManagement',
+        component: () => import('../views/params/ContractCoin.vue')
+      },
+      {
         path: 'system/users',
         component: () => import('../views/system/Users.vue')
       },
       {
         path: 'system/roles',
         component: () => import('../views/system/Roles.vue')
+      },
+      {
+        path: 'order/deposit',
+        name: 'DepositOrder',
+        component: () => import('../views/order/Deposit.vue')
+      },
+      {
+        path: 'order/withdraw',
+        name: 'WithdrawOrder',
+        component: () => import('../views/order/Withdraw.vue')
+      },
+      {
+        path: 'order/transfer',
+        name: 'TransferRecord',
+        component: () => import('../views/order/TransferRecord.vue')
+      },
+      {
+        path: 'order/transaction',
+        name: 'TransactionDetail',
+        component: () => import('../views/order/Transaction.vue')
+      },
+      {
+        path: 'order/exchange',
+        name: 'ExchangeOrder',
+        component: () => import('../views/order/Exchange.vue')
       }
     ]
   }

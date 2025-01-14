@@ -181,5 +181,10 @@
   "pleaseInputAuditReason": "Please input audit reason",
   "pleaseSelectAuditOperation": "Please select audit operation",
   "auditSuccess": "Audit successful",
-  "auditFailed": "Audit failed"
+  "auditFailed": "Audit failed",
+  "orderManagement": "Order Management",
+  "depositOrderQuery": "Deposit Order Query",
+  "withdrawOrderQuery": "Withdraw Order Query",
+  "transferOrderQuery": "Transfer Order Query",
+  "transactionDetailQuery": "Transaction Detail Query"
 } 

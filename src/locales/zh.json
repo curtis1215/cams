@@ -181,5 +181,15 @@
   "pleaseInputAuditReason": "請輸入審核原因",
   "pleaseSelectAuditOperation": "請選擇審核操作",
   "auditSuccess": "審核成功",
-  "auditFailed": "審核失敗"
+  "auditFailed": "審核失敗",
+  "orderManagement": "訂單管理",
+  "depositOrderQuery": "充值訂單查詢",
+  "withdrawOrderQuery": "提幣訂單查詢",
+  "transferOrderQuery": "轉帳訂單查詢",
+  "transactionDetailQuery": "交易明細查詢",
+  "paramsManagement": "參數管理",
+  "blockchainManagement": "區塊鏈管理",
+  "contractCoinManagement": "合約幣管理",
+  "tokenExchangeManagement": "兌換代幣管理",
+  "exchangeOrderQuery": "兌幣訂單查詢"
 } 

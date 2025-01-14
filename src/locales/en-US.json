@@ -175,5 +175,15 @@
   "onChain": "On Chain",
   "confirming": "Confirming",
   "successful": "Successful",
-  "failed": "Failed"
+  "failed": "Failed",
+  "orderManagement": "Order Management",
+  "depositOrderQuery": "Deposit Order Query",
+  "withdrawOrderQuery": "Withdraw Order Query",
+  "transferOrderQuery": "Transfer Order Query",
+  "transactionDetailQuery": "Transaction Detail Query",
+  "paramsManagement": "Parameter Management",
+  "blockchainManagement": "Blockchain Management",
+  "contractCoinManagement": "Contract Coin Management",
+  "tokenExchangeManagement": "Token Exchange Management",
+  "exchangeOrderQuery": "Exchange Order Query"
 } 

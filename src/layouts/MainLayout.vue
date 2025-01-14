@@ -76,6 +76,54 @@
               <SwapOutlined />
               {{ $t('walletTransfer') }}
             </a-menu-item>
+            <a-menu-item key="tokenExchange" @click="router.push('/wallet/token-exchange')">
+              <SyncOutlined />
+              {{ $t('tokenExchangeManagement') }}
+            </a-menu-item>
+          </a-sub-menu>
+          <a-sub-menu key="order">
+            <template #title>
+              <span>
+                <OrderedListOutlined />
+                {{ $t('orderManagement') }}
+              </span>
+            </template>
+            <a-menu-item key="depositOrder" @click="router.push('/order/deposit')">
+              <PayCircleOutlined />
+              {{ $t('depositOrderQuery') }}
+            </a-menu-item>
+            <a-menu-item key="withdrawOrder" @click="router.push('/order/withdraw')">
+              <BankOutlined />
+              {{ $t('withdrawOrderQuery') }}
+            </a-menu-item>
+            <a-menu-item key="transferOrder" @click="router.push('/order/transfer')">
+              <SwapOutlined />
+              {{ $t('transferOrderQuery') }}
+            </a-menu-item>
+            <a-menu-item key="exchangeOrder" @click="router.push('/order/exchange')">
+              <SyncOutlined />
+              {{ $t('exchangeOrderQuery') }}
+            </a-menu-item>
+            <a-menu-item key="transactionDetail" @click="router.push('/order/transaction')">
+              <TransactionOutlined />
+              {{ $t('transactionDetailQuery') }}
+            </a-menu-item>
+          </a-sub-menu>
+          <a-sub-menu key="params">
+            <template #title>
+              <span>
+                <ToolOutlined />
+                {{ $t('paramsManagement') }}
+              </span>
+            </template>
+            <a-menu-item key="blockchain" @click="router.push('/params/blockchain')">
+              <BlockOutlined />
+              {{ $t('blockchainManagement') }}
+            </a-menu-item>
+            <a-menu-item key="contractCoin" @click="router.push('/params/contract-coin')">
+              <CodeOutlined />
+              {{ $t('contractCoinManagement') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="system">
             <template #title>
@@ -110,7 +158,15 @@ import {
   WalletOutlined,
   SearchOutlined,
   FileSearchOutlined,
-  SwapOutlined
+  SwapOutlined,
+  OrderedListOutlined,
+  TransactionOutlined,
+  BankOutlined,
+  PayCircleOutlined,
+  ToolOutlined,
+  BlockOutlined,
+  CodeOutlined,
+  SyncOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -134,6 +190,10 @@ const setSelectedKeysByRoute = () => {
     openKeys.value = ['wallet']
   } else if (path.includes('/system/')) {
     openKeys.value = ['system']
+  } else if (path.includes('/order/')) {
+    openKeys.value = ['order']
+  } else if (path.includes('/params/')) {
+    openKeys.value = ['params']
   }
 
   if (path.includes('/monitor/dashboard')) {
@@ -146,10 +206,26 @@ const setSelectedKeysByRoute = () => {
     selectedKeys.value = ['walletDetail']
   } else if (path.includes('/wallet/transfer')) {
     selectedKeys.value = ['walletTransfer']
+  } else if (path.includes('/wallet/token-exchange')) {
+    selectedKeys.value = ['tokenExchange']
   } else if (path.includes('/system/users')) {
     selectedKeys.value = ['users']
   } else if (path.includes('/system/roles')) {
     selectedKeys.value = ['roles']
+  } else if (path.includes('/order/deposit')) {
+    selectedKeys.value = ['depositOrder']
+  } else if (path.includes('/order/withdraw')) {
+    selectedKeys.value = ['withdrawOrder']
+  } else if (path.includes('/order/transfer')) {
+    selectedKeys.value = ['transferOrder']
+  } else if (path.includes('/order/exchange')) {
+    selectedKeys.value = ['exchangeOrder']
+  } else if (path.includes('/order/transaction')) {
+    selectedKeys.value = ['transactionDetail']
+  } else if (path.includes('/params/blockchain')) {
+    selectedKeys.value = ['blockchain']
+  } else if (path.includes('/params/contract-coin')) {
+    selectedKeys.value = ['contractCoin']
   }
 }
 
