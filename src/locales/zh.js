@@ -58,6 +58,7 @@ export default {
   minutes: '分鐘',
   walletManagement: '錢包管理',
   walletQuery: '錢包查詢',
+  walletList: '錢包列表',
   walletSettings: '錢包設定',
   walletType: '錢包類型',
   chainType: '鏈類型',
@@ -134,6 +135,9 @@ export default {
   price: '幣價',
   cost: '成本',
   status: '狀態',
-  completeTime: '完成時間'
+  completeTime: '完成時間',
+  enabled: '啟用',
+  disabled: '禁用',
+  pleaseSelectStatus: '請選擇狀態'
   // 根據需求添加更多翻譯
 } 

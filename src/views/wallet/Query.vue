@@ -1,136 +1,152 @@
 <template>
   <div class="wallet-query">
-    <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }">
+    <!-- 篩選器卡片 -->
+    <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="filter-card">
       <template #title>
         <span class="card-title">{{ $t('walletQuery') }}</span>
       </template>
-      <div class="table-container">
-        <!-- 篩選器表單 -->
-        <a-form
-          layout="inline"
-          :model="queryParams"
-          class="query-form"
-        >
-          <a-form-item :label="$t('merchant')">
-            <a-select
-              v-model:value="queryParams.merchant"
-              style="width: 200px"
-              :placeholder="$t('pleaseSelectMerchant')"
-              allow-clear
-            >
-              <a-select-option v-for="merchant in merchants" :key="merchant.value" :value="merchant.value">
-                {{ merchant.label }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-
-          <a-form-item :label="$t('userId')">
-            <a-input
-              v-model:value="queryParams.userId"
-              :placeholder="$t('pleaseInputUserId')"
-              style="width: 200px"
-              allow-clear
-            />
-          </a-form-item>
-
-          <a-form-item :label="$t('walletType')">
-            <a-select
-              v-model:value="queryParams.walletType"
-              style="width: 200px"
-              :placeholder="$t('pleaseSelectWalletType')"
-              allow-clear
-            >
-              <a-select-option v-for="type in walletTypes" :key="type.value" :value="type.value">
-                {{ type.label }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-
-          <a-form-item :label="$t('chainType')">
-            <a-select
-              v-model:value="queryParams.chainType"
-              style="width: 200px"
-              :placeholder="$t('pleaseSelectChainType')"
-              allow-clear
-            >
-              <a-select-option v-for="type in chainTypes" :key="type.value" :value="type.value">
-                {{ type.label }}
-              </a-select-option>
-            </a-select>
-          </a-form-item>
-
-          <a-form-item :label="$t('address')">
-            <a-input
-              v-model:value="queryParams.address"
-              :placeholder="$t('pleaseInputAddress')"
-              style="width: 400px"
-              allow-clear
-            />
-          </a-form-item>
-
-          <a-form-item style="margin-right: auto;">
-            <a-space>
-              <a-button type="primary" @click="handleQuery">
-                <template #icon><SearchOutlined /></template>
-                {{ $t('query') }}
-              </a-button>
-              <a-button @click="handleReset">
-                <template #icon><ReloadOutlined /></template>
-                {{ $t('reset') }}
-              </a-button>
-            </a-space>
-          </a-form-item>
-        </a-form>
-
-        <!-- 添加表格 -->
-        <div class="table-container">
-          <a-table
-            :columns="columns"
-            :data-source="tableData"
-            :pagination="{
-              total: 100,
-              pageSize: 20,
-              showSizeChanger: false,
-              showQuickJumper: true
-            }"
-            :bordered="true"
+      
+      <a-form
+        layout="inline"
+        :model="queryParams"
+        class="query-form"
+      >
+        <a-form-item :label="$t('merchant')">
+          <a-select
+            v-model:value="queryParams.merchant"
+            style="width: 200px"
+            :placeholder="$t('pleaseSelectMerchant')"
+            allow-clear
           >
-            <!-- 資產價值列自定義渲染 -->
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.key === 'assetValue'">
-                <span class="asset-value" v-html="formatNumberWithColor(record.assetValue)"></span>
-              </template>
-              <!-- 操作列自定義渲染 -->
-              <template v-else-if="column.key === 'action'">
-                <a-space>
-                  <a-button type="link" size="small" @click="handleDetail(record)">
-                    {{ $t('details') }}
-                  </a-button>
-                  <a-button type="link" size="small" @click="handleTransfer(record)">
-                    {{ $t('transfer') }}
-                  </a-button>
-                  <a-button
-                    type="link"
-                    size="small"
-                    :danger="!record.isDisabled"
-                    @click="handleToggleStatus(record)"
-                  >
-                    {{ record.isDisabled ? $t('enable') : $t('disable') }}
-                  </a-button>
-                </a-space>
-              </template>
-              <template v-else-if="column.key === 'address'">
-                <span>
-                  {{ formatAddress(record.address) }}
-                  <CopyOutlined
-                    class="copy-icon"
-                    @click.stop="copyAddress(record.address)"
-                  />
-                </span>
-              </template>
+            <a-select-option v-for="merchant in merchants" :key="merchant.value" :value="merchant.value">
+              {{ merchant.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item :label="$t('userId')">
+          <a-input
+            v-model:value="queryParams.userId"
+            :placeholder="$t('pleaseInputUserId')"
+            style="width: 200px"
+            allow-clear
+          />
+        </a-form-item>
+
+        <a-form-item :label="$t('walletType')">
+          <a-select
+            v-model:value="queryParams.walletType"
+            style="width: 200px"
+            :placeholder="$t('pleaseSelectWalletType')"
+            allow-clear
+          >
+            <a-select-option v-for="type in walletTypes" :key="type.value" :value="type.value">
+              {{ type.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item :label="$t('chainType')">
+          <a-select
+            v-model:value="queryParams.chainType"
+            style="width: 200px"
+            :placeholder="$t('pleaseSelectChainType')"
+            allow-clear
+          >
+            <a-select-option v-for="type in chainTypes" :key="type.value" :value="type.value">
+              {{ type.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item :label="$t('status')">
+          <a-select
+            v-model:value="queryParams.status"
+            style="width: 200px"
+            :placeholder="$t('pleaseSelectStatus')"
+            allow-clear
+          >
+            <a-select-option v-for="option in statusOptions" :key="option.value" :value="option.value">
+              {{ option.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+
+        <a-form-item :label="$t('address')">
+          <a-input
+            v-model:value="queryParams.address"
+            :placeholder="$t('pleaseInputAddress')"
+            style="width: 400px"
+            allow-clear
+          />
+        </a-form-item>
+
+        <a-form-item>
+          <a-space>
+            <a-button type="primary" @click="handleQuery">
+              <template #icon><SearchOutlined /></template>
+              {{ $t('query') }}
+            </a-button>
+            <a-button @click="handleReset">
+              <template #icon><ReloadOutlined /></template>
+              {{ $t('reset') }}
+            </a-button>
+          </a-space>
+        </a-form-item>
+      </a-form>
+    </a-card>
+
+    <!-- 錢包列表卡片 -->
+    <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="table-card">
+      <template #title>
+        <span class="card-title">{{ $t('walletList') }}</span>
+      </template>
+      
+      <div class="table-container">
+        <a-table
+          :columns="columns"
+          :data-source="tableData"
+          :pagination="{
+            total: 100,
+            pageSize: 20,
+            showSizeChanger: false,
+            showQuickJumper: true
+          }"
+          :bordered="true"
+          :scroll="{ x: 1400 }"
+        >
+          <!-- 資產價值列自定義渲染 -->
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'assetValue'">
+              <span class="asset-value" v-html="formatNumberWithColor(record.assetValue)"></span>
             </template>
-          </a-table>
-        </div>
+            <!-- 操作列自定義渲染 -->
+            <template v-else-if="column.key === 'action'">
+              <a-space>
+                <a-button type="link" size="small" @click="handleDetail(record)">
+                  {{ $t('details') }}
+                </a-button>
+                <a-button type="link" size="small" @click="handleTransfer(record)">
+                  {{ $t('transfer') }}
+                </a-button>
+              </a-space>
+            </template>
+            <template v-else-if="column.key === 'address'">
+              <span>
+                {{ formatAddress(record.address) }}
+                <CopyOutlined
+                  class="copy-icon"
+                  @click.stop="copyAddress(record.address)"
+                />
+              </span>
+            </template>
+            <template v-else-if="column.key === 'status'">
+              <span :class="['status-tag', record.isDisabled ? 'status-disabled' : 'status-enabled']">
+                {{ record.isDisabled ? t('disabled') : t('enabled') }}
+              </span>
+            </template>
+          </template>
+        </a-table>
       </div>
     </a-card>
   </div>
@@ -153,6 +169,7 @@ const queryParams = reactive({
   userId: '',
   walletType: undefined,
   chainType: undefined,
+  status: 'enabled',
   address: ''
 })
 
@@ -179,6 +196,12 @@ const chainTypes = [
   { value: 'eos', label: 'EOS' }
 ]
 
+// 狀態選項
+const statusOptions = [
+  { value: 'enabled', label: t('enabled') },
+  { value: 'disabled', label: t('disabled') }
+]
+
 // 查詢方法
 const handleQuery = () => {
   console.log('查詢參數:', queryParams)
@@ -191,6 +214,7 @@ const handleReset = () => {
   queryParams.userId = ''
   queryParams.walletType = undefined
   queryParams.chainType = undefined
+  queryParams.status = 'enabled'
   queryParams.address = ''
 }
 
@@ -230,14 +254,14 @@ const columns = [
     title: t('address'),
     dataIndex: 'address',
     key: 'address',
-    width: 300,
+    width: 200,
     ellipsis: true,
   },
   {
     title: t('assetValue'),
     dataIndex: 'assetValue',
     key: 'assetValue',
-    width: 240,
+    width: 280,
     align: 'right',
   },
   {
@@ -247,9 +271,16 @@ const columns = [
     width: 180,
   },
   {
+    title: t('status'),
+    dataIndex: 'status',
+    key: 'status',
+    width: 100,
+    align: 'center',
+  },
+  {
     title: t('action'),
     key: 'action',
-    width: 200,
+    width: 160,
     fixed: 'right',
   },
 ]
@@ -550,12 +581,6 @@ const handleTransfer = (record) => {
   // 實現轉帳邏輯
 }
 
-const handleToggleStatus = (record) => {
-  const action = record.isDisabled ? '啟用' : '禁用'
-  message.success(`${action}成功`)
-  // 實現禁用/啟用邏輯
-}
-
 // 格式化地址顯示
 const formatAddress = (address) => {
   if (!address) return ''
@@ -602,60 +627,55 @@ const generateMoreData = () => {
 
 <style scoped>
 .wallet-query {
-  background-color: var(--bg-color);
-  min-height: calc(100vh - 96px);
   padding: 24px;
+}
+
+.filter-card {
+  margin-bottom: 24px;
+  background: #141414;
+}
+
+.table-card {
+  background: #141414;
 }
 
 .wallet-query :deep(.ant-card) {
-  background: var(--component-bg);
+  border-radius: 8px;
+  border: 1px solid #303030;
 }
 
 .wallet-query :deep(.ant-card-head) {
-  padding: 0;
-  min-height: auto;
-  border-bottom: none;
+  background-color: #1f1f1f;
+  border-bottom: 1px solid #303030;
+  min-height: 48px;
 }
 
 .wallet-query :deep(.ant-card-head-title) {
-  padding: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 0;
 }
 
 .wallet-query :deep(.ant-card-body) {
-  padding: 0;
-}
-
-.wallet-query .card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-color);
-}
-
-.wallet-query .search-form {
-  margin-bottom: 16px;
-  padding: 24px;
-  background: var(--component-bg);
-  border-radius: 8px;
-}
-
-.wallet-query :deep(.ant-table-wrapper) {
-  background: var(--component-bg);
-  border-radius: 8px;
-  padding: 24px;
+  background-color: #141414;
 }
 
 .query-form {
-  margin-bottom: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+:deep(.ant-form-item) {
+  margin-bottom: 0;
+  margin-right: 0;
 }
 
 .table-container {
   padding: 12px;
   background: #141414;
   border-radius: 8px;
-}
-
-:deep(.ant-form-item) {
-  margin-bottom: 16px;
 }
 
 /* 表格內的按鈕樣式 */
@@ -714,5 +734,95 @@ const generateMoreData = () => {
 .wallet-id {
   font-family: monospace;
   font-size: 14px;
+}
+
+/* 深色模式表格樣式 */
+:deep(.ant-table) {
+  background: transparent;
+}
+
+:deep(.ant-table-thead > tr > th) {
+  background: #1f1f1f;
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-tbody > tr > td) {
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-tbody > tr:hover > td) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* 分頁器樣式 */
+:deep(.ant-pagination-item),
+:deep(.ant-pagination-prev),
+:deep(.ant-pagination-next),
+:deep(.ant-pagination-jump-prev),
+:deep(.ant-pagination-jump-next) {
+  background: transparent;
+  border-color: #303030;
+}
+
+:deep(.ant-pagination-item-active) {
+  background: var(--ant-primary-color);
+  border-color: var(--ant-primary-color);
+}
+
+:deep(.ant-pagination-item-active a) {
+  color: #fff;
+}
+
+/* 表單元素深色模式樣式 */
+:deep(.ant-input),
+:deep(.ant-select-selector) {
+  background-color: #1f1f1f !important;
+  border-color: #434343 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:deep(.ant-input:hover),
+:deep(.ant-input:focus),
+:deep(.ant-select-selector:hover),
+:deep(.ant-select-selector:focus) {
+  border-color: var(--ant-primary-color) !important;
+}
+
+:deep(.ant-select-arrow) {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+:deep(.ant-select-dropdown) {
+  background-color: #1f1f1f;
+  border: 1px solid #303030;
+}
+
+:deep(.ant-select-item) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-select-item-option-active) {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+:deep(.ant-select-item-option-selected) {
+  background-color: var(--ant-primary-1);
+}
+
+.status-tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.status-enabled {
+  background: rgba(82, 196, 26, 0.2);
+  color: #52c41a;
+}
+
+.status-disabled {
+  background: rgba(255, 77, 79, 0.2);
+  color: #ff4d4f;
 }
 </style> 
