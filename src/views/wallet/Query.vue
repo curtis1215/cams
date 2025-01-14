@@ -114,6 +114,7 @@
           }"
           :bordered="true"
           :scroll="{ x: 1400 }"
+          @change="handleTableChange"
         >
           <!-- 資產價值列自定義渲染 -->
           <template #bodyCell="{ column, record }">
@@ -263,6 +264,8 @@ const columns = [
     key: 'assetValue',
     width: 280,
     align: 'right',
+    sorter: true,
+    sortDirections: ['descend', 'ascend']
   },
   {
     title: t('lastTransactionTime'),
@@ -286,7 +289,7 @@ const columns = [
 ]
 
 // 模擬表格數據
-const tableData = [
+const tableData = ref([
   {
     key: '1',
     walletId: 'U12345678',
@@ -527,7 +530,7 @@ const tableData = [
     lastTransactionTime: '2024-03-16 04:40:55',
     isDisabled: true,
   }
-]
+])
 
 // 格式化數字並添加顏色標記
 const formatNumberWithColor = (value) => {
@@ -621,6 +624,18 @@ const generateMoreData = () => {
     // ... 其他欄位
     walletId: generateWalletId(walletType),  // 根據錢包類型生成對應ID
     // ... 其他欄位
+  }
+}
+
+// 添加表格變化處理方法
+const handleTableChange = (pagination, filters, sorter) => {
+  if (sorter.field === 'assetValue') {
+    // 將字符串轉換為數字進行排序
+    tableData.value = [...tableData.value].sort((a, b) => {
+      const aValue = parseFloat(a.assetValue)
+      const bValue = parseFloat(b.assetValue)
+      return sorter.order === 'ascend' ? aValue - bValue : bValue - aValue
+    })
   }
 }
 </script>
