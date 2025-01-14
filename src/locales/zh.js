@@ -141,6 +141,8 @@ export default {
   pleaseSelectStatus: '請選擇狀態',
   changeStatus: '變更狀態',
   beforeStatus: '變更前狀態',
-  afterStatus: '變更後狀態'
+  afterStatus: '變更後狀態',
+  nodeHeightAlertSettings: '節點高度告警設置',
+  addRule: '新增規則'
   // 根據需求添加更多翻譯
 } 

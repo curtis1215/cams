@@ -3,7 +3,13 @@
     <!-- 節點高度告警卡片 -->
     <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
       <template #title>
-        <span class="card-title">{{ $t('nodeHeightAlert') }}</span>
+        <div class="card-header">
+          <span class="card-title">{{ $t('nodeHeightAlert') }}</span>
+          <a-button type="primary" size="small" @click="showHeightSettingModal">
+            <template #icon><SettingOutlined /></template>
+            {{ $t('settings') }}
+          </a-button>
+        </div>
       </template>
 
       <div class="table-container">
@@ -175,18 +181,65 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- 節點高度告警設置彈窗 -->
+    <a-modal
+      v-model:open="heightSettingModalVisible"
+      :title="t('nodeHeightAlertSettings')"
+      @ok="handleHeightSettingSave"
+      width="800px"
+    >
+      <div class="height-alert-settings">
+        <div v-for="(rule, index) in heightAlertRules" :key="index" class="height-alert-rule">
+          <div class="rule-content">
+            <span>當</span>
+            <a-select
+              v-model:value="rule.type"
+              style="width: 120px"
+              :options="[
+                { value: 'service', label: t('serviceHeight') },
+                { value: 'node', label: t('nodeHeight') }
+              ]"
+            />
+            <span>落後超過</span>
+            <a-input-number
+              v-model:value="rule.threshold"
+              :min="1"
+              style="width: 100px"
+              :step="100"
+            />
+            <span>達</span>
+            <a-input-number
+              v-model:value="rule.duration"
+              :min="1"
+              style="width: 80px"
+            />
+            <span>分鐘</span>
+          </div>
+          <a-button type="text" danger @click="removeHeightRule(index)">
+            <template #icon><DeleteOutlined /></template>
+          </a-button>
+        </div>
+        <div class="add-rule">
+          <a-button type="dashed" block @click="addHeightRule">
+            <template #icon><PlusOutlined /></template>
+            {{ t('addRule') }}
+          </a-button>
+        </div>
+      </div>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { SettingOutlined } from '@ant-design/icons-vue'
+import { SettingOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 
 const { t } = useI18n()
 
-const columns = [
+const columns = computed(() => [
   {
     title: t('chain'),
     dataIndex: 'chain',
@@ -217,7 +270,7 @@ const columns = [
     key: 'alertReason',
     width: 300,
   },
-]
+])
 
 const alertData = [
   {
@@ -272,7 +325,7 @@ const alertData = [
   }
 ]
 
-const withdrawColumns = [
+const withdrawColumns = computed(() => [
   {
     title: t('merchant'),
     dataIndex: 'merchant',
@@ -309,7 +362,7 @@ const withdrawColumns = [
     key: 'alertReason',
     width: 200,
   },
-]
+])
 
 const withdrawAlertData = [
   {
@@ -364,7 +417,7 @@ const withdrawAlertData = [
   }
 ]
 
-const largeAmountColumns = [
+const largeAmountColumns = computed(() => [
   {
     title: t('merchant'),
     dataIndex: 'merchant',
@@ -407,7 +460,7 @@ const largeAmountColumns = [
     key: 'userId',
     width: 150,
   },
-]
+])
 
 const largeAmountData = [
   {
@@ -501,6 +554,41 @@ const handleDurationSettingSave = () => {
   message.success(t('settingsSaved'))
   durationSettingModalVisible.value = false
 }
+
+const heightSettingModalVisible = ref(false)
+const heightAlertRules = ref([
+  {
+    type: 'service',
+    threshold: 300,
+    duration: 7
+  },
+  {
+    type: 'node',
+    threshold: 300,
+    duration: 240
+  }
+])
+
+const showHeightSettingModal = () => {
+  heightSettingModalVisible.value = true
+}
+
+const addHeightRule = () => {
+  heightAlertRules.value.push({
+    type: 'service',
+    threshold: 300,
+    duration: 7
+  })
+}
+
+const removeHeightRule = (index) => {
+  heightAlertRules.value.splice(index, 1)
+}
+
+const handleHeightSettingSave = () => {
+  message.success(t('settingsSaved'))
+  heightSettingModalVisible.value = false
+}
 </script>
 
 <style scoped>
@@ -581,5 +669,51 @@ const handleDurationSettingSave = () => {
   font-size: 12px;
   color: #ff4d4f;
   margin-left: 4px;
+}
+
+/* 節點高度告警設置樣式 */
+.height-alert-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.height-alert-rule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #1f1f1f;
+  border-radius: 4px;
+  border: 1px solid #303030;
+}
+
+.rule-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.add-rule {
+  margin-top: 8px;
+}
+
+:deep(.ant-select-selector) {
+  background-color: #141414 !important;
+}
+
+:deep(.ant-input-number) {
+  background-color: #141414 !important;
+}
+
+:deep(.ant-btn-dashed) {
+  border-color: #434343;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-btn-dashed:hover) {
+  border-color: var(--ant-primary-color);
+  color: var(--ant-primary-color);
 }
 </style> 
