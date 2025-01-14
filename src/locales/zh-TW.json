@@ -1,0 +1,9 @@
+{
+  "confirmTransfer": "確認轉帳",
+  "fromWalletInfo": "轉出錢包資訊",
+  "toWalletInfo": "轉入錢包資訊",
+  "transferRequestSubmitted": "轉帳請求已提交",
+  "transferFailed": "轉帳失敗",
+  "pleaseSelectFromAndToWallet": "請選擇轉出和轉入錢包",
+  "pleaseInputTransferAmount": "請輸入轉帳金額"
+} 

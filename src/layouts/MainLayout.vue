@@ -171,6 +171,11 @@ const handleLogout = () => {
   message.success('登出成功')
   router.push('/login')
 }
+
+const localeOptions = [
+  { value: 'zh-TW', label: '繁體中文' },
+  { value: 'en-US', label: 'English' }
+]
 </script>
 
 <style scoped>

@@ -164,6 +164,78 @@
         </a-form>
       </div>
     </a-card>
+
+    <!-- 轉帳確認彈窗 -->
+    <a-modal
+      v-model:visible="confirmModalVisible"
+      :title="$t('confirmTransfer')"
+      @ok="handleConfirmTransfer"
+      @cancel="handleCancelTransfer"
+      :confirmLoading="confirmLoading"
+      width="600px"
+    >
+      <div class="confirm-content">
+        <!-- 轉出資訊卡片 -->
+        <a-card :bordered="false" class="confirm-card">
+          <template #title>
+            <span class="card-title">{{ $t('fromWalletInfo') }}</span>
+          </template>
+          <div class="confirm-card-content">
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('walletType') }}</span>
+              <span class="confirm-value">{{ fromWalletForm.walletType }}</span>
+            </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('chainType') }}</span>
+              <span class="confirm-value">{{ fromWalletForm.chainType }}</span>
+            </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('currency') }}</span>
+              <span class="confirm-value">{{ fromWalletForm.currency }}</span>
+            </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('address') }}</span>
+              <span class="confirm-value">{{ fromWalletForm.address }}</span>
+            </div>
+          </div>
+        </a-card>
+
+        <!-- 轉帳數量卡片 -->
+        <a-card :bordered="false" class="confirm-card">
+          <template #title>
+            <div class="amount-title">
+              <span>{{ $t('transferAmount') }}：</span>
+              <span class="amount-value">{{ formatNumber(transferAmount) }}</span>
+            </div>
+          </template>
+        </a-card>
+
+        <!-- 轉入資訊卡片 -->
+        <a-card :bordered="false" class="confirm-card">
+          <template #title>
+            <span class="card-title">{{ $t('toWalletInfo') }}</span>
+          </template>
+          <div class="confirm-card-content">
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('walletType') }}</span>
+              <span class="confirm-value">{{ toWalletForm.walletType }}</span>
+            </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('chainType') }}</span>
+              <span class="confirm-value">{{ toWalletForm.chainType }}</span>
+            </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('currency') }}</span>
+              <span class="confirm-value">{{ toWalletForm.currency }}</span>
+            </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ $t('address') }}</span>
+              <span class="confirm-value">{{ toWalletForm.address }}</span>
+            </div>
+          </div>
+        </a-card>
+      </div>
+    </a-modal>
   </div>
 </template>
 
@@ -171,9 +243,12 @@
 import { ref, reactive, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
+import { useI18n } from 'vue-i18n'
 import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
+
+const { t } = useI18n()
 
 // 轉出錢包表單
 const fromWalletForm = reactive({
@@ -242,7 +317,11 @@ const handleToWalletQuery = () => {
   console.log('查詢轉入錢包:', toWalletForm)
 }
 
-// 處理轉帳
+// 轉帳確認相關
+const confirmModalVisible = ref(false)
+const confirmLoading = ref(false)
+
+// 處理轉帳按鈕點擊
 const handleTransfer = () => {
   if (!fromWalletForm.address || !toWalletForm.address) {
     message.error(t('pleaseSelectFromAndToWallet'))
@@ -254,14 +333,34 @@ const handleTransfer = () => {
     return
   }
 
-  // TODO: 實現轉帳邏輯
-  console.log('轉帳資訊:', {
-    from: fromWalletForm,
-    to: toWalletForm,
-    amount: transferAmount.value
-  })
-  
-  message.success(t('transferRequestSubmitted'))
+  // 顯示確認彈窗
+  confirmModalVisible.value = true
+}
+
+// 處理確認轉帳
+const handleConfirmTransfer = async () => {
+  confirmLoading.value = true
+  try {
+    // TODO: 實現轉帳邏輯
+    console.log('轉帳資訊:', {
+      from: fromWalletForm,
+      to: toWalletForm,
+      amount: transferAmount.value
+    })
+    
+    await new Promise(resolve => setTimeout(resolve, 1000)) // 模擬 API 調用
+    message.success(t('transferRequestSubmitted'))
+    confirmModalVisible.value = false
+  } catch (error) {
+    message.error(t('transferFailed'))
+  } finally {
+    confirmLoading.value = false
+  }
+}
+
+// 處理取消轉帳
+const handleCancelTransfer = () => {
+  confirmModalVisible.value = false
 }
 </script>
 
@@ -377,5 +476,72 @@ const handleTransfer = () => {
 .form-row .form-item {
   flex: 1;
   margin: 0;
+}
+
+.confirm-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.confirm-card {
+  background: #1f1f1f;
+  border: 1px solid #303030;
+}
+
+.confirm-card :deep(.ant-card-head) {
+  background-color: #1f1f1f;
+  border-bottom: 1px solid #303030;
+  min-height: 48px;
+  padding: 0 20px;
+}
+
+.confirm-card :deep(.ant-card-head-title) {
+  padding: 12px 0;
+}
+
+.confirm-card :deep(.ant-card-body) {
+  padding: 16px 20px;
+  background-color: #141414;
+}
+
+.confirm-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.confirm-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.confirm-label {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.confirm-value {
+  color: rgba(255, 255, 255, 0.85);
+  font-family: monospace;
+}
+
+.confirm-value.highlight {
+  color: var(--ant-primary-color);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.amount-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.amount-value {
+  color: var(--ant-primary-color);
+  font-size: 16px;
+  font-weight: 500;
+  font-family: monospace;
 }
 </style> 

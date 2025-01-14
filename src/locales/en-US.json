@@ -1,0 +1,9 @@
+{
+  "confirmTransfer": "Confirm Transfer",
+  "fromWalletInfo": "From Wallet Info",
+  "toWalletInfo": "To Wallet Info",
+  "transferRequestSubmitted": "Transfer request submitted",
+  "transferFailed": "Transfer failed",
+  "pleaseSelectFromAndToWallet": "Please select from and to wallet",
+  "pleaseInputTransferAmount": "Please input transfer amount"
+} 
