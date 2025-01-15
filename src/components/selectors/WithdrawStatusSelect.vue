@@ -7,6 +7,7 @@
     @update:value="$emit('update:modelValue', $event)"
   >
     <a-select-option value="waiting">{{ t('waiting') }}</a-select-option>
+    <a-select-option value="confirming">{{ t('confirming') }}</a-select-option>
     <a-select-option value="processing">{{ t('processing') }}</a-select-option>
     <a-select-option value="retrying">{{ t('retrying') }}</a-select-option>
     <a-select-option value="success">{{ t('successful') }}</a-select-option>

@@ -190,5 +190,7 @@
   "startDate": "開始日期",
   "endDate": "結束日期",
   "pleaseInputOrderId": "請輸入訂單號",
-  "pleaseInputTxHash": "請輸入交易哈希"
+  "pleaseInputTxHash": "請輸入交易哈希",
+  "waiting": "等待中",
+  "processing": "處理中"
 } 
