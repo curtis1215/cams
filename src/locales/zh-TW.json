@@ -54,7 +54,7 @@
   "amount": "數量",
   "settingsSaved": "設置已保存",
   "withdrawDurationSettings": "提幣時長告警設置",
-  "notifyTimeout": "完成無法通知時長超",
+  "notifyTimeout": "通知逾時",
   "minutes": "分鐘",
   "walletManagement": "錢包管理",
   "walletQuery": "錢包查詢",
@@ -185,5 +185,10 @@
   "blockchainManagement": "區塊鏈管理",
   "contractCoinManagement": "合約幣管理",
   "tokenExchangeManagement": "兌換代幣管理",
-  "exchangeOrderQuery": "兌幣訂單查詢"
+  "exchangeOrderQuery": "兌幣訂單查詢",
+  "dateRange": "日期區間",
+  "startDate": "開始日期",
+  "endDate": "結束日期",
+  "pleaseInputOrderId": "請輸入訂單號",
+  "pleaseInputTxHash": "請輸入交易哈希"
 } 

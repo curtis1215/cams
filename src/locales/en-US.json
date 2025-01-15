@@ -185,5 +185,10 @@
   "blockchainManagement": "Blockchain Management",
   "contractCoinManagement": "Contract Coin Management",
   "tokenExchangeManagement": "Token Exchange Management",
-  "exchangeOrderQuery": "Exchange Order Query"
+  "exchangeOrderQuery": "Exchange Order Query",
+  "dateRange": "Date Range",
+  "startDate": "Start Date",
+  "endDate": "End Date",
+  "pleaseInputOrderId": "Please input order ID",
+  "pleaseInputTxHash": "Please input transaction hash"
 } 
