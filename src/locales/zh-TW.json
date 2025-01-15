@@ -193,5 +193,8 @@
   "pleaseInputTxHash": "請輸入交易哈希",
   "waiting": "等待中",
   "processing": "處理中",
-  "notifyHistory": "通知歷程"
+  "notifyHistory": "通知歷程",
+  "pleaseInputWalletId": "請輸入錢包ID",
+  "pleaseInputRelatedOrderId": "請輸入關聯訂單號",
+  "relatedOrderId": "關聯訂單號"
 } 

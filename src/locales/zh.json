@@ -217,5 +217,8 @@
   "notifyResult": "通知結果",
   "confirmations": "確認數",
   "notify": "通知",
-  "statusNotify": "狀態通知"
+  "statusNotify": "狀態通知",
+  "pleaseInputWalletId": "請輸入錢包ID",
+  "pleaseInputRelatedOrderId": "請輸入關聯訂單號",
+  "relatedOrderId": "關聯訂單號"
 } 
