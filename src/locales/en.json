@@ -209,5 +209,7 @@
   "notifyStatus": "Notification Status",
   "timeInfo": "Time Information",
   "retrying": "Retrying",
-  "retry": "Retry"
+  "retry": "Retry",
+  "waiting": "Waiting",
+  "processing": "Processing"
 } 

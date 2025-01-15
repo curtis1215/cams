@@ -209,5 +209,7 @@
   "notifyStatus": "通知狀態",
   "timeInfo": "時間資訊",
   "retrying": "重試中",
-  "retry": "重試"
+  "retry": "重試",
+  "waiting": "等待中",
+  "processing": "處理中"
 } 
