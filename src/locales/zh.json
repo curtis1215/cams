@@ -211,5 +211,11 @@
   "retrying": "重試中",
   "retry": "重試",
   "waiting": "等待中",
-  "processing": "處理中"
+  "processing": "處理中",
+  "notifyHistory": "通知歷程",
+  "notifyReason": "通知原因",
+  "notifyResult": "通知結果",
+  "confirmations": "確認數",
+  "notify": "通知",
+  "statusNotify": "狀態通知"
 } 

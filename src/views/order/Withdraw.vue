@@ -147,10 +147,29 @@
               <span class="label">{{ t('notifyTime') }}:</span>
               <span>{{ record.notifyTime || '-' }}</span>
             </div>
+            <div class="info-item notify-history">
+              <a-button type="link" size="small" @click="handleNotifyHistory(record)">
+                {{ t('notifyHistory') }}
+              </a-button>
+            </div>
           </div>
         </template>
       </a-table>
     </a-card>
+
+    <a-modal
+      v-model:visible="notifyHistoryVisible"
+      :title="`${currentRecord?.platformOrderId || ''} ${t('notifyHistory')}`"
+      :footer="null"
+      width="600px"
+    >
+      <a-table
+        :columns="notifyHistoryColumns"
+        :data-source="notifyHistoryData"
+        :pagination="false"
+        :bordered="true"
+      />
+    </a-modal>
   </div>
 </template>
 
@@ -319,6 +338,57 @@ const handleRetryNotify = (record) => {
 const handleTransferDetail = (transferId) => {
   // 處理詳情按鈕點擊事件
   console.log('Transfer detail clicked:', transferId)
+}
+
+const notifyHistoryVisible = ref(false)
+const currentRecord = ref(null)
+const notifyHistoryData = ref([])
+
+const notifyHistoryColumns = computed(() => [
+  {
+    title: t('notifyReason'),
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 200,
+  },
+  {
+    title: t('notifyTime'),
+    dataIndex: 'notifyTime',
+    key: 'notifyTime',
+    width: 180,
+  },
+  {
+    title: t('notifyResult'),
+    dataIndex: 'result',
+    key: 'result',
+    width: 120,
+  }
+])
+
+const handleNotifyHistory = (record) => {
+  currentRecord.value = record
+  notifyHistoryVisible.value = true
+  // 模擬通知歷程數據
+  notifyHistoryData.value = [
+    {
+      key: '1',
+      reason: `${t('confirmations')} 3 ${t('notify')}`,
+      notifyTime: '2024-03-15 10:01:00',
+      result: t('successful')
+    },
+    {
+      key: '2',
+      reason: `${t('confirmations')} 6 ${t('notify')}`,
+      notifyTime: '2024-03-15 10:02:00',
+      result: t('successful')
+    },
+    {
+      key: '3',
+      reason: t('statusNotify'),
+      notifyTime: '2024-03-15 10:03:00',
+      result: t('failed')
+    }
+  ]
 }
 
 const tableData = [
@@ -727,5 +797,38 @@ const tableData = [
   background: rgba(250, 173, 20, 0.1);
   color: #faad14;
   border: 1px solid #faad14;
+}
+
+.notify-history {
+  margin-top: 4px;
+  padding-left: 88px;  /* 與上方 label 的 min-width 對齊 */
+}
+
+:deep(.notify-history .ant-btn-link) {
+  padding: 0;
+  height: 20px;
+  line-height: 20px;
+}
+
+:deep(.ant-modal-content) {
+  background-color: #141414;
+  border: 1px solid #303030;
+}
+
+:deep(.ant-modal-header) {
+  background-color: #1f1f1f;
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-modal-title) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-modal-close) {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+:deep(.ant-modal-close:hover) {
+  color: rgba(255, 255, 255, 0.85);
 }
 </style> 
