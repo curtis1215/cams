@@ -6,11 +6,11 @@
     style="width: 100%"
     @update:value="$emit('update:modelValue', $event)"
   >
-    <a-select-option value="submitted">{{ t('statusSubmitted') }}</a-select-option>
-    <a-select-option value="onChain">{{ t('statusOnChain') }}</a-select-option>
-    <a-select-option value="confirming">{{ t('statusConfirming') }}</a-select-option>
-    <a-select-option value="completed">{{ t('statusCompleted') }}</a-select-option>
-    <a-select-option value="failed">{{ t('statusFailed') }}</a-select-option>
+    <a-select-option value="pending">{{ t('pending') }}</a-select-option>
+    <a-select-option value="processing">{{ t('processing') }}</a-select-option>
+    <a-select-option value="manualConfirm">{{ t('manualConfirm') }}</a-select-option>
+    <a-select-option value="success">{{ t('success') }}</a-select-option>
+    <a-select-option value="failed">{{ t('failed') }}</a-select-option>
   </a-select>
 </template>
 
@@ -27,4 +27,4 @@ defineProps({
 })
 
 defineEmits(['update:modelValue'])
-</script> 
+</script>

@@ -170,7 +170,7 @@
   "auditReason": "審核原因",
   "auditStatus": "審核狀態",
   "transferStatus": "轉帳狀態",
-  "pending": "待審核",
+  "pending": "待處理",
   "onChain": "上鏈",
   "confirming": "確認中",
   "successful": "成功",
@@ -220,5 +220,15 @@
   "statusNotify": "狀態通知",
   "pleaseInputWalletId": "請輸入錢包ID",
   "pleaseInputRelatedOrderId": "請輸入關聯訂單號",
-  "relatedOrderId": "關聯訂單號"
-} 
+  "relatedOrderId": "關聯訂單號",
+  "transferType": "轉帳類型",
+  "pleaseSelectTransferType": "請選擇轉帳類型",
+  "deposit": "充值",
+  "withdraw": "提幣",
+  "collection": "歸集",
+  "exchange": "兌幣",
+  "replenish": "補充",
+  "manual": "人工",
+  "manualConfirm": "人工確認",
+  "success": "成功"
+}

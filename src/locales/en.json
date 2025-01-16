@@ -211,5 +211,17 @@
   "retrying": "Retrying",
   "retry": "Retry",
   "waiting": "Waiting",
-  "processing": "Processing"
-} 
+  "processing": "Processing",
+  "transferType": "Transfer Type",
+  "pleaseSelectTransferType": "Please select transfer type",
+  "deposit": "Deposit",
+  "withdraw": "Withdraw",
+  "collection": "Collection",
+  "exchange": "Exchange",
+  "replenish": "Replenish",
+  "manual": "Manual",
+  "relatedOrderId": "Related Order ID",
+  "pleaseInputWalletId": "Please input wallet ID",
+  "pleaseInputRelatedOrderId": "Please input related order ID",
+  "manualConfirm": "Manual Confirm"
+}
