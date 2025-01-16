@@ -68,19 +68,20 @@
         :data-source="tableData"
         :pagination="pagination"
         :bordered="true"
+        :scroll="{ x: 1500 }"
         @change="handleTableChange"
       >
-        <template #bodyCell="{ column, text, record }">
+        <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'transferId'">
-            {{ text }}
+            {{ record.transferId }}
           </template>
           
           <template v-else-if="column.key === 'txHash'">
             <div class="hash-container">
-              <span>{{ text }}</span>
+              <span>{{ formatTxHash(record.txHash) }}</span>
               <div class="icon-group">
-                <copy-outlined class="action-icon" @click="copyTxHash(text)" />
-                <link-outlined class="action-icon" @click="openTxHashLink(text)" />
+                <copy-outlined class="action-icon" @click="copyTxHash(record.txHash)" />
+                <link-outlined class="action-icon" @click="openTxHashLink(record.txHash)" />
               </div>
             </div>
           </template>
@@ -109,26 +110,70 @@
           </template>
 
           <template v-else-if="column.key === 'transferType'">
-            <div>
-              <div>{{ t(record.transferType.type) }}</div>
-              <a-button type="link" class="order-link" @click="handleOrderClick(record.transferType.orderId)">
-                {{ record.transferType.orderId }}
+            <template v-if="['manualOut', 'manualIn', 'systemError'].includes(record.transferType.type)">
+              <a-button type="link" @click="showReason(record)">
+                {{ t(record.transferType.type) }}
               </a-button>
-            </div>
+            </template>
+            <template v-else>
+              <div class="transfer-type-container">
+                <div class="type-text">{{ t(record.transferType.type) }}</div>
+                <div v-if="['deposit', 'withdraw', 'collection', 'exchange', 'replenish', 'manual'].includes(record.transferType.type)" 
+                  class="order-id"
+                >
+                  {{ record.transferType.orderId }}
+                </div>
+              </div>
+            </template>
           </template>
 
           <template v-else-if="column.key === 'action'">
             <a-button 
-              v-if="record.status === 'manualConfirm'"
+              v-if="record.transferType.type === 'pendingConfirm'"
               type="link" 
-              @click="handleStatusSetting(record)"
+              @click="handleTypeChange(record)"
             >
-              {{ t('changeStatus') }}
+              {{ t('changeType') }}
             </a-button>
           </template>
         </template>
       </a-table>
     </a-card>
+
+    <a-modal
+      v-model:open="typeChangeModalVisible"
+      :title="t('changeTransferType')"
+      @ok="handleTypeChangeConfirm"
+      @cancel="handleTypeChangeCancel"
+    >
+      <a-form :model="typeChangeForm" layout="vertical">
+        <a-form-item :label="t('transferType')" required>
+          <a-select
+            v-model:value="typeChangeForm.type"
+            :placeholder="t('pleaseSelectTransferType')"
+          >
+            <a-select-option value="manualOut">{{ t('manualOut') }}</a-select-option>
+            <a-select-option value="manualIn">{{ t('manualIn') }}</a-select-option>
+            <a-select-option value="systemError">{{ t('systemError') }}</a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item :label="t('reason')" required>
+          <a-textarea
+            v-model:value="typeChangeForm.reason"
+            :placeholder="t('pleaseInputReason')"
+            :rows="4"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <a-modal
+      v-model:open="reasonModalVisible"
+      :title="t('transferTypeReason')"
+      :footer="null"
+    >
+      <p>{{ currentReason }}</p>
+    </a-modal>
   </div>
 </template>
 
@@ -193,7 +238,7 @@ const columns = computed(() => [
     title: t('transferType'),
     dataIndex: 'transferType',
     key: 'transferType',
-    width: 200,
+    width: 200
   },
   {
     title: t('transferAmount'),
@@ -224,7 +269,7 @@ const columns = computed(() => [
     title: t('action'),
     key: 'action',
     fixed: 'right',
-    width: 100,
+    width: 120
   }
 ])
 
@@ -253,6 +298,11 @@ const getStatusText = (status) => {
   return statusMap[status] || status
 }
 
+const formatTxHash = (hash) => {
+  if (!hash) return ''
+  return `${hash.slice(0, 6)}****${hash.slice(-6)}`
+}
+
 const copyTxHash = async (txHash) => {
   try {
     await navigator.clipboard.writeText(txHash)
@@ -277,6 +327,53 @@ const handleOrderClick = (orderId) => {
   console.log('Click order:', orderId)
 }
 
+// 類型變更相關
+const typeChangeModalVisible = ref(false)
+const typeChangeForm = ref({
+  type: undefined,
+  reason: '',
+  recordId: null
+})
+
+const handleTypeChange = (record) => {
+  typeChangeForm.value.recordId = record.key
+  typeChangeForm.value.type = undefined
+  typeChangeForm.value.reason = ''
+  typeChangeModalVisible.value = true
+}
+
+const handleTypeChangeConfirm = () => {
+  if (!typeChangeForm.value.type) {
+    message.error(t('pleaseSelectTransferType'))
+    return
+  }
+  if (!typeChangeForm.value.reason.trim()) {
+    message.error(t('pleaseInputReason'))
+    return
+  }
+  
+  // TODO: 調用API更新轉賬類型
+  console.log('Change type for record:', typeChangeForm.value)
+  
+  message.success(t('updateSuccess'))
+  typeChangeModalVisible.value = false
+}
+
+const handleTypeChangeCancel = () => {
+  typeChangeModalVisible.value = false
+}
+
+// 原因查看相關
+const reasonModalVisible = ref(false)
+const currentReason = ref('')
+
+const showReason = (record) => {
+  if (['manualOut', 'manualIn', 'systemError'].includes(record.transferType.type)) {
+    currentReason.value = record.transferType.reason || t('noReasonProvided')
+    reasonModalVisible.value = true
+  }
+}
+
 // 模擬表格數據
 const tableData = [
   {
@@ -285,11 +382,11 @@ const tableData = [
     fromWalletId: 'W202403150001',
     toWalletId: 'W202403150002',
     transferType: {
-      type: 'deposit',
-      orderId: 'D202403150001'
+      type: 'pendingConfirm',
+      orderId: null
     },
     amount: '1000.00000000',
-    status: 'manualConfirm',
+    status: 'processing',
     txHash: '0x1234567890abcdef1234567890abcdef12345678',
     createTime: '2024-03-15 10:00:00',
     onChainTime: '2024-03-15 10:01:00',
@@ -301,15 +398,16 @@ const tableData = [
     fromWalletId: 'W202403150003',
     toWalletId: 'W202403150004',
     transferType: {
-      type: 'withdraw',
-      orderId: 'W202403150001'
+      type: 'manualOut',
+      orderId: 'M202403150001',
+      reason: '餘額不足，需要人工處理'
     },
-    amount: '2000.00000000',
-    status: 'processing',
+    amount: '500.00000000',
+    status: 'success',
     txHash: '0x2345678901abcdef2345678901abcdef23456789',
-    createTime: '2024-03-15 09:00:00',
-    onChainTime: '2024-03-15 09:01:00',
-    successTime: null
+    createTime: '2024-03-15 09:30:00',
+    onChainTime: '2024-03-15 09:31:00',
+    successTime: '2024-03-15 09:35:00'
   },
   {
     key: '3',
@@ -317,15 +415,16 @@ const tableData = [
     fromWalletId: 'W202403150005',
     toWalletId: 'W202403150006',
     transferType: {
-      type: 'collection',
-      orderId: 'C202403150001'
+      type: 'manualIn',
+      orderId: 'M202403150002',
+      reason: '系統自動轉入失敗，改為人工處理'
     },
-    amount: '3000.00000000',
-    status: 'pending',
+    amount: '800.00000000',
+    status: 'success',
     txHash: '0x3456789012abcdef3456789012abcdef34567890',
-    createTime: '2024-03-15 08:00:00',
-    onChainTime: null,
-    successTime: null
+    createTime: '2024-03-15 09:00:00',
+    onChainTime: '2024-03-15 09:01:00',
+    successTime: '2024-03-15 09:05:00'
   },
   {
     key: '4',
@@ -333,14 +432,15 @@ const tableData = [
     fromWalletId: 'W202403150007',
     toWalletId: 'W202403150008',
     transferType: {
-      type: 'exchange',
-      orderId: 'E202403150001'
+      type: 'systemError',
+      orderId: 'M202403150003',
+      reason: '網絡超時，交易失敗'
     },
-    amount: '4000.00000000',
+    amount: '300.00000000',
     status: 'failed',
     txHash: '0x4567890123abcdef4567890123abcdef45678901',
-    createTime: '2024-03-15 07:00:00',
-    onChainTime: '2024-03-15 07:02:00',
+    createTime: '2024-03-15 08:30:00',
+    onChainTime: '2024-03-15 08:32:00',
     successTime: null
   },
   {
@@ -349,8 +449,8 @@ const tableData = [
     fromWalletId: 'W202403150009',
     toWalletId: 'W202403150010',
     transferType: {
-      type: 'replenish',
-      orderId: 'R202403150001'
+      type: 'deposit',
+      orderId: 'D202403150001'
     },
     amount: '5000.00000000',
     status: 'success',
@@ -365,8 +465,8 @@ const tableData = [
     fromWalletId: 'W202403150011',
     toWalletId: 'W202403150012',
     transferType: {
-      type: 'manual',
-      orderId: 'M202403150001'
+      type: 'withdraw',
+      orderId: 'W202403150001'
     },
     amount: '6000.00000000',
     status: 'processing',
@@ -381,8 +481,8 @@ const tableData = [
     fromWalletId: 'W202403150013',
     toWalletId: 'W202403150014',
     transferType: {
-      type: 'deposit',
-      orderId: 'D202403150002'
+      type: 'collection',
+      orderId: 'C202403150001'
     },
     amount: '7000.00000000',
     status: 'pending',
@@ -397,8 +497,8 @@ const tableData = [
     fromWalletId: 'W202403150015',
     toWalletId: 'W202403150016',
     transferType: {
-      type: 'withdraw',
-      orderId: 'W202403150002'
+      type: 'exchange',
+      orderId: 'E202403150001'
     },
     amount: '8000.00000000',
     status: 'failed',
@@ -413,8 +513,8 @@ const tableData = [
     fromWalletId: 'W202403150017',
     toWalletId: 'W202403150018',
     transferType: {
-      type: 'collection',
-      orderId: 'C202403150002'
+      type: 'replenish',
+      orderId: 'R202403150001'
     },
     amount: '9000.00000000',
     status: 'success',
@@ -429,8 +529,8 @@ const tableData = [
     fromWalletId: 'W202403150019',
     toWalletId: 'W202403150020',
     transferType: {
-      type: 'exchange',
-      orderId: 'E202403150002'
+      type: 'manual',
+      orderId: 'M202403150002'
     },
     amount: '10000.00000000',
     status: 'processing',
@@ -438,38 +538,6 @@ const tableData = [
     createTime: '2024-03-15 01:00:00',
     onChainTime: '2024-03-15 01:01:00',
     successTime: null
-  },
-  {
-    key: '11',
-    transferId: 'T202403150011',
-    fromWalletId: 'W202403150021',
-    toWalletId: 'W202403150022',
-    transferType: {
-      type: 'replenish',
-      orderId: 'R202403150002'
-    },
-    amount: '11000.00000000',
-    status: 'manualConfirm',
-    txHash: '0xabcdef0123456789abcdef0123456789abcdef01',
-    createTime: '2024-03-15 00:00:00',
-    onChainTime: '2024-03-15 00:01:00',
-    successTime: null
-  },
-  {
-    key: '12',
-    transferId: 'T202403150012',
-    fromWalletId: 'W202403150023',
-    toWalletId: 'W202403150024',
-    transferType: {
-      type: 'manual',
-      orderId: 'M202403150002'
-    },
-    amount: '12000.00000000',
-    status: 'success',
-    txHash: '0xbcdef0123456789abcdef0123456789abcdef012',
-    createTime: '2024-03-14 23:00:00',
-    onChainTime: '2024-03-14 23:01:00',
-    successTime: '2024-03-14 23:05:00'
   }
 ]
 </script>
@@ -628,10 +696,16 @@ const tableData = [
 :deep(.ant-table-thead > tr > th) {
   background: #1f1f1f;
   border-bottom: 1px solid #303030;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 :deep(.ant-table-tbody > tr > td) {
+  background: transparent;
   border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
+  background: rgba(255, 255, 255, 0.08);
 }
 
 :deep(.ant-pagination-item-link) {
@@ -648,13 +722,23 @@ const tableData = [
   border-color: #177ddc !important;
 }
 
-:deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
-  background: rgba(255, 255, 255, 0.08);
+.transfer-type-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
-.order-link {
-  padding: 0;
-  height: auto;
-  line-height: 1.5;
+.type-text {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.order-id {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 2px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  border: 1px solid #303030;
 }
 </style>

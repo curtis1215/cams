@@ -80,8 +80,8 @@
   "enable": "Enable",
   "disable": "Disable",
   "action": "Action",
-  "copySuccess": "Copy Success",
-  "copyFailed": "Copy Failed",
+  "copySuccess": "Copied successfully",
+  "copyFailed": "Copy failed",
   "walletDetail": "Wallet Detail",
   "walletInfo": "Wallet Information",
   "basicInfo": "Basic Information",
@@ -249,5 +249,16 @@
   "totalItems": "Total {total} items",
   "detailId": "Detail ID",
   "feeCurrency": "Fee Currency",
-  "feeAmount": "Fee Amount"
+  "feeAmount": "Fee Amount",
+  "pendingConfirm": "Pending Confirmation",
+  "manualOut": "Manual Transfer Out",
+  "manualIn": "Manual Transfer In",
+  "systemError": "System Error",
+  "changeTransferType": "Change Transfer Type",
+  "transferTypeReason": "Transfer Type Reason",
+  "reason": "Reason",
+  "pleaseInputReason": "Please input reason",
+  "noReasonProvided": "No reason provided",
+  "changeType": "Change Type",
+  "updateSuccess": "Update successful"
 }

@@ -11,6 +11,10 @@
     <a-select-option value="exchange">{{ t('exchange') }}</a-select-option>
     <a-select-option value="replenish">{{ t('replenish') }}</a-select-option>
     <a-select-option value="manual">{{ t('manual') }}</a-select-option>
+    <a-select-option value="pendingConfirm">{{ t('pendingConfirm') }}</a-select-option>
+    <a-select-option value="manualOut">{{ t('manualOut') }}</a-select-option>
+    <a-select-option value="manualIn">{{ t('manualIn') }}</a-select-option>
+    <a-select-option value="systemError">{{ t('systemError') }}</a-select-option>
   </a-select>
 </template>
 
