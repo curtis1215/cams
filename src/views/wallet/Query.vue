@@ -7,13 +7,25 @@
       </template>
       <a-form layout="inline" :model="queryParams" class="query-form">
         <a-form-item :label="t('common.merchant')" class="form-item">
-          <merchant-select v-model="queryParams.merchant" :style="{ width: '180px' }" />
+          <merchant-select 
+            v-model="queryParams.merchant" 
+            :placeholder="t('common.prompt.selectMerchant')"
+            :style="{ width: '180px' }" 
+          />
         </a-form-item>
         <a-form-item :label="t('common.chainType')" class="form-item">
-          <chain-type-select v-model="queryParams.chainType" :style="{ width: '180px' }" />
+          <chain-type-select 
+            v-model="queryParams.chainType" 
+            :placeholder="t('common.prompt.selectChainType')"
+            :style="{ width: '180px' }" 
+          />
         </a-form-item>
         <a-form-item :label="t('common.currency')" class="form-item">
-          <currency-select v-model="queryParams.currency" :style="{ width: '180px' }" />
+          <currency-select 
+            v-model="queryParams.currency" 
+            :placeholder="t('common.prompt.selectCurrency')"
+            :style="{ width: '180px' }" 
+          />
         </a-form-item>
         <a-form-item :label="t('common.address')" class="form-item">
           <a-input
@@ -140,7 +152,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchOutlined, ReloadOutlined, CopyOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
@@ -149,18 +161,17 @@ import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
+import mockData from './query.mock.json'
 
 const { t } = useI18n()
 
 const router = useRouter()
 
 // 查詢參數
-const queryParams = reactive({
-  merchant: 'all',
-  userId: '',
-  walletType: undefined,
+const queryParams = ref({
+  merchant: undefined,
   chainType: undefined,
-  status: 'enabled',
+  currency: undefined,
   address: ''
 })
 
@@ -169,22 +180,6 @@ const statusOptions = [
   { value: 'enabled', label: t('common.status.enabled') },
   { value: 'disabled', label: t('common.status.disabled') }
 ]
-
-// 查詢方法
-const handleQuery = () => {
-  console.log('查詢參數:', queryParams)
-  // 這裡添加查詢邏輯
-}
-
-// 重置方法
-const handleReset = () => {
-  queryParams.merchant = 'all'
-  queryParams.userId = ''
-  queryParams.walletType = undefined
-  queryParams.chainType = undefined
-  queryParams.status = 'enabled'
-  queryParams.address = ''
-}
 
 // 表格列配置
 const columns = [
@@ -210,7 +205,8 @@ const columns = [
     title: t('wallet.typeLabel'),
     dataIndex: 'walletType',
     key: 'walletType',
-    width: 150
+    width: 150,
+    customRender: ({ text }) => t(text)
   },
   {
     title: t('common.chainType'),
@@ -238,388 +234,90 @@ const columns = [
     align: 'right'
   },
   {
-    title: t('common.status'),
+    title: t('common.status.label'),
     dataIndex: 'status',
     key: 'status',
     width: 100
   },
   {
-    title: t('common.action'),
+    title: t('common.action.action'),
     key: 'action',
     width: 150,
     fixed: 'right'
   }
 ]
 
-// 模擬表格數據
-const tableData = ref([
-  {
-    key: '1',
-    walletId: 'U12345678',
-    merchant: 'Fameex',
-    userId: 'U123456',
-    walletType: t('wallet.walletType.user'),
-    chainType: 'ETH',
-    currency: 'USDT',
-    address: '0x1234567890abcdef1234567890abcdef12345678',
-    assetValue: '1234567890123.45678900',
-    lastTransactionTime: '2024-03-15 10:30:25',
-    isDisabled: false,
-  },
-  {
-    key: '2',
-    walletId: 'M87654321',
-    merchant: 'Fameex',
-    userId: 'U234567',
-    walletType: t('wallet.walletType.collection'),
-    chainType: 'BTC',
-    currency: 'BTC',
-    address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-    assetValue: '123456789.12345678',
-    lastTransactionTime: '2024-03-15 09:45:12',
-    isDisabled: true,
-  },
-  {
-    key: '3',
-    walletId: 'P98765432',
-    merchant: 'Fameex',
-    userId: 'U345678',
-    walletType: t('wallet.walletType.withdrawal'),
-    chainType: 'TRON',
-    currency: 'TRX',
-    address: 'TRX1234567890abcdef1234567890abcdef12345678',
-    assetValue: '12345678.12345678',
-    lastTransactionTime: '2024-03-15 11:20:33',
-    isDisabled: false,
-  },
-  {
-    key: '4',
-    walletId: 'W45678901',
-    merchant: 'Fameex',
-    userId: 'U456789',
-    walletType: t('wallet.walletType.transfer'),
-    chainType: 'EOS',
-    currency: 'EOS',
-    address: 'eosio.token',
-    assetValue: '1234567.12345678',
-    lastTransactionTime: '2024-03-15 08:15:45',
-    isDisabled: false,
-  },
-  {
-    key: '5',
-    walletId: 'U567890',
-    merchant: 'Fameex',
-    userId: 'U567890',
-    walletType: t('wallet.walletType.user'),
-    chainType: 'ETH',
-    currency: 'USDT',
-    address: '0xabcdef1234567890abcdef1234567890abcdef12',
-    assetValue: '7531.24680000',
-    lastTransactionTime: '2024-03-15 13:40:18',
-    isDisabled: false,
-  },
-  {
-    key: '6',
-    walletId: 'M678901',
-    merchant: 'CNX',
-    userId: 'U678901',
-    walletType: t('wallet.walletType.collection'),
-    chainType: 'BTC',
-    currency: 'BTC',
-    address: 'bc1qabcdefghijklmnopqrstuvwxyz0123456789',
-    assetValue: '8642.97531000',
-    lastTransactionTime: '2024-03-15 14:55:27',
-    isDisabled: false,
-  },
-  {
-    key: '7',
-    walletId: 'P789012',
-    merchant: 'Fameex',
-    userId: 'U789012',
-    walletType: t('wallet.walletType.withdrawal'),
-    chainType: 'TRON',
-    currency: 'TRX',
-    address: 'TRXabcdef1234567890abcdef1234567890abcdef',
-    assetValue: '1357.24680000',
-    lastTransactionTime: '2024-03-15 15:10:42',
-    isDisabled: true,
-  },
-  {
-    key: '8',
-    walletId: 'W890123',
-    merchant: 'CNX',
-    userId: 'U890123',
-    walletType: t('wallet.walletType.transfer'),
-    chainType: 'EOS',
-    currency: 'EOS',
-    address: 'cryptopool.x',
-    assetValue: '9876.54321000',
-    lastTransactionTime: '2024-03-15 16:25:33',
-    isDisabled: false,
-  },
-  {
-    key: '9',
-    walletId: 'U901234',
-    merchant: 'Fameex',
-    userId: 'U901234',
-    walletType: t('wallet.walletType.user'),
-    chainType: 'ETH',
-    currency: 'USDT',
-    address: '0x9876543210abcdef9876543210abcdef98765432',
-    assetValue: '4567.89012000',
-    lastTransactionTime: '2024-03-15 17:30:15',
-    isDisabled: false,
-  },
-  {
-    key: '10',
-    walletId: 'M012345',
-    merchant: 'CNX',
-    userId: 'U012345',
-    walletType: t('wallet.walletType.collection'),
-    chainType: 'BTC',
-    currency: 'BTC',
-    address: 'bc1q9876543210abcdef9876543210abcdef987654',
-    assetValue: '6789.01234000',
-    lastTransactionTime: '2024-03-15 18:45:55',
-    isDisabled: false,
-  },
-  {
-    key: '11',
-    walletId: 'P112233',
-    merchant: 'Fameex',
-    userId: 'U112233',
-    walletType: t('wallet.walletType.withdrawal'),
-    chainType: 'TRON',
-    currency: 'TRX',
-    address: 'TRX9876543210abcdef9876543210abcdef987654',
-    assetValue: '3456.78901000',
-    lastTransactionTime: '2024-03-15 19:20:40',
-    isDisabled: false,
-  },
-  {
-    key: '12',
-    walletId: 'W445566',
-    merchant: 'CNX',
-    userId: 'U445566',
-    walletType: t('wallet.walletType.transfer'),
-    chainType: 'EOS',
-    currency: 'EOS',
-    address: 'wallet.pool',
-    assetValue: '8901.23456000',
-    lastTransactionTime: '2024-03-15 20:35:22',
-    isDisabled: true,
-  },
-  {
-    key: '13',
-    walletId: 'U778899',
-    merchant: 'Fameex',
-    userId: 'U778899',
-    walletType: t('wallet.walletType.user'),
-    chainType: 'ETH',
-    currency: 'USDT',
-    address: '0x5544332211abcdef5544332211abcdef55443322',
-    assetValue: '2345.67890000',
-    lastTransactionTime: '2024-03-15 21:50:18',
-    isDisabled: false,
-  },
-  {
-    key: '14',
-    walletId: 'M998877',
-    merchant: 'CNX',
-    userId: 'U998877',
-    walletType: t('wallet.walletType.collection'),
-    chainType: 'BTC',
-    currency: 'BTC',
-    address: 'bc1q5544332211abcdef5544332211abcdef554433',
-    assetValue: '7890.12345000',
-    lastTransactionTime: '2024-03-15 22:15:30',
-    isDisabled: false,
-  },
-  {
-    key: '15',
-    walletId: 'P665544',
-    merchant: 'Fameex',
-    userId: 'U665544',
-    walletType: t('wallet.walletType.withdrawal'),
-    chainType: 'TRON',
-    currency: 'TRX',
-    address: 'TRX5544332211abcdef5544332211abcdef554433',
-    assetValue: '4321.09876000',
-    lastTransactionTime: '2024-03-15 23:30:45',
-    isDisabled: false,
-  },
-  {
-    key: '16',
-    walletId: 'W332211',
-    merchant: 'CNX',
-    userId: 'U332211',
-    walletType: t('wallet.walletType.transfer'),
-    chainType: 'EOS',
-    currency: 'EOS',
-    address: 'pool.crypto',
-    assetValue: '9012.34567000',
-    lastTransactionTime: '2024-03-16 00:45:20',
-    isDisabled: true,
-  },
-  {
-    key: '17',
-    walletId: 'U114477',
-    merchant: 'Fameex',
-    userId: 'U114477',
-    walletType: t('wallet.walletType.user'),
-    chainType: 'ETH',
-    currency: 'USDT',
-    address: '0x1122334455abcdef1122334455abcdef11223344',
-    assetValue: '5678.90123000',
-    lastTransactionTime: '2024-03-16 01:55:15',
-    isDisabled: false,
-  },
-  {
-    key: '18',
-    walletId: 'M229988',
-    merchant: 'CNX',
-    userId: 'U229988',
-    walletType: t('wallet.walletType.collection'),
-    chainType: 'BTC',
-    currency: 'BTC',
-    address: 'bc1q1122334455abcdef1122334455abcdef112233',
-    assetValue: '6789.01234000',
-    lastTransactionTime: '2024-03-16 02:10:33',
-    isDisabled: false,
-  },
-  {
-    key: '19',
-    walletId: 'P337755',
-    merchant: 'Fameex',
-    userId: 'U337755',
-    walletType: t('wallet.walletType.withdrawal'),
-    chainType: 'TRON',
-    currency: 'TRX',
-    address: 'TRX1122334455abcdef1122334455abcdef112233',
-    assetValue: '3456.78901000',
-    lastTransactionTime: '2024-03-16 03:25:48',
-    isDisabled: false,
-  },
-  {
-    key: '20',
-    walletId: 'W446688',
-    merchant: 'CNX',
-    userId: 'U446688',
-    walletType: t('wallet.walletType.transfer'),
-    chainType: 'EOS',
-    currency: 'EOS',
-    address: 'crypto.bank',
-    assetValue: '8901.23456000',
-    lastTransactionTime: '2024-03-16 04:40:55',
-    isDisabled: true,
-  }
-])
+// 表格數據
+const tableData = ref(mockData.walletList)
 
-// 格式化數字並添加顏色標記
-const formatNumberWithColor = (value) => {
-  const parts = Number(value).toFixed(8).split('.')
-  const integerPart = parts[0]
-  
-  // 添加千分位並分段上色
-  const segments = []
-  let remaining = integerPart
-  
-  // 從後往前每三位分段
-  while (remaining.length > 0) {
-    const segment = remaining.slice(-3)
-    segments.unshift(segment)
-    remaining = remaining.slice(0, -3)
-  }
-
-  // 根據分段數量決定顏色
-  const coloredSegments = segments.map((segment, index) => {
-    const segmentCount = segments.length
-    let colorClass = 'digit-4'
-    
-    if (segmentCount >= 4 && index === 0) {
-      colorClass = 'digit-12'  // 第一段（最高位）使用紅色
-    } else if (segmentCount >= 3 && index <= segmentCount - 3) {
-      colorClass = 'digit-8'   // 中間段使用橙色
-    }
-    
-    return `<span class="${colorClass}">${segment}</span>`
+// 處理查詢
+const handleQuery = () => {
+  // 在實際應用中，這裡會調用API
+  console.log('Query with params:', queryParams.value)
+  // 模擬過濾數據
+  const filteredData = mockData.walletList.filter(item => {
+    if (queryParams.value.merchant && item.merchant !== queryParams.value.merchant) return false
+    if (queryParams.value.chainType && item.chainType !== queryParams.value.chainType) return false
+    if (queryParams.value.currency && item.currency !== queryParams.value.currency) return false
+    if (queryParams.value.address && !item.address.toLowerCase().includes(queryParams.value.address.toLowerCase())) return false
+    return true
   })
-
-  // 組合千分位分隔符
-  const formattedInteger = coloredSegments.join('<span class="separator">,</span>')
-  
-  return formattedInteger + `<span class="decimal">.${parts[1]}</span>`
+  tableData.value = filteredData
 }
 
-// 修改詳情按鈕處理方法
-const handleDetail = (record) => {
-  router.push({
-    name: 'WalletDetail',
-    query: {
-      address: record.address,
-      chainType: record.chain
-    }
-  })
-}
-
-const handleTransfer = (record) => {
-  console.log('轉帳:', record)
-  // 實現轉帳邏輯
+// 處理表格變更
+const handleTableChange = (pagination, filters, sorter) => {
+  console.log('Table change:', { pagination, filters, sorter })
 }
 
 // 格式化地址顯示
 const formatAddress = (address) => {
   if (!address) return ''
-  if (address.length <= 8) return address
-  return `${address.slice(0, 4)}******${address.slice(-4)}`
+  return address.length > 12 ? `${address.slice(0, 6)}...${address.slice(-6)}` : address
 }
 
 // 複製地址
 const copyAddress = async (address) => {
   try {
     await navigator.clipboard.writeText(address)
-    message.success(t('prompt.copySuccess'))
+    message.success(t('common.copySuccess'))
   } catch (err) {
-    message.error(t('prompt.copyFailed'))
+    message.error(t('common.copyFailed'))
   }
 }
 
-// 添加錢包ID生成邏輯
-const generateWalletId = (type) => {
-  const randomNum = Math.floor(Math.random() * 100000000).toString().padStart(8, '0')
-  switch (type) {
-    case 'userWallet':
-      return `U${randomNum}`
-    case 'collectionWallet':
-      return `M${randomNum}`
-    case 'withdrawalWallet':
-      return `P${randomNum}`
-    case 'transferWallet':
-      return `W${randomNum}`
-    default:
-      return `U${randomNum}`
+// 格式化數字顯示（帶顏色）
+const formatNumberWithColor = (value) => {
+  if (!value) return '0.00000000'
+  
+  const [intPart, decimalPart] = value.split('.')
+  const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  
+  let digitClass = 'digit-4'
+  if (intPart.length >= 12) {
+    digitClass = 'digit-12'
+  } else if (intPart.length >= 8) {
+    digitClass = 'digit-8'
   }
+  
+  return `<span class="${digitClass}">${formattedInt}</span><span class="decimal">.${decimalPart || '00000000'}</span>`
 }
 
-// 生成更多模擬數據時使用
-const generateMoreData = () => {
-  return {
-    // ... 其他欄位
-    walletId: generateWalletId(walletType),  // 根據錢包類型生成對應ID
-    // ... 其他欄位
-  }
+// 處理詳情按鈕點擊
+const handleDetail = (record) => {
+  console.log('View detail:', record)
+  // TODO: 實現查看詳情功能
 }
 
-// 添加表格變化處理方法
-const handleTableChange = (pagination, filters, sorter) => {
-  if (sorter.field === 'assetValue') {
-    // 將字符串轉換為數字進行排序
-    tableData.value = [...tableData.value].sort((a, b) => {
-      const aValue = parseFloat(a.assetValue)
-      const bValue = parseFloat(b.assetValue)
-      return sorter.order === 'ascend' ? aValue - bValue : bValue - aValue
-    })
-  }
+// 處理轉賬按鈕點擊
+const handleTransfer = (record) => {
+  console.log('Transfer:', record)
+  // TODO: 實現轉賬功能
+}
+
+// 顯示添加錢包彈窗
+const showAddWalletModal = () => {
+  addWalletModalVisible.value = true
 }
 
 // 新增錢包相關
@@ -637,15 +335,10 @@ const addWalletForm = reactive({
 
 // 表單驗證規則
 const addWalletRules = {
-  chainType: [{ required: true, message: t('pleaseSelectChainType') }],
-  currency: [{ required: true, message: t('pleaseSelectCurrency') }],
-  walletType: [{ required: true, message: t('pleaseSelectWalletType') }],
-  address: [{ required: true, message: t('pleaseInputAddress'), trigger: 'blur' }],
-}
-
-// 顯示新增錢包彈窗
-const showAddWalletModal = () => {
-  addWalletModalVisible.value = true
+  chainType: [{ required: true, message: t('common.prompt.selectChainType') }],
+  currency: [{ required: true, message: t('common.prompt.selectCurrency') }],
+  walletType: [{ required: true, message: t('common.prompt.selectWalletType') }],
+  address: [{ required: true, message: t('common.prompt.inputAddress'), trigger: 'blur' }],
 }
 
 // 處理錢包類型變更

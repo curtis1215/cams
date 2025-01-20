@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="$t('prompt.selectWalletType')"
+    :placeholder="$t('common.prompt.selectWalletType')"
     :style="style"
     allow-clear
     @change="handleChange"
@@ -33,10 +33,10 @@ const emit = defineEmits(['update:modelValue', 'change'])
 
 // 錢包類型選項
 const walletTypes = [
-  { value: 'user', label: t('wallet.user') },
-  { value: 'collection', label: t('wallet.collection') },
-  { value: 'withdrawal', label: t('wallet.withdrawal') },
-  { value: 'transfer', label: t('wallet.transfer') }
+  { value: 'user', label: t('wallet.walletType.user') },
+  { value: 'collection', label: t('wallet.walletType.collection') },
+  { value: 'withdrawal', label: t('wallet.walletType.withdrawal') },
+  { value: 'transfer', label: t('wallet.walletType.transfer') }
 ]
 
 // 處理選擇變更

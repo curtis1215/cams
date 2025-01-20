@@ -17,6 +17,13 @@
     "dashboard.* - Dashboard related"
   ],
   "// 5. Sorting Rules": "Sort by module prefix alphabetically, within modules sort by logical relevance",
+  "// 6. Duplicate Key Prevention": [
+    "a. Never create duplicate translation keys",
+    "b. When similar translation is needed, first check if an existing key can be reused",
+    "c. If existing key has slightly different context/meaning, create a new key with a distinct name",
+    "d. For status/actions, prefer using common.status.* or common.action.* unless module-specific context is required",
+    "e. Document any module-specific variations (e.g., wallet.status vs common.status) with clear justification"
+  ],
 
   "common": {
     "merchant": "Merchant",
@@ -32,8 +39,8 @@
     "lightMode": "Light",
     "walletId": "Wallet ID",
     "assetValue": "Asset Value",
-    "action": "Action",
     "status": {
+      "label": "Status",
       "processing": "Processing",
       "waiting": "Waiting",
       "success": "Success",
@@ -73,6 +80,11 @@
       "pending": "Pending Review",
       "approved": "Approved",
       "rejected": "Rejected"
+    },
+    "prompt": {
+      "selectMerchant": "Please Select Merchant",
+      "selectChainType": "Please Select Chain Type",
+      "selectCurrency": "Please Select Currency"
     }
   },
 
@@ -160,7 +172,9 @@
       "changeType": "Change Type",
       "changeStatus": "Change Status",
       "pleaseInputDownloadReason": "Please Input Download Reason",
-      "pleaseInputChangeReason": "Please Input Change Reason"
+      "pleaseInputChangeReason": "Please Input Change Reason",
+      "selectMerchant": "Please Select Merchant",
+      "addWallet": "Add Wallet"
     },
     "changeTime": "Change Time",
     "oldType": "Original Type",

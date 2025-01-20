@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="t('prompt.selectCurrency')"
+    :placeholder="t('common.prompt.selectCurrency')"
     :style="style"
     allow-clear
     @update:value="handleChange"

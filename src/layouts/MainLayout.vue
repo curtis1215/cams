@@ -6,8 +6,8 @@
         <a-switch
           :checked="isDark"
           @change="toggleDark"
-          :checkedChildren="$t('darkMode')"
-          :unCheckedChildren="$t('lightMode')"
+          :checkedChildren="$t('common.darkMode')"
+          :unCheckedChildren="$t('common.lightMode')"
         />
         <a-select
           v-model:value="currentLocale"

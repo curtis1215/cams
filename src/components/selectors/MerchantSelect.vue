@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="$t('prompt.selectMerchant')"
+    :placeholder="$t('common.prompt.selectMerchant')"
     :style="style"
     allow-clear
     @update:value="handleChange"
@@ -33,7 +33,7 @@ const emit = defineEmits(['update:modelValue'])
 
 // 商戶選項
 const merchants = [
-  { value: 'all', label: t('field.allMerchants') },
+  { value: 'all', label: t('common.field.allMerchants') },
   { value: 'fameex', label: 'Fameex' },
   { value: 'cnx', label: 'CNX' }
 ]

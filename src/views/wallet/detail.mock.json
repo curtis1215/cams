@@ -1,0 +1,81 @@
+{
+  "walletInfo": {
+    "walletId": "W123456789",
+    "address": "0x1234567890abcdef1234567890abcdef12345678",
+    "chainType": "ETH",
+    "merchant": "Fameex",
+    "userId": "U123456",
+    "walletType": "用戶錢包",
+    "isDisabled": false
+  },
+  "privateKeyHistory": [
+    {
+      "key": "1",
+      "operator": "Admin",
+      "reason": "例行備份",
+      "time": "2024-03-15 10:30:25"
+    },
+    {
+      "key": "2",
+      "operator": "Manager",
+      "reason": "安全檢查",
+      "time": "2024-03-14 15:45:30"
+    }
+  ],
+  "typeHistory": [
+    {
+      "key": "1",
+      "operator": "Admin",
+      "reason": "業務需求調整",
+      "beforeType": "用戶錢包",
+      "afterType": "收款錢包",
+      "time": "2024-03-15 10:30:25"
+    },
+    {
+      "key": "2",
+      "operator": "Manager",
+      "reason": "系統重組",
+      "beforeType": "收款錢包",
+      "afterType": "提現錢包",
+      "time": "2024-03-14 15:45:30"
+    }
+  ],
+  "transferHistory": [
+    {
+      "key": "1",
+      "transferId": "T202403150001",
+      "fromWallet": "W123456789",
+      "toWallet": "W987654321",
+      "amount": "1000.00000000",
+      "price": "1.0000",
+      "cost": "1000.00",
+      "status": "completed",
+      "confirmations": 6,
+      "requiredConfirmations": 6,
+      "createTime": "2024-03-15 10:00:00",
+      "submitTime": "2024-03-15 10:01:00",
+      "onChainTime": "2024-03-15 10:02:00",
+      "completeTime": "2024-03-15 10:30:00",
+      "updateTime": "2024-03-15 10:30:00",
+      "remark": "正常轉帳"
+    },
+    {
+      "key": "2",
+      "transferId": "T202403150002",
+      "fromWallet": "W123456789",
+      "toWallet": "W987654321",
+      "amount": "500.00000000",
+      "price": "1.0000",
+      "cost": "500.00",
+      "status": "confirming",
+      "confirmations": 3,
+      "requiredConfirmations": 6,
+      "createTime": "2024-03-15 11:00:00",
+      "submitTime": "2024-03-15 11:01:00",
+      "onChainTime": "2024-03-15 11:02:00",
+      "completeTime": null,
+      "updateTime": "2024-03-15 11:02:00",
+      "remark": "等待確認中"
+    }
+  ]
+} 

@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="t('prompt.selectChainType')"
+    :placeholder="t('common.prompt.selectChainType')"
     show-search
     :filter-option="filterOption"
     allow-clear

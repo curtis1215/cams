@@ -6,16 +6,16 @@
         <span class="card-title">{{ $t('wallet.queryCondition') }}</span>
       </template>
       <a-form layout="inline" :model="queryParams">
-        <a-form-item :label="$t('wallet.merchant')">
+        <a-form-item :label="$t('common.merchant')">
           <merchant-select v-model="queryParams.merchant" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('wallet.chainType')">
+        <a-form-item :label="$t('common.chainType')">
           <chain-type-select v-model="queryParams.chainType" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('wallet.currency')">
+        <a-form-item :label="$t('common.currency')">
           <currency-select v-model="queryParams.currency" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('wallet.address')">
+        <a-form-item :label="$t('common.address')">
           <a-input
             v-model:value="queryParams.address"
             :placeholder="$t('wallet.prompt.pleaseInputAddress')"
@@ -26,7 +26,7 @@
         <a-form-item>
           <a-button type="primary" @click="handleQuery">
             <template #icon><SearchOutlined /></template>
-            {{ $t('wallet.action.query') }}
+            {{ $t('common.action.search') }}
           </a-button>
         </a-form-item>
       </a-form>
@@ -61,21 +61,28 @@
 
         <div class="info-item">
           <span class="info-label">
-            <ShopOutlined /> {{ $t('wallet.merchant') }}
+            <LinkOutlined /> {{ $t('common.chainType') }}
+          </span>
+          <span class="info-value">{{ walletInfo.chainType }}</span>
+        </div>
+
+        <div class="info-item">
+          <span class="info-label">
+            <ShopOutlined /> {{ $t('common.merchant') }}
           </span>
           <span class="info-value">{{ walletInfo.merchant }}</span>
         </div>
 
         <div class="info-item">
           <span class="info-label">
-            <UserOutlined /> {{ $t('wallet.userId') }}
+            <UserOutlined /> {{ $t('common.userId') }}
           </span>
           <span class="info-value">{{ walletInfo.userId }}</span>
         </div>
 
         <div class="info-item">
           <span class="info-label">
-            <AppstoreOutlined /> {{ $t('wallet.type') }}
+            <AppstoreOutlined /> {{ $t('wallet.typeLabel') }}
           </span>
           <span class="info-value wallet-type-container">
             {{ walletInfo.walletType }}
@@ -94,11 +101,11 @@
 
         <div class="info-item">
           <span class="info-label">
-            <CheckCircleOutlined /> {{ $t('wallet.status') }}
+            <CheckCircleOutlined /> {{ $t('common.status.label') }}
           </span>
           <span class="info-value wallet-status-container">
             <span :class="['status-tag', walletInfo.isDisabled ? 'status-disabled' : 'status-enabled']">
-              {{ walletInfo.isDisabled ? $t('wallet.status.disabled') : $t('wallet.status.enabled') }}
+              {{ walletInfo.isDisabled ? $t('common.status.disabled') : $t('common.status.enabled') }}
             </span>
             <a-space>
               <a-button type="primary" @click="handleChangeStatus">
@@ -206,7 +213,7 @@
 
     <!-- 私鑰下載彈窗 -->
     <a-modal
-      v-model:visible="downloadModalVisible"
+      v-model:open="downloadModalVisible"
       :title="$t('wallet.prompt.downloadPrivateKey')"
       @ok="confirmDownload"
     >
@@ -225,8 +232,8 @@
 
     <!-- 私鑰歷史記錄彈窗 -->
     <a-modal
-      v-model:visible="historyModalVisible"
-      :title="$t('wallet.privateKeyHistory')"
+      v-model:open="historyModalVisible"
+      :title="$t('wallet.history.privateKey')"
       :footer="null"
       width="800px"
     >
@@ -240,7 +247,7 @@
 
     <!-- 變更類型彈窗 -->
     <a-modal
-      v-model:visible="changeTypeModalVisible"
+      v-model:open="changeTypeModalVisible"
       :title="$t('wallet.prompt.changeType')"
       @ok="confirmChangeType"
       @cancel="() => changeTypeModalVisible = false"
@@ -265,7 +272,7 @@
 
     <!-- 類型變更歷史彈窗 -->
     <a-modal
-      v-model:visible="typeHistoryModalVisible"
+      v-model:open="typeHistoryModalVisible"
       :title="$t('wallet.typeHistory')"
       :footer="null"
       width="800px"
@@ -280,7 +287,7 @@
 
     <!-- 轉帳記錄彈窗 -->
     <a-modal
-      v-model:visible="transferHistoryModalVisible"
+      v-model:open="transferHistoryModalVisible"
       :title="$t('wallet.transferHistory')"
       :footer="null"
       width="1200px"
@@ -296,7 +303,7 @@
 
     <!-- 變更狀態彈窗 -->
     <a-modal
-      v-model:visible="changeStatusModalVisible"
+      v-model:open="changeStatusModalVisible"
       :title="$t('wallet.prompt.changeStatus')"
       @ok="confirmChangeStatus"
     >
@@ -307,8 +314,8 @@
             style="width: 100%"
             :placeholder="$t('wallet.prompt.pleaseSelectStatus')"
           >
-            <a-select-option value="enabled">{{ $t('wallet.status.enabled') }}</a-select-option>
-            <a-select-option value="disabled">{{ $t('wallet.status.disabled') }}</a-select-option>
+            <a-select-option value="enabled">{{ $t('common.status.enabled') }}</a-select-option>
+            <a-select-option value="disabled">{{ $t('common.status.disabled') }}</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item :label="$t('wallet.changeReason')" required>
@@ -325,7 +332,7 @@
 
     <!-- 狀態變更歷史彈窗 -->
     <a-modal
-      v-model:visible="statusHistoryModalVisible"
+      v-model:open="statusHistoryModalVisible"
       :title="$t('wallet.statusHistory')"
       :footer="null"
       width="800px"
@@ -364,6 +371,7 @@ import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
+import mockData from './detail.mock.json'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -377,14 +385,7 @@ const queryParams = reactive({
 })
 
 // 錢包信息
-const walletInfo = reactive({
-  walletId: 'W123456789',
-  address: '0x1234567890abcdef1234567890abcdef12345678',
-  merchant: 'Fameex',
-  userId: 'U123456',
-  walletType: '用戶錢包',
-  isDisabled: false
-})
+const walletInfo = reactive({ ...mockData.walletInfo })
 
 // 查詢方法
 const handleQuery = () => {
@@ -453,20 +454,7 @@ const historyColumns = [
   }
 ]
 
-const historyData = [
-  {
-    key: '1',
-    operator: 'Admin',
-    reason: t('routineBackup'),
-    time: '2024-03-15 10:30:25'
-  },
-  {
-    key: '2',
-    operator: 'Manager',
-    reason: t('securityCheck'),
-    time: '2024-03-14 15:45:30'
-  }
-]
+const historyData = mockData.privateKeyHistory
 
 const showPrivateKeyHistory = () => {
   console.log('查看私鑰下載記錄')
@@ -491,14 +479,14 @@ const sortState = reactive({
 // 修改 tokenColumns 配置
 const tokenColumns = computed(() => [
   {
-    title: t('wallet.coin'),
+    title: t('common.coin'),
     dataIndex: 'coin',
     key: 'coin',
     width: 100,
     sorter: true,
   },
   {
-    title: `${t('wallet.currentBalance')} / ${t('wallet.availableBalance')}`,
+    title: `${t('wallet.balance.current')} / ${t('wallet.balance.available')}`,
     key: 'balance',
     width: 200,
     align: 'right',
@@ -543,10 +531,29 @@ const tokenColumns = computed(() => [
     sorter: true,
   },
   {
-    title: t('action'),
+    title: t('common.action.action'),
     key: 'action',
     fixed: 'right',
     width: 160,
+    customRender: ({ record }) => {
+      return h('div', { class: 'action-buttons' }, [
+        h('a', {
+          onClick: () => showTransferHistory(record),
+          style: {
+            color: '#1890ff',
+            marginRight: '16px',
+            cursor: 'pointer'
+          }
+        }, t('wallet.action.transferHistory')),
+        h('a', {
+          onClick: () => showTransactionDetail(record),
+          style: {
+            color: '#1890ff',
+            cursor: 'pointer'
+          }
+        }, t('wallet.action.transactionDetail'))
+      ])
+    }
   },
 ])
 
@@ -841,24 +848,7 @@ const typeHistoryColumns = [
   }
 ]
 
-const typeHistoryData = [
-  {
-    key: '1',
-    operator: 'Admin',
-    reason: '業務需求調整',
-    beforeType: t('wallet.type.user'),
-    afterType: t('wallet.type.collection'),
-    time: '2024-03-15 10:30:25'
-  },
-  {
-    key: '2',
-    operator: 'Manager',
-    reason: '系統重組',
-    beforeType: t('wallet.type.collection'),
-    afterType: t('wallet.type.withdrawal'),
-    time: '2024-03-14 15:45:30'
-  }
-]
+const typeHistoryData = mockData.typeHistory
 
 const showTypeHistory = () => {
   console.log('查看類型變更記錄')
@@ -869,56 +859,56 @@ const showTypeHistory = () => {
 const transferHistoryModalVisible = ref(false)
 const transferHistoryColumns = [
   {
-    title: t('transferId'),
+    title: t('wallet.transferId'),
     dataIndex: 'transferId',
     key: 'transferId',
     width: 150,
   },
   {
-    title: t('fromWallet'),
+    title: t('wallet.fromWallet'),
     dataIndex: 'fromWallet',
     key: 'fromWallet',
     width: 150,
   },
   {
-    title: t('toWallet'),
+    title: t('wallet.toWallet'),
     dataIndex: 'toWallet',
     key: 'toWallet',
     width: 150,
   },
   {
-    title: t('amount'),
+    title: t('wallet.transferAmount'),
     dataIndex: 'amount',
     key: 'amount',
     width: 150,
     align: 'right',
   },
   {
-    title: t('price'),
+    title: t('wallet.price'),
     dataIndex: 'price',
     key: 'price',
     width: 120,
     align: 'right',
   },
   {
-    title: t('cost'),
+    title: t('wallet.cost'),
     dataIndex: 'cost',
     key: 'cost',
     width: 120,
     align: 'right',
   },
   {
-    title: t('status'),
+    title: t('common.status.label'),
     dataIndex: 'status',
     key: 'status',
     width: 150,
     customRender: ({ text, record }) => {
       const statusMap = {
-        submitted: t('statusSubmitted'),
-        onChain: t('statusOnChain'),
-        confirming: t('statusConfirming'),
-        completed: t('statusCompleted'),
-        failed: t('statusFailed')
+        submitted: t('wallet.transferStatus.submitted'),
+        onChain: t('wallet.transferStatus.onChain'),
+        confirming: t('wallet.transferStatus.confirming'),
+        completed: t('common.status.completed'),
+        failed: t('common.status.failed')
       }
 
       const statusStyles = {
@@ -931,9 +921,9 @@ const transferHistoryColumns = [
       
       let statusText = statusMap[text] || text
       if (text === 'confirming') {
-        statusText = `${t('statusConfirming')} (${record.confirmations}/${record.requiredConfirmations})`
+        statusText = `${t('common.status.confirming')} (${record.confirmations}/${record.requiredConfirmations})`
       } else if (text === 'completed') {
-        statusText = `${t('statusCompleted')} (${record.requiredConfirmations}/${record.requiredConfirmations})`
+        statusText = `${t('common.status.completed')} (${record.requiredConfirmations}/${record.requiredConfirmations})`
       }
       
       return h('span', {
@@ -946,225 +936,44 @@ const transferHistoryColumns = [
     }
   },
   {
-    title: t('createTime'),
+    title: t('common.createTime'),
     dataIndex: 'createTime',
     key: 'createTime',
     width: 180,
   },
   {
-    title: t('submitTime'),
+    title: t('wallet.submitTime'),
     dataIndex: 'submitTime',
     key: 'submitTime',
     width: 180,
   },
   {
-    title: t('onChainTime'),
+    title: t('wallet.onChainTime'),
     dataIndex: 'onChainTime',
     key: 'onChainTime',
     width: 180,
   },
   {
-    title: t('completeTime'),
+    title: t('wallet.completeTime'),
     dataIndex: 'completeTime',
     key: 'completeTime',
     width: 180,
   },
   {
-    title: t('updateTime'),
+    title: t('common.updateTime'),
     dataIndex: 'updateTime',
     key: 'updateTime',
     width: 180,
   },
   {
-    title: t('remark'),
+    title: t('common.remark'),
     dataIndex: 'remark',
     key: 'remark',
     width: 200,
   }
 ]
 
-const transferHistoryData = [
-  {
-    key: '1',
-    transferId: 'T202403150001',
-    fromWallet: 'W123456789',
-    toWallet: 'W987654321',
-    amount: '1000.00000000',
-    price: '1.0000',
-    cost: '1000.00',
-    status: 'completed',
-    confirmations: 12,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 10:00:00',
-    submitTime: '2024-03-15 10:00:05',
-    onChainTime: '2024-03-15 10:01:30',
-    completeTime: '2024-03-15 10:05:00',
-    updateTime: '2024-03-15 10:05:00',
-    remark: '正常轉帳'
-  },
-  {
-    key: '2',
-    transferId: 'T202403150002',
-    fromWallet: 'W234567890',
-    toWallet: 'W876543210',
-    amount: '500.00000000',
-    price: '1.0000',
-    cost: '500.00',
-    status: 'confirming',
-    confirmations: 6,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 10:30:00',
-    submitTime: '2024-03-15 10:30:15',
-    onChainTime: '2024-03-15 10:31:00',
-    completeTime: null,
-    updateTime: '2024-03-15 10:35:00',
-    remark: '等待確認中'
-  },
-  {
-    key: '3',
-    transferId: 'T202403150003',
-    fromWallet: 'W345678901',
-    toWallet: 'W765432109',
-    amount: '2000.00000000',
-    price: '1.0000',
-    cost: '2000.00',
-    status: 'failed',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 11:00:00',
-    submitTime: '2024-03-15 11:00:15',
-    onChainTime: null,
-    completeTime: null,
-    updateTime: '2024-03-15 11:05:00',
-    remark: '餘額不足'
-  },
-  {
-    key: '4',
-    transferId: 'T202403150004',
-    fromWallet: 'W456789012',
-    toWallet: 'W654321098',
-    amount: '300.00000000',
-    price: '1.0000',
-    cost: '300.00',
-    status: 'onChain',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 11:30:00',
-    submitTime: '2024-03-15 11:30:20',
-    onChainTime: '2024-03-15 11:31:00',
-    completeTime: null,
-    updateTime: '2024-03-15 11:31:00',
-    remark: '等待上鏈'
-  },
-  {
-    key: '5',
-    transferId: 'T202403150005',
-    fromWallet: 'W567890123',
-    toWallet: 'W543210987',
-    amount: '1500.00000000',
-    price: '1.0000',
-    cost: '1500.00',
-    status: 'submitted',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 12:00:00',
-    submitTime: '2024-03-15 12:00:30',
-    onChainTime: null,
-    completeTime: null,
-    updateTime: '2024-03-15 12:00:30',
-    remark: '已提交'
-  },
-  {
-    key: '6',
-    transferId: 'T202403150006',
-    fromWallet: 'W678901234',
-    toWallet: 'W432109876',
-    amount: '800.00000000',
-    price: '1.0000',
-    cost: '800.00',
-    status: 'confirming',
-    confirmations: 3,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 12:30:00',
-    submitTime: '2024-03-15 12:30:15',
-    onChainTime: '2024-03-15 12:31:00',
-    completeTime: null,
-    updateTime: '2024-03-15 12:35:00',
-    remark: '確認中(3/12)'
-  },
-  {
-    key: '7',
-    transferId: 'T202403150007',
-    fromWallet: 'W789012345',
-    toWallet: 'W321098765',
-    amount: '1200.00000000',
-    price: '1.0000',
-    cost: '1200.00',
-    status: 'completed',
-    confirmations: 12,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 13:00:00',
-    submitTime: '2024-03-15 13:00:20',
-    onChainTime: '2024-03-15 13:01:30',
-    completeTime: '2024-03-15 13:05:00',
-    updateTime: '2024-03-15 13:05:00',
-    remark: '轉帳完成'
-  },
-  {
-    key: '8',
-    transferId: 'T202403150008',
-    fromWallet: 'W890123456',
-    toWallet: 'W210987654',
-    amount: '3000.00000000',
-    price: '1.0000',
-    cost: '3000.00',
-    status: 'failed',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 13:30:00',
-    submitTime: '2024-03-15 13:30:25',
-    onChainTime: null,
-    completeTime: null,
-    updateTime: '2024-03-15 13:35:00',
-    remark: '手續費不足'
-  },
-  {
-    key: '9',
-    transferId: 'T202403150009',
-    fromWallet: 'W901234567',
-    toWallet: 'W109876543',
-    amount: '600.00000000',
-    price: '1.0000',
-    cost: '600.00',
-    status: 'onChain',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 14:00:00',
-    submitTime: '2024-03-15 14:00:30',
-    onChainTime: '2024-03-15 14:01:00',
-    completeTime: null,
-    updateTime: '2024-03-15 14:01:00',
-    remark: '已上鏈'
-  },
-  {
-    key: '10',
-    transferId: 'T202403150010',
-    fromWallet: 'W012345678',
-    toWallet: 'W098765432',
-    amount: '2500.00000000',
-    price: '1.0000',
-    cost: '2500.00',
-    status: 'confirming',
-    confirmations: 9,
-    requiredConfirmations: 12,
-    createTime: '2024-03-15 14:30:00',
-    submitTime: '2024-03-15 14:30:15',
-    onChainTime: '2024-03-15 14:31:00',
-    completeTime: null,
-    updateTime: '2024-03-15 14:35:00',
-    remark: '確認中(9/12)'
-  }
-]
+const transferHistoryData = mockData.transferHistory
 
 // 添加清理函數
 onBeforeUnmount(() => {

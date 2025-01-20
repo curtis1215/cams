@@ -17,6 +17,13 @@
     "dashboard.* - 儀表板相關"
   ],
   "// 5. 排序規則": "按照模塊前綴字母順序排序，同一模塊內按照邏輯相關性排序",
+  "// 6. 重複鍵值預防": [
+    "a. 嚴禁創建重複的翻譯鍵值",
+    "b. 當需要類似的翻譯時，優先檢查是否可以復用現有鍵值",
+    "c. 如果現有鍵值的上下文/含義略有不同，創建一個具有明確區分的新鍵值",
+    "d. 對於狀態/操作，優先使用 common.status.* 或 common.action.*，除非需要模塊特定的上下文",
+    "e. 對於任何模塊特定的變體（如 wallet.status 對比 common.status）需要提供明確的使用理由"
+  ],
 
   "common": {
     "merchant": "商戶",
@@ -32,6 +39,25 @@
     "lightMode": "淺色",
     "walletId": "錢包ID",
     "assetValue": "資產價值",
+    "field": {
+      "allMerchants": "所有商戶"
+    },
+    "status": {
+      "label": "狀態",
+      "processing": "處理中",
+      "waiting": "等待中",
+      "success": "成功",
+      "failed": "失敗",
+      "pending": "待處理",
+      "completed": "已完成",
+      "cancelled": "已取消",
+      "rejected": "已拒絕",
+      "enabled": "已啟用",
+      "disabled": "已禁用",
+      "confirming": "確認中",
+      "onChain": "已上鏈",
+      "submitted": "已提交"
+    },
     "action": {
       "query": "查詢",
       "reset": "重置",
@@ -56,22 +82,21 @@
       "details": "詳情",
       "transfer": "轉賬"
     },
-    "status": {
-      "processing": "處理中",
-      "waiting": "等待中",
-      "success": "成功",
-      "failed": "失敗",
-      "pending": "待處理",
-      "completed": "已完成",
-      "cancelled": "已取消",
-      "rejected": "已拒絕",
-      "enabled": "已啟用",
-      "disabled": "已禁用"
-    },
     "auditStatus": {
       "pending": "待審核",
       "approved": "已通過",
       "rejected": "已拒絕"
+    },
+    "prompt": {
+      "selectMerchant": "請選擇商戶",
+      "selectChainType": "請選擇鏈類型",
+      "selectCurrency": "請選擇幣種",
+      "selectWalletType": "請選擇錢包類型",
+      "inputAddress": "請輸入地址"
+    },
+    "reason": {
+      "routineBackup": "例行備份",
+      "securityCheck": "安全檢查"
     }
   },
 
@@ -113,7 +138,10 @@
     "typeLabel": "錢包類型",
     "id": "錢包ID",
     "address": "錢包地址",
-    "balance": "錢包餘額",
+    "balance": {
+      "current": "當前餘額",
+      "available": "可用餘額"
+    },
     "availableBalance": "可用餘額",
     "tokenDetail": "代幣詳情",
     "holdingCost": "持有成本",
@@ -134,6 +162,18 @@
     "toDetail": "目標錢包詳情",
     "queryCondition": "查詢條件",
     "walletList": "錢包列表",
+    "status": {
+      "processing": "處理中",
+      "waiting": "等待中",
+      "success": "成功",
+      "failed": "失敗",
+      "pending": "待處理",
+      "completed": "已完成",
+      "cancelled": "已取消",
+      "rejected": "已拒絕",
+      "enabled": "已啟用",
+      "disabled": "已禁用"
+    },
     "walletType": {
       "user": "用戶錢包",
       "collection": "收款錢包",
@@ -159,7 +199,9 @@
       "changeType": "變更類型",
       "changeStatus": "變更狀態",
       "pleaseInputDownloadReason": "請輸入下載原因",
-      "pleaseInputChangeReason": "請輸入變更原因"
+      "pleaseInputChangeReason": "請輸入變更原因",
+      "selectMerchant": "請選擇商戶",
+      "addWallet": "新增錢包"
     },
     "changeTime": "變更時間",
     "oldType": "原類型",
@@ -169,7 +211,29 @@
     "changeReason": "變更原因",
     "operator": "操作人",
     "downloadTime": "下載時間",
-    "downloadReason": "下載原因"
+    "downloadReason": "下載原因",
+    "typeHistory": "類型變更歷史",
+    "statusHistory": "狀態變更歷史",
+    "transferHistory": "轉帳歷史",
+    "lastTransactionTime": "最後交易時間",
+    "fromWallet": "來源錢包",
+    "toWallet": "目標錢包",
+    "price": "價格",
+    "cost": "成本",
+    "transferStatus": {
+      "submitted": "已提交",
+      "onChain": "已上鏈",
+      "confirming": "確認中"
+    },
+    "submitTime": "提交時間",
+    "onChainTime": "上鏈時間",
+    "completeTime": "完成時間",
+    "history": {
+      "privateKey": "私鑰歷史",
+      "type": "類型歷史",
+      "status": "狀態歷史",
+      "transfer": "轉帳歷史"
+    }
   },
 
   "monitor": {
@@ -215,7 +279,7 @@
     "coin": "幣種",
     "duration": "時長",
     "createTime": "創建時間",
-    "status": "common.status"
+    "status": "狀態"
   },
 
   "dashboard": {
@@ -240,13 +304,13 @@
     "exchangeList": "兌換列表",
     "exchangeId": "兌換訂單ID",
     "list": "訂單列表",
-    "status": "common.status"
+    "status": "狀態"
   },
 
   "exchange": {
     "info": "兌換信息",
     "amount": "兌換金額",
-    "status": "common.status",
+    "status": "狀態",
     "rate": "兌換匯率",
     "time": "兌換時間",
     "fromWalletId": "來源錢包ID",
