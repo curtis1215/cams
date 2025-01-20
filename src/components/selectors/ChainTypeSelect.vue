@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="$t('pleaseSelectChainType')"
+    :placeholder="t('prompt.selectChainType')"
     show-search
     :filter-option="filterOption"
     allow-clear
@@ -53,44 +53,32 @@ const filterOption = (input, option) => {
 }
 </script>
 
-<style scoped>
-:deep(.ant-select-selector) {
-  background-color: #1f1f1f !important;
-  border-color: #434343 !important;
+<style>
+/* 使用全局樣式，避免 Menu 組件的樣式問題 */
+.ant-select-dropdown {
+  background-color: var(--background-color) !important;
+  border-color: var(--border-color) !important;
 }
 
-:deep(.ant-select-selection-placeholder),
-:deep(.ant-select-selection-item) {
-  color: rgba(255, 255, 255, 0.85) !important;
+.ant-select-item {
+  color: var(--text-color) !important;
 }
 
-:deep(.ant-select-arrow) {
-  color: rgba(255, 255, 255, 0.45);
+.ant-select-item-option-selected {
+  background-color: var(--item-hover-bg) !important;
 }
 
-:deep(.ant-select-dropdown) {
-  background-color: #1f1f1f;
-  border: 1px solid #303030;
+.ant-select-item-option-active {
+  background-color: var(--item-hover-bg) !important;
 }
 
-:deep(.ant-select-item) {
-  color: rgba(255, 255, 255, 0.85);
+.ant-select-selector {
+  background-color: var(--component-background) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
 }
 
-:deep(.ant-select-item-option-active) {
-  background-color: rgba(255, 255, 255, 0.08);
+.ant-select-selection-placeholder {
+  color: var(--text-color-secondary) !important;
 }
-
-:deep(.ant-select-item-option-selected) {
-  background-color: #111b26;
-}
-
-:deep(.ant-select-clear) {
-  background-color: transparent;
-  color: rgba(255, 255, 255, 0.45);
-}
-
-:deep(.ant-select-clear:hover) {
-  color: rgba(255, 255, 255, 0.75);
-}
-</style> 
+</style>

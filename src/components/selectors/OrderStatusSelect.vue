@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="$t('pleaseSelectStatus')"
+    :placeholder="$t('prompt.selectStatus')"
     :style="style"
     allow-clear
     @update:value="handleChange"
@@ -32,9 +32,9 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue'])
 
 const statusOptions = [
-  { value: 'confirming', label: t('confirming') },
-  { value: 'successful', label: t('successful') },
-  { value: 'failed', label: t('failed') }
+  { value: 'confirming', label: t('status.confirming') },
+  { value: 'successful', label: t('status.success') },
+  { value: 'failed', label: t('status.failed') }
 ]
 
 const handleChange = (value) => {

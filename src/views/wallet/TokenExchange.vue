@@ -5,29 +5,29 @@
       <a-col :span="12">
         <a-card :bordered="false" class="exchange-card from-wallet">
           <template #title>
-            <span class="card-title">{{ $t('fromWallet') }}</span>
+            <span class="card-title">{{ t('wallet.fromWalletTitle') }}</span>
           </template>
           <a-form layout="vertical" :model="fromWalletForm">
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('merchant') }}</div>
+                <div class="form-label">{{ t('field.merchant') }}</div>
                 <merchant-select v-model="fromWalletForm.merchant" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('chainType') }}</div>
+                <div class="form-label">{{ t('field.chainType') }}</div>
                 <chain-type-select v-model="fromWalletForm.chainType" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('currency') }}</div>
+                <div class="form-label">{{ t('field.currency') }}</div>
                 <currency-select v-model="fromWalletForm.currency" class="full-width" />
               </a-form-item>
             </div>
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('address') }}</div>
+                <div class="form-label">{{ t('field.address') }}</div>
                 <a-input
                   v-model:value="fromWalletForm.address"
-                  :placeholder="$t('pleaseInputAddress')"
+                  :placeholder="t('prompt.inputAddress')"
                   class="full-width"
                   allow-clear
                 />
@@ -36,7 +36,7 @@
                 <div class="form-label">&nbsp;</div>
                 <a-button type="primary" @click="handleFromWalletQuery">
                   <template #icon><SearchOutlined /></template>
-                  {{ $t('query') }}
+                  {{ t('action.query') }}
                 </a-button>
               </a-form-item>
             </div>
@@ -48,29 +48,29 @@
       <a-col :span="12">
         <a-card :bordered="false" class="exchange-card to-wallet">
           <template #title>
-            <span class="card-title">{{ $t('toWallet') }}</span>
+            <span class="card-title">{{ t('wallet.toWalletTitle') }}</span>
           </template>
           <a-form layout="vertical" :model="toWalletForm">
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('merchant') }}</div>
+                <div class="form-label">{{ t('field.merchant') }}</div>
                 <merchant-select v-model="toWalletForm.merchant" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('chainType') }}</div>
+                <div class="form-label">{{ t('field.chainType') }}</div>
                 <chain-type-select v-model="toWalletForm.chainType" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('currency') }}</div>
+                <div class="form-label">{{ t('field.currency') }}</div>
                 <currency-select v-model="toWalletForm.currency" class="full-width" />
               </a-form-item>
             </div>
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ $t('address') }}</div>
+                <div class="form-label">{{ t('field.address') }}</div>
                 <a-input
                   v-model:value="toWalletForm.address"
-                  :placeholder="$t('pleaseInputAddress')"
+                  :placeholder="t('prompt.inputAddress')"
                   class="full-width"
                   allow-clear
                 />
@@ -78,7 +78,7 @@
               <a-form-item label="&nbsp;" class="query-button">
                 <a-button type="primary" @click="handleToWalletQuery">
                   <template #icon><SearchOutlined /></template>
-                  {{ $t('query') }}
+                  {{ t('action.query') }}
                 </a-button>
               </a-form-item>
             </div>
@@ -92,19 +92,19 @@
       <a-col :span="12">
         <a-card :bordered="false" class="detail-card from-detail">
           <template #title>
-            <span class="card-title">{{ $t('fromWalletDetail') }}</span>
+            <span class="card-title">{{ t('wallet.fromWalletDetailTitle') }}</span>
           </template>
           <div class="detail-content">
             <div class="detail-item">
-              <span class="detail-label">{{ $t('currency') }}</span>
+              <span class="detail-label">{{ t('field.currency') }}</span>
               <span class="detail-value">{{ fromWalletDetail.currency }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ $t('balance') }}</span>
+              <span class="detail-label">{{ t('field.balance') }}</span>
               <span class="detail-value">{{ formatNumber(fromWalletDetail.balance) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ $t('availableOutflow') }}</span>
+              <span class="detail-label">{{ t('field.availableAmount') }}</span>
               <span class="detail-value">{{ formatNumber(fromWalletDetail.availableOutflow) }}</span>
             </div>
           </div>
@@ -115,19 +115,19 @@
       <a-col :span="12">
         <a-card :bordered="false" class="detail-card to-detail">
           <template #title>
-            <span class="card-title">{{ $t('toWalletDetail') }}</span>
+            <span class="card-title">{{ t('wallet.toWalletDetailTitle') }}</span>
           </template>
           <div class="detail-content">
             <div class="detail-item">
-              <span class="detail-label">{{ $t('currency') }}</span>
+              <span class="detail-label">{{ t('field.currency') }}</span>
               <span class="detail-value">{{ toWalletDetail.currency }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ $t('balance') }}</span>
+              <span class="detail-label">{{ t('field.balance') }}</span>
               <span class="detail-value">{{ formatNumber(toWalletDetail.balance) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ $t('availableInflow') }}</span>
+              <span class="detail-label">{{ t('field.availableAmount') }}</span>
               <span class="detail-value">{{ formatNumber(toWalletDetail.availableInflow) }}</span>
             </div>
           </div>
@@ -138,29 +138,41 @@
     <!-- 兌換資訊 -->
     <a-card :bordered="false" class="exchange-info">
       <template #title>
-        <span class="card-title">{{ $t('exchangeInfo') }}</span>
+        <span class="card-title">{{ t('exchange.exchangeInfo') }}</span>
       </template>
       <div class="exchange-amount-container">
-        <a-form layout="inline">
-          <a-form-item :label="$t('exchangeAmount')">
-            <a-input-number
-              v-model:value="exchangeAmount"
-              :min="0"
-              :max="maxAmount"
-              :precision="8"
-              style="width: 200px"
-            />
-          </a-form-item>
-          <a-form-item>
-            <a-checkbox v-model:checked="useMaxAmount" @change="handleMaxAmountChange">
-              {{ $t('maxAmount') }}
-            </a-checkbox>
-          </a-form-item>
-          <a-form-item>
+        <a-form layout="vertical">
+          <div class="exchange-form-row">
+            <a-form-item :label="t('field.exchangeAmount')" class="exchange-amount-item">
+              <a-input-number
+                v-model:value="exchangeAmount"
+                :min="0"
+                :max="maxAmount"
+                :precision="8"
+                class="exchange-input"
+              />
+              <a-checkbox v-model:checked="useMaxAmount" @change="handleMaxAmountChange">
+                {{ t('exchange.useMaxAmount') }}
+              </a-checkbox>
+            </a-form-item>
+          </div>
+          
+          <div class="exchange-info-row">
+            <div class="info-item">
+              <span class="info-label">{{ t('exchange.rate') }}</span>
+              <span class="info-value">{{ formatNumber(currentPrice) }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">{{ t('exchange.receiveAmount') }}</span>
+              <span class="info-value">{{ formatNumber(receiveAmount) }}</span>
+            </div>
+          </div>
+
+          <div class="exchange-button-row">
             <a-button type="primary" @click="handleExchange">
-              {{ $t('exchange') }}
+              {{ t('action.exchange') }}
             </a-button>
-          </a-form-item>
+          </div>
         </a-form>
       </div>
     </a-card>
@@ -168,7 +180,7 @@
     <!-- 兌換確認彈窗 -->
     <a-modal
       v-model:open="confirmModalVisible"
-      :title="$t('confirmExchange')"
+      :title="t('prompt.exchangeConfirmation')"
       @ok="handleConfirmExchange"
       @cancel="handleCancelExchange"
       :confirmLoading="confirmLoading"
@@ -178,23 +190,23 @@
         <!-- 兌出資訊卡片 -->
         <a-card :bordered="false" class="confirm-card">
           <template #title>
-            <span class="card-title">{{ $t('fromWalletInfo') }}</span>
+            <span class="card-title">{{ t('wallet.fromWalletInfoTitle') }}</span>
           </template>
           <div class="confirm-card-content">
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('walletType') }}</span>
-              <span class="confirm-value">{{ fromWalletForm.walletType }}</span>
+              <span class="confirm-label">{{ t('field.merchant') }}</span>
+              <span class="confirm-value">{{ fromWalletForm.merchant }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('chainType') }}</span>
+              <span class="confirm-label">{{ t('field.chainType') }}</span>
               <span class="confirm-value">{{ fromWalletForm.chainType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('currency') }}</span>
+              <span class="confirm-label">{{ t('field.currency') }}</span>
               <span class="confirm-value">{{ fromWalletForm.currency }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('address') }}</span>
+              <span class="confirm-label">{{ t('field.address') }}</span>
               <span class="confirm-value">{{ fromWalletForm.address }}</span>
             </div>
           </div>
@@ -203,23 +215,23 @@
         <!-- 兌入資訊卡片 -->
         <a-card :bordered="false" class="confirm-card">
           <template #title>
-            <span class="card-title">{{ $t('toWalletInfo') }}</span>
+            <span class="card-title">{{ t('wallet.toWalletInfoTitle') }}</span>
           </template>
           <div class="confirm-card-content">
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('walletType') }}</span>
-              <span class="confirm-value">{{ toWalletForm.walletType }}</span>
+              <span class="confirm-label">{{ t('field.merchant') }}</span>
+              <span class="confirm-value">{{ toWalletForm.merchant }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('chainType') }}</span>
+              <span class="confirm-label">{{ t('field.chainType') }}</span>
               <span class="confirm-value">{{ toWalletForm.chainType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('currency') }}</span>
+              <span class="confirm-label">{{ t('field.currency') }}</span>
               <span class="confirm-value">{{ toWalletForm.currency }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ $t('address') }}</span>
+              <span class="confirm-label">{{ t('field.address') }}</span>
               <span class="confirm-value">{{ toWalletForm.address }}</span>
             </div>
           </div>
@@ -227,30 +239,51 @@
 
         <!-- 兌換金額資訊 -->
         <div class="confirm-amount">
-          <span class="confirm-label">{{ $t('exchangeAmount') }}</span>
+          <span class="confirm-label">{{ t('field.exchangeAmount') }}</span>
           <span class="confirm-value">{{ formatNumber(exchangeAmount) }}</span>
         </div>
       </div>
     </a-modal>
 
     <!-- 兌換列表 -->
-    <a-card :title="$t('exchangeList')" class="exchange-card list-card">
-      <a-table 
-        :dataSource="exchangeList" 
-        :columns="columns" 
-        :loading="loading" 
+    <a-card :title="t('exchange.exchangeList')" class="exchange-card list-card">
+      <template #extra>
+        <a-space>
+          <a-button type="primary" @click="handleQuery">
+            <template #icon><SearchOutlined /></template>
+            {{ t('action.query') }}
+          </a-button>
+          <a-button @click="handleReset">{{ t('action.reset') }}</a-button>
+        </a-space>
+      </template>
+      <a-table
+        :columns="columns"
+        :data-source="exchangeList"
+        :loading="loading"
         :pagination="pagination"
+        :bordered="true"
+        :scroll="{ x: 1200 }"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, text, record }">
-          <template v-if="column.key === 'action'">
-            <a-button 
-              type="link" 
-              size="small"
-              @click="handleViewAuditDetail(record)"
-            >
-              {{ $t('detail') }}
-            </a-button>
+          <template v-if="column.key === 'exchangeStatus'">
+            <a-tag :color="getStatusColor(record.exchangeStatus)">
+              {{ t(`status.${record.exchangeStatus}`) }}
+            </a-tag>
+          </template>
+          <template v-else-if="column.key === 'action'">
+            <a-space>
+              <template v-if="record.exchangeStatus === 'pending'">
+                <a-button type="primary" size="small" @click="handleAudit(record)">
+                  {{ t('action.audit') }}
+                </a-button>
+              </template>
+              <template v-else>
+                <a-button type="link" size="small" @click="handleViewDetail(record)">
+                  {{ t('action.detail') }}
+                </a-button>
+              </template>
+            </a-space>
           </template>
         </template>
       </a-table>
@@ -260,11 +293,14 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { message } from 'ant-design-vue'
+import { message, Tag, Button, Space } from 'ant-design-vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
+import { useI18n } from 'vue-i18n'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
+
+const { t } = useI18n()
 
 // 錢包表單數據
 const fromWalletForm = reactive({
@@ -296,6 +332,8 @@ const toWalletDetail = reactive({
 
 // 兌換相關數據
 const exchangeAmount = ref(0)
+const currentPrice = ref(1.5) // 當前兌換價格
+const receiveAmount = computed(() => exchangeAmount.value * currentPrice.value) // 計算獲得數量
 const maxAmount = computed(() => fromWalletDetail.availableOutflow)
 const useMaxAmount = ref(false)
 
@@ -315,9 +353,9 @@ const formatNumber = (value) => {
 const handleFromWalletQuery = async () => {
   try {
     // 這裡添加查詢邏輯
-    message.success('查詢成功')
+    message.success(t('prompt.querySuccess'))
   } catch (error) {
-    message.error('查詢失敗')
+    message.error(t('prompt.queryFailed'))
   }
 }
 
@@ -325,9 +363,9 @@ const handleFromWalletQuery = async () => {
 const handleToWalletQuery = async () => {
   try {
     // 這裡添加查詢邏輯
-    message.success('查詢成功')
+    message.success(t('prompt.querySuccess'))
   } catch (error) {
-    message.error('查詢失敗')
+    message.error(t('prompt.queryFailed'))
   }
 }
 
@@ -338,11 +376,11 @@ const confirmLoading = ref(false)
 // 處理兌換按鈕點擊
 const handleExchange = () => {
   if (!exchangeAmount.value) {
-    message.warning('請輸入兌換金額')
+    message.warning(t('prompt.pleaseInputExchangeAmount'))
     return
   }
   if (exchangeAmount.value > maxAmount.value) {
-    message.warning('兌換金額不能超過可用餘額')
+    message.warning(t('prompt.exchangeAmountExceedsAvailableBalance'))
     return
   }
   confirmModalVisible.value = true
@@ -354,11 +392,11 @@ const handleConfirmExchange = async () => {
     confirmLoading.value = true
     // 這裡添加兌換邏輯
     await new Promise(resolve => setTimeout(resolve, 1000))
-    message.success('兌換成功')
+    message.success(t('prompt.exchangeSuccess'))
     confirmModalVisible.value = false
     handleQuery() // 重新加載列表
   } catch (error) {
-    message.error('兌換失敗')
+    message.error(t('prompt.exchangeFailed'))
   } finally {
     confirmLoading.value = false
   }
@@ -391,47 +429,99 @@ const pagination = reactive({
 // 表格列定義
 const columns = [
   {
-    title: '兌換ID',
+    title: t('field.exchangeId'),
     dataIndex: 'exchangeId',
-    key: 'exchangeId'
+    key: 'exchangeId',
+    width: 180,
   },
   {
-    title: '兌出商戶',
-    dataIndex: 'fromMerchant',
-    key: 'fromMerchant'
+    title: t('field.fromWalletId'),
+    dataIndex: 'fromWalletId',
+    key: 'fromWalletId',
+    width: 180,
   },
   {
-    title: '兌入商戶',
-    dataIndex: 'toMerchant',
-    key: 'toMerchant'
+    title: t('field.fromChainType'),
+    dataIndex: 'fromChainType',
+    key: 'fromChainType',
+    width: 120,
   },
   {
-    title: '兌換金額',
-    dataIndex: 'amount',
-    key: 'amount',
-    customRender: ({ text }) => formatNumber(text)
+    title: t('field.fromCurrency'),
+    dataIndex: 'fromCurrency',
+    key: 'fromCurrency',
+    width: 120,
   },
   {
-    title: '兌換狀態',
+    title: t('field.fromAmount'),
+    dataIndex: 'fromAmount',
+    key: 'fromAmount',
+    width: 120,
+  },
+  {
+    title: t('field.toWalletId'),
+    dataIndex: 'toWalletId',
+    key: 'toWalletId',
+    width: 180,
+  },
+  {
+    title: t('field.toChainType'),
+    dataIndex: 'toChainType',
+    key: 'toChainType',
+    width: 120,
+  },
+  {
+    title: t('field.toCurrency'),
+    dataIndex: 'toCurrency',
+    key: 'toCurrency',
+    width: 120,
+  },
+  {
+    title: t('field.toAmount'),
+    dataIndex: 'toAmount',
+    key: 'toAmount',
+    width: 120,
+  },
+  {
+    title: t('field.exchangeStatus'),
     dataIndex: 'exchangeStatus',
     key: 'exchangeStatus',
-    customRender: ({ text, record }) => {
-      const statusMap = {
-        pending: '待處理',
-        processing: '處理中',
-        completed: '已完成',
-        failed: '失敗'
-      }
-      return statusMap[text] || text
-    }
+    width: 160,
   },
   {
-    title: '操作',
+    title: t('field.action'),
     key: 'action',
-    width: 80,
-    fixed: 'right'
+    width: 100,
+    fixed: 'right',
   }
 ]
+
+// 獲取狀態顏色
+const getStatusColor = (status) => {
+  const statusMap = {
+    pending: 'warning',
+    transferringOut: 'processing',
+    exchanging: 'processing',
+    transferringIn: 'processing',
+    success: 'success',
+    transferOutFailed: 'error',
+    exchangeFailed: 'error',
+    rejected: 'error',
+  }
+  return statusMap[status] || 'default'
+}
+
+// 審核相關
+const handleAudit = (record) => {
+  // TODO: 實現審核功能
+  console.log('Audit record:', record)
+}
+
+// 查看詳情
+const handleViewDetail = (record) => {
+  // TODO: 實現查看詳情功能
+  console.log('View detail:', record)
+}
 
 // 生成模擬數據
 const generateMockData = () => {
@@ -439,10 +529,15 @@ const generateMockData = () => {
   for (let i = 0; i < 10; i++) {
     data.push({
       exchangeId: `EX${String(i + 1).padStart(6, '0')}`,
-      fromMerchant: `商戶${i + 1}`,
-      toMerchant: `商戶${i + 2}`,
-      amount: Math.random() * 1000000,
-      exchangeStatus: ['pending', 'processing', 'completed', 'failed'][Math.floor(Math.random() * 4)],
+      fromWalletId: `商戶${i + 1}`,
+      fromChainType: 'ETH',
+      fromCurrency: 'USDT',
+      fromAmount: Math.random() * 1000000,
+      toWalletId: `商戶${i + 2}`,
+      toChainType: 'BSC',
+      toCurrency: 'USDT',
+      toAmount: Math.random() * 1000000,
+      exchangeStatus: ['pending', 'transferringOut', 'exchanging', 'transferringIn', 'success', 'transferOutFailed', 'exchangeFailed', 'rejected'][Math.floor(Math.random() * 8)],
     })
   }
   return data
@@ -457,7 +552,7 @@ const handleQuery = async () => {
     exchangeList.value = generateMockData()
     pagination.total = 100 // 模擬總數據量
   } catch (error) {
-    message.error('查詢失敗')
+    message.error(t('prompt.queryFailed'))
   } finally {
     loading.value = false
   }
@@ -479,16 +574,6 @@ const handleReset = () => {
     current: 1
   })
   handleQuery()
-}
-
-// 審核相關
-const auditDetailModalVisible = ref(false)
-const currentAuditDetail = ref(null)
-
-// 處理查看審核詳情
-const handleViewAuditDetail = (record) => {
-  currentAuditDetail.value = record
-  auditDetailModalVisible.value = true
 }
 
 // 處理表格變更
@@ -564,7 +649,52 @@ const handleTableChange = (pag) => {
 }
 
 .exchange-amount-container {
+  padding: 24px;
+}
+
+.exchange-form-row {
+  margin-bottom: 24px;
+}
+
+.exchange-amount-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.exchange-input {
+  width: 200px;
+}
+
+.exchange-info-row {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 24px;
   padding: 16px;
+  background-color: var(--item-hover-bg);
+  border-radius: 4px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.info-label {
+  color: var(--text-color-secondary);
+  font-size: 14px;
+}
+
+.info-value {
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.exchange-button-row {
+  display: flex;
+  justify-content: flex-end;
 }
 
 .confirm-content {

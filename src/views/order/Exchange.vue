@@ -1,51 +1,51 @@
 <template>
   <div class="exchange-order">
-    <a-card :title="t('exchangeOrderQuery')" :bordered="false">
+    <a-card :title="t('exchange.exchangeOrderQuery')" :bordered="false">
       <a-form layout="inline" :model="queryParams">
-        <a-form-item :label="t('fromWalletId')">
+        <a-form-item :label="t('exchange.fromWalletId')">
           <a-input
             v-model="queryParams.fromWalletId"
-            :placeholder="t('pleaseInputFromWalletId')"
+            :placeholder="t('prompt.inputFromWalletId')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('toWalletId')">
+        <a-form-item :label="t('exchange.toWalletId')">
           <a-input
             v-model="queryParams.toWalletId"
-            :placeholder="t('pleaseInputToWalletId')"
+            :placeholder="t('prompt.inputToWalletId')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('fromChainType')">
+        <a-form-item :label="t('exchange.fromChainType')">
           <chain-type-select
             v-model="queryParams.fromChainType"
-            :placeholder="t('pleaseSelectFromChainType')"
+            :placeholder="t('prompt.selectFromChainType')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('fromCurrency')">
+        <a-form-item :label="t('exchange.fromCurrency')">
           <currency-select
             v-model="queryParams.fromCurrency"
-            :placeholder="t('pleaseSelectFromCurrency')"
+            :placeholder="t('prompt.selectFromCurrency')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('toChainType')">
+        <a-form-item :label="t('exchange.toChainType')">
           <chain-type-select
             v-model="queryParams.toChainType"
-            :placeholder="t('pleaseSelectToChainType')"
+            :placeholder="t('prompt.selectToChainType')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('toCurrency')">
+        <a-form-item :label="t('exchange.toCurrency')">
           <currency-select
             v-model="queryParams.toCurrency"
-            :placeholder="t('pleaseSelectToCurrency')"
+            :placeholder="t('prompt.selectToCurrency')"
             allow-clear
           />
         </a-form-item>
@@ -53,36 +53,36 @@
         <a-form-item :label="t('status')">
           <a-select
             v-model:value="queryParams.status"
-            :placeholder="t('pleaseSelect')"
+            :placeholder="t('prompt.select')"
             :style="{ width: '180px' }"
             :dropdown-match-select-width="false"
             allow-clear
           >
-            <a-select-option value="pending">{{ t('pending') }}</a-select-option>
-            <a-select-option value="rejected">{{ t('rejected') }}</a-select-option>
-            <a-select-option value="transferringOut">{{ t('transferringOut') }}</a-select-option>
-            <a-select-option value="exchanging">{{ t('exchanging') }}</a-select-option>
-            <a-select-option value="transferringIn">{{ t('transferringIn') }}</a-select-option>
-            <a-select-option value="success">{{ t('success') }}</a-select-option>
-            <a-select-option value="transferOutFailed">{{ t('transferOutFailed') }}</a-select-option>
-            <a-select-option value="exchangeFailed">{{ t('exchangeFailed') }}</a-select-option>
+            <a-select-option value="pending">{{ t('status.pending') }}</a-select-option>
+            <a-select-option value="rejected">{{ t('status.rejected') }}</a-select-option>
+            <a-select-option value="transferringOut">{{ t('status.transferringOut') }}</a-select-option>
+            <a-select-option value="exchanging">{{ t('status.exchanging') }}</a-select-option>
+            <a-select-option value="transferringIn">{{ t('status.transferringIn') }}</a-select-option>
+            <a-select-option value="success">{{ t('status.success') }}</a-select-option>
+            <a-select-option value="transferOutFailed">{{ t('status.transferOutFailed') }}</a-select-option>
+            <a-select-option value="exchangeFailed">{{ t('status.exchangeFailed') }}</a-select-option>
           </a-select>
         </a-form-item>
 
         <a-form-item>
           <a-space>
             <a-button type="primary" @click="handleSearch">
-              {{ t('search') }}
+              {{ t('action.search') }}
             </a-button>
             <a-button @click="handleReset">
-              {{ t('reset') }}
+              {{ t('action.reset') }}
             </a-button>
           </a-space>
         </a-form-item>
       </a-form>
     </a-card>
 
-    <a-card :title="t('exchangeOrderList')" :bordered="false" class="mt-4">
+    <a-card :title="t('exchange.exchangeOrderList')" :bordered="false" class="mt-4">
       <div class="table-container">
         <a-table
           :columns="columns"
@@ -163,21 +163,21 @@ const handleReset = () => {
 
 const columns = [
   {
-    title: t('exchangeOrderId'),
+    title: t('exchange.exchangeOrderId'),
     dataIndex: 'exchangeOrderId',
     key: 'exchangeOrderId',
     width: 180,
     customRender: ({ text }) => h('span', null, text)
   },
   {
-    title: t('fromWalletId'),
+    title: t('exchange.fromWalletId'),
     dataIndex: 'fromWalletId',
     key: 'fromWalletId',
     width: 150,
   },
   {
-    title: t('fromChainAndCurrency'),
-    key: 'fromChainAndCurrency',
+    title: t('exchange.fromChainType'),
+    key: 'fromChainType',
     width: 120,
     customRender: ({ record }) => {
       return h('div', { class: 'chain-currency-info' }, [
@@ -187,13 +187,13 @@ const columns = [
     }
   },
   {
-    title: t('fromAmount'),
+    title: t('exchange.fromAmount'),
     dataIndex: 'fromAmount',
     key: 'fromAmount',
     width: 120,
   },
   {
-    title: t('fromTransferTime'),
+    title: t('exchange.fromTransferTime'),
     key: 'fromTransferTime',
     width: 180,
     customRender: ({ record }) => {
@@ -214,7 +214,7 @@ const columns = [
     }
   },
   {
-    title: t('fromTransferId'),
+    title: t('exchange.fromTransferId'),
     dataIndex: 'fromTransferId',
     key: 'fromTransferId',
     width: 180,
@@ -227,26 +227,26 @@ const columns = [
     }
   },
   {
-    title: t('targetExchange'),
+    title: t('exchange.targetExchange'),
     dataIndex: 'targetExchange',
     key: 'targetExchange',
     width: 120,
   },
   {
-    title: t('exchangeRate'),
+    title: t('exchange.exchangeRate'),
     dataIndex: 'exchangeRate',
     key: 'exchangeRate',
     width: 120,
   },
   {
-    title: t('toWalletId'),
+    title: t('exchange.toWalletId'),
     dataIndex: 'toWalletId',
     key: 'toWalletId',
     width: 150,
   },
   {
-    title: t('toChainAndCurrency'),
-    key: 'toChainAndCurrency',
+    title: t('exchange.toChainType'),
+    key: 'toChainType',
     width: 120,
     customRender: ({ record }) => {
       return h('div', { class: 'chain-currency-info' }, [
@@ -256,13 +256,13 @@ const columns = [
     }
   },
   {
-    title: t('toAmount'),
+    title: t('exchange.toAmount'),
     dataIndex: 'toAmount',
     key: 'toAmount',
     width: 120,
   },
   {
-    title: t('toTransferTime'),
+    title: t('exchange.toTransferTime'),
     key: 'toTransferTime',
     width: 180,
     customRender: ({ record }) => {
@@ -283,7 +283,7 @@ const columns = [
     }
   },
   {
-    title: t('toTransferId'),
+    title: t('exchange.toTransferId'),
     dataIndex: 'toTransferId',
     key: 'toTransferId',
     width: 180,
@@ -296,18 +296,18 @@ const columns = [
     }
   },
   {
-    title: t('fee'),
+    title: t('field.fee'),
     key: 'fee',
     width: 150,
   },
   {
-    title: t('feeValue'),
+    title: t('field.feeValue'),
     dataIndex: 'feeValue',
     key: 'feeValue',
     width: 120,
   },
   {
-    title: t('exchangeTime'),
+    title: t('exchange.exchangeTime'),
     key: 'exchangeTime',
     width: 180,
     customRender: ({ record }) => {
@@ -629,14 +629,14 @@ const handleTableChange = (pag) => {
 
 const getStatusText = (status) => {
   const statusMap = {
-    pending: t('pending'),
-    rejected: t('rejected'),
-    transferringOut: t('transferringOut'),
-    exchanging: t('exchanging'),
-    transferringIn: t('transferringIn'),
-    success: t('success'),
-    transferOutFailed: t('transferOutFailed'),
-    exchangeFailed: t('exchangeFailed'),
+    pending: t('status.pending'),
+    rejected: t('status.rejected'),
+    transferringOut: t('status.transferringOut'),
+    exchanging: t('status.exchanging'),
+    transferringIn: t('status.transferringIn'),
+    success: t('status.success'),
+    transferOutFailed: t('status.transferOutFailed'),
+    exchangeFailed: t('status.exchangeFailed'),
   }
   return statusMap[status] || status
 }

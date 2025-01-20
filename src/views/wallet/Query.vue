@@ -3,22 +3,22 @@
     <!-- 查詢表單 -->
     <a-card :bordered="false" class="filter-card">
       <template #title>
-        <span class="card-title">{{ $t('queryCondition') }}</span>
+        <span class="card-title">{{ t('prompt.queryCondition') }}</span>
       </template>
       <a-form layout="inline" :model="queryParams" class="query-form">
-        <a-form-item :label="$t('merchant')" class="form-item">
+        <a-form-item :label="t('field.merchant')" class="form-item">
           <merchant-select v-model="queryParams.merchant" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('chainType')" class="form-item">
+        <a-form-item :label="t('field.chainType')" class="form-item">
           <chain-type-select v-model="queryParams.chainType" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('currency')" class="form-item">
+        <a-form-item :label="t('field.currency')" class="form-item">
           <currency-select v-model="queryParams.currency" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('address')" class="form-item">
+        <a-form-item :label="t('field.address')" class="form-item">
           <a-input
             v-model:value="queryParams.address"
-            :placeholder="$t('pleaseInputAddress')"
+            :placeholder="t('prompt.pleaseInputAddress')"
             :style="{ width: '300px' }"
             allow-clear
           />
@@ -26,7 +26,7 @@
         <a-form-item class="form-item">
           <a-button type="primary" @click="handleQuery">
             <template #icon><SearchOutlined /></template>
-            {{ $t('query') }}
+            {{ t('action.search') }}
           </a-button>
         </a-form-item>
       </a-form>
@@ -36,10 +36,10 @@
     <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="table-card">
       <template #title>
         <div style="display: flex; justify-content: space-between; align-items: center">
-          <span class="card-title">{{ $t('walletList') }}</span>
+          <span class="card-title">{{ t('prompt.walletList') }}</span>
           <a-button type="primary" @click="showAddWalletModal">
             <template #icon><PlusOutlined /></template>
-            {{ $t('addWallet') }}
+            {{ t('action.addWallet') }}
           </a-button>
         </div>
       </template>
@@ -67,10 +67,10 @@
             <template v-else-if="column.key === 'action'">
               <a-space>
                 <a-button type="link" size="small" @click="handleDetail(record)">
-                  {{ $t('details') }}
+                  {{ t('action.details') }}
                 </a-button>
                 <a-button type="link" size="small" @click="handleTransfer(record)">
-                  {{ $t('transfer') }}
+                  {{ t('action.transfer') }}
                 </a-button>
               </a-space>
             </template>
@@ -85,7 +85,7 @@
             </template>
             <template v-else-if="column.key === 'status'">
               <span :class="['status-tag', record.isDisabled ? 'status-disabled' : 'status-enabled']">
-                {{ record.isDisabled ? t('disabled') : t('enabled') }}
+                {{ record.isDisabled ? t('status.disabled') : t('status.enabled') }}
               </span>
             </template>
           </template>
@@ -95,8 +95,8 @@
 
     <!-- 新增錢包彈窗 -->
     <a-modal
-      v-model:visible="addWalletModalVisible"
-      :title="$t('addWallet')"
+      v-model:open="addWalletModalVisible"
+      :title="t('prompt.addWallet')"
       @ok="handleAddWallet"
       @cancel="handleCancelAdd"
       :confirmLoading="confirmLoading"
@@ -108,29 +108,29 @@
         layout="vertical"
       >
         <!-- 鏈類型 -->
-        <a-form-item :label="$t('chainType')" name="chainType">
+        <a-form-item :label="t('field.chainType')" name="chainType">
           <chain-type-select v-model="addWalletForm.chainType" />
         </a-form-item>
 
         <!-- 幣種 -->
-        <a-form-item :label="$t('currency')" name="currency">
+        <a-form-item :label="t('field.currency')" name="currency">
           <currency-select v-model="addWalletForm.currency" />
         </a-form-item>
 
         <!-- 錢包類型 -->
-        <a-form-item :label="$t('walletType')" name="walletType">
+        <a-form-item :label="t('field.walletType')" name="walletType">
           <wallet-type-select v-model="addWalletForm.walletType" @change="handleWalletTypeChange" />
         </a-form-item>
 
         <!-- 錢包地址（僅當選擇外轉錢包時顯示） -->
         <a-form-item
           v-if="addWalletForm.walletType === 'transfer'"
-          :label="$t('address')"
+          :label="t('field.address')"
           name="address"
         >
           <a-input
             v-model:value="addWalletForm.address"
-            :placeholder="$t('pleaseInputAddress')"
+            :placeholder="t('prompt.pleaseInputAddress')"
             allow-clear
           />
         </a-form-item>
@@ -189,70 +189,66 @@ const handleReset = () => {
 // 表格列配置
 const columns = [
   {
-    title: t('walletId'),
+    title: t('field.walletId'),
     dataIndex: 'walletId',
     key: 'walletId',
     width: 150
   },
   {
-    title: t('merchant'),
+    title: t('field.merchant'),
     dataIndex: 'merchant',
     key: 'merchant',
     width: 150
   },
   {
-    title: t('userId'),
+    title: t('field.userId'),
     dataIndex: 'userId',
     key: 'userId',
-    width: 120,
+    width: 150
   },
   {
-    title: t('walletType'),
+    title: t('field.walletType'),
     dataIndex: 'walletType',
     key: 'walletType',
-    width: 120,
+    width: 150
   },
   {
-    title: t('chain'),
-    dataIndex: 'chain',
-    key: 'chain',
-    width: 100,
+    title: t('field.chainType'),
+    dataIndex: 'chainType',
+    key: 'chainType',
+    width: 150
   },
   {
-    title: t('address'),
+    title: t('field.currency'),
+    dataIndex: 'currency',
+    key: 'currency',
+    width: 150
+  },
+  {
+    title: t('field.address'),
     dataIndex: 'address',
     key: 'address',
-    width: 200,
-    ellipsis: true,
+    width: 300
   },
   {
-    title: t('assetValue'),
+    title: t('field.assetValue'),
     dataIndex: 'assetValue',
     key: 'assetValue',
     width: 280,
-    align: 'right',
-    sorter: true,
-    sortDirections: ['descend', 'ascend']
+    align: 'right'
   },
   {
-    title: t('lastTransactionTime'),
-    dataIndex: 'lastTransactionTime',
-    key: 'lastTransactionTime',
-    width: 180,
-  },
-  {
-    title: t('status'),
+    title: t('field.status'),
     dataIndex: 'status',
     key: 'status',
-    width: 100,
-    align: 'center',
+    width: 100
   },
   {
-    title: t('action'),
+    title: t('field.action'),
     key: 'action',
-    width: 160,
-    fixed: 'right',
-  },
+    width: 150,
+    fixed: 'right'
+  }
 ]
 
 // 模擬表格數據
@@ -262,8 +258,9 @@ const tableData = ref([
     walletId: 'U12345678',
     merchant: 'Fameex',
     userId: 'U123456',
-    walletType: t('userWallet'),
-    chain: 'ETH',
+    walletType: t('wallet.type.user'),
+    chainType: 'ETH',
+    currency: 'USDT',
     address: '0x1234567890abcdef1234567890abcdef12345678',
     assetValue: '1234567890123.45678900',
     lastTransactionTime: '2024-03-15 10:30:25',
@@ -274,8 +271,9 @@ const tableData = ref([
     walletId: 'M87654321',
     merchant: 'Fameex',
     userId: 'U234567',
-    walletType: t('collectionWallet'),
-    chain: 'BTC',
+    walletType: t('wallet.type.collection'),
+    chainType: 'BTC',
+    currency: 'BTC',
     address: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
     assetValue: '123456789.12345678',
     lastTransactionTime: '2024-03-15 09:45:12',
@@ -286,8 +284,9 @@ const tableData = ref([
     walletId: 'P98765432',
     merchant: 'Fameex',
     userId: 'U345678',
-    walletType: t('withdrawalWallet'),
-    chain: 'TRON',
+    walletType: t('wallet.type.withdrawal'),
+    chainType: 'TRON',
+    currency: 'TRX',
     address: 'TRX1234567890abcdef1234567890abcdef12345678',
     assetValue: '12345678.12345678',
     lastTransactionTime: '2024-03-15 11:20:33',
@@ -298,8 +297,9 @@ const tableData = ref([
     walletId: 'W45678901',
     merchant: 'Fameex',
     userId: 'U456789',
-    walletType: t('transferWallet'),
-    chain: 'EOS',
+    walletType: t('wallet.type.transfer'),
+    chainType: 'EOS',
+    currency: 'EOS',
     address: 'eosio.token',
     assetValue: '1234567.12345678',
     lastTransactionTime: '2024-03-15 08:15:45',
@@ -310,8 +310,9 @@ const tableData = ref([
     walletId: 'U567890',
     merchant: 'Fameex',
     userId: 'U567890',
-    walletType: t('userWallet'),
-    chain: 'ETH',
+    walletType: t('wallet.type.user'),
+    chainType: 'ETH',
+    currency: 'USDT',
     address: '0xabcdef1234567890abcdef1234567890abcdef12',
     assetValue: '7531.24680000',
     lastTransactionTime: '2024-03-15 13:40:18',
@@ -322,8 +323,9 @@ const tableData = ref([
     walletId: 'M678901',
     merchant: 'CNX',
     userId: 'U678901',
-    walletType: t('collectionWallet'),
-    chain: 'BTC',
+    walletType: t('wallet.type.collection'),
+    chainType: 'BTC',
+    currency: 'BTC',
     address: 'bc1qabcdefghijklmnopqrstuvwxyz0123456789',
     assetValue: '8642.97531000',
     lastTransactionTime: '2024-03-15 14:55:27',
@@ -334,8 +336,9 @@ const tableData = ref([
     walletId: 'P789012',
     merchant: 'Fameex',
     userId: 'U789012',
-    walletType: t('withdrawalWallet'),
-    chain: 'TRON',
+    walletType: t('wallet.type.withdrawal'),
+    chainType: 'TRON',
+    currency: 'TRX',
     address: 'TRXabcdef1234567890abcdef1234567890abcdef',
     assetValue: '1357.24680000',
     lastTransactionTime: '2024-03-15 15:10:42',
@@ -346,8 +349,9 @@ const tableData = ref([
     walletId: 'W890123',
     merchant: 'CNX',
     userId: 'U890123',
-    walletType: t('transferWallet'),
-    chain: 'EOS',
+    walletType: t('wallet.type.transfer'),
+    chainType: 'EOS',
+    currency: 'EOS',
     address: 'cryptopool.x',
     assetValue: '9876.54321000',
     lastTransactionTime: '2024-03-15 16:25:33',
@@ -358,8 +362,9 @@ const tableData = ref([
     walletId: 'U901234',
     merchant: 'Fameex',
     userId: 'U901234',
-    walletType: t('userWallet'),
-    chain: 'ETH',
+    walletType: t('wallet.type.user'),
+    chainType: 'ETH',
+    currency: 'USDT',
     address: '0x9876543210abcdef9876543210abcdef98765432',
     assetValue: '4567.89012000',
     lastTransactionTime: '2024-03-15 17:30:15',
@@ -370,8 +375,9 @@ const tableData = ref([
     walletId: 'M012345',
     merchant: 'CNX',
     userId: 'U012345',
-    walletType: t('collectionWallet'),
-    chain: 'BTC',
+    walletType: t('wallet.type.collection'),
+    chainType: 'BTC',
+    currency: 'BTC',
     address: 'bc1q9876543210abcdef9876543210abcdef987654',
     assetValue: '6789.01234000',
     lastTransactionTime: '2024-03-15 18:45:55',
@@ -382,8 +388,9 @@ const tableData = ref([
     walletId: 'P112233',
     merchant: 'Fameex',
     userId: 'U112233',
-    walletType: t('withdrawalWallet'),
-    chain: 'TRON',
+    walletType: t('wallet.type.withdrawal'),
+    chainType: 'TRON',
+    currency: 'TRX',
     address: 'TRX9876543210abcdef9876543210abcdef987654',
     assetValue: '3456.78901000',
     lastTransactionTime: '2024-03-15 19:20:40',
@@ -394,8 +401,9 @@ const tableData = ref([
     walletId: 'W445566',
     merchant: 'CNX',
     userId: 'U445566',
-    walletType: t('transferWallet'),
-    chain: 'EOS',
+    walletType: t('wallet.type.transfer'),
+    chainType: 'EOS',
+    currency: 'EOS',
     address: 'wallet.pool',
     assetValue: '8901.23456000',
     lastTransactionTime: '2024-03-15 20:35:22',
@@ -406,8 +414,9 @@ const tableData = ref([
     walletId: 'U778899',
     merchant: 'Fameex',
     userId: 'U778899',
-    walletType: t('userWallet'),
-    chain: 'ETH',
+    walletType: t('wallet.type.user'),
+    chainType: 'ETH',
+    currency: 'USDT',
     address: '0x5544332211abcdef5544332211abcdef55443322',
     assetValue: '2345.67890000',
     lastTransactionTime: '2024-03-15 21:50:18',
@@ -418,8 +427,9 @@ const tableData = ref([
     walletId: 'M998877',
     merchant: 'CNX',
     userId: 'U998877',
-    walletType: t('collectionWallet'),
-    chain: 'BTC',
+    walletType: t('wallet.type.collection'),
+    chainType: 'BTC',
+    currency: 'BTC',
     address: 'bc1q5544332211abcdef5544332211abcdef554433',
     assetValue: '7890.12345000',
     lastTransactionTime: '2024-03-15 22:15:30',
@@ -430,8 +440,9 @@ const tableData = ref([
     walletId: 'P665544',
     merchant: 'Fameex',
     userId: 'U665544',
-    walletType: t('withdrawalWallet'),
-    chain: 'TRON',
+    walletType: t('wallet.type.withdrawal'),
+    chainType: 'TRON',
+    currency: 'TRX',
     address: 'TRX5544332211abcdef5544332211abcdef554433',
     assetValue: '4321.09876000',
     lastTransactionTime: '2024-03-15 23:30:45',
@@ -442,8 +453,9 @@ const tableData = ref([
     walletId: 'W332211',
     merchant: 'CNX',
     userId: 'U332211',
-    walletType: t('transferWallet'),
-    chain: 'EOS',
+    walletType: t('wallet.type.transfer'),
+    chainType: 'EOS',
+    currency: 'EOS',
     address: 'pool.crypto',
     assetValue: '9012.34567000',
     lastTransactionTime: '2024-03-16 00:45:20',
@@ -454,8 +466,9 @@ const tableData = ref([
     walletId: 'U114477',
     merchant: 'Fameex',
     userId: 'U114477',
-    walletType: t('userWallet'),
-    chain: 'ETH',
+    walletType: t('wallet.type.user'),
+    chainType: 'ETH',
+    currency: 'USDT',
     address: '0x1122334455abcdef1122334455abcdef11223344',
     assetValue: '5678.90123000',
     lastTransactionTime: '2024-03-16 01:55:15',
@@ -466,8 +479,9 @@ const tableData = ref([
     walletId: 'M229988',
     merchant: 'CNX',
     userId: 'U229988',
-    walletType: t('collectionWallet'),
-    chain: 'BTC',
+    walletType: t('wallet.type.collection'),
+    chainType: 'BTC',
+    currency: 'BTC',
     address: 'bc1q1122334455abcdef1122334455abcdef112233',
     assetValue: '6789.01234000',
     lastTransactionTime: '2024-03-16 02:10:33',
@@ -478,8 +492,9 @@ const tableData = ref([
     walletId: 'P337755',
     merchant: 'Fameex',
     userId: 'U337755',
-    walletType: t('withdrawalWallet'),
-    chain: 'TRON',
+    walletType: t('wallet.type.withdrawal'),
+    chainType: 'TRON',
+    currency: 'TRX',
     address: 'TRX1122334455abcdef1122334455abcdef112233',
     assetValue: '3456.78901000',
     lastTransactionTime: '2024-03-16 03:25:48',
@@ -490,8 +505,9 @@ const tableData = ref([
     walletId: 'W446688',
     merchant: 'CNX',
     userId: 'U446688',
-    walletType: t('transferWallet'),
-    chain: 'EOS',
+    walletType: t('wallet.type.transfer'),
+    chainType: 'EOS',
+    currency: 'EOS',
     address: 'crypto.bank',
     assetValue: '8901.23456000',
     lastTransactionTime: '2024-03-16 04:40:55',
@@ -562,9 +578,9 @@ const formatAddress = (address) => {
 const copyAddress = async (address) => {
   try {
     await navigator.clipboard.writeText(address)
-    message.success(t('copySuccess'))
+    message.success(t('prompt.copySuccess'))
   } catch (err) {
-    message.error(t('copyFailed'))
+    message.error(t('prompt.copyFailed'))
   }
 }
 
@@ -650,7 +666,7 @@ const handleAddWallet = async () => {
     
     // 模擬 API 調用
     setTimeout(() => {
-      message.success(t('addSuccess'))
+      message.success(t('prompt.addSuccess'))
       addWalletModalVisible.value = false
       confirmLoading.value = false
       // 重置表單
@@ -857,12 +873,12 @@ const handleCancelAdd = () => {
   font-size: 12px;
 }
 
-.status-enabled {
+:deep(.status-enabled) {
   background: rgba(82, 196, 26, 0.2);
   color: #52c41a;
 }
 
-.status-disabled {
+:deep(.status-disabled) {
   background: rgba(255, 77, 79, 0.2);
   color: #ff4d4f;
 }

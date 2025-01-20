@@ -158,7 +158,7 @@
     </a-card>
 
     <a-modal
-      v-model:visible="notifyHistoryVisible"
+      v-model:open="notifyHistoryVisible"
       :title="`${currentRecord?.platformOrderId || ''} ${t('notifyHistory')}`"
       :footer="null"
       width="600px"

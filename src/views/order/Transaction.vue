@@ -87,6 +87,7 @@
         :data-source="tableData"
         :pagination="pagination"
         :bordered="true"
+        :scroll="{ x: 1500 }"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, text, record }">
@@ -371,7 +372,7 @@ const tableData = [
     fromWalletId: 'W202403150007',
     toAddress: 'bc1q9h6mqkfqht9ckhz9txy6fmwp0xn6rz2qz7g8vg',
     toWalletId: null,
-    txHash: '8c023f1d41397c84472bf8588278f53986a4f0b1fc5d9b5d3c9f5c45f2f67890',
+    txHash: '8c023f1d41397c84472bf8588278f53986a4f0b1fc5d9b5d3c9f5c45f2f12345',
     feeCurrency: 'BTC',
     feeAmount: '0.00015',
     status: 'confirming',
@@ -470,6 +471,7 @@ const tableData = [
 :deep(.ant-card) {
   border-radius: 8px;
   border: 1px solid #303030;
+  margin-bottom: 24px;
 }
 
 :deep(.ant-card-head) {
@@ -486,6 +488,8 @@ const tableData = [
 
 :deep(.ant-card-body) {
   background-color: #141414;
+  padding: 24px;
+  overflow-x: auto;
 }
 
 :deep(.ant-form-item) {
@@ -495,6 +499,10 @@ const tableData = [
 :deep(.ant-form-item:last-child) {
   margin-bottom: 0;
   margin-right: 0;
+}
+
+:deep(.ant-table-wrapper) {
+  overflow-x: auto;
 }
 
 :deep(.ant-table) {

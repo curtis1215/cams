@@ -1,17 +1,17 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="t('pleaseSelectStatus')"
+    :placeholder="t('prompt.selectStatus')"
     allow-clear
     style="width: 100%"
     @update:value="$emit('update:modelValue', $event)"
   >
-    <a-select-option value="waiting">{{ t('waiting') }}</a-select-option>
-    <a-select-option value="confirming">{{ t('confirming') }}</a-select-option>
-    <a-select-option value="processing">{{ t('processing') }}</a-select-option>
-    <a-select-option value="retrying">{{ t('retrying') }}</a-select-option>
-    <a-select-option value="success">{{ t('successful') }}</a-select-option>
-    <a-select-option value="failed">{{ t('failed') }}</a-select-option>
+    <a-select-option value="waiting">{{ t('status.waiting') }}</a-select-option>
+    <a-select-option value="confirming">{{ t('status.confirming') }}</a-select-option>
+    <a-select-option value="processing">{{ t('status.processing') }}</a-select-option>
+    <a-select-option value="retrying">{{ t('status.retrying') }}</a-select-option>
+    <a-select-option value="success">{{ t('status.success') }}</a-select-option>
+    <a-select-option value="failed">{{ t('status.failed') }}</a-select-option>
   </a-select>
 </template>
 

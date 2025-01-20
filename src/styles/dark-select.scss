@@ -1,0 +1,24 @@
+.ant-select-dropdown {
+  background: #141414 !important;
+
+  .ant-select-item {
+    color: rgba(255, 255, 255, 0.85) !important;
+    background: #141414 !important;
+
+    &-option {
+      &-active {
+        background: #111b26 !important;
+      }
+
+      &-selected {
+        background: #177ddc !important;
+        color: #fff !important;
+      }
+
+      &-disabled {
+        color: rgba(255, 255, 255, 0.25) !important;
+        background: #141414 !important;
+      }
+    }
+  }
+}

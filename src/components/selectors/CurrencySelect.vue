@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="$t('pleaseSelectCurrency')"
+    :placeholder="t('prompt.selectCurrency')"
     :style="style"
     allow-clear
     @update:value="handleChange"
@@ -43,4 +43,34 @@ const currencies = [
 const handleChange = (value) => {
   emit('update:modelValue', value)
 }
-</script> 
+</script>
+
+<style>
+/* 使用全局樣式，避免 Menu 組件的樣式問題 */
+.ant-select-dropdown {
+  background-color: var(--background-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+.ant-select-item {
+  color: var(--text-color) !important;
+}
+
+.ant-select-item-option-selected {
+  background-color: var(--item-hover-bg) !important;
+}
+
+.ant-select-item-option-active {
+  background-color: var(--item-hover-bg) !important;
+}
+
+.ant-select-selector {
+  background-color: var(--component-background) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-color) !important;
+}
+
+.ant-select-selection-placeholder {
+  color: var(--text-color-secondary) !important;
+}
+</style>

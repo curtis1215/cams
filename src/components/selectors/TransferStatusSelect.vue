@@ -1,16 +1,16 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="t('pleaseSelectStatus')"
+    :placeholder="t('prompt.selectStatus')"
     allow-clear
     style="width: 100%"
     @update:value="$emit('update:modelValue', $event)"
   >
-    <a-select-option value="pending">{{ t('pending') }}</a-select-option>
-    <a-select-option value="processing">{{ t('processing') }}</a-select-option>
-    <a-select-option value="manualConfirm">{{ t('manualConfirm') }}</a-select-option>
-    <a-select-option value="success">{{ t('success') }}</a-select-option>
-    <a-select-option value="failed">{{ t('failed') }}</a-select-option>
+    <a-select-option value="pending">{{ t('status.pending') }}</a-select-option>
+    <a-select-option value="processing">{{ t('status.processing') }}</a-select-option>
+    <a-select-option value="manualConfirm">{{ t('status.manualConfirm') }}</a-select-option>
+    <a-select-option value="success">{{ t('status.success') }}</a-select-option>
+    <a-select-option value="failed">{{ t('status.failed') }}</a-select-option>
   </a-select>
 </template>
 

@@ -1,20 +1,20 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="t('pleaseSelectTransferType')"
+    :placeholder="t('prompt.selectTransferType')"
     :allow-clear="true"
     @change="handleChange"
   >
-    <a-select-option value="deposit">{{ t('deposit') }}</a-select-option>
-    <a-select-option value="withdraw">{{ t('withdraw') }}</a-select-option>
-    <a-select-option value="collection">{{ t('collection') }}</a-select-option>
-    <a-select-option value="exchange">{{ t('exchange') }}</a-select-option>
-    <a-select-option value="replenish">{{ t('replenish') }}</a-select-option>
-    <a-select-option value="manual">{{ t('manual') }}</a-select-option>
-    <a-select-option value="pendingConfirm">{{ t('pendingConfirm') }}</a-select-option>
-    <a-select-option value="manualOut">{{ t('manualOut') }}</a-select-option>
-    <a-select-option value="manualIn">{{ t('manualIn') }}</a-select-option>
-    <a-select-option value="systemError">{{ t('systemError') }}</a-select-option>
+    <a-select-option value="deposit">{{ t('tx.deposit') }}</a-select-option>
+    <a-select-option value="withdraw">{{ t('tx.withdraw') }}</a-select-option>
+    <a-select-option value="collection">{{ t('tx.collection') }}</a-select-option>
+    <a-select-option value="exchange">{{ t('tx.exchange') }}</a-select-option>
+    <a-select-option value="replenish">{{ t('tx.replenish') }}</a-select-option>
+    <a-select-option value="manual">{{ t('tx.manual') }}</a-select-option>
+    <a-select-option value="pendingConfirm">{{ t('tx.pendingConfirm') }}</a-select-option>
+    <a-select-option value="manualOut">{{ t('tx.manualOut') }}</a-select-option>
+    <a-select-option value="manualIn">{{ t('tx.manualIn') }}</a-select-option>
+    <a-select-option value="systemError">{{ t('tx.systemError') }}</a-select-option>
   </a-select>
 </template>
 
