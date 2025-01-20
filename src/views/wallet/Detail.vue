@@ -3,22 +3,22 @@
     <!-- 查詢表單 -->
     <a-card :bordered="false" class="filter-card">
       <template #title>
-        <span class="card-title">{{ $t('queryCondition') }}</span>
+        <span class="card-title">{{ $t('wallet.queryCondition') }}</span>
       </template>
       <a-form layout="inline" :model="queryParams">
-        <a-form-item :label="$t('merchant')">
+        <a-form-item :label="$t('wallet.merchant')">
           <merchant-select v-model="queryParams.merchant" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('chainType')">
+        <a-form-item :label="$t('wallet.chainType')">
           <chain-type-select v-model="queryParams.chainType" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('currency')">
+        <a-form-item :label="$t('wallet.currency')">
           <currency-select v-model="queryParams.currency" :style="{ width: '180px' }" />
         </a-form-item>
-        <a-form-item :label="$t('address')">
+        <a-form-item :label="$t('wallet.address')">
           <a-input
             v-model:value="queryParams.address"
-            :placeholder="$t('pleaseInputAddress')"
+            :placeholder="$t('wallet.prompt.pleaseInputAddress')"
             :style="{ width: '300px' }"
             allow-clear
           />
@@ -26,7 +26,7 @@
         <a-form-item>
           <a-button type="primary" @click="handleQuery">
             <template #icon><SearchOutlined /></template>
-            {{ $t('query') }}
+            {{ $t('wallet.action.query') }}
           </a-button>
         </a-form-item>
       </a-form>
@@ -35,20 +35,20 @@
     <!-- 錢包資訊卡片 -->
     <a-card :bordered="false" class="info-card">
       <template #title>
-        <span class="card-title">{{ $t('walletInfo') }}</span>
+        <span class="card-title">{{ $t('wallet.info') }}</span>
       </template>
       
       <div class="info-section">
         <div class="info-item">
           <span class="info-label">
-            <WalletOutlined /> {{ $t('walletId') }}
+            <WalletOutlined /> {{ $t('wallet.id') }}
           </span>
           <span class="info-value">{{ walletInfo.walletId }}</span>
         </div>
 
         <div class="info-item">
           <span class="info-label">
-            <LinkOutlined /> {{ $t('address') }}
+            <LinkOutlined /> {{ $t('wallet.address') }}
           </span>
           <span class="info-value address-container">
             {{ walletInfo.address }}
@@ -61,32 +61,32 @@
 
         <div class="info-item">
           <span class="info-label">
-            <ShopOutlined /> {{ $t('merchant') }}
+            <ShopOutlined /> {{ $t('wallet.merchant') }}
           </span>
           <span class="info-value">{{ walletInfo.merchant }}</span>
         </div>
 
         <div class="info-item">
           <span class="info-label">
-            <UserOutlined /> {{ $t('userId') }}
+            <UserOutlined /> {{ $t('wallet.userId') }}
           </span>
           <span class="info-value">{{ walletInfo.userId }}</span>
         </div>
 
         <div class="info-item">
           <span class="info-label">
-            <AppstoreOutlined /> {{ $t('walletType') }}
+            <AppstoreOutlined /> {{ $t('wallet.type') }}
           </span>
           <span class="info-value wallet-type-container">
             {{ walletInfo.walletType }}
             <a-space>
               <a-button type="primary" @click="handleChangeType">
                 <template #icon><EditOutlined /></template>
-                {{ $t('changeType') }}
+                {{ $t('wallet.action.changeType') }}
               </a-button>
               <a-button @click="showTypeHistory">
                 <template #icon><HistoryOutlined /></template>
-                {{ $t('changeHistory') }}
+                {{ $t('wallet.action.changeHistory') }}
               </a-button>
             </a-space>
           </span>
@@ -94,20 +94,20 @@
 
         <div class="info-item">
           <span class="info-label">
-            <CheckCircleOutlined /> {{ $t('status') }}
+            <CheckCircleOutlined /> {{ $t('wallet.status') }}
           </span>
           <span class="info-value wallet-status-container">
             <span :class="['status-tag', walletInfo.isDisabled ? 'status-disabled' : 'status-enabled']">
-              {{ walletInfo.isDisabled ? t('disabled') : t('enabled') }}
+              {{ walletInfo.isDisabled ? $t('wallet.status.disabled') : $t('wallet.status.enabled') }}
             </span>
             <a-space>
               <a-button type="primary" @click="handleChangeStatus">
                 <template #icon><EditOutlined /></template>
-                {{ $t('changeStatus') }}
+                {{ $t('wallet.action.changeStatus') }}
               </a-button>
               <a-button @click="showStatusHistory">
                 <template #icon><HistoryOutlined /></template>
-                {{ $t('changeHistory') }}
+                {{ $t('wallet.action.changeHistory') }}
               </a-button>
             </a-space>
           </span>
@@ -115,17 +115,17 @@
 
         <div class="info-item">
           <span class="info-label">
-            <KeyOutlined /> {{ $t('privateKeyManagement') }}
+            <KeyOutlined /> {{ $t('wallet.privateKeyManagement') }}
           </span>
           <span class="info-value">
             <a-space>
               <a-button type="primary" @click="handleDownloadPrivateKey">
                 <template #icon><DownloadOutlined /></template>
-                {{ $t('downloadPrivateKey') }}
+                {{ $t('wallet.action.downloadPrivateKey') }}
               </a-button>
               <a-button @click="showPrivateKeyHistory">
                 <template #icon><HistoryOutlined /></template>
-                {{ $t('privateKeyHistory') }}
+                {{ $t('wallet.action.privateKeyHistory') }}
               </a-button>
             </a-space>
           </span>
@@ -133,14 +133,14 @@
       </div>
     </a-card>
 
-    <!-- 在錢包資訊卡片後添加代幣詳情卡片 -->
+    <!-- 代幣詳情卡片 -->
     <a-card :bordered="false" class="token-card">
       <template #title>
         <div class="card-header">
-          <span class="card-title">{{ $t('tokenDetail') }}</span>
+          <span class="card-title">{{ $t('wallet.tokenDetail') }}</span>
           <a-input-search
             v-model:value="searchText"
-            :placeholder="$t('pleaseInputCoin')"
+            :placeholder="$t('wallet.prompt.pleaseInputCoin')"
             style="width: 200px"
             @change="onSearch"
             allowClear
@@ -162,7 +162,7 @@
           <template v-if="column.key === 'balance'">
             <a-tooltip
               v-if="record.isExceeded"
-              :title="`${t('storageLimit')}: ${formatNumber(record.storageLimit)}`"
+              :title="`${$t('wallet.storageLimit')}: ${formatNumber(record.storageLimit)}`"
             >
               <div class="stacked-values" :class="{ 'exceeded-balance': record.isExceeded }">
                 <div>{{ formatNumber(record.currentBalance) }}</div>
@@ -200,33 +200,21 @@
               <div class="secondary-value">{{ formatNumber(record.availableOutflow) }}</div>
             </div>
           </template>
-          
-          <!-- 操作列 -->
-          <template v-if="column.key === 'action'">
-            <a-space>
-              <a-button type="link" size="small" @click="showTransferHistory(record)">
-                {{ t('transferHistory') }}
-              </a-button>
-              <a-button type="link" size="small" @click="showTransactionDetail(record)">
-                {{ t('transactionDetail') }}
-              </a-button>
-            </a-space>
-          </template>
         </template>
       </a-table>
     </a-card>
 
-    <!-- 私鑰相關的 Modal 保持不變 -->
+    <!-- 私鑰下載彈窗 -->
     <a-modal
-      v-model:open="downloadModalVisible"
-      :title="t('downloadPrivateKey')"
+      v-model:visible="downloadModalVisible"
+      :title="$t('wallet.prompt.downloadPrivateKey')"
       @ok="confirmDownload"
     >
       <a-form :model="downloadForm">
-        <a-form-item :label="$t('operationReason')" required>
+        <a-form-item :label="$t('wallet.prompt.downloadReason')">
           <a-textarea
             v-model:value="downloadForm.reason"
-            :placeholder="$t('pleaseInputReason')"
+            :placeholder="$t('wallet.prompt.pleaseInputDownloadReason')"
             :rows="4"
             :maxLength="200"
             show-count
@@ -235,9 +223,10 @@
       </a-form>
     </a-modal>
 
+    <!-- 私鑰歷史記錄彈窗 -->
     <a-modal
-      v-model:open="historyModalVisible"
-      :title="t('privateKeyHistory')"
+      v-model:visible="historyModalVisible"
+      :title="$t('wallet.privateKeyHistory')"
       :footer="null"
       width="800px"
     >
@@ -249,23 +238,23 @@
       />
     </a-modal>
 
-    <!-- 添加變更類型的 Modal -->
+    <!-- 變更類型彈窗 -->
     <a-modal
-      v-model:open="changeTypeModalVisible"
-      :title="t('changeType')"
+      v-model:visible="changeTypeModalVisible"
+      :title="$t('wallet.prompt.changeType')"
       @ok="confirmChangeType"
       @cancel="() => changeTypeModalVisible = false"
     >
       <a-form :model="changeTypeForm">
-        <a-form-item :label="$t('walletType')" required>
+        <a-form-item :label="$t('wallet.newType')" required>
           <wallet-type-select
             v-model="changeTypeForm.type"
           />
         </a-form-item>
-        <a-form-item :label="$t('operationReason')" required>
+        <a-form-item :label="$t('wallet.changeReason')" required>
           <a-textarea
             v-model:value="changeTypeForm.reason"
-            :placeholder="$t('pleaseInputReason')"
+            :placeholder="$t('wallet.prompt.pleaseInputChangeReason')"
             :rows="4"
             :maxLength="200"
             show-count
@@ -274,10 +263,10 @@
       </a-form>
     </a-modal>
 
-    <!-- 添加變更記錄的 Modal -->
+    <!-- 類型變更歷史彈窗 -->
     <a-modal
-      v-model:open="typeHistoryModalVisible"
-      :title="t('changeHistory')"
+      v-model:visible="typeHistoryModalVisible"
+      :title="$t('wallet.typeHistory')"
       :footer="null"
       width="800px"
     >
@@ -289,10 +278,10 @@
       />
     </a-modal>
 
-    <!-- 添加轉帳記錄的 Modal -->
+    <!-- 轉帳記錄彈窗 -->
     <a-modal
-      v-model:open="transferHistoryModalVisible"
-      :title="t('transferHistory')"
+      v-model:visible="transferHistoryModalVisible"
+      :title="$t('wallet.transferHistory')"
       :footer="null"
       width="1200px"
     >
@@ -305,27 +294,27 @@
       />
     </a-modal>
 
-    <!-- 添加變更狀態的 Modal -->
+    <!-- 變更狀態彈窗 -->
     <a-modal
-      v-model:open="changeStatusModalVisible"
-      :title="t('changeStatus')"
+      v-model:visible="changeStatusModalVisible"
+      :title="$t('wallet.prompt.changeStatus')"
       @ok="confirmChangeStatus"
     >
       <a-form :model="changeStatusForm">
-        <a-form-item :label="$t('status')" required>
+        <a-form-item :label="$t('wallet.newStatus')" required>
           <a-select
             v-model:value="changeStatusForm.status"
             style="width: 100%"
-            :placeholder="$t('pleaseSelectStatus')"
+            :placeholder="$t('wallet.prompt.pleaseSelectStatus')"
           >
-            <a-select-option value="enabled">{{ $t('enabled') }}</a-select-option>
-            <a-select-option value="disabled">{{ $t('disabled') }}</a-select-option>
+            <a-select-option value="enabled">{{ $t('wallet.status.enabled') }}</a-select-option>
+            <a-select-option value="disabled">{{ $t('wallet.status.disabled') }}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item :label="$t('operationReason')" required>
+        <a-form-item :label="$t('wallet.changeReason')" required>
           <a-textarea
             v-model:value="changeStatusForm.reason"
-            :placeholder="$t('pleaseInputReason')"
+            :placeholder="$t('wallet.prompt.pleaseInputChangeReason')"
             :rows="4"
             :maxLength="200"
             show-count
@@ -334,9 +323,10 @@
       </a-form>
     </a-modal>
 
+    <!-- 狀態變更歷史彈窗 -->
     <a-modal
-      v-model:open="statusHistoryModalVisible"
-      :title="t('changeHistory')"
+      v-model:visible="statusHistoryModalVisible"
+      :title="$t('wallet.statusHistory')"
       :footer="null"
       width="800px"
     >
@@ -444,22 +434,22 @@ const confirmDownload = () => {
 const historyModalVisible = ref(false)
 const historyColumns = [
   {
-    title: t('operatorUser'),
-    dataIndex: 'operator',
-    key: 'operator',
-    width: 120,
-  },
-  {
-    title: t('operationReason'),
-    dataIndex: 'reason',
-    key: 'reason',
-    width: 150,
-  },
-  {
-    title: t('operationTime'),
+    title: t('wallet.downloadTime'),
     dataIndex: 'time',
     key: 'time',
-    width: 180,
+    width: 180
+  },
+  {
+    title: t('wallet.downloadReason'),
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 300
+  },
+  {
+    title: t('wallet.operator'),
+    dataIndex: 'operator',
+    key: 'operator',
+    width: 120
   }
 ]
 
@@ -501,14 +491,14 @@ const sortState = reactive({
 // 修改 tokenColumns 配置
 const tokenColumns = computed(() => [
   {
-    title: t('coin'),
+    title: t('wallet.coin'),
     dataIndex: 'coin',
     key: 'coin',
     width: 100,
     sorter: true,
   },
   {
-    title: `${t('currentBalance')} / ${t('availableBalance')}`,
+    title: `${t('wallet.currentBalance')} / ${t('wallet.availableBalance')}`,
     key: 'balance',
     width: 200,
     align: 'right',
@@ -516,7 +506,7 @@ const tokenColumns = computed(() => [
     sortDirections: ['ascend', 'descend'],
   },
   {
-    title: t('holdingCost'),
+    title: t('wallet.holdingCost'),
     dataIndex: 'holdingCost',
     key: 'holdingCost',
     width: 150,
@@ -524,7 +514,7 @@ const tokenColumns = computed(() => [
     sorter: true,
   },
   {
-    title: t('assetValue'),
+    title: t('wallet.assetValue'),
     dataIndex: 'assetValue',
     key: 'assetValue',
     width: 150,
@@ -532,21 +522,21 @@ const tokenColumns = computed(() => [
     sorter: true,
   },
   {
-    title: `${t('currentInflow')} / ${t('availableInflow')}`,
+    title: `${t('wallet.currentInflow')} / ${t('wallet.availableInflow')}`,
     key: 'inflow',
     width: 200,
     align: 'right',
     sorter: true,
   },
   {
-    title: `${t('currentOutflow')} / ${t('availableOutflow')}`,
+    title: `${t('wallet.currentOutflow')} / ${t('wallet.availableOutflow')}`,
     key: 'outflow',
     width: 200,
     align: 'right',
     sorter: true,
   },
   {
-    title: t('lastTransactionTime'),
+    title: t('wallet.lastTransactionTime'),
     dataIndex: 'lastTransactionTime',
     key: 'lastTransactionTime',
     width: 180,
@@ -765,11 +755,11 @@ const tokenData = [
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: false,
     storageLimit: '100000.00000000'
-  }
+  },
 ]
 
 // 處理轉帳記錄按鈕點擊
-const showTransferHistory = (record) => {
+function showTransferHistory(record) {
   console.log('查看轉帳記錄:', record)
   // 這裡可以根據 record 的幣種來過濾或獲取對應的轉帳記錄
   transferHistoryModalVisible.value = true
@@ -795,7 +785,7 @@ onMounted(() => {
 // 變更類型相關
 const changeTypeModalVisible = ref(false)
 const changeTypeForm = reactive({
-  type: undefined,
+  type: '',
   reason: ''
 })
 
@@ -820,34 +810,34 @@ const confirmChangeType = () => {
 const typeHistoryModalVisible = ref(false)
 const typeHistoryColumns = [
   {
-    title: t('operatorUser'),
-    dataIndex: 'operator',
-    key: 'operator',
-    width: 120,
-  },
-  {
-    title: t('operationReason'),
-    dataIndex: 'reason',
-    key: 'reason',
-    width: 200,
-  },
-  {
-    title: t('beforeType'),
-    dataIndex: 'beforeType',
-    key: 'beforeType',
-    width: 150,
-  },
-  {
-    title: t('afterType'),
-    dataIndex: 'afterType',
-    key: 'afterType',
-    width: 150,
-  },
-  {
-    title: t('operationTime'),
+    title: t('wallet.changeTime'),
     dataIndex: 'time',
     key: 'time',
-    width: 180,
+    width: 180
+  },
+  {
+    title: t('wallet.oldType'),
+    dataIndex: 'beforeType',
+    key: 'beforeType',
+    width: 150
+  },
+  {
+    title: t('wallet.newType'),
+    dataIndex: 'afterType',
+    key: 'afterType',
+    width: 150
+  },
+  {
+    title: t('wallet.changeReason'),
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 300
+  },
+  {
+    title: t('wallet.operator'),
+    dataIndex: 'operator',
+    key: 'operator',
+    width: 120
   }
 ]
 
@@ -856,16 +846,16 @@ const typeHistoryData = [
     key: '1',
     operator: 'Admin',
     reason: '業務需求調整',
-    beforeType: t('userWallet'),
-    afterType: t('collectionWallet'),
+    beforeType: t('wallet.type.user'),
+    afterType: t('wallet.type.collection'),
     time: '2024-03-15 10:30:25'
   },
   {
     key: '2',
     operator: 'Manager',
     reason: '系統重組',
-    beforeType: t('collectionWallet'),
-    afterType: t('withdrawalWallet'),
+    beforeType: t('wallet.type.collection'),
+    afterType: t('wallet.type.withdrawal'),
     time: '2024-03-14 15:45:30'
   }
 ]
@@ -1024,7 +1014,7 @@ const transferHistoryData = [
     confirmations: 6,
     requiredConfirmations: 12,
     createTime: '2024-03-15 10:30:00',
-    submitTime: '2024-03-15 10:30:10',
+    submitTime: '2024-03-15 10:30:15',
     onChainTime: '2024-03-15 10:31:00',
     completeTime: null,
     updateTime: '2024-03-15 10:35:00',
@@ -1188,7 +1178,7 @@ onBeforeUnmount(() => {
   
   // 重置表單數據
   downloadForm.reason = ''
-  changeTypeForm.type = undefined
+  changeTypeForm.type = ''
   changeTypeForm.reason = ''
   
   // 重置查詢參數
@@ -1233,34 +1223,34 @@ const confirmChangeStatus = () => {
 const statusHistoryModalVisible = ref(false)
 const statusHistoryColumns = [
   {
-    title: t('operatorUser'),
-    dataIndex: 'operator',
-    key: 'operator',
-    width: 120,
-  },
-  {
-    title: t('operationReason'),
-    dataIndex: 'reason',
-    key: 'reason',
-    width: 200,
-  },
-  {
-    title: t('beforeStatus'),
-    dataIndex: 'beforeStatus',
-    key: 'beforeStatus',
-    width: 150,
-  },
-  {
-    title: t('afterStatus'),
-    dataIndex: 'afterStatus',
-    key: 'afterStatus',
-    width: 150,
-  },
-  {
-    title: t('operationTime'),
+    title: t('wallet.changeTime'),
     dataIndex: 'time',
     key: 'time',
-    width: 180,
+    width: 180
+  },
+  {
+    title: t('wallet.oldStatus'),
+    dataIndex: 'beforeStatus',
+    key: 'beforeStatus',
+    width: 150
+  },
+  {
+    title: t('wallet.newStatus'),
+    dataIndex: 'afterStatus',
+    key: 'afterStatus',
+    width: 150
+  },
+  {
+    title: t('wallet.changeReason'),
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 300
+  },
+  {
+    title: t('wallet.operator'),
+    dataIndex: 'operator',
+    key: 'operator',
+    width: 120
   }
 ]
 
@@ -1269,16 +1259,16 @@ const statusHistoryData = [
     key: '1',
     operator: 'Admin',
     reason: '風控要求',
-    beforeStatus: t('enabled'),
-    afterStatus: t('disabled'),
+    beforeStatus: t('wallet.status.enabled'),
+    afterStatus: t('wallet.status.disabled'),
     time: '2024-03-15 10:30:25'
   },
   {
     key: '2',
     operator: 'Manager',
     reason: '解除風控',
-    beforeStatus: t('disabled'),
-    afterStatus: t('enabled'),
+    beforeStatus: t('wallet.status.disabled'),
+    afterStatus: t('wallet.status.enabled'),
     time: '2024-03-14 15:45:30'
   }
 ]
@@ -1552,4 +1542,4 @@ const statusHistoryData = [
   background: rgba(255, 77, 79, 0.2);
   color: #ff4d4f;
 }
-</style> 
+</style>

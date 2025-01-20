@@ -6,7 +6,7 @@
         style="width: 200px"
         @change="handlePlatformChange"
       >
-        <a-select-option value="all">{{ $t('allPlatforms') }}</a-select-option>
+        <a-select-option value="all">{{ $t('dashboard.allPlatforms') }}</a-select-option>
         <a-select-option value="fameex">Fameex</a-select-option>
         <a-select-option value="cnx">CNX</a-select-option>
       </a-select>
@@ -15,7 +15,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <MoneyCollectOutlined /> {{ $t('todayDeposit') }}
+            <MoneyCollectOutlined /> {{ $t('dashboard.todayDeposit') }}
           </template>
           <h2>{{ formatNumber(12345678.12345678) }} USDT</h2>
         </a-card>
@@ -23,7 +23,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <ClockCircleOutlined /> {{ $t('avgDepositDuration') }}
+            <ClockCircleOutlined /> {{ $t('dashboard.avgDepositDuration') }}
           </template>
           <h2>02:45:30</h2>
         </a-card>
@@ -31,7 +31,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <TransactionOutlined /> {{ $t('todayWithdraw') }}
+            <TransactionOutlined /> {{ $t('dashboard.todayWithdraw') }}
           </template>
           <h2>{{ formatNumber(87654321.87654321) }} USDT</h2>
         </a-card>
@@ -39,7 +39,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <FieldTimeOutlined /> {{ $t('avgWithdrawDuration') }}
+            <FieldTimeOutlined /> {{ $t('dashboard.avgWithdrawDuration') }}
           </template>
           <h2>01:30:15</h2>
         </a-card>
@@ -49,12 +49,12 @@
     <!-- 圓餅圖區域 -->
     <a-row :gutter="16" class="chart-row">
       <a-col :span="12">
-        <a-card :title="$t('depositCoinRatio')">
+        <a-card :title="$t('dashboard.depositCoinRatio')">
           <v-chart class="chart" :option="depositPieOption" />
         </a-card>
       </a-col>
       <a-col :span="12">
-        <a-card :title="$t('withdrawCoinRatio')">
+        <a-card :title="$t('dashboard.withdrawCoinRatio')">
           <v-chart class="chart" :option="withdrawPieOption" />
         </a-card>
       </a-col>
@@ -63,12 +63,12 @@
     <!-- 長條圖區域 -->
     <a-row :gutter="16" class="chart-row">
       <a-col :span="12">
-        <a-card :title="$t('chainDepositDuration')">
+        <a-card :title="$t('dashboard.chainDepositDuration')">
           <v-chart class="chart" :option="depositBarOption" />
         </a-card>
       </a-col>
       <a-col :span="12">
-        <a-card :title="$t('chainWithdrawDuration')">
+        <a-card :title="$t('dashboard.chainWithdrawDuration')">
           <v-chart class="chart" :option="withdrawBarOption" />
         </a-card>
       </a-col>
@@ -77,7 +77,7 @@
     <!-- 折線圖區域 -->
     <a-row class="chart-row">
       <a-col :span="24">
-        <a-card :title="$t('hourlyAnalysis')">
+        <a-card :title="$t('dashboard.hourlyAnalysis')">
           <v-chart class="chart large" :option="lineOption" />
         </a-card>
       </a-col>
@@ -270,4 +270,4 @@ h2 {
 .chart.large {
   height: 400px;
 }
-</style> 
+</style>

@@ -45,31 +45,5 @@ const handleChange = (value) => {
 </script>
 
 <style>
-/* 使用全局樣式，避免 Menu 組件的樣式問題 */
-.ant-select-dropdown {
-  background-color: var(--background-color) !important;
-  border-color: var(--border-color) !important;
-}
-
-.ant-select-item {
-  color: var(--text-color) !important;
-}
-
-.ant-select-item-option-selected {
-  background-color: var(--item-hover-bg) !important;
-}
-
-.ant-select-item-option-active {
-  background-color: var(--item-hover-bg) !important;
-}
-
-.ant-select-selector {
-  background-color: var(--component-background) !important;
-  border-color: var(--border-color) !important;
-  color: var(--text-color) !important;
-}
-
-.ant-select-selection-placeholder {
-  color: var(--text-color-secondary) !important;
-}
+/* 移除全局樣式，改為使用 common.css 中的樣式 */
 </style>

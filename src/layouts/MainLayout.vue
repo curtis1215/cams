@@ -45,95 +45,95 @@
             <template #title>
               <span>
                 <FundOutlined />
-                {{ $t('monitoring') }}
+                {{ $t('nav.monitoring') }}
               </span>
             </template>
             <a-menu-item key="dashboard" @click="router.push('/monitor/dashboard')">
               <DashboardOutlined />
-              {{ $t('dataMonitoring') }}
+              {{ $t('nav.dataMonitoring') }}
             </a-menu-item>
             <a-menu-item key="alert" @click="router.push('/monitor/alert')">
               <AlertOutlined />
-              {{ $t('alertMonitoring') }}
+              {{ $t('nav.alertMonitoring') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="wallet">
             <template #title>
               <span>
                 <WalletOutlined />
-                {{ $t('walletManagement') }}
+                {{ $t('nav.walletManagement') }}
               </span>
             </template>
             <a-menu-item key="walletQuery" @click="router.push('/wallet/query')">
               <SearchOutlined />
-              {{ $t('walletQuery') }}
+              {{ $t('nav.walletQuery') }}
             </a-menu-item>
             <a-menu-item key="walletDetail" @click="router.push('/wallet/detail')">
               <FileSearchOutlined />
-              {{ $t('walletDetail') }}
+              {{ $t('nav.walletDetail') }}
             </a-menu-item>
             <a-menu-item key="walletTransfer" @click="router.push('/wallet/transfer')">
               <SwapOutlined />
-              {{ $t('walletTransfer') }}
+              {{ $t('nav.walletTransfer') }}
             </a-menu-item>
             <a-menu-item key="tokenExchange" @click="router.push('/wallet/token-exchange')">
               <SyncOutlined />
-              {{ $t('tokenExchangeManagement') }}
+              {{ $t('nav.tokenExchangeManagement') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="order">
             <template #title>
               <span>
                 <OrderedListOutlined />
-                {{ $t('orderManagement') }}
+                {{ $t('nav.orderManagement') }}
               </span>
             </template>
             <a-menu-item key="depositOrder" @click="router.push('/order/deposit')">
               <PayCircleOutlined />
-              {{ $t('depositOrderQuery') }}
+              {{ $t('nav.depositOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="withdrawOrder" @click="router.push('/order/withdraw')">
               <BankOutlined />
-              {{ $t('withdrawOrderQuery') }}
+              {{ $t('nav.withdrawOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="transferOrder" @click="router.push('/order/transfer')">
               <SwapOutlined />
-              {{ $t('transferOrderQuery') }}
+              {{ $t('nav.transferOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="exchangeOrder" @click="router.push('/order/exchange')">
               <SyncOutlined />
-              {{ $t('exchangeOrderQuery') }}
+              {{ $t('nav.exchangeOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="transactionDetail" @click="router.push('/order/transaction')">
               <TransactionOutlined />
-              {{ $t('transactionDetailQuery') }}
+              {{ $t('nav.transactionDetailQuery') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="params">
             <template #title>
               <span>
                 <ToolOutlined />
-                {{ $t('paramsManagement') }}
+                {{ $t('nav.paramsManagement') }}
               </span>
             </template>
             <a-menu-item key="blockchain" @click="router.push('/params/blockchain')">
               <BlockOutlined />
-              {{ $t('blockchainManagement') }}
+              {{ $t('nav.blockchainManagement') }}
             </a-menu-item>
             <a-menu-item key="contractCoin" @click="router.push('/params/contract-coin')">
               <CodeOutlined />
-              {{ $t('contractCoinManagement') }}
+              {{ $t('nav.contractCoinManagement') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="system">
             <template #title>
               <span>
                 <SettingOutlined />
-                {{ $t('system') }}
+                {{ $t('nav.system') }}
               </span>
             </template>
-            <a-menu-item key="users">{{ $t('userManagement') }}</a-menu-item>
-            <a-menu-item key="roles">{{ $t('roleManagement') }}</a-menu-item>
+            <a-menu-item key="users">{{ $t('nav.userManagement') }}</a-menu-item>
+            <a-menu-item key="roles">{{ $t('nav.roleManagement') }}</a-menu-item>
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
@@ -294,4 +294,4 @@ const localeOptions = [
 .user-dropdown:hover {
   color: #1890ff;
 }
-</style> 
+</style>

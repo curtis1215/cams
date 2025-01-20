@@ -10,21 +10,21 @@
           <a-form layout="vertical" :model="fromWalletForm">
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.merchant') }}</div>
+                <div class="form-label">{{ t('common.merchant') }}</div>
                 <merchant-select v-model="fromWalletForm.merchant" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.chainType') }}</div>
+                <div class="form-label">{{ t('common.chainType') }}</div>
                 <chain-type-select v-model="fromWalletForm.chainType" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.currency') }}</div>
+                <div class="form-label">{{ t('common.currency') }}</div>
                 <currency-select v-model="fromWalletForm.currency" class="full-width" />
               </a-form-item>
             </div>
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.address') }}</div>
+                <div class="form-label">{{ t('common.address') }}</div>
                 <a-input
                   v-model:value="fromWalletForm.address"
                   :placeholder="t('prompt.inputAddress')"
@@ -53,21 +53,21 @@
           <a-form layout="vertical" :model="toWalletForm">
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.merchant') }}</div>
+                <div class="form-label">{{ t('common.merchant') }}</div>
                 <merchant-select v-model="toWalletForm.merchant" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.chainType') }}</div>
+                <div class="form-label">{{ t('common.chainType') }}</div>
                 <chain-type-select v-model="toWalletForm.chainType" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.currency') }}</div>
+                <div class="form-label">{{ t('common.currency') }}</div>
                 <currency-select v-model="toWalletForm.currency" class="full-width" />
               </a-form-item>
             </div>
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('field.address') }}</div>
+                <div class="form-label">{{ t('common.address') }}</div>
                 <a-input
                   v-model:value="toWalletForm.address"
                   :placeholder="t('prompt.inputAddress')"
@@ -96,15 +96,15 @@
           </template>
           <div class="detail-content">
             <div class="detail-item">
-              <span class="detail-label">{{ t('field.currency') }}</span>
+              <span class="detail-label">{{ t('common.currency') }}</span>
               <span class="detail-value">{{ fromWalletDetail.currency }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('field.balance') }}</span>
+              <span class="detail-label">{{ t('common.balance') }}</span>
               <span class="detail-value">{{ formatNumber(fromWalletDetail.balance) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('field.availableAmount') }}</span>
+              <span class="detail-label">{{ t('common.availableAmount') }}</span>
               <span class="detail-value">{{ formatNumber(fromWalletDetail.availableOutflow) }}</span>
             </div>
           </div>
@@ -119,15 +119,15 @@
           </template>
           <div class="detail-content">
             <div class="detail-item">
-              <span class="detail-label">{{ t('field.currency') }}</span>
+              <span class="detail-label">{{ t('common.currency') }}</span>
               <span class="detail-value">{{ toWalletDetail.currency }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('field.balance') }}</span>
+              <span class="detail-label">{{ t('common.balance') }}</span>
               <span class="detail-value">{{ formatNumber(toWalletDetail.balance) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('field.availableAmount') }}</span>
+              <span class="detail-label">{{ t('common.availableAmount') }}</span>
               <span class="detail-value">{{ formatNumber(toWalletDetail.availableInflow) }}</span>
             </div>
           </div>
@@ -194,19 +194,19 @@
           </template>
           <div class="confirm-card-content">
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.merchant') }}</span>
+              <span class="confirm-label">{{ t('common.merchant') }}</span>
               <span class="confirm-value">{{ fromWalletForm.merchant }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.chainType') }}</span>
+              <span class="confirm-label">{{ t('common.chainType') }}</span>
               <span class="confirm-value">{{ fromWalletForm.chainType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.currency') }}</span>
+              <span class="confirm-label">{{ t('common.currency') }}</span>
               <span class="confirm-value">{{ fromWalletForm.currency }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.address') }}</span>
+              <span class="confirm-label">{{ t('common.address') }}</span>
               <span class="confirm-value">{{ fromWalletForm.address }}</span>
             </div>
           </div>
@@ -219,19 +219,19 @@
           </template>
           <div class="confirm-card-content">
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.merchant') }}</span>
+              <span class="confirm-label">{{ t('common.merchant') }}</span>
               <span class="confirm-value">{{ toWalletForm.merchant }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.chainType') }}</span>
+              <span class="confirm-label">{{ t('common.chainType') }}</span>
               <span class="confirm-value">{{ toWalletForm.chainType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.currency') }}</span>
+              <span class="confirm-label">{{ t('common.currency') }}</span>
               <span class="confirm-value">{{ toWalletForm.currency }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('field.address') }}</span>
+              <span class="confirm-label">{{ t('common.address') }}</span>
               <span class="confirm-value">{{ toWalletForm.address }}</span>
             </div>
           </div>
