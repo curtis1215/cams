@@ -74,7 +74,8 @@
       "addWallet": "Add Wallet",
       "search": "Search",
       "details": "Details",
-      "transfer": "Transfer"
+      "transfer": "Transfer",
+      "audit": "Audit"
     },
     "auditStatus": {
       "pending": "Pending Review",
@@ -84,7 +85,57 @@
     "prompt": {
       "selectMerchant": "Please Select Merchant",
       "selectChainType": "Please Select Chain Type",
-      "selectCurrency": "Please Select Currency"
+      "selectCurrency": "Please Select Currency",
+      "selectWalletType": "Please Select Wallet Type",
+      "inputAddress": "Please Input Address",
+      "inputAmount": "Please Input Amount",
+      "inputReason": "Please Input Reason",
+      "selectStatus": "Please Select Status",
+      "confirmTransfer": "Confirm Transfer",
+      "pleaseInputAuditReason": "Please Input Audit Reason",
+      "pleaseInputAddress": "Please Input Address",
+      "pleaseInputAmount": "Please Input Amount",
+      "pleaseSelectWalletType": "Please Select Wallet Type",
+      "pleaseInputRemark": "Please Input Remark"
+    },
+    "field": {
+      "transferAmount": "Transfer Amount",
+      "maxAmount": "Max Amount",
+      "auditOperation": "Audit Operation",
+      "auditReason": "Audit Reason",
+      "address": "Address",
+      "merchant": "Merchant",
+      "chainType": "Chain Type",
+      "currency": "Currency",
+      "coin": "Coin",
+      "userId": "User ID",
+      "createTime": "Create Time",
+      "updateTime": "Update Time",
+      "remark": "Remark",
+      "walletId": "Wallet ID",
+      "assetValue": "Asset Value",
+      "status": "Status",
+      "operator": "Operator",
+      "downloadTime": "Download Time",
+      "downloadReason": "Download Reason",
+      "changeTime": "Change Time",
+      "changeReason": "Change Reason",
+      "oldType": "Original Type",
+      "newType": "New Type",
+      "oldStatus": "Original Status",
+      "newStatus": "New Status",
+      "amount": "Amount",
+      "balance": "Balance",
+      "availableBalance": "Available Balance",
+      "fromWallet": "From Wallet",
+      "toWallet": "To Wallet",
+      "submitTime": "Submit Time",
+      "completeTime": "Complete Time",
+      "lastTransactionTime": "Last Transaction Time",
+      "typeLabel": "Wallet Type",
+      "auditTime": "Audit Time",
+      "auditStatus": "Audit Status",
+      "availableAmount": "Available Amount"
     }
   },
 
@@ -126,8 +177,12 @@
     "typeLabel": "Wallet Type",
     "id": "Wallet ID",
     "address": "Wallet Address",
-    "balance": "Wallet Balance",
-    "availableBalance": "Available Balance",
+    "balance": {
+      "current": "Current Balance",
+      "available": "Available Balance",
+      "availableInflow": "Available Inflow",
+      "availableOutflow": "Available Outflow"
+    },
     "tokenDetail": "Token Detail",
     "holdingCost": "Holding Cost",
     "assetValue": "Asset Value",
@@ -174,7 +229,9 @@
       "pleaseInputDownloadReason": "Please Input Download Reason",
       "pleaseInputChangeReason": "Please Input Change Reason",
       "selectMerchant": "Please Select Merchant",
-      "addWallet": "Add Wallet"
+      "addWallet": "Add Wallet",
+      "confirmTransfer": "Confirm Transfer",
+      "pleaseInputAuditReason": "Please input audit reason"
     },
     "changeTime": "Change Time",
     "oldType": "Original Type",
@@ -185,7 +242,73 @@
     "operator": "Operator",
     "downloadTime": "Download Time",
     "downloadReason": "Download Reason",
-    "status": "common.status"
+    "status": "common.status",
+    "fromWalletInfo": "From Wallet",
+    "toWalletInfo": "To Wallet",
+    "transferInfo": "Transfer Information",
+    "transferQueryTitle": "Transfer Query",
+    "transferList": "Transfer List",
+    "auditOperation": "Audit Operation",
+    "auditDetail": "Audit Detail",
+    "field": {
+      "transferAmount": "Transfer Amount",
+      "maxAmount": "Max Amount",
+      "typeLabel": "Wallet Type",
+      "fromWalletId": "From Wallet ID",
+      "toWalletId": "To Wallet ID",
+      "fromChainType": "From Chain Type",
+      "toChainType": "To Chain Type",
+      "fromCurrency": "From Currency",
+      "toCurrency": "To Currency",
+      "fromAmount": "From Amount",
+      "toAmount": "To Amount",
+      "fromAddress": "From Address",
+      "toAddress": "To Address",
+      "submitTime": "Submit Time",
+      "onChainTime": "On Chain Time",
+      "completeTime": "Complete Time",
+      "transferId": "Transfer ID",
+      "price": "Price",
+      "cost": "Cost",
+      "inflow": "Inflow",
+      "outflow": "Outflow",
+      "currentInflow": "Current Inflow",
+      "availableInflow": "Available Inflow",
+      "currentOutflow": "Current Outflow",
+      "availableOutflow": "Available Outflow",
+      "currentBalance": "Current Balance",
+      "availableBalance": "Available Balance",
+      "storageLimit": "Storage Limit",
+      "assetValue": "Asset Value",
+      "holdingCost": "Holding Cost",
+      "downloadTime": "Download Time",
+      "downloadReason": "Download Reason",
+      "changeTime": "Change Time",
+      "changeReason": "Change Reason",
+      "operator": "Operator",
+      "oldType": "Original Type",
+      "newType": "New Type",
+      "oldStatus": "Original Status",
+      "newStatus": "New Status",
+      "auditOperation": "Audit Operation",
+      "auditReason": "Audit Reason"
+    },
+    "transferStatus": {
+      "label": "Transfer Status",
+      "submitted": "Submitted",
+      "onchain": "On Chain",
+      "confirming": "Confirming",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "fromWalletDetail": "From Wallet Detail",
+    "toWalletDetail": "To Wallet Detail",
+    "fromWalletTitle": "From Wallet",
+    "toWalletTitle": "To Wallet",
+    "fromWalletDetailTitle": "From Wallet Detail",
+    "toWalletDetailTitle": "To Wallet Detail",
+    "fromWalletInfoTitle": "From Wallet Information",
+    "toWalletInfoTitle": "To Wallet Information"
   },
 
   "monitor": {
@@ -271,7 +394,11 @@
     "fromCurrency": "From Currency",
     "toCurrency": "To Currency",
     "fromAmount": "From Amount",
-    "toAmount": "To Amount"
+    "toAmount": "To Amount",
+    "exchangeInfo": "Exchange Information",
+    "exchangeList": "Exchange List",
+    "useMaxAmount": "Use Maximum Amount",
+    "receiveAmount": "Receive Amount"
   },
 
   "user": {
@@ -279,5 +406,30 @@
     "role": "Role Management",
     "username": "Username",
     "password": "Password"
+  },
+
+  "prompt": {
+    "exchangeConfirmation": "Exchange Confirmation",
+    "exchangeSuccess": "Exchange Successful",
+    "exchangeFailed": "Exchange Failed",
+    "querySuccess": "Query Successful",
+    "queryFailed": "Query Failed",
+    "pleaseInputExchangeAmount": "Please Input Exchange Amount",
+    "exchangeAmountExceedsAvailableBalance": "Exchange Amount Exceeds Available Balance"
+  },
+
+  "status": {
+    "pending": "Pending",
+    "transferringOut": "Transferring Out",
+    "exchanging": "Exchanging",
+    "transferringIn": "Transferring In",
+    "success": "Success",
+    "transferOutFailed": "Transfer Out Failed",
+    "exchangeFailed": "Exchange Failed",
+    "rejected": "Rejected"
+  },
+
+  "action": {
+    "exchange": "Exchange"
   }
 }

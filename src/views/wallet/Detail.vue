@@ -242,6 +242,7 @@
         :data-source="historyData"
         :pagination="false"
         :bordered="true"
+        :scroll="{ x: 800 }"
       />
     </a-modal>
 
@@ -282,6 +283,7 @@
         :data-source="typeHistoryData"
         :pagination="false"
         :bordered="true"
+        :scroll="{ x: 800 }"
       />
     </a-modal>
 
@@ -342,6 +344,7 @@
         :data-source="statusHistoryData"
         :pagination="false"
         :bordered="true"
+        :scroll="{ x: 800 }"
       />
     </a-modal>
   </div>
@@ -350,7 +353,7 @@
 <script setup>
 import { ref, reactive, onMounted, computed, onBeforeUnmount, h } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import {
   SearchOutlined,
@@ -375,6 +378,7 @@ import mockData from './detail.mock.json'
 
 const { t } = useI18n()
 const route = useRoute()
+const router = useRouter()
 
 // 查詢參數
 const queryParams = reactive({
@@ -773,10 +777,8 @@ function showTransferHistory(record) {
 }
 
 // 處理交易明細按鈕點擊
-const showTransactionDetail = (record) => {
-  console.log('查看交易明細:', record)
-  // 這裡添加查看交易明細的具體邏輯
-  // 可以跳轉到新頁面或打開新的 Modal
+const showTransactionDetail = () => {
+  router.push('/order/transaction')
 }
 
 // 頁面加載時從路由獲取參數
@@ -1170,33 +1172,99 @@ const statusHistoryData = [
   color: rgba(255, 255, 255, 0.85);
 }
 
+/* 統一所有表格的樣式 */
 :deep(.ant-table) {
   background: transparent;
 }
 
 :deep(.ant-table-thead > tr > th) {
-  background: #1f1f1f;
+  background-color: #1f1f1f !important;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  text-align: left;
+  padding: 16px;
   border-bottom: 1px solid #303030;
 }
 
 :deep(.ant-table-tbody > tr > td) {
+  background-color: #141414;
   border-bottom: 1px solid #303030;
+  padding: 16px;
 }
 
-/* 添加文本框樣式 */
-:deep(.ant-input) {
-  background-color: #1f1f1f;
-  border-color: #434343;
-  color: rgba(255, 255, 255, 0.85);
+:deep(.ant-table-tbody > tr:hover > td) {
+  background-color: #1f1f1f !important;
 }
 
-:deep(.ant-input:hover),
-:deep(.ant-input:focus) {
-  border-color: #177ddc;
+/* 移除表格標題的分隔線 */
+:deep(.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before) {
+  display: none;
 }
 
-:deep(.ant-input-data-count) {
+/* 統一彈窗內表格的外邊距和內邊距 */
+:deep(.ant-modal-body) {
+  padding: 0;
+  background-color: #141414;
+}
+
+:deep(.ant-table-wrapper) {
+  margin: 0;
+}
+
+/* 特定列的對齊方式 */
+:deep(.ant-table-cell-align-right) {
+  text-align: right !important;
+}
+
+/* 數值類型的列右對齊 */
+:deep(.ant-table-cell[data-align="right"]) {
+  text-align: right;
+}
+
+/* 狀態列居中對齊 */
+:deep(.ant-table-cell[data-status="true"]) {
+  text-align: center;
+}
+
+/* 表格內容垂直對齊方式 */
+:deep(.ant-table-cell) {
+  vertical-align: top;
+}
+
+/* 表格標題文字不換行 */
+:deep(.ant-table-thead > tr > th) {
+  white-space: nowrap;
+}
+
+/* 修改表格標題的多語系顯示 */
+:deep(.ant-table-column-title) {
+  display: inline-block;
+  text-align: left;
+  width: 100%;
+}
+
+/* 數值列標題右對齊 */
+:deep(.ant-table-column-balance .ant-table-column-title),
+:deep(.ant-table-column-holdingCost .ant-table-column-title),
+:deep(.ant-table-column-assetValue .ant-table-column-title),
+:deep(.ant-table-column-inflow .ant-table-column-title),
+:deep(.ant-table-column-outflow .ant-table-column-title) {
+  text-align: right;
+}
+
+/* 狀態列標題居中對齊 */
+:deep(.ant-table-column-status .ant-table-column-title) {
+  text-align: center;
+}
+
+/* 表格排序圖標樣式 */
+:deep(.ant-table-column-sorter) {
   color: rgba(255, 255, 255, 0.45);
+}
+
+:deep(.ant-table-column-sorter-up.active),
+:deep(.ant-table-column-sorter-down.active) {
+  color: #177ddc;
 }
 
 .token-card {
@@ -1207,7 +1275,7 @@ const statusHistoryData = [
   display: flex;
   flex-direction: column;
   gap: 4px;
-  text-align: right;  /* 添加右對齊 */
+  text-align: right;
 }
 
 .secondary-value {
@@ -1238,10 +1306,10 @@ const statusHistoryData = [
 
 /* 添加超出限制的樣式 */
 .exceeded-balance {
-  background-color: rgba(255, 77, 79, 0.2);  /* 紅色背景，帶透明度 */
+  background-color: rgba(255, 77, 79, 0.2);
   border-radius: 4px;
   padding: 8px;
-  text-align: right;  /* 添加右對齊 */
+  text-align: right;
 }
 
 /* 調整 tooltip 樣式 */
@@ -1256,14 +1324,14 @@ const statusHistoryData = [
 
 /* 添加當前轉入量的高亮樣式 */
 .active-inflow {
-  background-color: rgba(82, 196, 26, 0.2);  /* 綠色背景，帶透明度 */
+  background-color: rgba(82, 196, 26, 0.2);
   border-radius: 4px;
   padding: 8px;
 }
 
 /* 添加當前轉出量的高亮樣式 */
 .active-outflow {
-  background-color: rgba(250, 173, 20, 0.2);  /* 橘色背景，帶透明度 */
+  background-color: rgba(250, 173, 20, 0.2);
   border-radius: 4px;
   padding: 8px;
 }
@@ -1350,5 +1418,26 @@ const statusHistoryData = [
 .status-disabled {
   background: rgba(255, 77, 79, 0.2);
   color: #ff4d4f;
+}
+
+:deep(.ant-table-thead > tr > th) {
+  background-color: #1f1f1f;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+  text-align: center;
+  padding: 12px 8px;
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before) {
+  display: none;
+}
+
+:deep(.ant-modal-body) {
+  padding: 12px;
+}
+
+:deep(.ant-table-wrapper) {
+  margin: 0;
 }
 </style>

@@ -27,7 +27,7 @@
                 <div class="form-label">{{ t('common.address') }}</div>
                 <a-input
                   v-model:value="fromWalletForm.address"
-                  :placeholder="t('prompt.inputAddress')"
+                  :placeholder="t('common.prompt.inputAddress')"
                   class="full-width"
                   allow-clear
                 />
@@ -36,7 +36,7 @@
                 <div class="form-label">&nbsp;</div>
                 <a-button type="primary" @click="handleFromWalletQuery">
                   <template #icon><SearchOutlined /></template>
-                  {{ t('action.query') }}
+                  {{ t('common.action.query') }}
                 </a-button>
               </a-form-item>
             </div>
@@ -70,7 +70,7 @@
                 <div class="form-label">{{ t('common.address') }}</div>
                 <a-input
                   v-model:value="toWalletForm.address"
-                  :placeholder="t('prompt.inputAddress')"
+                  :placeholder="t('common.prompt.inputAddress')"
                   class="full-width"
                   allow-clear
                 />
@@ -78,7 +78,7 @@
               <a-form-item label="&nbsp;" class="query-button">
                 <a-button type="primary" @click="handleToWalletQuery">
                   <template #icon><SearchOutlined /></template>
-                  {{ t('action.query') }}
+                  {{ t('common.action.query') }}
                 </a-button>
               </a-form-item>
             </div>
@@ -143,7 +143,7 @@
       <div class="exchange-amount-container">
         <a-form layout="vertical">
           <div class="exchange-form-row">
-            <a-form-item :label="t('field.exchangeAmount')" class="exchange-amount-item">
+            <a-form-item :label="t('common.field.exchangeAmount')" class="exchange-amount-item">
               <a-input-number
                 v-model:value="exchangeAmount"
                 :min="0"
@@ -170,7 +170,7 @@
 
           <div class="exchange-button-row">
             <a-button type="primary" @click="handleExchange">
-              {{ t('action.exchange') }}
+              {{ t('common.action.exchange') }}
             </a-button>
           </div>
         </a-form>
@@ -180,7 +180,7 @@
     <!-- 兌換確認彈窗 -->
     <a-modal
       v-model:open="confirmModalVisible"
-      :title="t('prompt.exchangeConfirmation')"
+      :title="t('common.prompt.exchangeConfirmation')"
       @ok="handleConfirmExchange"
       @cancel="handleCancelExchange"
       :confirmLoading="confirmLoading"
@@ -239,7 +239,7 @@
 
         <!-- 兌換金額資訊 -->
         <div class="confirm-amount">
-          <span class="confirm-label">{{ t('field.exchangeAmount') }}</span>
+          <span class="confirm-label">{{ t('common.field.exchangeAmount') }}</span>
           <span class="confirm-value">{{ formatNumber(exchangeAmount) }}</span>
         </div>
       </div>
@@ -251,9 +251,9 @@
         <a-space>
           <a-button type="primary" @click="handleQuery">
             <template #icon><SearchOutlined /></template>
-            {{ t('action.query') }}
+            {{ t('common.action.query') }}
           </a-button>
-          <a-button @click="handleReset">{{ t('action.reset') }}</a-button>
+          <a-button @click="handleReset">{{ t('common.action.reset') }}</a-button>
         </a-space>
       </template>
       <a-table
@@ -268,19 +268,19 @@
         <template #bodyCell="{ column, text, record }">
           <template v-if="column.key === 'exchangeStatus'">
             <a-tag :color="getStatusColor(record.exchangeStatus)">
-              {{ t(`status.${record.exchangeStatus}`) }}
+              {{ t(`common.status.${record.exchangeStatus}`) }}
             </a-tag>
           </template>
           <template v-else-if="column.key === 'action'">
             <a-space>
               <template v-if="record.exchangeStatus === 'pending'">
                 <a-button type="primary" size="small" @click="handleAudit(record)">
-                  {{ t('action.audit') }}
+                  {{ t('common.action.audit') }}
                 </a-button>
               </template>
               <template v-else>
                 <a-button type="link" size="small" @click="handleViewDetail(record)">
-                  {{ t('action.detail') }}
+                  {{ t('common.action.detail') }}
                 </a-button>
               </template>
             </a-space>
@@ -288,12 +288,83 @@
         </template>
       </a-table>
     </a-card>
+
+    <!-- 審核彈窗 -->
+    <a-modal
+      v-model:open="auditModalVisible"
+      :title="t('common.action.audit')"
+      @ok="handleConfirmAudit"
+      @cancel="handleCancelAudit"
+      :confirmLoading="auditLoading"
+      width="500px"
+    >
+      <a-form :model="auditForm" layout="vertical">
+        <a-form-item :label="t('common.field.auditStatus')" required>
+          <a-radio-group v-model:value="auditForm.status">
+            <a-radio value="approved">{{ t('common.auditStatus.approved') }}</a-radio>
+            <a-radio value="rejected">{{ t('common.auditStatus.rejected') }}</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item :label="t('common.field.auditReason')" required>
+          <a-textarea
+            v-model:value="auditForm.reason"
+            :placeholder="t('common.prompt.pleaseInputAuditReason')"
+            :rows="4"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 詳情彈窗 -->
+    <a-modal
+      v-model:open="detailModalVisible"
+      :title="t('common.action.detail')"
+      :footer="null"
+      width="800px"
+    >
+      <template v-if="currentRecord">
+        <a-descriptions bordered :column="2">
+          <a-descriptions-item :label="t('common.field.exchangeId')">
+            {{ currentRecord.exchangeId }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.exchangeStatus')">
+            <a-tag :color="getStatusColor(currentRecord.exchangeStatus)">
+              {{ t(`common.status.${currentRecord.exchangeStatus}`) }}
+            </a-tag>
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.fromWalletId')">
+            {{ currentRecord.fromWalletId }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.toWalletId')">
+            {{ currentRecord.toWalletId }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.fromChainType')">
+            {{ currentRecord.fromChainType }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.toChainType')">
+            {{ currentRecord.toChainType }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.fromCurrency')">
+            {{ currentRecord.fromCurrency }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.toCurrency')">
+            {{ currentRecord.toCurrency }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.fromAmount')">
+            {{ formatNumber(currentRecord.fromAmount) }}
+          </a-descriptions-item>
+          <a-descriptions-item :label="t('common.field.toAmount')">
+            {{ formatNumber(currentRecord.toAmount) }}
+          </a-descriptions-item>
+        </a-descriptions>
+      </template>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue'
-import { message, Tag, Button, Space } from 'ant-design-vue'
+import { message, Tag, Button, Space, Modal, Form, Radio, Input, Descriptions } from 'ant-design-vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
@@ -353,9 +424,9 @@ const formatNumber = (value) => {
 const handleFromWalletQuery = async () => {
   try {
     // 這裡添加查詢邏輯
-    message.success(t('prompt.querySuccess'))
+    message.success(t('common.prompt.querySuccess'))
   } catch (error) {
-    message.error(t('prompt.queryFailed'))
+    message.error(t('common.prompt.queryFailed'))
   }
 }
 
@@ -363,9 +434,9 @@ const handleFromWalletQuery = async () => {
 const handleToWalletQuery = async () => {
   try {
     // 這裡添加查詢邏輯
-    message.success(t('prompt.querySuccess'))
+    message.success(t('common.prompt.querySuccess'))
   } catch (error) {
-    message.error(t('prompt.queryFailed'))
+    message.error(t('common.prompt.queryFailed'))
   }
 }
 
@@ -376,11 +447,11 @@ const confirmLoading = ref(false)
 // 處理兌換按鈕點擊
 const handleExchange = () => {
   if (!exchangeAmount.value) {
-    message.warning(t('prompt.pleaseInputExchangeAmount'))
+    message.warning(t('common.prompt.pleaseInputExchangeAmount'))
     return
   }
   if (exchangeAmount.value > maxAmount.value) {
-    message.warning(t('prompt.exchangeAmountExceedsAvailableBalance'))
+    message.warning(t('common.prompt.exchangeAmountExceedsAvailableBalance'))
     return
   }
   confirmModalVisible.value = true
@@ -392,11 +463,11 @@ const handleConfirmExchange = async () => {
     confirmLoading.value = true
     // 這裡添加兌換邏輯
     await new Promise(resolve => setTimeout(resolve, 1000))
-    message.success(t('prompt.exchangeSuccess'))
+    message.success(t('common.prompt.exchangeSuccess'))
     confirmModalVisible.value = false
     handleQuery() // 重新加載列表
   } catch (error) {
-    message.error(t('prompt.exchangeFailed'))
+    message.error(t('common.prompt.exchangeFailed'))
   } finally {
     confirmLoading.value = false
   }
@@ -429,67 +500,67 @@ const pagination = reactive({
 // 表格列定義
 const columns = [
   {
-    title: t('field.exchangeId'),
+    title: t('common.field.exchangeId'),
     dataIndex: 'exchangeId',
     key: 'exchangeId',
     width: 180,
   },
   {
-    title: t('field.fromWalletId'),
+    title: t('common.field.fromWalletId'),
     dataIndex: 'fromWalletId',
     key: 'fromWalletId',
     width: 180,
   },
   {
-    title: t('field.fromChainType'),
+    title: t('common.field.fromChainType'),
     dataIndex: 'fromChainType',
     key: 'fromChainType',
     width: 120,
   },
   {
-    title: t('field.fromCurrency'),
+    title: t('common.field.fromCurrency'),
     dataIndex: 'fromCurrency',
     key: 'fromCurrency',
     width: 120,
   },
   {
-    title: t('field.fromAmount'),
+    title: t('common.field.fromAmount'),
     dataIndex: 'fromAmount',
     key: 'fromAmount',
     width: 120,
   },
   {
-    title: t('field.toWalletId'),
+    title: t('common.field.toWalletId'),
     dataIndex: 'toWalletId',
     key: 'toWalletId',
     width: 180,
   },
   {
-    title: t('field.toChainType'),
+    title: t('common.field.toChainType'),
     dataIndex: 'toChainType',
     key: 'toChainType',
     width: 120,
   },
   {
-    title: t('field.toCurrency'),
+    title: t('common.field.toCurrency'),
     dataIndex: 'toCurrency',
     key: 'toCurrency',
     width: 120,
   },
   {
-    title: t('field.toAmount'),
+    title: t('common.field.toAmount'),
     dataIndex: 'toAmount',
     key: 'toAmount',
     width: 120,
   },
   {
-    title: t('field.exchangeStatus'),
+    title: t('common.field.exchangeStatus'),
     dataIndex: 'exchangeStatus',
     key: 'exchangeStatus',
     width: 160,
   },
   {
-    title: t('field.action'),
+    title: t('common.field.action'),
     key: 'action',
     width: 100,
     fixed: 'right',
@@ -512,15 +583,55 @@ const getStatusColor = (status) => {
 }
 
 // 審核相關
+const auditModalVisible = ref(false)
+const auditLoading = ref(false)
+const currentRecord = ref(null)
+const auditForm = reactive({
+  status: 'approved',
+  reason: ''
+})
+
+// 詳情相關
+const detailModalVisible = ref(false)
+
+// 處理審核
 const handleAudit = (record) => {
-  // TODO: 實現審核功能
-  console.log('Audit record:', record)
+  currentRecord.value = record
+  auditModalVisible.value = true
+}
+
+// 確認審核
+const handleConfirmAudit = async () => {
+  if (!auditForm.reason) {
+    message.warning(t('common.prompt.pleaseInputAuditReason'))
+    return
+  }
+
+  try {
+    auditLoading.value = true
+    // TODO: 調用審核 API
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    message.success(t('common.prompt.auditSuccess'))
+    auditModalVisible.value = false
+    handleQuery() // 重新加載列表
+  } catch (error) {
+    message.error(t('common.prompt.auditFailed'))
+  } finally {
+    auditLoading.value = false
+  }
+}
+
+// 取消審核
+const handleCancelAudit = () => {
+  auditModalVisible.value = false
+  auditForm.status = 'approved'
+  auditForm.reason = ''
 }
 
 // 查看詳情
 const handleViewDetail = (record) => {
-  // TODO: 實現查看詳情功能
-  console.log('View detail:', record)
+  currentRecord.value = record
+  detailModalVisible.value = true
 }
 
 // 生成模擬數據
@@ -552,7 +663,7 @@ const handleQuery = async () => {
     exchangeList.value = generateMockData()
     pagination.total = 100 // 模擬總數據量
   } catch (error) {
-    message.error(t('prompt.queryFailed'))
+    message.error(t('common.prompt.queryFailed'))
   } finally {
     loading.value = false
   }
