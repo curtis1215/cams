@@ -1,0 +1,66 @@
+{
+  "title": {
+    "transferOrderQuery": "轉賬訂單查詢",
+    "transferList": "轉賬列表"
+  },
+  "field": {
+    "orderId": "訂單編號",
+    "walletId": "錢包編號",
+    "address": "地址",
+    "relatedOrderId": "關聯訂單編號",
+    "status": "狀態",
+    "transferType": "轉賬類型",
+    "createTime": "創建時間",
+    "onChainTime": "上鏈時間",
+    "successTime": "成功時間",
+    "reason": "原因",
+    "transferId": "轉賬編號",
+    "fromWallet": "來源錢包",
+    "toWallet": "目標錢包",
+    "transferAmount": "轉賬金額",
+    "timeInfo": "時間信息",
+    "action": "操作"
+  },
+  "prompt": {
+    "pleaseInputOrderId": "請輸入訂單編號",
+    "pleaseInputWalletId": "請輸入錢包編號",
+    "pleaseInputAddress": "請輸入地址",
+    "pleaseInputTxHash": "請輸入交易哈希",
+    "pleaseInputRelatedOrderId": "請輸入關聯訂單編號",
+    "pleaseSelectTransferType": "請選擇轉賬類型",
+    "pleaseInputReason": "請輸入原因",
+    "noReasonProvided": "未提供原因",
+    "changeTransferType": "修改轉賬類型",
+    "transferTypeReason": "轉賬類型原因"
+  },
+  "action": {
+    "reset": "重置",
+    "query": "查詢",
+    "changeType": "修改類型"
+  },
+  "status": {
+    "pending": "待處理",
+    "processing": "處理中",
+    "manualConfirm": "待人工確認",
+    "success": "成功",
+    "failed": "失敗"
+  },
+  "transferType": {
+    "manualOut": "人工出金",
+    "manualIn": "人工入金",
+    "systemError": "系統錯誤",
+    "deposit": "充值",
+    "withdraw": "提現",
+    "collection": "歸集",
+    "exchange": "兌換",
+    "replenish": "補充",
+    "manual": "人工",
+    "pendingConfirm": "待確認",
+    "fee": "手續費"
+  },
+  "message": {
+    "copySuccess": "複製成功",
+    "copyFailed": "複製失敗",
+    "updateSuccess": "更新成功"
+  }
+} 

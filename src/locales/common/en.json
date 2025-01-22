@@ -12,7 +12,8 @@
       "pleaseInputAddress": "Please input address",
       "pleaseInputTxHash": "Please input TxHash",
       "selectTransferType": "Please select transfer type",
-      "selectWalletType": "Please select wallet type"
+      "selectWalletType": "Please select wallet type",
+      "selectAll": "All"
     },
     "field": {
       "allMerchants": "All Merchants",

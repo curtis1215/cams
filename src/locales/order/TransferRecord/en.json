@@ -1,0 +1,66 @@
+{
+  "title": {
+    "transferOrderQuery": "Transfer Order Query",
+    "transferList": "Transfer List"
+  },
+  "field": {
+    "orderId": "Order ID",
+    "walletId": "Wallet ID",
+    "address": "Address",
+    "relatedOrderId": "Related Order ID",
+    "status": "Status",
+    "transferType": "Transfer Type",
+    "createTime": "Create Time",
+    "onChainTime": "On Chain Time",
+    "successTime": "Success Time",
+    "reason": "Reason",
+    "transferId": "Transfer ID",
+    "fromWallet": "From Wallet",
+    "toWallet": "To Wallet",
+    "transferAmount": "Transfer Amount",
+    "timeInfo": "Time Info",
+    "action": "Action"
+  },
+  "prompt": {
+    "pleaseInputOrderId": "Please input order ID",
+    "pleaseInputWalletId": "Please input wallet ID",
+    "pleaseInputAddress": "Please input address",
+    "pleaseInputTxHash": "Please input transaction hash",
+    "pleaseInputRelatedOrderId": "Please input related order ID",
+    "pleaseSelectTransferType": "Please select transfer type",
+    "pleaseInputReason": "Please input reason",
+    "noReasonProvided": "No reason provided",
+    "changeTransferType": "Change Transfer Type",
+    "transferTypeReason": "Transfer Type Reason"
+  },
+  "action": {
+    "reset": "Reset",
+    "query": "Query",
+    "changeType": "Change Type"
+  },
+  "status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "manualConfirm": "Manual Confirm",
+    "success": "Success",
+    "failed": "Failed"
+  },
+  "transferType": {
+    "manualOut": "Manual Out",
+    "manualIn": "Manual In",
+    "systemError": "System Error",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "collection": "Collection",
+    "exchange": "Exchange",
+    "replenish": "Replenish",
+    "manual": "Manual",
+    "pendingConfirm": "Pending Confirm",
+    "fee": "Fee"
+  },
+  "message": {
+    "copySuccess": "Copy Success",
+    "copyFailed": "Copy Failed",
+    "updateSuccess": "Update Success"
+  }
+} 

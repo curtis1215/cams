@@ -1,0 +1,10 @@
+{
+  "placeholder": "Please select status",
+  "status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "manualConfirm": "Manual Confirm",
+    "success": "Success",
+    "failed": "Failed"
+  }
+} 

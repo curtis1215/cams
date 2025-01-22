@@ -1,30 +1,49 @@
 <template>
   <a-select
-    :value="modelValue"
-    :placeholder="t('common.prompt.selectStatus')"
-    allow-clear
-    style="width: 100%"
-    @update:value="$emit('update:modelValue', $event)"
+    v-model:value="value"
+    :placeholder="t('placeholder')"
+    :allowClear="true"
+    @change="handleChange"
   >
-    <a-select-option value="pending">{{ t('common.status.pending') }}</a-select-option>
-    <a-select-option value="processing">{{ t('common.status.processing') }}</a-select-option>
-    <a-select-option value="manualConfirm">{{ t('common.status.manualConfirm') }}</a-select-option>
-    <a-select-option value="success">{{ t('common.status.success') }}</a-select-option>
-    <a-select-option value="failed">{{ t('common.status.failed') }}</a-select-option>
+    <a-select-option v-for="status in statusList" :key="status" :value="status">
+      {{ t(`status.${status}`) }}
+    </a-select-option>
   </a-select>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import zhLocale from '@/locales/components/TransferStatusSelect/zh.json'
+import enLocale from '@/locales/components/TransferStatusSelect/en.json'
 
-const { t } = useI18n()
-
-defineProps({
+const props = defineProps({
   modelValue: {
     type: String,
     default: undefined
   }
 })
 
-defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue', 'change'])
+
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
+
+const statusList = ['pending', 'processing', 'manualConfirm', 'success', 'failed']
+
+const value = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val)
+})
+
+const handleChange = (val) => {
+  emit('change', val)
+}
 </script>

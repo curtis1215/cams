@@ -1,0 +1,15 @@
+{
+  "placeholder": "請選擇轉賬類型",
+  "type": {
+    "manualOut": "人工出金",
+    "manualIn": "人工入金",
+    "systemError": "系統錯誤",
+    "deposit": "充值",
+    "withdraw": "提現",
+    "collection": "歸集",
+    "exchange": "兌換",
+    "replenish": "補充",
+    "manual": "人工",
+    "pendingConfirm": "待確認"
+  }
+} 

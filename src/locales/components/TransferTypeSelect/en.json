@@ -1,0 +1,15 @@
+{
+  "placeholder": "Please select transfer type",
+  "type": {
+    "manualOut": "Manual Out",
+    "manualIn": "Manual In",
+    "systemError": "System Error",
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "collection": "Collection",
+    "exchange": "Exchange",
+    "replenish": "Replenish",
+    "manual": "Manual",
+    "pendingConfirm": "Pending Confirm"
+  }
+} 

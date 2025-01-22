@@ -9,7 +9,9 @@
     "pleaseInputOrderId": "請輸入訂單號",
     "pleaseInputUserId": "請輸入用戶ID",
     "pleaseInputAddress": "請輸入地址",
-    "pleaseInputTxHash": "請輸入交易哈希"
+    "pleaseInputTxHash": "請輸入交易哈希",
+    "selectTransferType": "請選擇轉賬類型",
+    "selectAll": "全部"
   },
   "field": {
     "allMerchants": "所有商戶",

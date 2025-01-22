@@ -1,0 +1,10 @@
+{
+  "placeholder": "請選擇狀態",
+  "status": {
+    "pending": "待處理",
+    "processing": "處理中",
+    "manualConfirm": "待人工確認",
+    "success": "成功",
+    "failed": "失敗"
+  }
+} 

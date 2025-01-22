@@ -1,0 +1,172 @@
+{
+  "total": 100,
+  "pageSize": 10,
+  "current": 1,
+  "records": [
+    {
+      "key": "1",
+      "transferId": "T202403150001",
+      "fromWalletId": "W202403150001",
+      "toWalletId": "W202403150002",
+      "transferType": {
+        "type": "pendingConfirm",
+        "orderId": null
+      },
+      "amount": "1000.00000000",
+      "status": "processing",
+      "txHash": "0x1234567890abcdef1234567890abcdef12345678",
+      "createTime": "2024-03-15 10:00:00",
+      "onChainTime": "2024-03-15 10:01:00",
+      "successTime": null
+    },
+    {
+      "key": "2",
+      "transferId": "T202403150002",
+      "fromWalletId": "W202403150003",
+      "toWalletId": null,
+      "transferType": {
+        "type": "fee",
+        "orderId": "F202403150001",
+        "reason": "提現手續費"
+      },
+      "amount": "10.00000000",
+      "status": "success",
+      "txHash": "0x2345678901abcdef2345678901abcdef23456789",
+      "createTime": "2024-03-15 09:30:00",
+      "onChainTime": "2024-03-15 09:31:00",
+      "successTime": "2024-03-15 09:35:00"
+    },
+    {
+      "key": "3",
+      "transferId": "T202403150003",
+      "fromWalletId": "W202403150005",
+      "toWalletId": "W202403150006",
+      "transferType": {
+        "type": "manualIn",
+        "orderId": "M202403150002",
+        "reason": "系統自動轉入失敗，改為人工處理"
+      },
+      "amount": "800.00000000",
+      "status": "success",
+      "txHash": "0x3456789012abcdef3456789012abcdef34567890",
+      "createTime": "2024-03-15 09:00:00",
+      "onChainTime": "2024-03-15 09:01:00",
+      "successTime": "2024-03-15 09:05:00"
+    },
+    {
+      "key": "4",
+      "transferId": "T202403150004",
+      "fromWalletId": "W202403150007",
+      "toWalletId": "W202403150008",
+      "transferType": {
+        "type": "fee",
+        "orderId": "F202403150002",
+        "reason": "兌換手續費"
+      },
+      "amount": "5.00000000",
+      "status": "success",
+      "txHash": "0x4567890123abcdef4567890123abcdef45678901",
+      "createTime": "2024-03-15 08:30:00",
+      "onChainTime": "2024-03-15 08:32:00",
+      "successTime": "2024-03-15 08:35:00"
+    },
+    {
+      "key": "5",
+      "transferId": "T202403150005",
+      "fromWalletId": "W202403150009",
+      "toWalletId": "W202403150010",
+      "transferType": {
+        "type": "deposit",
+        "orderId": "D202403150001"
+      },
+      "amount": "5000.00000000",
+      "status": "success",
+      "txHash": "0x5678901234abcdef5678901234abcdef56789012",
+      "createTime": "2024-03-15 06:00:00",
+      "onChainTime": "2024-03-15 06:01:00",
+      "successTime": "2024-03-15 06:05:00"
+    },
+    {
+      "key": "6",
+      "transferId": "T202403150006",
+      "fromWalletId": "W202403150011",
+      "toWalletId": "W202403150012",
+      "transferType": {
+        "type": "withdraw",
+        "orderId": "W202403150001"
+      },
+      "amount": "6000.00000000",
+      "status": "processing",
+      "txHash": "0x6789012345abcdef6789012345abcdef67890123",
+      "createTime": "2024-03-15 05:00:00",
+      "onChainTime": "2024-03-15 05:01:00",
+      "successTime": null
+    },
+    {
+      "key": "7",
+      "transferId": "T202403150007",
+      "fromWalletId": "W202403150013",
+      "toWalletId": "W202403150014",
+      "transferType": {
+        "type": "fee",
+        "orderId": "F202403150003",
+        "reason": "歸集手續費"
+      },
+      "amount": "3.00000000",
+      "status": "success",
+      "txHash": "0x7890123456abcdef7890123456abcdef78901234",
+      "createTime": "2024-03-15 04:00:00",
+      "onChainTime": "2024-03-15 04:01:00",
+      "successTime": "2024-03-15 04:05:00"
+    },
+    {
+      "key": "8",
+      "transferId": "T202403150008",
+      "fromWalletId": "W202403150015",
+      "toWalletId": "W202403150016",
+      "transferType": {
+        "type": "exchange",
+        "orderId": "E202403150001"
+      },
+      "amount": "8000.00000000",
+      "status": "failed",
+      "txHash": "0x8901234567abcdef8901234567abcdef89012345",
+      "createTime": "2024-03-15 03:00:00",
+      "onChainTime": "2024-03-15 03:02:00",
+      "successTime": null
+    },
+    {
+      "key": "9",
+      "transferId": "T202403150009",
+      "fromWalletId": "W202403150017",
+      "toWalletId": "W202403150018",
+      "transferType": {
+        "type": "replenish",
+        "orderId": "R202403150001"
+      },
+      "amount": "9000.00000000",
+      "status": "success",
+      "txHash": "0x9012345678abcdef9012345678abcdef90123456",
+      "createTime": "2024-03-15 02:00:00",
+      "onChainTime": "2024-03-15 02:01:00",
+      "successTime": "2024-03-15 02:05:00"
+    },
+    {
+      "key": "10",
+      "transferId": "T202403150010",
+      "fromWalletId": "W202403150019",
+      "toWalletId": "W202403150020",
+      "transferType": {
+        "type": "fee",
+        "orderId": "F202403150004",
+        "reason": "補充手續費"
+      },
+      "amount": "2.00000000",
+      "status": "success",
+      "txHash": "0x0123456789abcdef0123456789abcdef01234567",
+      "createTime": "2024-03-15 01:00:00",
+      "onChainTime": "2024-03-15 01:01:00",
+      "successTime": "2024-03-15 01:05:00"
+    }
+  ]
+} 

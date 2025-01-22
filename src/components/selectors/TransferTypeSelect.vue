@@ -1,27 +1,21 @@
 <template>
   <a-select
-    :value="modelValue"
-    :placeholder="t('common.prompt.selectTransferType')"
-    :allow-clear="true"
+    v-model:value="value"
+    :placeholder="t('placeholder')"
+    :allowClear="true"
     @change="handleChange"
   >
-    <a-select-option value="deposit">{{ t('common.tx.deposit') }}</a-select-option>
-    <a-select-option value="withdraw">{{ t('common.tx.withdraw') }}</a-select-option>
-    <a-select-option value="collection">{{ t('common.tx.collection') }}</a-select-option>
-    <a-select-option value="exchange">{{ t('common.tx.exchange') }}</a-select-option>
-    <a-select-option value="replenish">{{ t('common.tx.replenish') }}</a-select-option>
-    <a-select-option value="manual">{{ t('common.tx.manual') }}</a-select-option>
-    <a-select-option value="pendingConfirm">{{ t('common.tx.pendingConfirm') }}</a-select-option>
-    <a-select-option value="manualOut">{{ t('common.tx.manualOut') }}</a-select-option>
-    <a-select-option value="manualIn">{{ t('common.tx.manualIn') }}</a-select-option>
-    <a-select-option value="systemError">{{ t('common.tx.systemError') }}</a-select-option>
+    <a-select-option v-for="type in typeList" :key="type" :value="type">
+      {{ t(`type.${type}`) }}
+    </a-select-option>
   </a-select>
 </template>
 
 <script setup>
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
+import zhLocale from '@/locales/components/TransferTypeSelect/zh.json'
+import enLocale from '@/locales/components/TransferTypeSelect/en.json'
 
 const props = defineProps({
   modelValue: {
@@ -32,8 +26,35 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue', 'change'])
 
-const handleChange = (value) => {
-  emit('update:modelValue', value)
-  emit('change', value)
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
+
+const typeList = [
+  'manualOut',
+  'manualIn',
+  'systemError',
+  'deposit',
+  'withdraw',
+  'collection',
+  'exchange',
+  'replenish',
+  'manual',
+  'pendingConfirm'
+]
+
+const value = computed({
+  get: () => props.modelValue,
+  set: (val) => emit('update:modelValue', val)
+})
+
+const handleChange = (val) => {
+  emit('change', val)
 }
 </script>
