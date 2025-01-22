@@ -1,0 +1,59 @@
+{
+  "exchange": {
+    "exchangeOrderQuery": "兌幣訂單查詢",
+    "exchangeOrderList": "兌幣訂單列表",
+    "fromWalletId": "來源錢包ID",
+    "toWalletId": "目標錢包ID",
+    "fromChainType": "來源鏈類型",
+    "fromCurrency": "來源幣種",
+    "toChainType": "目標鏈類型",
+    "toCurrency": "目標幣種",
+    "targetExchange": "目標交易所",
+    "exchangeRate": "兌換匯率",
+    "exchangeTime": "兌換時間",
+    "exchangeOrderId": "兌幣訂單ID",
+    "fromTransferId": "來源轉帳ID",
+    "toTransferId": "目標轉帳ID",
+    "fromAmount": "來源金額",
+    "toAmount": "目標金額",
+    "fromTransferTime": "來源轉帳時間",
+    "toTransferTime": "目標轉帳時間"
+  },
+  "status": {
+    "label": "狀態",
+    "pending": "待處理",
+    "rejected": "已拒絕",
+    "transferringOut": "轉出中",
+    "exchanging": "兌換中",
+    "transferringIn": "轉入中",
+    "success": "成功",
+    "transferOutFailed": "轉出失敗",
+    "exchangeFailed": "兌換失敗"
+  },
+  "field": {
+    "fee": "手續費",
+    "feeValue": "手續費價值",
+    "createTime": "創建時間",
+    "updateTime": "更新時間",
+    "onChainTime": "上鏈時間",
+    "completeTime": "完成時間"
+  },
+  "prompt": {
+    "inputFromWalletId": "請輸入來源錢包ID",
+    "inputToWalletId": "請輸入目標錢包ID",
+    "selectFromChainType": "請選擇來源鏈類型",
+    "selectFromCurrency": "請選擇來源幣種",
+    "selectToChainType": "請選擇目標鏈類型",
+    "selectToCurrency": "請選擇目標幣種",
+    "select": "請選擇"
+  },
+  "action": {
+    "search": "搜索",
+    "reset": "重置"
+  },
+  "message": {
+    "copyToClipboardSuccess": "複製成功",
+    "copyToClipboardFailed": "複製失敗"
+  },
+  "total": "共 {total} 條"
+} 

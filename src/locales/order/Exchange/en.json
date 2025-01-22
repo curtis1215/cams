@@ -1,0 +1,59 @@
+{
+  "exchange": {
+    "exchangeOrderQuery": "Exchange Order Query",
+    "exchangeOrderList": "Exchange Order List",
+    "fromWalletId": "From Wallet ID",
+    "toWalletId": "To Wallet ID",
+    "fromChainType": "From Chain Type",
+    "fromCurrency": "From Currency",
+    "toChainType": "To Chain Type",
+    "toCurrency": "To Currency",
+    "targetExchange": "Target Exchange",
+    "exchangeRate": "Exchange Rate",
+    "exchangeTime": "Exchange Time",
+    "exchangeOrderId": "Exchange Order ID",
+    "fromTransferId": "From Transfer ID",
+    "toTransferId": "To Transfer ID",
+    "fromAmount": "From Amount",
+    "toAmount": "To Amount",
+    "fromTransferTime": "From Transfer Time",
+    "toTransferTime": "To Transfer Time"
+  },
+  "status": {
+    "label": "Status",
+    "pending": "Pending",
+    "rejected": "Rejected",
+    "transferringOut": "Transferring Out",
+    "exchanging": "Exchanging",
+    "transferringIn": "Transferring In",
+    "success": "Success",
+    "transferOutFailed": "Transfer Out Failed",
+    "exchangeFailed": "Exchange Failed"
+  },
+  "field": {
+    "fee": "Fee",
+    "feeValue": "Fee Value",
+    "createTime": "Create Time",
+    "updateTime": "Update Time",
+    "onChainTime": "On Chain Time",
+    "completeTime": "Complete Time"
+  },
+  "prompt": {
+    "inputFromWalletId": "Please input from wallet ID",
+    "inputToWalletId": "Please input to wallet ID",
+    "selectFromChainType": "Please select from chain type",
+    "selectFromCurrency": "Please select from currency",
+    "selectToChainType": "Please select to chain type",
+    "selectToCurrency": "Please select to currency",
+    "select": "Please select"
+  },
+  "action": {
+    "search": "Search",
+    "reset": "Reset"
+  },
+  "message": {
+    "copyToClipboardSuccess": "Copy Success",
+    "copyToClipboardFailed": "Copy Failed"
+  },
+  "total": "Total {total} items"
+} 
