@@ -1,87 +1,87 @@
 <template>
   <div class="transaction-detail">
-    <a-card :title="t('transactionDetailQuery')" :bordered="false">
+    <a-card :title="t('title.transactionDetailQuery')" :bordered="false">
       <a-form layout="inline" :model="queryParams">
-        <a-form-item :label="t('dateRange')">
+        <a-form-item :label="t('field.dateRange')">
           <date-range-select
             v-model="queryParams.dateRange"
             style="width: 300px"
           />
         </a-form-item>
-        <a-form-item :label="t('chainType')">
+        <a-form-item :label="t('field.chainType')">
           <ChainTypeSelect
             v-model="queryParams.chainType"
           />
         </a-form-item>
 
-        <a-form-item :label="t('currency')">
+        <a-form-item :label="t('field.currency')">
           <CurrencySelect
             v-model="queryParams.currency"
           />
         </a-form-item>
 
-        <a-form-item :label="t('fromAddress')">
+        <a-form-item :label="t('field.fromAddress')">
           <a-input
             v-model:value="queryParams.fromAddress"
-            :placeholder="t('pleaseInputFromAddress')"
+            :placeholder="t('prompt.pleaseInputFromAddress')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('toAddress')">
+        <a-form-item :label="t('field.toAddress')">
           <a-input
             v-model:value="queryParams.toAddress"
-            :placeholder="t('pleaseInputToAddress')"
+            :placeholder="t('prompt.pleaseInputToAddress')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('txHash')">
+        <a-form-item :label="t('field.txHash')">
           <a-input
             v-model:value="queryParams.txHash"
-            :placeholder="t('pleaseInputTxHash')"
+            :placeholder="t('prompt.pleaseInputTxHash')"
             allow-clear
           />
         </a-form-item>
 
-        <a-form-item :label="t('blockHeight')">
+        <a-form-item :label="t('field.blockHeight')">
           <a-input-number
             v-model:value="queryParams.blockHeight"
-            :placeholder="t('pleaseInputBlockHeight')"
+            :placeholder="t('prompt.pleaseInputBlockHeight')"
             :min="0"
             style="width: 200px"
           />
         </a-form-item>
 
-        <a-form-item :label="t('status')">
+        <a-form-item :label="t('field.status')">
           <a-select
             v-model:value="queryParams.status"
-            :placeholder="t('pleaseSelectStatus')"
+            :placeholder="t('prompt.pleaseSelectStatus')"
             style="width: 200px"
             allow-clear
           >
-            <a-select-option value="success">{{ t('success') }}</a-select-option>
+            <a-select-option value="success">{{ t('status.success') }}</a-select-option>
             <a-select-option value="confirming">
-              {{ t('confirming', { current: queryParams.confirmations?.current || 0, required: queryParams.confirmations?.required || 0 }) }}
+              {{ t('status.confirming', { current: queryParams.confirmations?.current || 0, required: queryParams.confirmations?.required || 0 }) }}
             </a-select-option>
-            <a-select-option value="failed">{{ t('failed') }}</a-select-option>
+            <a-select-option value="failed">{{ t('status.failed') }}</a-select-option>
           </a-select>
         </a-form-item>
 
         <a-form-item>
           <a-space>
             <a-button type="primary" @click="handleSearch">
-              {{ t('search') }}
+              {{ t('action.search') }}
             </a-button>
             <a-button @click="handleReset">
-              {{ t('reset') }}
+              {{ t('action.reset') }}
             </a-button>
           </a-space>
         </a-form-item>
       </a-form>
     </a-card>
 
-    <a-card :title="t('transactionList')" :bordered="false">
+    <a-card :title="t('title.transactionList')" :bordered="false">
       <a-table
         :columns="columns"
         :data-source="tableData"
@@ -142,18 +142,13 @@ import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import zhLocale from '@/locales/order/Transaction/zh.json'
 import enLocale from '@/locales/order/Transaction/en.json'
+import mockData from '@/mock/order/Transaction/transaction.mock.json'
 import zhCommon from '@/locales/common/zh.json'
 import enCommon from '@/locales/common/en.json'
 
 const messages = {
-  zh: {
-    common: zhCommon,
-    ...zhLocale
-  },
-  en: {
-    common: enCommon,
-    ...enLocale
-  }
+  zh: zhLocale,
+  en: enLocale
 }
 
 const { t } = useI18n({
@@ -194,64 +189,64 @@ const handleReset = () => {
 
 const columns = [
   {
-    title: t('detailId'),
+    title: t('field.detailId'),
     dataIndex: 'detailId',
     key: 'detailId',
     width: 180,
   },
   {
-    title: t('chainType'),
+    title: t('field.chainType'),
     dataIndex: 'chainType',
     key: 'chainType',
     width: 100,
   },
   {
-    title: t('currency'),
+    title: t('field.currency'),
     dataIndex: 'currency',
     key: 'currency',
     width: 100,
   },
   {
-    title: t('fromInfo'),
+    title: t('field.fromAddress'),
     key: 'fromInfo',
     width: 300,
   },
   {
-    title: t('toInfo'),
+    title: t('field.toAddress'),
     key: 'toInfo',
     width: 300,
   },
   {
-    title: t('txHash'),
+    title: t('field.txHash'),
     dataIndex: 'txHash',
     key: 'txHash',
     width: 300,
   },
   {
-    title: t('feeCurrency'),
+    title: t('field.feeCurrency'),
     dataIndex: 'feeCurrency',
     key: 'feeCurrency',
     width: 100,
   },
   {
-    title: t('feeAmount'),
+    title: t('field.feeAmount'),
     dataIndex: 'feeAmount',
     key: 'feeAmount',
     width: 120,
   },
   {
-    title: t('status'),
+    title: t('field.status'),
     key: 'status',
     width: 120,
   },
   {
-    title: t('onChainTime'),
+    title: t('field.onChainTime'),
     dataIndex: 'onChainTime',
     key: 'onChainTime',
     width: 180,
   },
   {
-    title: t('confirmTime'),
+    title: t('field.confirmTime'),
     dataIndex: 'confirmTime',
     key: 'confirmTime',
     width: 180,
@@ -275,9 +270,9 @@ const handleTableChange = (pag, filters, sorter) => {
 
 const getStatusText = (status) => {
   const statusMap = {
-    success: t('success'),
-    confirming: t('confirming', { current: 6, required: 12 }),
-    failed: t('failed')
+    success: t('status.success'),
+    confirming: t('status.confirming', { current: 6, required: 12 }),
+    failed: t('status.failed')
   }
   return statusMap[status] || status
 }
@@ -295,18 +290,18 @@ const formatTxHash = (hash) => {
 const copyAddress = async (address) => {
   try {
     await navigator.clipboard.writeText(address)
-    message.success(t('copySuccess'))
+    message.success(t('message.copySuccess'))
   } catch (err) {
-    message.error(t('copyFailed'))
+    message.error(t('message.copyFailed'))
   }
 }
 
 const copyTxHash = async (txHash) => {
   try {
     await navigator.clipboard.writeText(txHash)
-    message.success(t('copySuccess'))
+    message.success(t('message.copySuccess'))
   } catch (err) {
-    message.error(t('copyFailed'))
+    message.error(t('message.copyFailed'))
   }
 }
 
@@ -315,169 +310,8 @@ const openTxHashLink = (txHash) => {
   window.open(`https://etherscan.io/tx/${txHash}`, '_blank')
 }
 
-// Simulated table data
-const tableData = [
-  {
-    key: '1',
-    detailId: 'TX202403150001',
-    chainType: 'ETH',
-    currency: 'USDT',
-    fromAddress: '0x1234567890abcdef1234567890abcdef12345678',
-    fromWalletId: 'W202403150001',
-    toAddress: '0x2345678901abcdef2345678901abcdef23456789',
-    toWalletId: 'W202403150002',
-    txHash: '0xabcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234',
-    feeCurrency: 'ETH',
-    feeAmount: '0.005',
-    status: 'success',
-    onChainTime: '2024-03-15 10:00:00',
-    confirmTime: '2024-03-15 10:30:00'
-  },
-  {
-    key: '2',
-    detailId: 'TX202403150002',
-    chainType: 'BTC',
-    currency: 'BTC',
-    fromAddress: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
-    fromWalletId: null,
-    toAddress: 'bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4',
-    toWalletId: 'W202403150003',
-    txHash: '6b912f1c30397c84472bf8588278f53986a4f0b1fc5d9b5d3c9f5c45f2f12345',
-    feeCurrency: 'BTC',
-    feeAmount: '0.0001',
-    status: 'confirming',
-    onChainTime: '2024-03-15 09:45:00',
-    confirmTime: null
-  },
-  {
-    key: '3',
-    detailId: 'TX202403150003',
-    chainType: 'TRON',
-    currency: 'USDT',
-    fromAddress: 'TNPeeaaFB7K9cmo4uQpcU32zGK8G1NYqeL',
-    fromWalletId: 'W202403150004',
-    toAddress: 'TYsbWxTuqQgpEJBHtFuVaXnGXzqQC8SWqz',
-    toWalletId: null,
-    txHash: '7b42f89e3b1f9c8d4e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7',
-    feeCurrency: 'TRX',
-    feeAmount: '1.5',
-    status: 'failed',
-    onChainTime: '2024-03-15 09:30:00',
-    confirmTime: null
-  },
-  {
-    key: '4',
-    detailId: 'TX202403150004',
-    chainType: 'ETH',
-    currency: 'ETH',
-    fromAddress: '0x3456789012abcdef3456789012abcdef34567890',
-    fromWalletId: 'W202403150005',
-    toAddress: '0x4567890123abcdef4567890123abcdef45678901',
-    toWalletId: 'W202403150006',
-    txHash: '0xdef5678def5678def5678def5678def5678def5678def5678def5678def5678',
-    feeCurrency: 'ETH',
-    feeAmount: '0.003',
-    status: 'success',
-    onChainTime: '2024-03-15 09:15:00',
-    confirmTime: '2024-03-15 09:45:00'
-  },
-  {
-    key: '5',
-    detailId: 'TX202403150005',
-    chainType: 'BTC',
-    currency: 'BTC',
-    fromAddress: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq',
-    fromWalletId: 'W202403150007',
-    toAddress: 'bc1q9h6mqkfqht9ckhz9txy6fmwp0xn6rz2qz7g8vg',
-    toWalletId: null,
-    txHash: '8c023f1d41397c84472bf8588278f53986a4f0b1fc5d9b5d3c9f5c45f2f12345',
-    feeCurrency: 'BTC',
-    feeAmount: '0.00015',
-    status: 'confirming',
-    onChainTime: '2024-03-15 09:00:00',
-    confirmTime: null
-  },
-  {
-    key: '6',
-    detailId: 'TX202403150006',
-    chainType: 'TRON',
-    currency: 'TRX',
-    fromAddress: 'TQVxjVy2sYt4at45ezD3ssQMm4qr3pKxvY',
-    fromWalletId: null,
-    toAddress: 'TWpWJGkZXHJKLmZCpHHpBRzMaKBk9SyL5H',
-    toWalletId: 'W202403150008',
-    txHash: '9d53e90f4c2f8d1e5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8',
-    feeCurrency: 'TRX',
-    feeAmount: '1.2',
-    status: 'success',
-    onChainTime: '2024-03-15 08:45:00',
-    confirmTime: '2024-03-15 09:15:00'
-  },
-  {
-    key: '7',
-    detailId: 'TX202403150007',
-    chainType: 'ETH',
-    currency: 'USDC',
-    fromAddress: '0x5678901234abcdef5678901234abcdef56789012',
-    fromWalletId: 'W202403150009',
-    toAddress: '0x6789012345abcdef6789012345abcdef67890123',
-    toWalletId: 'W202403150010',
-    txHash: '0xef678901ef678901ef678901ef678901ef678901ef678901ef678901ef678901',
-    feeCurrency: 'ETH',
-    feeAmount: '0.004',
-    status: 'failed',
-    onChainTime: '2024-03-15 08:30:00',
-    confirmTime: null
-  },
-  {
-    key: '8',
-    detailId: 'TX202403150008',
-    chainType: 'BTC',
-    currency: 'BTC',
-    fromAddress: 'bc1qxr4fjkvnxjqphuyaw5a08za9g6qqh65t8qwgum',
-    fromWalletId: 'W202403150011',
-    toAddress: 'bc1qwqdg6squsna38e46795at95yu9atm8azzmyvckulcc7kytlcckxswvvzej',
-    toWalletId: 'W202403150012',
-    txHash: 'ad134f2e52397c84472bf8588278f53986a4f0b1fc5d9b5d3c9f5c45f2f12345',
-    feeCurrency: 'BTC',
-    feeAmount: '0.00012',
-    status: 'success',
-    onChainTime: '2024-03-15 08:15:00',
-    confirmTime: '2024-03-15 08:45:00'
-  },
-  {
-    key: '9',
-    detailId: 'TX202403150009',
-    chainType: 'TRON',
-    currency: 'USDT',
-    fromAddress: 'TUrMmF9Gd4rzrXsUFrF2BrAkqjTquc1pXh',
-    fromWalletId: null,
-    toAddress: 'TVxm4GQK9QhFZsE1k8ekj4CgWzkkqYZZV4',
-    toWalletId: null,
-    txHash: 'be64f91g5d3h8e2j5k6l7m8n9p0q1r2s3t4u5v6w7x8y9z0a1b2c3d4e5f6g7h',
-    feeCurrency: 'TRX',
-    feeAmount: '1.8',
-    status: 'confirming',
-    onChainTime: '2024-03-15 08:00:00',
-    confirmTime: null
-  },
-  {
-    key: '10',
-    detailId: 'TX202403150010',
-    chainType: 'ETH',
-    currency: 'ETH',
-    fromAddress: '0x7890123456abcdef7890123456abcdef78901234',
-    fromWalletId: 'W202403150013',
-    toAddress: '0x8901234567abcdef8901234567abcdef89012345',
-    toWalletId: 'W202403150014',
-    txHash: '0xf0123456f0123456f0123456f0123456f0123456f0123456f0123456f0123456',
-    feeCurrency: 'ETH',
-    feeAmount: '0.002',
-    status: 'success',
-    onChainTime: '2024-03-15 07:45:00',
-    confirmTime: '2024-03-15 08:15:00'
-  }
-]
+// 使用 mock 數據
+const tableData = ref(mockData.transactionList)
 
 </script>
 

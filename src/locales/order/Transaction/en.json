@@ -1,0 +1,42 @@
+{
+  "title": {
+    "transactionDetailQuery": "Transaction Detail Query",
+    "transactionList": "Transaction List"
+  },
+  "field": {
+    "dateRange": "Date Range",
+    "chainType": "Chain Type",
+    "currency": "Currency",
+    "fromAddress": "From Address",
+    "toAddress": "To Address",
+    "txHash": "Transaction Hash",
+    "blockHeight": "Block Height",
+    "status": "Status",
+    "detailId": "Detail ID",
+    "feeCurrency": "Fee Currency",
+    "feeAmount": "Fee Amount",
+    "onChainTime": "On Chain Time",
+    "confirmTime": "Confirm Time"
+  },
+  "prompt": {
+    "pleaseInputFromAddress": "Please input from address",
+    "pleaseInputToAddress": "Please input to address",
+    "pleaseInputTxHash": "Please input transaction hash",
+    "pleaseInputBlockHeight": "Please input block height",
+    "pleaseSelectStatus": "Please select status"
+  },
+  "status": {
+    "success": "Success",
+    "confirming": "Confirming ({current}/{required})",
+    "failed": "Failed"
+  },
+  "action": {
+    "search": "Search",
+    "reset": "Reset"
+  },
+  "message": {
+    "copySuccess": "Copy Success",
+    "copyFailed": "Copy Failed"
+  },
+  "totalItems": "Total {total} items"
+} 

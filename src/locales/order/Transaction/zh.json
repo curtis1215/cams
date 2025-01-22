@@ -1,0 +1,42 @@
+{
+  "title": {
+    "transactionDetailQuery": "交易明細查詢",
+    "transactionList": "交易列表"
+  },
+  "field": {
+    "dateRange": "日期範圍",
+    "chainType": "鏈類型",
+    "currency": "幣種",
+    "fromAddress": "來源地址",
+    "toAddress": "目標地址",
+    "txHash": "交易哈希",
+    "blockHeight": "區塊高度",
+    "status": "狀態",
+    "detailId": "明細ID",
+    "feeCurrency": "手續費幣種",
+    "feeAmount": "手續費金額",
+    "onChainTime": "上鏈時間",
+    "confirmTime": "確認時間"
+  },
+  "prompt": {
+    "pleaseInputFromAddress": "請輸入來源地址",
+    "pleaseInputToAddress": "請輸入目標地址",
+    "pleaseInputTxHash": "請輸入交易哈希",
+    "pleaseInputBlockHeight": "請輸入區塊高度",
+    "pleaseSelectStatus": "請選擇狀態"
+  },
+  "status": {
+    "success": "成功",
+    "confirming": "確認中 ({current}/{required})",
+    "failed": "失敗"
+  },
+  "action": {
+    "search": "搜索",
+    "reset": "重置"
+  },
+  "message": {
+    "copySuccess": "複製成功",
+    "copyFailed": "複製失敗"
+  },
+  "totalItems": "共 {total} 條"
+} 
