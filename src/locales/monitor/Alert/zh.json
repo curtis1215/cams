@@ -1,14 +1,17 @@
 {
   "card": {
+    "alertStatistics": "告警統計",
     "nodeHeight": "節點高度告警",
     "withdrawDuration": "提幣時長告警",
-    "largeAmount": "大額充提幣告警"
+    "largeAmount": "大額充提幣告警",
+    "unconfirmedTransfer": "未確認轉帳"
   },
   "settings": "告警設置",
   "modal": {
     "largeAmount": "大額交易告警設置",
     "withdrawDuration": "提幣時長設置",
-    "nodeHeight": "節點高度告警設置"
+    "nodeHeight": "節點高度告警設置",
+    "confirm": "確認原因"
   },
   "threshold": {
     "deposit": "大額存款閾值",
@@ -31,7 +34,12 @@
     "serviceHeight": "服務高度",
     "nodeHeight": "節點高度",
     "chainHeight": "鏈高度",
-    "alertReason": "告警原因"
+    "alertReason": "告警原因",
+    "walletId": "錢包ID",
+    "transferAmount": "轉帳數量",
+    "time": "時間",
+    "transferId": "轉帳單號",
+    "action": "操作"
   },
   "reason": {
     "serviceHeightBehind": "服務高度落後",
@@ -51,9 +59,32 @@
     "nodeHeight": "節點高度"
   },
   "message": {
-    "settingsSaved": "設置已保存"
+    "settingsSaved": "設置已保存",
+    "pleaseInputReason": "請輸入確認事由",
+    "confirmSuccess": "確認成功"
   },
   "button": {
     "addRule": "添加規則"
+  },
+  "statistics": {
+    "nodeHeight": "節點高度告警",
+    "withdrawDuration": "提幣時長告警",
+    "largeAmount": "大額充提幣告警",
+    "unconfirmedTransfer": "未確認轉帳",
+    "lessThan30": "30分鐘以內",
+    "between30And60": "30-60分鐘",
+    "moreThan60": "60分鐘以上"
+  },
+  "pagination": {
+    "total": "共 {total} 筆"
+  },
+  "action": {
+    "confirm": "已確認"
+  },
+  "field": {
+    "reason": "確認事由"
+  },
+  "prompt": {
+    "pleaseInputConfirmReason": "請輸入確認事由..."
   }
 } 

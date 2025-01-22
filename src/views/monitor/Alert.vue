@@ -1,5 +1,24 @@
 <template>
   <div class="alert-monitor">
+    <!-- 告警统计卡片 -->
+    <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
+      <template #title>
+        <div class="card-header">
+          <span class="card-title">{{ t('card.alertStatistics') }}</span>
+        </div>
+      </template>
+      <div class="statistics-container">
+        <div v-for="(stat, index) in alertStatistics" :key="index" class="stat-item">
+          <div class="stat-title">{{ stat.title }}</div>
+          <div class="stat-numbers">
+            <div class="number-value success">{{ stat.under30 }}</div>
+            <div class="number-value warning">{{ stat.between30And60 }}</div>
+            <div class="number-value error">{{ stat.over60 }}</div>
+          </div>
+        </div>
+      </div>
+    </a-card>
+
     <!-- 節點高度告警卡片 -->
     <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
       <template #title>
@@ -16,7 +35,7 @@
         <a-table
           :columns="columns"
           :data-source="alertData"
-          :pagination="false"
+          :pagination="pagination"
           :scroll="{ x: 1000 }"
           :bordered="true"
         >
@@ -62,7 +81,7 @@
         <a-table
           :columns="withdrawColumns"
           :data-source="withdrawAlertData"
-          :pagination="false"
+          :pagination="pagination"
           :scroll="{ x: 1200 }"
           :bordered="true"
         >
@@ -96,7 +115,7 @@
         <a-table
           :columns="largeAmountColumns"
           :data-source="largeAmountData"
-          :pagination="false"
+          :pagination="pagination"
           :scroll="{ x: 1200 }"
           :bordered="true"
         >
@@ -106,6 +125,39 @@
             </template>
             <template v-if="column.key === 'amount'">
               <span>{{ record.amount }} {{ record.coin }}</span>
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <a-button type="primary" size="small" @click="handleConfirm(record)">
+                {{ t('action.confirm') }}
+              </a-button>
+            </template>
+          </template>
+        </a-table>
+      </div>
+    </a-card>
+
+    <!-- 未確認轉帳告警卡片 -->
+    <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
+      <template #title>
+        <div class="card-header">
+          <span class="card-title">{{ t('card.unconfirmedTransfer') }}</span>
+        </div>
+      </template>
+
+      <div class="table-container">
+        <a-table
+          :columns="unconfirmedColumns"
+          :data-source="unconfirmedTransferData"
+          :pagination="pagination"
+          :scroll="{ x: 1000 }"
+          :bordered="true"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'transferId'">
+              <a @click="handleTransferClick(record.transferId)">{{ record.transferId }}</a>
+            </template>
+            <template v-if="column.key === 'transferAmount'">
+              <span>{{ record.transferAmount }} {{ record.coin }}</span>
             </template>
           </template>
         </a-table>
@@ -228,6 +280,23 @@
         </div>
       </div>
     </a-modal>
+
+    <!-- 確認彈窗 -->
+    <a-modal
+      v-model:open="confirmModalVisible"
+      :title="t('modal.confirm')"
+      @ok="handleConfirmSubmit"
+    >
+      <a-form :model="confirmForm" layout="vertical">
+        <a-form-item :label="t('field.reason')" required>
+          <a-textarea
+            v-model:value="confirmForm.reason"
+            :placeholder="t('prompt.pleaseInputConfirmReason')"
+            :rows="4"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
@@ -239,6 +308,7 @@ import { message } from 'ant-design-vue'
 import mockData from '@/mock/monitor/Alert/alert.mock.json'
 import zhLocale from '@/locales/monitor/Alert/zh.json'
 import enLocale from '@/locales/monitor/Alert/en.json'
+import { useRouter } from 'vue-router'
 
 const messages = {
   zh: zhLocale,
@@ -249,6 +319,8 @@ const { t } = useI18n({
   messages,
   legacy: false
 })
+
+const router = useRouter()
 
 const columns = computed(() => [
   {
@@ -332,6 +404,31 @@ const withdrawAlertData = computed(() => mockData.withdrawAlertData.map(item => 
   alertReason: t(`reason.${item.alertReason.split('.')[1]}`)
 })))
 
+const confirmModalVisible = ref(false)
+const confirmForm = reactive({
+  orderId: '',
+  reason: ''
+})
+
+const handleConfirm = (record) => {
+  confirmForm.orderId = record.orderId
+  confirmForm.reason = ''
+  confirmModalVisible.value = true
+}
+
+const handleConfirmSubmit = () => {
+  if (!confirmForm.reason.trim()) {
+    message.error(t('message.pleaseInputReason'))
+    return
+  }
+  
+  // TODO: 調用API處理確認邏輯
+  console.log('Confirm order:', confirmForm)
+  
+  message.success(t('message.confirmSuccess'))
+  confirmModalVisible.value = false
+}
+
 const largeAmountColumns = computed(() => [
   {
     title: t('column.merchant'),
@@ -375,9 +472,56 @@ const largeAmountColumns = computed(() => [
     key: 'userId',
     width: 150,
   },
+  {
+    title: t('column.action'),
+    key: 'action',
+    width: 120,
+    fixed: 'right'
+  }
 ])
 
 const largeAmountData = computed(() => mockData.largeAmountData)
+
+const unconfirmedTransferData = computed(() => mockData.unconfirmedTransferData)
+
+const unconfirmedColumns = computed(() => [
+  {
+    title: t('column.transferId'),
+    dataIndex: 'transferId',
+    key: 'transferId',
+    width: 200,
+  },
+  {
+    title: t('column.walletId'),
+    dataIndex: 'walletId',
+    key: 'walletId',
+    width: 150,
+  },
+  {
+    title: t('column.chain'),
+    dataIndex: 'chain',
+    key: 'chain',
+    width: 100,
+  },
+  {
+    title: t('column.coin'),
+    dataIndex: 'coin',
+    key: 'coin',
+    width: 100,
+  },
+  {
+    title: t('column.transferAmount'),
+    dataIndex: 'transferAmount',
+    key: 'transferAmount',
+    width: 150,
+  },
+  {
+    title: t('column.time'),
+    dataIndex: 'time',
+    key: 'time',
+    width: 180,
+  },
+])
 
 const isHeightColumn = (key) => {
   return ['serviceHeight', 'nodeHeight', 'chainHeight'].includes(key)
@@ -386,6 +530,13 @@ const isHeightColumn = (key) => {
 const handleOrderClick = (orderId) => {
   console.log('訂單點擊:', orderId)
   // 這裡可以添加訂單詳情的處理邏輯
+}
+
+const handleTransferClick = (transferId) => {
+  router.push({
+    path: '/order/transfer',
+    query: { transferId }
+  })
 }
 
 const settingModalVisible = ref(false)
@@ -452,6 +603,40 @@ const removeHeightRule = (index) => {
 const handleHeightSettingSave = () => {
   message.success(t('message.settingsSaved'))
   heightSettingModalVisible.value = false
+}
+
+const alertStatistics = computed(() => [
+  {
+    title: t('statistics.nodeHeight'),
+    under30: alertData.value.filter(item => item.duration < 30).length,
+    between30And60: alertData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
+    over60: alertData.value.filter(item => item.duration >= 60).length
+  },
+  {
+    title: t('statistics.withdrawDuration'),
+    under30: withdrawAlertData.value.filter(item => item.duration < 30).length,
+    between30And60: withdrawAlertData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
+    over60: withdrawAlertData.value.filter(item => item.duration >= 60).length
+  },
+  {
+    title: t('statistics.largeAmount'),
+    under30: largeAmountData.value.filter(item => item.duration < 30).length,
+    between30And60: largeAmountData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
+    over60: largeAmountData.value.filter(item => item.duration >= 60).length
+  },
+  {
+    title: t('statistics.unconfirmedTransfer'),
+    under30: unconfirmedTransferData.value.filter(item => item.duration < 30).length,
+    between30And60: unconfirmedTransferData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
+    over60: unconfirmedTransferData.value.filter(item => item.duration >= 60).length
+  }
+])
+
+const pagination = {
+  pageSize: 5,
+  showSizeChanger: false,
+  showQuickJumper: false,
+  showTotal: (total) => t('pagination.total', { total })
 }
 </script>
 
@@ -579,5 +764,86 @@ const handleHeightSettingSave = () => {
 :deep(.ant-btn-dashed:hover) {
   border-color: var(--ant-primary-color);
   color: var(--ant-primary-color);
+}
+
+.statistics-container {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  flex: 1;
+  min-width: 280px;
+  background: #1f1f1f;
+  border-radius: 8px;
+  padding: 16px;
+  border: 1px solid #303030;
+}
+
+.stat-title {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.stat-numbers {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  padding: 8px 0;
+}
+
+.number-value {
+  font-size: 24px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.number-value.success {
+  background-color: rgba(82, 196, 26, 0.15);
+  color: #52c41a;
+  border: 1px solid rgba(82, 196, 26, 0.3);
+}
+
+.number-value.warning {
+  background-color: rgba(250, 173, 20, 0.15);
+  color: #faad14;
+  border: 1px solid rgba(250, 173, 20, 0.3);
+}
+
+.number-value.error {
+  background-color: rgba(255, 77, 79, 0.15);
+  color: #ff4d4f;
+  border: 1px solid rgba(255, 77, 79, 0.3);
+}
+
+:deep(.ant-pagination) {
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+:deep(.ant-pagination-item),
+:deep(.ant-pagination-prev),
+:deep(.ant-pagination-next) {
+  background-color: #1f1f1f;
+  border-color: #303030;
+}
+
+:deep(.ant-pagination-item-active) {
+  border-color: var(--ant-primary-color);
+}
+
+:deep(.ant-pagination-item a),
+:deep(.ant-pagination-item-active a) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-pagination-total-text) {
+  color: rgba(255, 255, 255, 0.45);
 }
 </style>

@@ -1,21 +1,24 @@
 {
   "card": {
+    "alertStatistics": "Alert Statistics",
     "nodeHeight": "Node Height Alert",
     "withdrawDuration": "Withdrawal Duration Alert",
-    "largeAmount": "Large Amount Alert"
+    "largeAmount": "Large Transaction Alert",
+    "unconfirmedTransfer": "Unconfirmed Transfers"
   },
-  "settings": "Alert Settings",
+  "settings": "Settings",
   "modal": {
-    "largeAmount": "Large Amount Alert Settings",
+    "largeAmount": "Large Transaction Alert Settings",
     "withdrawDuration": "Withdrawal Duration Settings",
-    "nodeHeight": "Node Height Alert Settings"
+    "nodeHeight": "Node Height Alert Settings",
+    "confirm": "Confirmation Reason"
   },
   "threshold": {
-    "deposit": "Deposit Alert Threshold",
-    "withdraw": "Withdrawal Alert Threshold",
-    "processingTimeout": "Processing Timeout Threshold",
-    "waitingTimeout": "Waiting Timeout Threshold",
-    "notifyTimeout": "Notify Timeout Threshold"
+    "deposit": "Large Deposit Threshold",
+    "withdraw": "Large Withdrawal Threshold",
+    "processingTimeout": "Processing Duration Threshold",
+    "waitingTimeout": "Waiting Duration Threshold",
+    "notifyTimeout": "Notification Duration Threshold"
   },
   "column": {
     "merchant": "Merchant",
@@ -31,29 +34,57 @@
     "serviceHeight": "Service Height",
     "nodeHeight": "Node Height",
     "chainHeight": "Chain Height",
-    "alertReason": "Alert Reason"
+    "alertReason": "Alert Reason",
+    "walletId": "Wallet ID",
+    "transferAmount": "Transfer Amount",
+    "time": "Time",
+    "transferId": "Transfer ID",
+    "action": "Action"
   },
   "reason": {
     "serviceHeightBehind": "Service Height Behind",
     "nodeHeightBehind": "Node Height Behind",
     "processingTimeout": "Processing Timeout",
     "waitingTimeout": "Waiting Timeout",
-    "notifyTimeout": "Notify Timeout"
+    "notifyTimeout": "Notification Timeout"
   },
   "unit": {
-    "minutes": "Minutes"
+    "minutes": "minutes"
   },
   "text": {
     "when": "When",
-    "lagsBehind": "Lags Behind",
-    "reaches": "Reaches",
+    "lagsBehind": "lags behind",
+    "reaches": "reaches",
     "serviceHeight": "Service Height",
     "nodeHeight": "Node Height"
   },
   "message": {
-    "settingsSaved": "Settings Saved"
+    "settingsSaved": "Settings saved",
+    "pleaseInputReason": "Please input confirmation reason",
+    "confirmSuccess": "Confirmed successfully"
   },
   "button": {
     "addRule": "Add Rule"
+  },
+  "statistics": {
+    "nodeHeight": "Node Height Alert",
+    "withdrawDuration": "Withdrawal Duration Alert",
+    "largeAmount": "Large Transaction Alert",
+    "unconfirmedTransfer": "Unconfirmed Transfers",
+    "lessThan30": "Under 30 mins",
+    "between30And60": "30-60 mins",
+    "moreThan60": "Over 60 mins"
+  },
+  "pagination": {
+    "total": "Total {total} items"
+  },
+  "action": {
+    "confirm": "Confirm"
+  },
+  "field": {
+    "reason": "Reason"
+  },
+  "prompt": {
+    "pleaseInputConfirmReason": "Please input confirmation reason..."
   }
 } 
