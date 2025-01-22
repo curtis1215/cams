@@ -1,0 +1,10 @@
+{
+  "prompt": {
+    "selectStatus": "Please select status"
+  },
+  "status": {
+    "confirming": "Confirming",
+    "success": "Successful",
+    "failed": "Failed"
+  }
+} 

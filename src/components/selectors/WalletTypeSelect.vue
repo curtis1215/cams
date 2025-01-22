@@ -32,12 +32,12 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'change'])
 
 // 錢包類型選項
-const walletTypes = [
-  { value: 'user', label: t('wallet.walletType.user') },
-  { value: 'collection', label: t('wallet.walletType.collection') },
-  { value: 'withdrawal', label: t('wallet.walletType.withdrawal') },
-  { value: 'transfer', label: t('wallet.walletType.transfer') }
-]
+const options = computed(() => [
+  { value: 'user', label: t('common.wallet.walletType.user') },
+  { value: 'collection', label: t('common.wallet.walletType.collection') },
+  { value: 'withdrawal', label: t('common.wallet.walletType.withdrawal') },
+  { value: 'transfer', label: t('common.wallet.walletType.transfer') }
+])
 
 // 處理選擇變更
 const handleChange = (value) => {

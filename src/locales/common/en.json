@@ -1,0 +1,97 @@
+{
+  "common": {
+    "prompt": {
+      "selectStatus": "Please select status",
+      "selectMerchant": "Please select merchant",
+      "selectChainType": "Please select chain type",
+      "selectCurrency": "Please select currency",
+      "selectStartDate": "Please select start date",
+      "selectEndDate": "Please select end date",
+      "pleaseInputOrderId": "Please input order ID",
+      "pleaseInputUserId": "Please input user ID",
+      "pleaseInputAddress": "Please input address",
+      "pleaseInputTxHash": "Please input TxHash",
+      "selectTransferType": "Please select transfer type",
+      "selectWalletType": "Please select wallet type"
+    },
+    "field": {
+      "allMerchants": "All Merchants",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "orderId": "Order ID",
+      "dateRange": "Date Range",
+      "merchant": "Merchant",
+      "status": "Status",
+      "userId": "User ID",
+      "address": "Address",
+      "platformOrderId": "Platform Order ID",
+      "merchantOrderId": "Merchant Order ID",
+      "transferId": "Transfer ID",
+      "createTime": "Create Time",
+      "successTime": "Success Time",
+      "notifyTime": "Notify Time"
+    },
+    "dateFormat": {
+      "dateTime": "YYYY-MM-DD HH:mm:ss",
+      "date": "YYYY-MM-DD"
+    },
+    "action": {
+      "reset": "Reset",
+      "query": "Query",
+      "retry": "Retry"
+    },
+    "status": {
+      "confirming": "Confirming",
+      "successful": "Successful",
+      "failed": "Failed",
+      "waiting": "Waiting",
+      "processing": "Processing",
+      "retrying": "Retrying",
+      "timeout": "Timeout",
+      "pending": "Pending",
+      "manualConfirm": "Manual Confirm"
+    },
+    "table": {
+      "merchant": "Merchant",
+      "transactionDocument": "Transaction Document",
+      "transactionAmount": "Transaction Amount",
+      "usdtValue": "USDT Value",
+      "receivingAddress": "Receiving Address",
+      "orderStatus": "Order Status",
+      "notifyStatus": "Notify Status",
+      "timeInfo": "Time Info"
+    },
+    "title": {
+      "depositOrderQuery": "Deposit Order Query",
+      "orderList": "Order List",
+      "queryCondition": "Query Condition",
+      "walletList": "Wallet List",
+      "walletInfo": "Wallet Info",
+      "tokenDetail": "Token Detail"
+    },
+    "message": {
+      "copySuccess": "Copy successful",
+      "copyFailed": "Copy failed"
+    },
+    "tx": {
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "collection": "Collection",
+      "exchange": "Exchange",
+      "replenish": "Replenish",
+      "manual": "Manual",
+      "pendingConfirm": "Pending Confirm",
+      "manualOut": "Manual Out",
+      "manualIn": "Manual In",
+      "systemError": "System Error"
+    },
+    "wallet": {
+      "walletType": {
+        "user": "User",
+        "collection": "Collection",
+        "withdrawal": "Withdrawal",
+        "transfer": "Transfer"
+      }
+    }
+  }
+} 

@@ -1,67 +1,67 @@
 <template>
   <div class="deposit-order">
-    <a-card :title="t('depositOrderQuery')" class="filter-card">
+    <a-card :title="t('title.depositOrderQuery')" class="filter-card">
       <a-form layout="vertical" :model="queryParams" class="query-form">
         <div class="form-row">
-          <a-form-item :label="t('orderId')" class="form-item-lg">
+          <a-form-item :label="t('field.orderId')" class="form-item-lg">
             <a-input
               v-model:value="queryParams.orderId"
-              :placeholder="t('pleaseInputOrderId')"
+              :placeholder="t('prompt.pleaseInputOrderId')"
               allow-clear
             />
           </a-form-item>
-          <a-form-item :label="t('dateRange')" class="form-item-lg">
+          <a-form-item :label="t('field.dateRange')" class="form-item-lg">
             <date-range-select
               v-model="queryParams.dateRange"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('merchant')" class="form-item-md">
+          <a-form-item :label="t('field.merchant')" class="form-item-md">
             <merchant-select
               v-model="queryParams.merchant"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('status')" class="form-item-sm">
+          <a-form-item :label="t('field.status')" class="form-item-sm">
             <order-status-select
               v-model="queryParams.status"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('userId')" class="form-item-md">
+          <a-form-item :label="t('field.userId')" class="form-item-md">
             <a-input
               v-model:value="queryParams.userId"
-              :placeholder="t('pleaseInputUserId')"
+              :placeholder="t('prompt.pleaseInputUserId')"
               allow-clear
             />
           </a-form-item>
         </div>
         <div class="form-row">
-          <a-form-item :label="t('address')" class="form-item-xl">
+          <a-form-item :label="t('field.address')" class="form-item-xl">
             <a-input
               v-model:value="queryParams.address"
-              :placeholder="t('pleaseInputAddress')"
+              :placeholder="t('prompt.pleaseInputAddress')"
               allow-clear
             />
           </a-form-item>
           <a-form-item label="TxHash" class="form-item-xl">
             <a-input
               v-model:value="queryParams.txHash"
-              :placeholder="t('pleaseInputTxHash')"
+              :placeholder="t('prompt.pleaseInputTxHash')"
               allow-clear
             />
           </a-form-item>
           <div class="form-item-sm button-group">
             <a-space>
-              <a-button @click="handleReset">{{ t('reset') }}</a-button>
-              <a-button type="primary" @click="handleQuery">{{ t('query') }}</a-button>
+              <a-button @click="handleReset">{{ t('action.reset') }}</a-button>
+              <a-button type="primary" @click="handleQuery">{{ t('action.query') }}</a-button>
             </a-space>
           </div>
         </div>
       </a-form>
     </a-card>
 
-    <a-card :title="t('orderList')" class="list-card">
+    <a-card :title="t('title.orderList')" class="list-card">
       <a-table
         :columns="columns"
         :data-source="tableData"
@@ -69,93 +69,143 @@
         :bordered="true"
         @change="handleTableChange"
       >
-        <template #merchant="{ text }">
-          {{ text }}
-        </template>
-
-        <template #orderInfo="{ record }">
-          <div class="order-info">
-            <div class="info-item">
-              <span class="label">{{ t('platformOrderId') }}:</span>
-              <span>{{ record.platformOrderId }}</span>
+        <template #bodyCell="{ column, text, record }">
+          <template v-if="column.key === 'merchant'">
+            {{ text }}
+          </template>
+          
+          <template v-else-if="column.key === 'orderInfo'">
+            <div class="order-info">
+              <div class="info-item">
+                <span class="label">{{ t('field.platformOrderId') }}:</span>
+                <span>{{ record.platformOrderId }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('field.merchantOrderId') }}:</span>
+                <span>{{ record.merchantOrderId }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('field.transferId') }}:</span>
+                <a @click="handleTransferIdClick(record.transferId)">{{ record.transferId }}</a>
+              </div>
+              <div class="info-item">
+                <span class="label">TxHash:</span>
+                <div class="txhash-container">
+                  <span>{{ formatTxHash(record.txHash) }}</span>
+                  <copy-outlined class="action-icon" @click="copyTxHash(record.txHash)" />
+                  <link-outlined class="action-icon" @click="handleTxHashClick(record.txHash)" />
+                </div>
+              </div>
             </div>
-            <div class="info-item">
-              <span class="label">{{ t('merchantOrderId') }}:</span>
-              <span>{{ record.merchantOrderId }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">{{ t('transferId') }}:</span>
-              <a @click="handleTransferIdClick(record.transferId)">{{ record.transferId }}</a>
-            </div>
-            <div class="info-item">
-              <span class="label">TxHash:</span>
-              <a @click="handleTxHashClick(record.txHash)">{{ record.txHash }}</a>
-            </div>
-          </div>
-        </template>
+          </template>
 
-        <template #address="{ text }">
-          <div class="address-container">
-            <span>{{ formatAddress(text) }}</span>
-            <copy-outlined class="copy-icon" @click="copyAddress(text)" />
-          </div>
-        </template>
+          <template v-else-if="column.key === 'address'">
+            <div class="address-container">
+              <span>{{ formatAddress(text) }}</span>
+              <copy-outlined class="copy-icon" @click="copyAddress(text)" />
+            </div>
+          </template>
 
-        <template #orderStatus="{ record }">
-          <a-tag :class="['status-tag', `status-${record.orderStatus}`]">
-            {{ getOrderStatusText(record) }}
-          </a-tag>
-        </template>
-
-        <template #notifyStatus="{ record }">
-          <div class="notify-status-container">
-            <a-tag :class="['status-tag', `notify-${record.notifyStatus}`]">
-              {{ getNotifyStatusText(record.notifyStatus) }}
+          <template v-else-if="column.key === 'orderStatus'">
+            <a-tag :class="['status-tag', `status-${record.orderStatus}`]">
+              {{ getOrderStatusText(record) }}
             </a-tag>
-            <a-button
-              v-if="record.notifyStatus === 'timeout'"
-              type="link"
-              size="small"
-              class="retry-button"
-              @click="handleRetryNotify(record)"
-            >
-              {{ t('retry') }}
-            </a-button>
-          </div>
-        </template>
+          </template>
 
-        <template #timeInfo="{ record }">
-          <div class="time-info">
-            <div class="info-item">
-              <span class="label">{{ t('createTime') }}:</span>
-              <span>{{ record.createTime }}</span>
+          <template v-else-if="column.key === 'notifyStatus'">
+            <div class="notify-status-container">
+              <a-tag :class="['status-tag', `notify-${record.notifyStatus}`]">
+                {{ getNotifyStatusText(record.notifyStatus) }}
+              </a-tag>
+              <a-button
+                v-if="record.notifyStatus === 'timeout'"
+                type="link"
+                size="small"
+                class="retry-button"
+                @click="handleRetryNotify(record)"
+              >
+                {{ t('action.retry') }}
+              </a-button>
             </div>
-            <div class="info-item">
-              <span class="label">{{ t('successTime') }}:</span>
-              <span>{{ record.successTime || '-' }}</span>
+          </template>
+
+          <template v-else-if="column.key === 'timeInfo'">
+            <div class="time-info">
+              <div class="info-item">
+                <span class="label">{{ t('field.createTime') }}:</span>
+                <span>{{ record.createTime }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('field.successTime') }}:</span>
+                <span>{{ record.successTime || '-' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('field.notifyTime') }}:</span>
+                <span>{{ record.notifyTime || '-' }}</span>
+              </div>
             </div>
-            <div class="info-item">
-              <span class="label">{{ t('notifyTime') }}:</span>
-              <span>{{ record.notifyTime || '-' }}</span>
-            </div>
-          </div>
+          </template>
         </template>
       </a-table>
     </a-card>
+
+    <!-- 通知詳情彈窗 -->
+    <a-modal
+      v-model:open="notifyDetailVisible"
+      :title="t('title.notifyDetail')"
+      :width="800"
+      @cancel="handleNotifyDetailCancel"
+    >
+      <div class="notify-detail">
+        <div class="detail-item">
+          <div class="detail-label">{{ t('field.notifyUrl') }}:</div>
+          <a-input v-model:value="notifyUrl" class="notify-url-input" />
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">{{ t('field.notifyContent') }}:</div>
+          <a-card class="code-card">
+            <pre class="code-block">{{ formatJson(notifyContent) }}</pre>
+          </a-card>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">{{ t('field.errorContent') }}:</div>
+          <a-card class="code-card">
+            <pre class="code-block">{{ formatJson(errorContent) }}</pre>
+          </a-card>
+        </div>
+      </div>
+      <template #footer>
+        <a-space>
+          <a-button @click="handleNotifyDetailCancel">{{ t('action.cancel') }}</a-button>
+          <a-button type="primary" @click="handleNotifyRetry">{{ t('action.retry') }}</a-button>
+        </a-space>
+      </template>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { CopyOutlined } from '@ant-design/icons-vue'
+import { CopyOutlined, LinkOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
 import OrderStatusSelect from '@/components/selectors/OrderStatusSelect.vue'
 import '@/styles/common.css'
+import zhLocale from '@/locales/order/Deposit/zh.json'
+import enLocale from '@/locales/order/Deposit/en.json'
+import mockData from '@/mock/order/Deposit/deposit.mock.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const queryParams = ref({
   dateRange: [],
@@ -186,67 +236,62 @@ const handleQuery = () => {
 
 const columns = computed(() => [
   {
-    title: t('merchant'),
+    title: t('table.merchant'),
     dataIndex: 'merchant',
     key: 'merchant',
-    slots: { customRender: 'merchant' },
     width: 120,
   },
   {
-    title: t('transactionDocument'),
+    title: t('table.transactionDocument'),
     dataIndex: 'orderInfo',
     key: 'orderInfo',
-    slots: { customRender: 'orderInfo' },
     width: 300,
   },
   {
-    title: t('transactionAmount'),
+    title: t('table.transactionAmount'),
     dataIndex: 'amount',
     key: 'amount',
     align: 'right',
     width: 120,
   },
   {
-    title: t('usdtValue'),
+    title: t('table.usdtValue'),
     dataIndex: 'usdtValue',
     key: 'usdtValue',
     align: 'right',
     width: 120,
   },
   {
-    title: t('receivingAddress'),
+    title: t('table.receivingAddress'),
     dataIndex: 'address',
     key: 'address',
-    slots: { customRender: 'address' },
     width: 200,
   },
   {
-    title: t('orderStatus'),
+    title: t('table.orderStatus'),
     dataIndex: 'orderStatus',
     key: 'orderStatus',
-    slots: { customRender: 'orderStatus' },
     width: 120,
   },
   {
-    title: t('notifyStatus'),
+    title: t('table.notifyStatus'),
     dataIndex: 'notifyStatus',
     key: 'notifyStatus',
-    slots: { customRender: 'notifyStatus' },
     width: 120,
   },
   {
-    title: t('timeInfo'),
+    title: t('table.timeInfo'),
     dataIndex: 'timeInfo',
     key: 'timeInfo',
-    slots: { customRender: 'timeInfo' },
     width: 300,
   },
 ])
 
+const tableData = ref(mockData.data)
 const pagination = ref({
-  total: 100,
-  current: 1,
-  pageSize: 10,
+  total: mockData.total,
+  current: mockData.current,
+  pageSize: mockData.pageSize,
   showSizeChanger: true,
   showQuickJumper: true,
 })
@@ -265,9 +310,9 @@ const formatAddress = (address) => {
 const copyAddress = async (address) => {
   try {
     await navigator.clipboard.writeText(address)
-    message.success(t('copySuccess'))
+    message.success(t('message.copySuccess'))
   } catch (err) {
-    message.error(t('copyFailed'))
+    message.error(t('message.copyFailed'))
   }
 }
 
@@ -275,11 +320,11 @@ const getOrderStatusText = (record) => {
   const { orderStatus, confirmations, requiredConfirmations } = record
   switch (orderStatus) {
     case 'confirming':
-      return `${t('confirming')}(${confirmations}/${requiredConfirmations})`
+      return `${t('status.confirming')}(${confirmations}/${requiredConfirmations})`
     case 'success':
-      return `${t('successful')}(${requiredConfirmations}/${requiredConfirmations})`
+      return `${t('status.successful')}(${requiredConfirmations}/${requiredConfirmations})`
     case 'failed':
-      return t('failed')
+      return t('status.failed')
     default:
       return orderStatus
   }
@@ -287,195 +332,12 @@ const getOrderStatusText = (record) => {
 
 const getNotifyStatusText = (status) => {
   const statusMap = {
-    success: t('successful'),
-    timeout: t('notifyTimeout'),
-    retrying: t('retrying')
+    success: t('status.successful'),
+    timeout: t('status.timeout'),
+    retrying: t('status.retrying')
   }
   return statusMap[status] || status
 }
-
-const tableData = [
-  {
-    key: '1',
-    merchant: 'Merchant A',
-    platformOrderId: 'P202403150001',
-    merchantOrderId: 'M202403150001',
-    transferId: 'T202403150001',
-    txHash: '0x1234...5678',
-    amount: '1000.00000000',
-    usdtValue: '1000.00',
-    address: '0x1234567890abcdef1234567890abcdef12345678',
-    orderStatus: 'confirming',
-    confirmations: 3,
-    requiredConfirmations: 12,
-    notifyStatus: 'success',
-    createTime: '2024-03-15 10:00:00',
-    successTime: null,
-    notifyTime: '2024-03-15 10:01:00'
-  },
-  {
-    key: '2',
-    merchant: 'Merchant B',
-    platformOrderId: 'P202403150002',
-    merchantOrderId: 'M202403150002',
-    transferId: 'T202403150002',
-    txHash: '0x2345...6789',
-    amount: '2000.00000000',
-    usdtValue: '2000.00',
-    address: '0x2345678901abcdef2345678901abcdef23456789',
-    orderStatus: 'success',
-    confirmations: 12,
-    requiredConfirmations: 12,
-    notifyStatus: 'timeout',
-    createTime: '2024-03-15 09:00:00',
-    successTime: '2024-03-15 09:05:00',
-    notifyTime: null
-  },
-  {
-    key: '3',
-    merchant: 'Merchant C',
-    platformOrderId: 'P202403150003',
-    merchantOrderId: 'M202403150003',
-    transferId: 'T202403150003',
-    txHash: '0x3456...7890',
-    amount: '3000.00000000',
-    usdtValue: '3000.00',
-    address: '0x3456789012abcdef3456789012abcdef34567890',
-    orderStatus: 'failed',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    notifyStatus: 'retrying',
-    createTime: '2024-03-15 08:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '4',
-    merchant: 'Merchant A',
-    platformOrderId: 'P202403150004',
-    merchantOrderId: 'M202403150004',
-    transferId: 'T202403150004',
-    txHash: '0x4567...8901',
-    amount: '4000.00000000',
-    usdtValue: '4000.00',
-    address: '0x4567890123abcdef4567890123abcdef45678901',
-    orderStatus: 'confirming',
-    confirmations: 6,
-    requiredConfirmations: 12,
-    notifyStatus: 'success',
-    createTime: '2024-03-15 07:00:00',
-    successTime: null,
-    notifyTime: '2024-03-15 07:01:00'
-  },
-  {
-    key: '5',
-    merchant: 'Merchant B',
-    platformOrderId: 'P202403150005',
-    merchantOrderId: 'M202403150005',
-    transferId: 'T202403150005',
-    txHash: '0x5678...9012',
-    amount: '5000.00000000',
-    usdtValue: '5000.00',
-    address: '0x5678901234abcdef5678901234abcdef56789012',
-    orderStatus: 'success',
-    confirmations: 12,
-    requiredConfirmations: 12,
-    notifyStatus: 'success',
-    createTime: '2024-03-15 06:00:00',
-    successTime: '2024-03-15 06:05:00',
-    notifyTime: '2024-03-15 06:06:00'
-  },
-  {
-    key: '6',
-    merchant: 'Merchant C',
-    platformOrderId: 'P202403150006',
-    merchantOrderId: 'M202403150006',
-    transferId: 'T202403150006',
-    txHash: '0x6789...0123',
-    amount: '6000.00000000',
-    usdtValue: '6000.00',
-    address: '0x6789012345abcdef6789012345abcdef67890123',
-    orderStatus: 'failed',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    notifyStatus: 'timeout',
-    createTime: '2024-03-15 05:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '7',
-    merchant: 'Merchant A',
-    platformOrderId: 'P202403150007',
-    merchantOrderId: 'M202403150007',
-    transferId: 'T202403150007',
-    txHash: '0x7890...1234',
-    amount: '7000.00000000',
-    usdtValue: '7000.00',
-    address: '0x7890123456abcdef7890123456abcdef78901234',
-    orderStatus: 'confirming',
-    confirmations: 9,
-    requiredConfirmations: 12,
-    notifyStatus: 'retrying',
-    createTime: '2024-03-15 04:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '8',
-    merchant: 'Merchant B',
-    platformOrderId: 'P202403150008',
-    merchantOrderId: 'M202403150008',
-    transferId: 'T202403150008',
-    txHash: '0x8901...2345',
-    amount: '8000.00000000',
-    usdtValue: '8000.00',
-    address: '0x8901234567abcdef8901234567abcdef89012345',
-    orderStatus: 'success',
-    confirmations: 12,
-    requiredConfirmations: 12,
-    notifyStatus: 'success',
-    createTime: '2024-03-15 03:00:00',
-    successTime: '2024-03-15 03:05:00',
-    notifyTime: '2024-03-15 03:06:00'
-  },
-  {
-    key: '9',
-    merchant: 'Merchant C',
-    platformOrderId: 'P202403150009',
-    merchantOrderId: 'M202403150009',
-    transferId: 'T202403150009',
-    txHash: '0x9012...3456',
-    amount: '9000.00000000',
-    usdtValue: '9000.00',
-    address: '0x9012345678abcdef9012345678abcdef90123456',
-    orderStatus: 'failed',
-    confirmations: 0,
-    requiredConfirmations: 12,
-    notifyStatus: 'timeout',
-    createTime: '2024-03-15 02:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '10',
-    merchant: 'Merchant A',
-    platformOrderId: 'P202403150010',
-    merchantOrderId: 'M202403150010',
-    transferId: 'T202403150010',
-    txHash: '0x0123...4567',
-    amount: '10000.00000000',
-    usdtValue: '10000.00',
-    address: '0x0123456789abcdef0123456789abcdef01234567',
-    orderStatus: 'confirming',
-    confirmations: 1,
-    requiredConfirmations: 12,
-    notifyStatus: 'retrying',
-    createTime: '2024-03-15 01:00:00',
-    successTime: null,
-    notifyTime: null
-  }
-]
 
 const handleTransferIdClick = (transferId) => {
   // 處理轉帳單號點擊事件
@@ -487,9 +349,62 @@ const handleTxHashClick = (txHash) => {
   console.log('TxHash clicked:', txHash)
 }
 
+// 通知詳情相關
+const notifyDetailVisible = ref(false)
+const notifyUrl = ref('')
+const notifyContent = ref({})
+const errorContent = ref({})
+const currentRecord = ref(null)
+
 const handleRetryNotify = (record) => {
-  // 處理重試通知邏輯
-  console.log('Retry notify for record:', record)
+  currentRecord.value = record
+  notifyUrl.value = 'https://api.example.com/callback' // 預設的通知 URL
+  notifyContent.value = {
+    orderId: record.platformOrderId,
+    merchantId: record.merchant,
+    status: record.orderStatus,
+    amount: record.amount,
+    txHash: record.txHash,
+    // ... 其他通知內容
+  }
+  errorContent.value = {
+    code: 500,
+    message: 'Internal Server Error',
+    timestamp: '2024-01-15 10:05:00',
+    // ... 其他錯誤內容
+  }
+  notifyDetailVisible.value = true
+}
+
+const handleNotifyDetailCancel = () => {
+  notifyDetailVisible.value = false
+  currentRecord.value = null
+}
+
+const handleNotifyRetry = () => {
+  // 實現重試邏輯
+  console.log('Retry notify with URL:', notifyUrl.value)
+  console.log('Record:', currentRecord.value)
+  notifyDetailVisible.value = false
+  currentRecord.value = null
+}
+
+const formatJson = (json) => {
+  return JSON.stringify(json, null, 2)
+}
+
+const formatTxHash = (hash) => {
+  if (!hash) return ''
+  return `${hash.slice(0, 6)}****${hash.slice(-6)}`
+}
+
+const copyTxHash = async (hash) => {
+  try {
+    await navigator.clipboard.writeText(hash)
+    message.success(t('message.copySuccess'))
+  } catch (err) {
+    message.error(t('message.copyFailed'))
+  }
 }
 </script>
 
@@ -705,5 +620,58 @@ const handleRetryNotify = (record) => {
 
 :deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
   background: rgba(255, 255, 255, 0.08);
+}
+
+.txhash-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-icon {
+  cursor: pointer;
+  color: #177ddc;
+  transition: all 0.3s;
+}
+
+.action-icon:hover {
+  opacity: 0.8;
+}
+
+.notify-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.notify-url-input {
+  width: 100%;
+}
+
+.code-card {
+  background: #000;
+  border: 1px solid #303030;
+}
+
+.code-block {
+  margin: 0;
+  padding: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #a9b7c6;
+  white-space: pre-wrap;
+  word-break: break-all;
 }
 </style> 

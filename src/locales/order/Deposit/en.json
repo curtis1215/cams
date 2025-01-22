@@ -1,0 +1,53 @@
+{
+  "title": {
+    "depositOrderQuery": "Deposit Order Query",
+    "orderList": "Order List"
+  },
+  "field": {
+    "orderId": "Order ID",
+    "dateRange": "Date Range",
+    "merchant": "Merchant",
+    "status": "Status",
+    "userId": "User ID",
+    "address": "Address",
+    "platformOrderId": "Platform Order ID",
+    "merchantOrderId": "Merchant Order ID",
+    "transferId": "Transfer ID",
+    "createTime": "Create Time",
+    "successTime": "Success Time",
+    "notifyTime": "Notify Time"
+  },
+  "prompt": {
+    "pleaseInputOrderId": "Please input order ID",
+    "pleaseInputUserId": "Please input user ID",
+    "pleaseInputAddress": "Please input address",
+    "pleaseInputTxHash": "Please input transaction hash",
+    "selectStatus": "Please select status"
+  },
+  "action": {
+    "reset": "Reset",
+    "query": "Query",
+    "retry": "Retry"
+  },
+  "status": {
+    "confirming": "Confirming",
+    "successful": "Successful",
+    "failed": "Failed",
+    "retrying": "Retrying",
+    "timeout": "Timeout"
+  },
+  "message": {
+    "copySuccess": "Copy successful",
+    "copyFailed": "Copy failed"
+  },
+  "table": {
+    "merchant": "Merchant",
+    "transactionDocument": "Transaction Document",
+    "transactionAmount": "Transaction Amount",
+    "usdtValue": "USDT Value",
+    "receivingAddress": "Receiving Address",
+    "orderStatus": "Order Status",
+    "notifyStatus": "Notify Status",
+    "timeInfo": "Time Info"
+  }
+} 

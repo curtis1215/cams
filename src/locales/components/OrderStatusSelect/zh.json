@@ -1,0 +1,10 @@
+{
+  "prompt": {
+    "selectStatus": "請選擇狀態"
+  },
+  "status": {
+    "confirming": "確認中",
+    "success": "成功",
+    "failed": "失敗"
+  }
+} 

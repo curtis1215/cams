@@ -140,8 +140,26 @@ import { CopyOutlined, LinkOutlined } from '@ant-design/icons-vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
+import zhLocale from '@/locales/order/Transaction/zh.json'
+import enLocale from '@/locales/order/Transaction/en.json'
+import zhCommon from '@/locales/common/zh.json'
+import enCommon from '@/locales/common/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: {
+    common: zhCommon,
+    ...zhLocale
+  },
+  en: {
+    common: enCommon,
+    ...enLocale
+  }
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const queryParams = reactive({
   dateRange: [],

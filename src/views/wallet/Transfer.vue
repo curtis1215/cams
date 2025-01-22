@@ -364,6 +364,7 @@ import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 import zhLocale from '@/locales/wallet/Transfer/zh.json'
 import enLocale from '@/locales/wallet/Transfer/en.json'
+import mockData from '@/mock/wallet/Transfer/transfer.mock.json'
 
 const messages = {
   zh: zhLocale,
@@ -393,15 +394,11 @@ const toWalletForm = reactive({
 
 // 錢包詳情
 const fromWalletDetail = reactive({
-  currency: 'USDT',
-  balance: '10000.00000000',
-  availableOutflow: '8000.00000000'
+  ...mockData.fromWalletDetail
 })
 
 const toWalletDetail = reactive({
-  currency: 'USDT',
-  balance: '5000.00000000',
-  availableInflow: '15000.00000000'
+  ...mockData.toWalletDetail
 })
 
 // 轉帳相關
@@ -498,7 +495,7 @@ const queryParams = reactive({
 })
 
 // 轉帳列表數據
-const transferList = ref([])
+const transferList = ref(mockData.transferList)
 const loading = ref(false)
 
 // 表格列定義
@@ -614,68 +611,22 @@ const pagination = reactive({
   showQuickJumper: true
 })
 
-// 生成模擬數據
-const generateMockData = () => {
-  const data = []
-  const statuses = ['pending', 'approved', 'rejected']
-  const transferStatuses = ['submitted', 'onchain', 'confirming', 'completed', 'failed']
-  const merchants = ['商戶A', '商戶B', '商戶C']
-  const chainTypes = ['BTC', 'ETH', 'TRX']
-  const currencies = ['BTC', 'ETH', 'USDT']
-
-  for (let i = 0; i < 10; i++) {
-    const auditStatus = statuses[Math.floor(Math.random() * statuses.length)]
-    const transferStatus = ['pending', 'rejected'].includes(auditStatus) 
-      ? null 
-      : transferStatuses[Math.floor(Math.random() * transferStatuses.length)]
-    
-    const confirmations = transferStatus === 'confirming' ? Math.floor(Math.random() * 5) + 1 : null
-    const requiredConfirmations = transferStatus === 'confirming' ? 12 : null
-
-    data.push({
-      key: i,
-      fromMerchant: merchants[Math.floor(Math.random() * merchants.length)],
-      fromWalletId: `W${String(Math.floor(Math.random() * 1000000)).padStart(6, '0')}`,
-      fromChainType: chainTypes[Math.floor(Math.random() * chainTypes.length)],
-      fromCurrency: currencies[Math.floor(Math.random() * currencies.length)],
-      amount: (Math.random() * 1000).toFixed(8),
-      toMerchant: merchants[Math.floor(Math.random() * merchants.length)],
-      toWalletId: `W${String(Math.floor(Math.random() * 1000000)).padStart(6, '0')}`,
-      toChainType: chainTypes[Math.floor(Math.random() * chainTypes.length)],
-      toCurrency: currencies[Math.floor(Math.random() * currencies.length)],
-      createTime: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      }),
-      auditTime: auditStatus !== 'pending' ? new Date(Date.now() - Math.floor(Math.random() * 1000000000)).toLocaleString('zh-TW', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-      }) : null,
-      auditStatus,
-      transferStatus,
-      confirmations,
-      requiredConfirmations
-    })
-  }
-  return data
-}
-
 // 更新查詢方法
 const handleQuery = () => {
   loading.value = true
   // 模擬API調用
   setTimeout(() => {
-    transferList.value = generateMockData()
+    // 使用 mock 數據進行過濾
+    const filteredData = mockData.transferList.filter(item => {
+      if (queryParams.merchant && item.fromMerchant !== queryParams.merchant) return false
+      if (queryParams.chainType && item.fromChainType !== queryParams.chainType) return false
+      if (queryParams.currency && item.fromCurrency !== queryParams.currency) return false
+      if (queryParams.walletType && item.walletType !== queryParams.walletType) return false
+      if (queryParams.address && !item.fromWalletId.toLowerCase().includes(queryParams.address.toLowerCase())) return false
+      return true
+    })
+    transferList.value = filteredData
+    pagination.total = filteredData.length
     loading.value = false
   }, 1000)
 }

@@ -351,6 +351,7 @@ import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
 import zhLocale from '@/locales/wallet/TokenExchange/zh.json'
 import enLocale from '@/locales/wallet/TokenExchange/en.json'
+import mockData from '@/mock/wallet/TokenExchange/tokenExchange.mock.json'
 
 const messages = {
   zh: zhLocale,
@@ -379,15 +380,11 @@ const toWalletForm = reactive({
 
 // 錢包詳情數據
 const fromWalletDetail = reactive({
-  currency: '',
-  balance: 0,
-  availableOutflow: 0
+  ...mockData.fromWalletDetail
 })
 
 const toWalletDetail = reactive({
-  currency: '',
-  balance: 0,
-  availableInflow: 0
+  ...mockData.toWalletDetail
 })
 
 // 兌換相關數據
@@ -489,9 +486,9 @@ const queryParams = reactive({
 
 // 列表相關數據
 const loading = ref(false)
-const exchangeList = ref([])
+const exchangeList = ref(mockData.exchangeList)
 const pagination = reactive({
-  total: 0,
+  total: mockData.exchangeList.length,
   current: 1,
   pageSize: 10
 })
@@ -630,36 +627,21 @@ const handleCancelAudit = () => {
   auditForm.reason = ''
 }
 
-// 生成模擬數據
-const generateMockData = () => {
-  const data = []
-  const platforms = ['binance', 'mexc', 'gateio']
-  for (let i = 0; i < 10; i++) {
-    data.push({
-      exchangeId: `EX${String(i + 1).padStart(6, '0')}`,
-      fromWalletId: `商戶${i + 1}`,
-      fromChainType: 'ETH',
-      fromCurrency: 'USDT',
-      fromAmount: Math.random() * 1000000,
-      toWalletId: `商戶${i + 2}`,
-      toChainType: 'BSC',
-      toCurrency: 'USDT',
-      toAmount: Math.random() * 1000000,
-      exchangePlatform: platforms[Math.floor(Math.random() * platforms.length)],
-      exchangeStatus: 'pending'  // 只生成待審核狀態的數據
-    })
-  }
-  return data
-}
-
 // 更新查詢方法
 const handleQuery = async () => {
   try {
     loading.value = true
-    // 這裡添加實際的查詢邏輯
+    // 模擬 API 調用延遲
     await new Promise(resolve => setTimeout(resolve, 1000))
-    exchangeList.value = generateMockData()
-    pagination.total = 100 // 模擬總數據量
+    // 使用 mock 數據進行過濾
+    const filteredData = mockData.exchangeList.filter(item => {
+      if (queryParams.merchant && item.fromWalletId !== queryParams.merchant) return false
+      if (queryParams.chainType && item.fromChainType !== queryParams.chainType) return false
+      if (queryParams.currency && item.fromCurrency !== queryParams.currency) return false
+      return true
+    })
+    exchangeList.value = filteredData
+    pagination.total = filteredData.length
   } catch (error) {
     message.error(t('common.prompt.queryFailed'))
   } finally {

@@ -1,0 +1,118 @@
+{
+  "fromWalletDetail": {
+    "currency": "USDT",
+    "balance": 2000000.00000000,
+    "availableOutflow": 800000.00000000
+  },
+  "toWalletDetail": {
+    "currency": "USDT",
+    "balance": 500000.00000000,
+    "availableInflow": 500000.00000000
+  },
+  "exchangeList": [
+    {
+      "exchangeId": "EX000001",
+      "fromWalletId": "商戶A",
+      "fromChainType": "ETH",
+      "fromCurrency": "USDT",
+      "fromAmount": 100000.00000000,
+      "toWalletId": "商戶B",
+      "toChainType": "BSC",
+      "toCurrency": "USDT",
+      "toAmount": 99800.00000000,
+      "exchangePlatform": "binance",
+      "exchangeStatus": "pending"
+    },
+    {
+      "exchangeId": "EX000002",
+      "fromWalletId": "商戶B",
+      "fromChainType": "BSC",
+      "fromCurrency": "USDT",
+      "fromAmount": 50000.00000000,
+      "toWalletId": "商戶C",
+      "toChainType": "ETH",
+      "toCurrency": "USDT",
+      "toAmount": 49900.00000000,
+      "exchangePlatform": "mexc",
+      "exchangeStatus": "transferringOut"
+    },
+    {
+      "exchangeId": "EX000003",
+      "fromWalletId": "商戶C",
+      "fromChainType": "ETH",
+      "fromCurrency": "USDT",
+      "fromAmount": 200000.00000000,
+      "toWalletId": "商戶A",
+      "toChainType": "BSC",
+      "toCurrency": "USDT",
+      "toAmount": 199600.00000000,
+      "exchangePlatform": "gateio",
+      "exchangeStatus": "exchanging"
+    },
+    {
+      "exchangeId": "EX000004",
+      "fromWalletId": "商戶A",
+      "fromChainType": "BSC",
+      "fromCurrency": "USDT",
+      "fromAmount": 150000.00000000,
+      "toWalletId": "商戶B",
+      "toChainType": "ETH",
+      "toCurrency": "USDT",
+      "toAmount": 149700.00000000,
+      "exchangePlatform": "binance",
+      "exchangeStatus": "transferringIn"
+    },
+    {
+      "exchangeId": "EX000005",
+      "fromWalletId": "商戶B",
+      "fromChainType": "ETH",
+      "fromCurrency": "USDT",
+      "fromAmount": 300000.00000000,
+      "toWalletId": "商戶C",
+      "toChainType": "BSC",
+      "toCurrency": "USDT",
+      "toAmount": 299400.00000000,
+      "exchangePlatform": "mexc",
+      "exchangeStatus": "success"
+    },
+    {
+      "exchangeId": "EX000006",
+      "fromWalletId": "商戶C",
+      "fromChainType": "BSC",
+      "fromCurrency": "USDT",
+      "fromAmount": 80000.00000000,
+      "toWalletId": "商戶A",
+      "toChainType": "ETH",
+      "toCurrency": "USDT",
+      "toAmount": 79840.00000000,
+      "exchangePlatform": "gateio",
+      "exchangeStatus": "transferOutFailed"
+    },
+    {
+      "exchangeId": "EX000007",
+      "fromWalletId": "商戶A",
+      "fromChainType": "ETH",
+      "fromCurrency": "USDT",
+      "fromAmount": 250000.00000000,
+      "toWalletId": "商戶B",
+      "toChainType": "BSC",
+      "toCurrency": "USDT",
+      "toAmount": 249500.00000000,
+      "exchangePlatform": "binance",
+      "exchangeStatus": "exchangeFailed"
+    },
+    {
+      "exchangeId": "EX000008",
+      "fromWalletId": "商戶B",
+      "fromChainType": "BSC",
+      "fromCurrency": "USDT",
+      "fromAmount": 120000.00000000,
+      "toWalletId": "商戶C",
+      "toChainType": "ETH",
+      "toCurrency": "USDT",
+      "toAmount": 119760.00000000,
+      "exchangePlatform": "mexc",
+      "exchangeStatus": "rejected"
+    }
+  ]
+} 

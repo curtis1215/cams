@@ -1,0 +1,58 @@
+{
+  "title": {
+    "depositOrderQuery": "充值訂單查詢",
+    "orderList": "訂單列表",
+    "notifyDetail": "通知詳情"
+  },
+  "field": {
+    "orderId": "訂單編號",
+    "dateRange": "日期範圍",
+    "merchant": "商戶",
+    "status": "狀態",
+    "userId": "用戶ID",
+    "address": "地址",
+    "platformOrderId": "平台訂單號",
+    "merchantOrderId": "商戶訂單號",
+    "transferId": "轉賬單號",
+    "createTime": "創建時間",
+    "successTime": "成功時間",
+    "notifyTime": "通知時間",
+    "notifyUrl": "通知地址",
+    "notifyContent": "通知內容",
+    "errorContent": "錯誤內容"
+  },
+  "prompt": {
+    "pleaseInputOrderId": "請輸入訂單編號",
+    "pleaseInputUserId": "請輸入用戶ID",
+    "pleaseInputAddress": "請輸入地址",
+    "pleaseInputTxHash": "請輸入交易哈希",
+    "selectStatus": "請選擇狀態"
+  },
+  "action": {
+    "reset": "重置",
+    "query": "查詢",
+    "retry": "重試",
+    "cancel": "取消"
+  },
+  "status": {
+    "confirming": "確認中",
+    "successful": "成功",
+    "failed": "失敗",
+    "retrying": "重試中",
+    "timeout": "超時"
+  },
+  "message": {
+    "copySuccess": "複製成功",
+    "copyFailed": "複製失敗"
+  },
+  "table": {
+    "merchant": "商戶",
+    "transactionDocument": "交易單據",
+    "transactionAmount": "交易金額",
+    "usdtValue": "USDT 價值",
+    "receivingAddress": "收款地址",
+    "orderStatus": "訂單狀態",
+    "notifyStatus": "通知狀態",
+    "timeInfo": "時間信息"
+  }
+} 

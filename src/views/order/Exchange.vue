@@ -133,8 +133,26 @@ import { message } from 'ant-design-vue'
 import { CopyOutlined } from '@ant-design/icons-vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
+import zhLocale from '@/locales/order/Exchange/zh.json'
+import enLocale from '@/locales/order/Exchange/en.json'
+import zhCommon from '@/locales/common/zh.json'
+import enCommon from '@/locales/common/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: {
+    common: zhCommon,
+    ...zhLocale
+  },
+  en: {
+    common: enCommon,
+    ...enLocale
+  }
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const queryParams = reactive({
   fromWalletId: '',

@@ -182,8 +182,26 @@ import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
 import WithdrawStatusSelect from '@/components/selectors/WithdrawStatusSelect.vue'
 import '@/styles/common.css'
+import zhLocale from '@/locales/order/Withdraw/zh.json'
+import enLocale from '@/locales/order/Withdraw/en.json'
+import zhCommon from '@/locales/common/zh.json'
+import enCommon from '@/locales/common/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: {
+    common: zhCommon,
+    ...zhLocale
+  },
+  en: {
+    common: enCommon,
+    ...enLocale
+  }
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const queryParams = ref({
   dateRange: [],
