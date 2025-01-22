@@ -368,7 +368,8 @@ import {
   AppstoreOutlined,
   KeyOutlined,
   EditOutlined,
-  CheckCircleOutlined
+  CheckCircleOutlined,
+  LoadingOutlined
 } from '@ant-design/icons-vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
@@ -548,7 +549,7 @@ const tokenColumns = computed(() => [
     title: t('action.action'),
     key: 'action',
     fixed: 'right',
-    width: 160,
+    width: 240,
     customRender: ({ record }) => {
       return h('div', { class: 'action-buttons' }, [
         h('a', {
@@ -563,9 +564,34 @@ const tokenColumns = computed(() => [
           onClick: () => showTransactionDetail(record),
           style: {
             color: '#1890ff',
+            marginRight: '16px',
             cursor: 'pointer'
           }
-        }, t('action.transactionDetail'))
+        }, t('action.transactionDetail')),
+        h('a', {
+          onClick: () => !record.isRefreshing && handleRefreshBalance(record),
+          style: {
+            color: '#1890ff',
+            cursor: record.isRefreshing ? 'not-allowed' : 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center'
+          }
+        }, [
+          record.isRefreshing
+            ? h(LoadingOutlined, {
+                style: {
+                  marginRight: '4px',
+                  fontSize: '14px'
+                }
+              })
+            : h(ReloadOutlined, {
+                style: {
+                  marginRight: '4px',
+                  fontSize: '14px'
+                }
+              }),
+          t('action.refreshBalance')
+        ])
       ])
     }
   },
@@ -584,7 +610,7 @@ const onSearch = () => {
 
 // 計算過濾後的數據
 const filteredData = computed(() => {
-  let result = [...tokenData]
+  let result = [...tokenData.value]
   
   // 應用搜索過濾
   if (searchText.value) {
@@ -625,8 +651,8 @@ const filteredData = computed(() => {
   return result
 })
 
-// 模擬數據
-const tokenData = [
+// 修改 tokenData 的初始化，確保每個記錄都有 isRefreshing 屬性
+const tokenData = ref([
   {
     key: '1',
     coin: 'USDT',
@@ -640,7 +666,8 @@ const tokenData = [
     availableOutflow: '4800.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: true,
-    storageLimit: '8000.00000000'
+    storageLimit: '8000.00000000',
+    isRefreshing: false
   },
   {
     key: '2',
@@ -655,7 +682,8 @@ const tokenData = [
     availableOutflow: '1800.00000000',
     lastTransactionTime: '2024-03-15 13:45:12',
     isExceeded: false,
-    storageLimit: '10000.00000000'
+    storageLimit: '10000.00000000',
+    isRefreshing: false
   },
   {
     key: '3',
@@ -670,7 +698,8 @@ const tokenData = [
     availableOutflow: '4500.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: true,
-    storageLimit: '12000.00000000'
+    storageLimit: '12000.00000000',
+    isRefreshing: false
   },
   {
     key: '4',
@@ -685,7 +714,8 @@ const tokenData = [
     availableOutflow: '23.50000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: false,
-    storageLimit: '100.00000000'
+    storageLimit: '100.00000000',
+    isRefreshing: false
   },
   {
     key: '5',
@@ -700,7 +730,8 @@ const tokenData = [
     availableOutflow: '450.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: true,
-    storageLimit: '800.00000000'
+    storageLimit: '800.00000000',
+    isRefreshing: false
   },
   {
     key: '6',
@@ -715,7 +746,8 @@ const tokenData = [
     availableOutflow: '1800.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: false,
-    storageLimit: '6000.00000000'
+    storageLimit: '6000.00000000',
+    isRefreshing: false
   },
   {
     key: '7',
@@ -730,7 +762,8 @@ const tokenData = [
     availableOutflow: '90.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: true,
-    storageLimit: '150.00000000'
+    storageLimit: '150.00000000',
+    isRefreshing: false
   },
   {
     key: '8',
@@ -745,7 +778,8 @@ const tokenData = [
     availableOutflow: '85.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: false,
-    storageLimit: '500.00000000'
+    storageLimit: '500.00000000',
+    isRefreshing: false
   },
   {
     key: '9',
@@ -760,7 +794,8 @@ const tokenData = [
     availableOutflow: '22.50000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: true,
-    storageLimit: '40.00000000'
+    storageLimit: '40.00000000',
+    isRefreshing: false
   },
   {
     key: '10',
@@ -775,9 +810,10 @@ const tokenData = [
     availableOutflow: '18000.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
     isExceeded: false,
-    storageLimit: '100000.00000000'
+    storageLimit: '100000.00000000',
+    isRefreshing: false
   },
-]
+].map(token => ({ ...token, isRefreshing: false })))
 
 // 處理轉帳記錄按鈕點擊
 function showTransferHistory(record) {
@@ -980,6 +1016,27 @@ const transferHistoryColumns = [
 ]
 
 const transferHistoryData = mockData.transferHistory
+
+// 修改刷新餘額的處理方法
+const handleRefreshBalance = async (record) => {
+  // 設置loading狀態
+  record.isRefreshing = true
+  
+  try {
+    // 模擬API調用
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    // 更新餘額（這裡只是示例，實際應該調用API）
+    record.currentBalance = (parseFloat(record.currentBalance) + Math.random()).toFixed(8)
+    record.availableBalance = (parseFloat(record.availableBalance) + Math.random()).toFixed(8)
+    
+    message.success(t('message.refreshSuccess'))
+  } catch (error) {
+    message.error(t('message.refreshFailed'))
+  } finally {
+    record.isRefreshing = false
+  }
+}
 
 // 添加清理函數
 onBeforeUnmount(() => {
@@ -1443,5 +1500,46 @@ const statusHistoryData = [
 
 :deep(.ant-table-wrapper) {
   margin: 0;
+}
+
+/* 修改刷新按鈕相關樣式 */
+.refresh-button-wrapper {
+  position: relative;
+  transition: opacity 0.3s;
+}
+
+.refresh-button-wrapper:hover {
+  opacity: 0.8;
+}
+
+.refresh-icon-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh-icon-wrapper.is-refreshing {
+  animation: rotate360 1s infinite linear;
+}
+
+@keyframes rotate360 {
+  from { 
+    transform: rotate(0deg); 
+  }
+  to { 
+    transform: rotate(360deg); 
+  }
+}
+
+:deep(.anticon-sync) {
+  font-size: 14px;
+}
+
+:deep(.ant-spin-spinning) {
+  opacity: 1 !important;
+}
+
+:deep(.ant-spin-container) {
+  transition: none;
 }
 </style>

@@ -37,7 +37,8 @@
     "privateKeyHistory": "Private Key History",
     "transferHistory": "Transfer History",
     "transactionDetail": "Transaction Detail",
-    "action": "Action"
+    "action": "Action",
+    "refreshBalance": "Refresh Balance"
   },
   "prompt": {
     "pleaseInputCoin": "Please Input Coin",
@@ -91,7 +92,9 @@
     "copySuccess": "Copy Success",
     "copyFailed": "Copy Failed",
     "changeSuccess": "Change Success",
-    "downloadSuccess": "Download Success"
+    "downloadSuccess": "Download Success",
+    "refreshSuccess": "Balance Refresh Success",
+    "refreshFailed": "Balance Refresh Failed"
   },
   "status": {
     "enabled": "Enabled",

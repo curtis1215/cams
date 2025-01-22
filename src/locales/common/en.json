@@ -12,7 +12,7 @@
       "pleaseInputAddress": "Please input address",
       "pleaseInputTxHash": "Please input TxHash",
       "selectTransferType": "Please select transfer type",
-      "selectWalletType": "Please select wallet type",
+      "selectWalletType": "Please Select Wallet Type",
       "selectAll": "All"
     },
     "field": {
@@ -88,10 +88,10 @@
     },
     "wallet": {
       "walletType": {
-        "user": "User",
-        "collection": "Collection",
-        "withdrawal": "Withdrawal",
-        "transfer": "Transfer"
+        "user": "User Wallet",
+        "collection": "Collection Wallet",
+        "withdrawal": "Withdrawal Wallet",
+        "transfer": "Transfer Wallet"
       }
     }
   }

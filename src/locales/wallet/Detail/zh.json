@@ -37,7 +37,8 @@
     "privateKeyHistory": "私鑰歷史",
     "transferHistory": "轉賬歷史",
     "transactionDetail": "交易明細",
-    "action": "操作"
+    "action": "操作",
+    "refreshBalance": "刷新餘額"
   },
   "prompt": {
     "pleaseInputCoin": "請輸入幣種",
@@ -91,7 +92,9 @@
     "copySuccess": "複製成功",
     "copyFailed": "複製失敗",
     "changeSuccess": "變更成功",
-    "downloadSuccess": "下載成功"
+    "downloadSuccess": "下載成功",
+    "refreshSuccess": "餘額刷新成功",
+    "refreshFailed": "餘額刷新失敗"
   },
   "status": {
     "enabled": "已啟用",
