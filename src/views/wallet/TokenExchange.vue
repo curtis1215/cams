@@ -349,8 +349,18 @@ import { useI18n } from 'vue-i18n'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
+import zhLocale from '@/locales/wallet/TokenExchange/zh.json'
+import enLocale from '@/locales/wallet/TokenExchange/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 // 錢包表單數據
 const fromWalletForm = reactive({

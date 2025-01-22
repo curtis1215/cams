@@ -1,0 +1,75 @@
+{
+  "title": {
+    "fromWalletInfo": "From Wallet Info",
+    "toWalletInfo": "To Wallet Info",
+    "fromWalletDetail": "From Wallet Detail",
+    "toWalletDetail": "To Wallet Detail",
+    "transferInfo": "Transfer Info",
+    "transferQueryTitle": "Transfer Request Query",
+    "transferList": "Transfer List",
+    "auditOperation": "Audit Operation",
+    "auditDetail": "Audit Detail"
+  },
+  "field": {
+    "fromWalletId": "From Wallet ID",
+    "fromChainType": "From Chain Type",
+    "fromCurrency": "From Currency",
+    "toWallet": "To Wallet",
+    "toWalletId": "To Wallet ID",
+    "toChainType": "To Chain Type",
+    "toCurrency": "To Currency",
+    "transferAmount": "Transfer Amount",
+    "maxAmount": "Max Amount",
+    "auditOperation": "Audit Operation",
+    "auditReason": "Audit Reason",
+    "merchant": "Merchant",
+    "chainType": "Chain Type",
+    "currency": "Currency",
+    "address": "Address",
+    "createTime": "Create Time",
+    "auditTime": "Audit Time",
+    "auditStatus": "Audit Status",
+    "typeLabel": "Type",
+    "action": "Action"
+  },
+  "balance": {
+    "current": "Current Balance",
+    "availableOutflow": "Available Outflow",
+    "availableInflow": "Available Inflow"
+  },
+  "transferStatus": {
+    "label": "Transfer Status",
+    "submitted": "Submitted",
+    "onchain": "On Chain",
+    "confirming": "Confirming",
+    "completed": "Completed",
+    "failed": "Failed"
+  },
+  "prompt": {
+    "pleaseSelectFromAndToWallet": "Please select from and to wallet",
+    "pleaseInputTransferAmount": "Please input transfer amount",
+    "confirmTransfer": "Confirm Transfer",
+    "transferRequestSubmitted": "Transfer request submitted",
+    "transferFailed": "Transfer failed",
+    "pleaseSelectAuditOperation": "Please select audit operation",
+    "pleaseInputAuditReason": "Please input audit reason",
+    "auditSuccess": "Audit success",
+    "auditFailed": "Audit failed",
+    "pleaseInputAddress": "Please input address",
+    "selectMerchant": "Please select merchant",
+    "selectChainType": "Please select chain type",
+    "selectCurrency": "Please select currency"
+  },
+  "action": {
+    "search": "Search",
+    "transfer": "Transfer",
+    "audit": "Audit",
+    "detail": "Detail",
+    "reset": "Reset"
+  },
+  "auditStatus": {
+    "pending": "Pending",
+    "approved": "Approved",
+    "rejected": "Rejected"
+  }
+} 

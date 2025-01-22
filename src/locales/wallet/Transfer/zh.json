@@ -1,0 +1,75 @@
+{
+  "title": {
+    "fromWalletInfo": "轉出錢包資訊",
+    "toWalletInfo": "轉入錢包資訊",
+    "fromWalletDetail": "轉出錢包詳情",
+    "toWalletDetail": "轉入錢包詳情",
+    "transferInfo": "轉帳資訊",
+    "transferQueryTitle": "轉帳申請查詢",
+    "transferList": "轉帳列表",
+    "auditOperation": "審核操作",
+    "auditDetail": "審核詳情"
+  },
+  "field": {
+    "fromWalletId": "轉出錢包ID",
+    "fromChainType": "轉出鏈類型",
+    "fromCurrency": "轉出幣種",
+    "toWallet": "轉入錢包",
+    "toWalletId": "轉入錢包ID",
+    "toChainType": "轉入鏈類型",
+    "toCurrency": "轉入幣種",
+    "transferAmount": "轉帳金額",
+    "maxAmount": "最大金額",
+    "auditOperation": "審核操作",
+    "auditReason": "審核原因",
+    "merchant": "商戶",
+    "chainType": "鏈類型",
+    "currency": "幣種",
+    "address": "地址",
+    "createTime": "創建時間",
+    "auditTime": "審核時間",
+    "auditStatus": "審核狀態",
+    "typeLabel": "類型",
+    "action": "操作"
+  },
+  "balance": {
+    "current": "當前餘額",
+    "availableOutflow": "可轉出餘額",
+    "availableInflow": "可轉入餘額"
+  },
+  "transferStatus": {
+    "label": "轉帳狀態",
+    "submitted": "已提交",
+    "onchain": "上鏈中",
+    "confirming": "確認中",
+    "completed": "已完成",
+    "failed": "失敗"
+  },
+  "prompt": {
+    "pleaseSelectFromAndToWallet": "請選擇轉出和轉入錢包",
+    "pleaseInputTransferAmount": "請輸入轉帳金額",
+    "confirmTransfer": "確認轉帳",
+    "transferRequestSubmitted": "轉帳申請已提交",
+    "transferFailed": "轉帳失敗",
+    "pleaseSelectAuditOperation": "請選擇審核操作",
+    "pleaseInputAuditReason": "請輸入審核原因",
+    "auditSuccess": "審核成功",
+    "auditFailed": "審核失敗",
+    "pleaseInputAddress": "請輸入地址",
+    "selectMerchant": "請選擇商戶",
+    "selectChainType": "請選擇鏈類型",
+    "selectCurrency": "請選擇幣種"
+  },
+  "action": {
+    "search": "搜索",
+    "transfer": "轉帳",
+    "audit": "審核",
+    "detail": "詳情",
+    "reset": "重置"
+  },
+  "auditStatus": {
+    "pending": "待審核",
+    "approved": "已通過",
+    "rejected": "已拒絕"
+  }
+} 

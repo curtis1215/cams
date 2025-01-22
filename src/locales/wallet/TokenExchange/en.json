@@ -1,0 +1,78 @@
+{
+  "wallet": {
+    "fromWalletTitle": "From Wallet",
+    "toWalletTitle": "To Wallet",
+    "fromWalletDetailTitle": "From Wallet Details",
+    "toWalletDetailTitle": "To Wallet Details"
+  },
+  "exchange": {
+    "exchangeInfo": "Exchange Information",
+    "useMaxAmount": "Use Max Amount",
+    "rate": "Exchange Rate",
+    "receiveAmount": "Receive Amount",
+    "auditList": "Exchange Audit List",
+    "platform": {
+      "binance": "Binance",
+      "mexc": "MEXC",
+      "gateio": "Gate.io"
+    }
+  },
+  "common": {
+    "merchant": "Merchant",
+    "chainType": "Chain Type",
+    "currency": "Currency",
+    "address": "Address",
+    "balance": "Balance",
+    "availableAmount": "Available Amount",
+    "field": {
+      "exchangeId": "Exchange ID",
+      "fromWalletId": "From Wallet ID",
+      "fromChainType": "From Chain Type",
+      "fromCurrency": "From Currency",
+      "fromAmount": "From Amount",
+      "toWalletId": "To Wallet ID",
+      "toChainType": "To Chain Type",
+      "toCurrency": "To Currency",
+      "toAmount": "To Amount",
+      "exchangePlatform": "Exchange Platform",
+      "exchangeStatus": "Exchange Status",
+      "exchangeAmount": "Exchange Amount",
+      "auditStatus": "Audit Status",
+      "auditReason": "Audit Reason",
+      "action": "Action"
+    },
+    "status": {
+      "pending": "Pending",
+      "transferringOut": "Transferring Out",
+      "exchanging": "Exchanging",
+      "transferringIn": "Transferring In",
+      "success": "Success",
+      "transferOutFailed": "Transfer Out Failed",
+      "exchangeFailed": "Exchange Failed",
+      "rejected": "Rejected"
+    },
+    "auditStatus": {
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "action": {
+      "query": "Query",
+      "exchange": "Exchange",
+      "audit": "Audit",
+      "reset": "Reset"
+    },
+    "prompt": {
+      "inputAddress": "Please input address",
+      "exchangeConfirmation": "Exchange Confirmation",
+      "pleaseInputExchangeAmount": "Please input exchange amount",
+      "exchangeAmountExceedsAvailableBalance": "Exchange amount exceeds available balance",
+      "pleaseInputAuditReason": "Please input audit reason",
+      "querySuccess": "Query successful",
+      "queryFailed": "Query failed",
+      "exchangeSuccess": "Exchange successful",
+      "exchangeFailed": "Exchange failed",
+      "auditSuccess": "Audit successful",
+      "auditFailed": "Audit failed"
+    }
+  }
+} 

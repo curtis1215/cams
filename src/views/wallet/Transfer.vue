@@ -5,29 +5,29 @@
       <a-col :span="12">
         <a-card :bordered="false" class="transfer-card from-wallet">
           <template #title>
-            <span class="card-title">{{ t('wallet.fromWalletInfo') }}</span>
+            <span class="card-title">{{ t('title.fromWalletInfo') }}</span>
           </template>
           <a-form layout="vertical" :model="fromWalletForm">
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.merchant') }}</div>
+                <div class="form-label">{{ t('field.merchant') }}</div>
                 <merchant-select v-model="fromWalletForm.merchant" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.chainType') }}</div>
+                <div class="form-label">{{ t('field.chainType') }}</div>
                 <chain-type-select v-model="fromWalletForm.chainType" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.currency') }}</div>
+                <div class="form-label">{{ t('field.currency') }}</div>
                 <currency-select v-model="fromWalletForm.currency" class="full-width" />
               </a-form-item>
             </div>
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.address') }}</div>
+                <div class="form-label">{{ t('field.address') }}</div>
                 <a-input
                   v-model:value="fromWalletForm.address"
-                  :placeholder="t('common.prompt.pleaseInputAddress')"
+                  :placeholder="t('prompt.pleaseInputAddress')"
                   class="full-width"
                   allow-clear
                 />
@@ -36,7 +36,7 @@
                 <div class="form-label">&nbsp;</div>
                 <a-button type="primary" @click="handleFromWalletQuery">
                   <template #icon><SearchOutlined /></template>
-                  {{ t('common.action.search') }}
+                  {{ t('action.search') }}
                 </a-button>
               </a-form-item>
             </div>
@@ -48,29 +48,29 @@
       <a-col :span="12">
         <a-card :bordered="false" class="transfer-card to-wallet">
           <template #title>
-            <span class="card-title">{{ t('wallet.toWalletInfo') }}</span>
+            <span class="card-title">{{ t('title.toWalletInfo') }}</span>
           </template>
           <a-form layout="vertical" :model="toWalletForm">
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.merchant') }}</div>
+                <div class="form-label">{{ t('field.merchant') }}</div>
                 <merchant-select v-model="toWalletForm.merchant" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.chainType') }}</div>
+                <div class="form-label">{{ t('field.chainType') }}</div>
                 <chain-type-select v-model="toWalletForm.chainType" class="full-width" />
               </a-form-item>
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.currency') }}</div>
+                <div class="form-label">{{ t('field.currency') }}</div>
                 <currency-select v-model="toWalletForm.currency" class="full-width" />
               </a-form-item>
             </div>
             <div class="form-row">
               <a-form-item class="form-item">
-                <div class="form-label">{{ t('common.field.address') }}</div>
+                <div class="form-label">{{ t('field.address') }}</div>
                 <a-input
                   v-model:value="toWalletForm.address"
-                  :placeholder="t('common.prompt.pleaseInputAddress')"
+                  :placeholder="t('prompt.pleaseInputAddress')"
                   class="full-width"
                   allow-clear
                 />
@@ -78,7 +78,7 @@
               <a-form-item label="&nbsp;" class="query-button">
                 <a-button type="primary" @click="handleToWalletQuery">
                   <template #icon><SearchOutlined /></template>
-                  {{ t('common.action.search') }}
+                  {{ t('action.search') }}
                 </a-button>
               </a-form-item>
             </div>
@@ -92,19 +92,19 @@
       <a-col :span="12">
         <a-card :bordered="false" class="detail-card from-detail">
           <template #title>
-            <span class="card-title">{{ t('wallet.fromWalletDetail') }}</span>
+            <span class="card-title">{{ t('title.fromWalletDetail') }}</span>
           </template>
           <div class="detail-content">
             <div class="detail-item">
-              <span class="detail-label">{{ t('common.field.currency') }}</span>
+              <span class="detail-label">{{ t('field.currency') }}</span>
               <span class="detail-value">{{ fromWalletDetail.currency }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('wallet.balance.current') }}</span>
+              <span class="detail-label">{{ t('balance.current') }}</span>
               <span class="detail-value">{{ formatNumber(fromWalletDetail.balance) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('wallet.balance.availableOutflow') }}</span>
+              <span class="detail-label">{{ t('balance.availableOutflow') }}</span>
               <span class="detail-value">{{ formatNumber(fromWalletDetail.availableOutflow) }}</span>
             </div>
           </div>
@@ -115,19 +115,19 @@
       <a-col :span="12">
         <a-card :bordered="false" class="detail-card to-detail">
           <template #title>
-            <span class="card-title">{{ t('wallet.toWalletDetail') }}</span>
+            <span class="card-title">{{ t('title.toWalletDetail') }}</span>
           </template>
           <div class="detail-content">
             <div class="detail-item">
-              <span class="detail-label">{{ t('common.field.currency') }}</span>
+              <span class="detail-label">{{ t('field.currency') }}</span>
               <span class="detail-value">{{ toWalletDetail.currency }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('wallet.balance.current') }}</span>
+              <span class="detail-label">{{ t('balance.current') }}</span>
               <span class="detail-value">{{ formatNumber(toWalletDetail.balance) }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-label">{{ t('wallet.balance.availableInflow') }}</span>
+              <span class="detail-label">{{ t('balance.availableInflow') }}</span>
               <span class="detail-value">{{ formatNumber(toWalletDetail.availableInflow) }}</span>
             </div>
           </div>
@@ -138,11 +138,11 @@
     <!-- 轉帳資訊 -->
     <a-card :bordered="false" class="transfer-info">
       <template #title>
-        <span class="card-title">{{ t('wallet.transferInfo') }}</span>
+        <span class="card-title">{{ t('title.transferInfo') }}</span>
       </template>
       <div class="transfer-amount-container">
         <a-form layout="inline">
-          <a-form-item :label="t('common.field.transferAmount')">
+          <a-form-item :label="t('field.transferAmount')">
             <a-input-number
               v-model:value="transferAmount"
               :min="0"
@@ -153,12 +153,12 @@
           </a-form-item>
           <a-form-item>
             <a-checkbox v-model:checked="useMaxAmount" @change="handleMaxAmountChange">
-              {{ t('common.field.maxAmount') }}
+              {{ t('field.maxAmount') }}
             </a-checkbox>
           </a-form-item>
           <a-form-item>
             <a-button type="primary" @click="handleTransfer">
-              {{ t('common.action.transfer') }}
+              {{ t('action.transfer') }}
             </a-button>
           </a-form-item>
         </a-form>
@@ -168,7 +168,7 @@
     <!-- 轉帳確認彈窗 -->
     <a-modal
       v-model:open="confirmModalVisible"
-      :title="t('wallet.prompt.confirmTransfer')"
+      :title="t('prompt.confirmTransfer')"
       @ok="handleConfirmTransfer"
       @cancel="handleCancelTransfer"
       :confirmLoading="confirmLoading"
@@ -178,23 +178,23 @@
         <!-- 轉出資訊卡片 -->
         <a-card :bordered="false" class="confirm-card">
           <template #title>
-            <span class="card-title">{{ t('wallet.fromWalletInfo') }}</span>
+            <span class="card-title">{{ t('title.fromWalletInfo') }}</span>
           </template>
           <div class="confirm-card-content">
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.typeLabel') }}</span>
+              <span class="confirm-label">{{ t('field.typeLabel') }}</span>
               <span class="confirm-value">{{ fromWalletForm.walletType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.chainType') }}</span>
+              <span class="confirm-label">{{ t('field.chainType') }}</span>
               <span class="confirm-value">{{ fromWalletForm.chainType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.currency') }}</span>
+              <span class="confirm-label">{{ t('field.currency') }}</span>
               <span class="confirm-value">{{ fromWalletForm.currency }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.address') }}</span>
+              <span class="confirm-label">{{ t('field.address') }}</span>
               <span class="confirm-value">{{ fromWalletForm.address }}</span>
             </div>
           </div>
@@ -204,7 +204,7 @@
         <a-card :bordered="false" class="confirm-card">
           <template #title>
             <div class="amount-title">
-              <span>{{ t('common.field.transferAmount') }}：</span>
+              <span>{{ t('field.transferAmount') }}：</span>
               <span class="amount-value">{{ formatNumber(transferAmount) }}</span>
             </div>
           </template>
@@ -213,23 +213,23 @@
         <!-- 轉入資訊卡片 -->
         <a-card :bordered="false" class="confirm-card">
           <template #title>
-            <span class="card-title">{{ t('wallet.toWalletInfo') }}</span>
+            <span class="card-title">{{ t('title.toWalletInfo') }}</span>
           </template>
           <div class="confirm-card-content">
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.typeLabel') }}</span>
+              <span class="confirm-label">{{ t('field.typeLabel') }}</span>
               <span class="confirm-value">{{ toWalletForm.walletType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.chainType') }}</span>
+              <span class="confirm-label">{{ t('field.chainType') }}</span>
               <span class="confirm-value">{{ toWalletForm.chainType }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.currency') }}</span>
+              <span class="confirm-label">{{ t('field.currency') }}</span>
               <span class="confirm-value">{{ toWalletForm.currency }}</span>
             </div>
             <div class="confirm-item">
-              <span class="confirm-label">{{ t('common.field.address') }}</span>
+              <span class="confirm-label">{{ t('field.address') }}</span>
               <span class="confirm-value">{{ toWalletForm.address }}</span>
             </div>
           </div>
@@ -238,33 +238,33 @@
     </a-modal>
 
     <!-- 轉帳申請查詢 -->
-    <a-card :title="t('wallet.transferQueryTitle')" class="transfer-card query-card">
+    <a-card :title="t('title.transferQueryTitle')" class="transfer-card query-card">
       <a-form layout="inline" class="query-form">
         <div class="form-row">
-          <a-form-item :label="$t('common.field.merchant')" class="form-item">
+          <a-form-item :label="t('field.merchant')" class="form-item">
             <merchant-select v-model="queryParams.merchant" class="full-width" />
           </a-form-item>
-          <a-form-item :label="$t('common.field.chainType')" class="form-item">
+          <a-form-item :label="t('field.chainType')" class="form-item">
             <chain-type-select v-model="queryParams.chainType" class="full-width" />
           </a-form-item>
-          <a-form-item :label="$t('common.field.currency')" class="form-item">
+          <a-form-item :label="t('field.currency')" class="form-item">
             <currency-select v-model="queryParams.currency" class="full-width" />
           </a-form-item>
-          <a-form-item :label="$t('common.field.typeLabel')" class="form-item">
+          <a-form-item :label="t('field.typeLabel')" class="form-item">
             <wallet-type-select v-model="queryParams.walletType" class="full-width" />
           </a-form-item>
         </div>
         <div class="form-row">
-          <a-form-item :label="$t('common.field.address')" class="form-item address-input">
-            <a-input v-model:value="queryParams.address" class="full-width" :placeholder="$t('common.prompt.pleaseInputAddress')" />
+          <a-form-item :label="t('field.address')" class="form-item address-input">
+            <a-input v-model:value="queryParams.address" class="full-width" :placeholder="t('prompt.pleaseInputAddress')" />
           </a-form-item>
           <a-form-item :label="'\u00A0'" class="form-item query-button">
             <a-space>
               <a-button type="primary" @click="handleQuery">
-                {{ t('common.action.search') }}
+                {{ t('action.search') }}
               </a-button>
               <a-button @click="handleReset">
-                {{ t('common.action.reset') }}
+                {{ t('action.reset') }}
               </a-button>
             </a-space>
           </a-form-item>
@@ -273,7 +273,7 @@
     </a-card>
 
     <!-- 轉帳列表 -->
-    <a-card :title="$t('wallet.transferList')" class="transfer-card list-card">
+    <a-card :title="t('title.transferList')" class="transfer-card list-card">
       <a-table 
         :dataSource="transferList" 
         :columns="columns" 
@@ -291,7 +291,7 @@
                 v-if="record.auditStatus === 'pending'"
                 @click="handleAudit(record)"
               >
-                {{ t('common.action.audit') }}
+                {{ t('action.audit') }}
               </a-button>
               <a-button 
                 type="link" 
@@ -299,7 +299,7 @@
                 v-if="['approved', 'rejected'].includes(record.auditStatus)"
                 @click="handleViewAuditDetail(record)"
               >
-                {{ t('common.action.detail') }}
+                {{ t('action.detail') }}
               </a-button>
             </a-space>
           </template>
@@ -310,23 +310,23 @@
     <!-- 審核操作彈窗 -->
     <a-modal
       v-model:open="auditModalVisible"
-      :title="$t('wallet.auditOperation')"
+      :title="t('title.auditOperation')"
       @ok="handleConfirmAudit"
       @cancel="handleCancelAudit"
       :confirmLoading="auditLoading"
     >
       <a-form :model="auditForm" layout="vertical">
-        <a-form-item :label="$t('common.field.auditOperation')" required>
+        <a-form-item :label="t('field.auditOperation')" required>
           <a-select v-model:value="auditForm.status" style="width: 100%">
-            <a-select-option value="approved">{{ t('common.auditStatus.approved') }}</a-select-option>
-            <a-select-option value="rejected">{{ t('common.auditStatus.rejected') }}</a-select-option>
+            <a-select-option value="approved">{{ t('auditStatus.approved') }}</a-select-option>
+            <a-select-option value="rejected">{{ t('auditStatus.rejected') }}</a-select-option>
           </a-select>
         </a-form-item>
-        <a-form-item :label="$t('wallet.field.auditReason')" required>
+        <a-form-item :label="t('field.auditReason')" required>
           <a-textarea 
             v-model:value="auditForm.reason"
             :rows="4"
-            :placeholder="$t('wallet.prompt.pleaseInputAuditReason')"
+            :placeholder="t('prompt.pleaseInputAuditReason')"
           />
         </a-form-item>
       </a-form>
@@ -335,17 +335,17 @@
     <!-- 審核詳情彈窗 -->
     <a-modal
       v-model:open="auditDetailModalVisible"
-      :title="$t('wallet.auditDetail')"
+      :title="t('title.auditDetail')"
       @cancel="() => auditDetailModalVisible = false"
       :footer="null"
     >
       <div class="audit-detail">
         <div class="audit-detail-item">
-          <span class="audit-detail-label">{{ t('common.field.auditOperation') }}：</span>
-          <span class="audit-detail-value">{{ selectedRecord?.auditStatus === 'approved' ? t('common.auditStatus.approved') : t('common.auditStatus.rejected') }}</span>
+          <span class="audit-detail-label">{{ t('field.auditOperation') }}：</span>
+          <span class="audit-detail-value">{{ selectedRecord?.auditStatus === 'approved' ? t('auditStatus.approved') : t('auditStatus.rejected') }}</span>
         </div>
         <div class="audit-detail-item">
-          <span class="audit-detail-label">{{ t('wallet.field.auditReason') }}：</span>
+          <span class="audit-detail-label">{{ t('field.auditReason') }}：</span>
           <span class="audit-detail-value">{{ selectedRecord?.auditReason }}</span>
         </div>
       </div>
@@ -362,8 +362,18 @@ import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
+import zhLocale from '@/locales/wallet/Transfer/zh.json'
+import enLocale from '@/locales/wallet/Transfer/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 // 轉出錢包表單
 const fromWalletForm = reactive({
@@ -415,7 +425,7 @@ const formatNumber = (value) => {
 // 處理轉出錢包查詢
 const handleFromWalletQuery = () => {
   if (!fromWalletForm.address) {
-    message.error(t('wallet.prompt.pleaseInputAddress'))
+    message.error(t('prompt.pleaseInputAddress'))
     return
   }
   // TODO: 實現查詢邏輯
@@ -425,7 +435,7 @@ const handleFromWalletQuery = () => {
 // 處理轉入錢包查詢
 const handleToWalletQuery = () => {
   if (!toWalletForm.address) {
-    message.error(t('wallet.prompt.pleaseInputAddress'))
+    message.error(t('prompt.pleaseInputAddress'))
     return
   }
   // TODO: 實現查詢邏輯
@@ -439,12 +449,12 @@ const confirmLoading = ref(false)
 // 處理轉帳按鈕點擊
 const handleTransfer = () => {
   if (!fromWalletForm.address || !toWalletForm.address) {
-    message.error(t('wallet.prompt.pleaseSelectFromAndToWallet'))
+    message.error(t('prompt.pleaseSelectFromAndToWallet'))
     return
   }
 
   if (!transferAmount.value) {
-    message.error(t('wallet.prompt.pleaseInputTransferAmount'))
+    message.error(t('prompt.pleaseInputTransferAmount'))
     return
   }
 
@@ -464,10 +474,10 @@ const handleConfirmTransfer = async () => {
     })
     
     await new Promise(resolve => setTimeout(resolve, 1000)) // 模擬 API 調用
-    message.success(t('wallet.prompt.transferRequestSubmitted'))
+    message.success(t('prompt.transferRequestSubmitted'))
     confirmModalVisible.value = false
   } catch (error) {
-    message.error(t('wallet.prompt.transferFailed'))
+    message.error(t('prompt.transferFailed'))
   } finally {
     confirmLoading.value = false
   }
@@ -494,82 +504,82 @@ const loading = ref(false)
 // 表格列定義
 const columns = [
   {
-    title: t('common.field.fromWalletId'),
+    title: t('field.fromWalletId'),
     dataIndex: 'fromWalletId',
     key: 'fromWalletId',
     width: 180,
   },
   {
-    title: t('common.field.fromChainType'),
+    title: t('field.fromChainType'),
     dataIndex: 'fromChainType',
     key: 'fromChainType',
     width: 120,
   },
   {
-    title: t('common.field.fromCurrency'),
+    title: t('field.fromCurrency'),
     dataIndex: 'fromCurrency',
     key: 'fromCurrency',
     width: 120,
   },
   {
-    title: t('wallet.transferAmount'),
+    title: t('field.transferAmount'),
     dataIndex: 'amount',
     key: 'amount',
     width: 140,
     align: 'right'
   },
   {
-    title: t('wallet.toWallet'),
+    title: t('field.toWallet'),
     dataIndex: 'toMerchant',
     key: 'toMerchant',
     width: 120
   },
   {
-    title: t('wallet.toWalletId'),
+    title: t('field.toWalletId'),
     dataIndex: 'toWalletId',
     key: 'toWalletId',
     width: 140
   },
   {
-    title: t('wallet.toChainType'),
+    title: t('field.toChainType'),
     dataIndex: 'toChainType',
     key: 'toChainType',
     width: 100
   },
   {
-    title: t('wallet.toCurrency'),
+    title: t('field.toCurrency'),
     dataIndex: 'toCurrency',
     key: 'toCurrency',
     width: 100
   },
   {
-    title: t('common.field.createTime'),
+    title: t('field.createTime'),
     dataIndex: 'createTime',
     key: 'createTime',
     width: 160
   },
   {
-    title: t('common.field.auditTime'),
+    title: t('field.auditTime'),
     dataIndex: 'auditTime',
     key: 'auditTime',
     width: 160
   },
   {
-    title: t('common.field.auditStatus'),
+    title: t('field.auditStatus'),
     dataIndex: 'auditStatus',
     key: 'auditStatus',
     width: 100,
     customRender: ({ text }) => {
       const statusMap = {
-        pending: t('common.auditStatus.pending'),
-        approved: t('common.auditStatus.approved'),
-        rejected: t('common.auditStatus.rejected')
+        pending: t('auditStatus.pending'),
+        approved: t('auditStatus.approved'),
+        rejected: t('auditStatus.rejected')
       }
       return statusMap[text] || text
     }
   },
   {
-    title: t('wallet.transferStatus.label'),
+    title: t('transferStatus.label'),
     dataIndex: 'transferStatus',
     key: 'transferStatus',
     width: 120,
@@ -578,17 +588,17 @@ const columns = [
         return ''
       }
       const statusMap = {
-        submitted: t('wallet.transferStatus.submitted'),
-        onchain: t('wallet.transferStatus.onchain'),
-        confirming: (record) => `${t('wallet.transferStatus.confirming')}(${record.confirmations}/${record.requiredConfirmations})`,
-        completed: t('wallet.transferStatus.completed'),
-        failed: t('wallet.transferStatus.failed')
+        submitted: t('transferStatus.submitted'),
+        onchain: t('transferStatus.onchain'),
+        confirming: (record) => `${t('transferStatus.confirming')}(${record.confirmations}/${record.requiredConfirmations})`,
+        completed: t('transferStatus.completed'),
+        failed: t('transferStatus.failed')
       }
       return typeof statusMap[text] === 'function' ? statusMap[text](record) : statusMap[text] || text
     }
   },
   {
-    title: t('common.action.action'),
+    title: t('field.action'),
     key: 'action',
     width: 80,
     fixed: 'right'
