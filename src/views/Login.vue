@@ -1,6 +1,6 @@
 <template>
   <div class="login-container" :class="{ 'dark': isDark }">
-    <a-card :title="$t('login')" :class="{ 'dark-card': isDark }" style="width: 400px">
+    <a-card :title="t('auth.login.title')" :class="{ 'dark-card': isDark }" style="width: 400px">
       <a-form
         :model="formState"
         name="basic"
@@ -8,9 +8,9 @@
         @finish="handleLogin"
       >
         <a-form-item
-          :label="$t('username')"
+          :label="t('auth.login.username')"
           name="username"
-          :rules="[{ required: true, message: $t('pleaseInputUsername') }]"
+          :rules="[{ required: true, message: t('auth.login.pleaseInputUsername') }]"
         >
           <a-input v-model:value="formState.username">
             <template #prefix>
@@ -20,9 +20,9 @@
         </a-form-item>
 
         <a-form-item
-          :label="$t('password')"
+          :label="t('auth.login.password')"
           name="password"
-          :rules="[{ required: true, message: $t('pleaseInputPassword') }]"
+          :rules="[{ required: true, message: t('auth.login.pleaseInputPassword') }]"
         >
           <a-input-password v-model:value="formState.password">
             <template #prefix>
@@ -33,7 +33,7 @@
 
         <a-form-item>
           <a-button type="primary" html-type="submit" block :loading="loading">
-            {{ $t('login') }}
+            {{ t('auth.login.title') }}
           </a-button>
         </a-form-item>
       </a-form>
@@ -49,11 +49,22 @@ import { message } from 'ant-design-vue'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
 import storage from '../services/storage'
+import zhLocale from '@/locales/auth/Login/zh.json'
+import enLocale from '@/locales/auth/Login/en.json'
+
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const router = useRouter()
 const loading = ref(false)
 const isDark = useDark()
-const { t } = useI18n()
 
 const formState = reactive({
   username: '',
@@ -62,7 +73,7 @@ const formState = reactive({
 
 const handleLogin = async (values) => {
   if (!values.username || !values.password) {
-    message.error(t('pleaseInputAllRequired'))
+    message.error(t('auth.login.pleaseInputAllRequired'))
     return
   }
 
@@ -82,7 +93,7 @@ const handleLogin = async (values) => {
     router.push('/')
   } catch (error) {
     console.error('Login failed:', error)
-    message.error(error.message || t('loginFailed'))
+    message.error(error.message || t('auth.login.loginFailed'))
   } finally {
     loading.value = false
   }

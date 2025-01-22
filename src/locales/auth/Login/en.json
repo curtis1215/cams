@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "login": {
+      "title": "Login",
+      "username": "Username",
+      "password": "Password",
+      "pleaseInputUsername": "Please input your username",
+      "pleaseInputPassword": "Please input your password",
+      "pleaseInputAllRequired": "Please input all required fields",
+      "loginFailed": "Login failed"
+    }
+  }
+} 

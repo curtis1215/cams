@@ -1,0 +1,13 @@
+{
+  "auth": {
+    "login": {
+      "title": "登錄",
+      "username": "用戶名",
+      "password": "密碼",
+      "pleaseInputUsername": "請輸入用戶名",
+      "pleaseInputPassword": "請輸入密碼",
+      "pleaseInputAllRequired": "請輸入所有必填項",
+      "loginFailed": "登錄失敗"
+    }
+  }
+} 
