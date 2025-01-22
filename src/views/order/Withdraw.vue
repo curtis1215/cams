@@ -1,67 +1,67 @@
 <template>
   <div class="withdraw-order">
-    <a-card :title="t('withdrawOrderQuery')" class="filter-card">
+    <a-card :title="t('withdraw.withdrawOrderQuery')" class="filter-card">
       <a-form layout="vertical" :model="queryParams" class="query-form">
         <div class="form-row">
-          <a-form-item :label="t('orderId')" class="form-item-lg">
+          <a-form-item :label="t('withdraw.orderId')" class="form-item-lg">
             <a-input
               v-model:value="queryParams.orderId"
-              :placeholder="t('pleaseInputOrderId')"
+              :placeholder="t('withdraw.pleaseInputOrderId')"
               allow-clear
             />
           </a-form-item>
-          <a-form-item :label="t('dateRange')" class="form-item-lg">
+          <a-form-item :label="t('withdraw.dateRange')" class="form-item-lg">
             <date-range-select
               v-model="queryParams.dateRange"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('merchant')" class="form-item-md">
+          <a-form-item :label="t('withdraw.merchant')" class="form-item-md">
             <merchant-select
               v-model="queryParams.merchant"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('status')" class="form-item-sm">
+          <a-form-item :label="t('withdraw.status')" class="form-item-sm">
             <withdraw-status-select
               v-model="queryParams.status"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('userId')" class="form-item-md">
+          <a-form-item :label="t('withdraw.userId')" class="form-item-md">
             <a-input
               v-model:value="queryParams.userId"
-              :placeholder="t('pleaseInputUserId')"
+              :placeholder="t('withdraw.pleaseInputUserId')"
               allow-clear
             />
           </a-form-item>
         </div>
         <div class="form-row">
-          <a-form-item :label="t('address')" class="form-item-xl">
+          <a-form-item :label="t('withdraw.address')" class="form-item-xl">
             <a-input
               v-model:value="queryParams.address"
-              :placeholder="t('pleaseInputAddress')"
+              :placeholder="t('withdraw.pleaseInputAddress')"
               allow-clear
             />
           </a-form-item>
           <a-form-item label="TxHash" class="form-item-xl">
             <a-input
               v-model:value="queryParams.txHash"
-              :placeholder="t('pleaseInputTxHash')"
+              :placeholder="t('withdraw.pleaseInputTxHash')"
               allow-clear
             />
           </a-form-item>
           <div class="form-item-sm button-group">
             <a-space>
-              <a-button @click="handleReset">{{ t('reset') }}</a-button>
-              <a-button type="primary" @click="handleQuery">{{ t('query') }}</a-button>
+              <a-button @click="handleReset">{{ t('withdraw.reset') }}</a-button>
+              <a-button type="primary" @click="handleQuery">{{ t('withdraw.query') }}</a-button>
             </a-space>
           </div>
         </div>
       </a-form>
     </a-card>
 
-    <a-card :title="t('orderList')" class="list-card">
+    <a-card :title="t('withdraw.orderList')" class="list-card">
       <a-table
         :columns="columns"
         :data-source="tableData"
@@ -69,97 +69,103 @@
         :bordered="true"
         @change="handleTableChange"
       >
-        <template #merchant="{ text }">
-          {{ text }}
-        </template>
+        <template #bodyCell="{ column, text, record }">
+          <template v-if="column.key === 'merchant'">
+            {{ text }}
+          </template>
 
-        <template #orderInfo="{ record }">
-          <div class="order-info">
-            <div class="info-item">
-              <span class="label">{{ t('platformOrderId') }}:</span>
-              <span>{{ record.platformOrderId }}</span>
+          <template v-else-if="column.key === 'orderInfo'">
+            <div class="order-info">
+              <div class="info-item">
+                <span class="label">{{ t('withdraw.platformOrderId') }}:</span>
+                <span>{{ record.platformOrderId }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('withdraw.merchantOrderId') }}:</span>
+                <span>{{ record.merchantOrderId }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('withdraw.transferId') }}:</span>
+                <template v-if="record.showTransferDetail">
+                  <a-button type="link" size="small" @click="handleTransferDetail(record.transferId)">
+                    {{ t('withdraw.details') }}
+                  </a-button>
+                </template>
+                <template v-else>
+                  <a @click="handleTransferIdClick(record.transferId)">{{ record.transferId }}</a>
+                </template>
+              </div>
+              <div class="info-item">
+                <span class="label">TxHash:</span>
+                <div class="txhash-container">
+                  <a class="txhash-link" @click="handleTxHashDetailClick(record.txHash)">{{ formatTxHash(record.txHash) }}</a>
+                  <copy-outlined class="action-icon" @click="copyTxHash(record.txHash)" />
+                  <link-outlined class="action-icon" @click="handleTxHashExplorerClick(record.txHash)" />
+                </div>
+              </div>
             </div>
-            <div class="info-item">
-              <span class="label">{{ t('merchantOrderId') }}:</span>
-              <span>{{ record.merchantOrderId }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">{{ t('transferId') }}:</span>
-              <template v-if="record.showTransferDetail">
-                <a-button type="link" size="small" @click="handleTransferDetail(record.transferId)">
-                  {{ t('details') }}
-                </a-button>
-              </template>
-              <template v-else>
-                <a @click="handleTransferIdClick(record.transferId)">{{ record.transferId }}</a>
-              </template>
-            </div>
-            <div class="info-item">
-              <span class="label">TxHash:</span>
-              <a @click="handleTxHashClick(record.txHash)">{{ record.txHash }}</a>
-            </div>
-          </div>
-        </template>
+          </template>
 
-        <template #address="{ text }">
-          <div class="address-container">
-            <span>{{ formatAddress(text) }}</span>
-            <copy-outlined class="copy-icon" @click="copyAddress(text)" />
-          </div>
-        </template>
+          <template v-else-if="column.key === 'address'">
+            <div class="address-container">
+              <span>{{ formatAddress(text) }}</span>
+              <copy-outlined class="copy-icon" @click="copyAddress(text)" />
+            </div>
+          </template>
 
-        <template #orderStatus="{ record }">
-          <a-tag :class="['status-tag', `status-${record.orderStatus}`]">
-            {{ record.orderStatus === 'confirming' 
-              ? `${getOrderStatusText(record.orderStatus)}(${record.confirmations}/${record.requiredConfirmations})` 
-              : getOrderStatusText(record.orderStatus) }}
-          </a-tag>
-        </template>
-
-        <template #notifyStatus="{ record }">
-          <div class="notify-status-container">
-            <a-tag :class="['status-tag', `notify-${record.notifyStatus}`]">
-              {{ getNotifyStatusText(record.notifyStatus) }}
+          <template v-else-if="column.key === 'orderStatus'">
+            <a-tag :class="['status-tag', `status-${record.orderStatus}`]">
+              {{ record.orderStatus === 'confirming' 
+                ? `${getOrderStatusText(record.orderStatus)}(${record.confirmations}/${record.requiredConfirmations})` 
+                : getOrderStatusText(record.orderStatus) }}
             </a-tag>
-            <a-button
-              v-if="record.notifyStatus === 'timeout'"
-              type="link"
-              size="small"
-              class="retry-button"
-              @click="handleRetryNotify(record)"
-            >
-              {{ t('retry') }}
-            </a-button>
-          </div>
-        </template>
+          </template>
 
-        <template #timeInfo="{ record }">
-          <div class="time-info">
-            <div class="info-item">
-              <span class="label">{{ t('createTime') }}:</span>
-              <span>{{ record.createTime }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">{{ t('successTime') }}:</span>
-              <span>{{ record.successTime || '-' }}</span>
-            </div>
-            <div class="info-item">
-              <span class="label">{{ t('notifyTime') }}:</span>
-              <span>{{ record.notifyTime || '-' }}</span>
-            </div>
-            <div class="info-item notify-history">
-              <a-button type="link" size="small" @click="handleNotifyHistory(record)">
-                {{ t('notifyHistory') }}
+          <template v-else-if="column.key === 'notifyStatus'">
+            <div class="notify-status-container">
+              <a-tag :class="['status-tag', `notify-${record.notifyStatus}`]">
+                {{ getNotifyStatusText(record.notifyStatus) }}
+              </a-tag>
+              <a-button
+                v-if="record.notifyStatus === 'timeout'"
+                type="link"
+                size="small"
+                class="retry-button"
+                @click="handleRetryNotify(record)"
+              >
+                {{ t('withdraw.retry') }}
               </a-button>
             </div>
-          </div>
+          </template>
+
+          <template v-else-if="column.key === 'timeInfo'">
+            <div class="time-info">
+              <div class="info-item">
+                <span class="label">{{ t('withdraw.createTime') }}:</span>
+                <span>{{ record.createTime }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('withdraw.successTime') }}:</span>
+                <span>{{ record.successTime || '-' }}</span>
+              </div>
+              <div class="info-item">
+                <span class="label">{{ t('withdraw.notifyTime') }}:</span>
+                <span>{{ record.notifyTime || '-' }}</span>
+              </div>
+              <div class="info-item notify-history">
+                <a-button type="link" size="small" @click="handleNotifyHistory(record)">
+                  {{ t('withdraw.notifyHistory') }}
+                </a-button>
+              </div>
+            </div>
+          </template>
         </template>
       </a-table>
     </a-card>
 
     <a-modal
       v-model:open="notifyHistoryVisible"
-      :title="`${currentRecord?.platformOrderId || ''} ${t('notifyHistory')}`"
+      :title="`${currentRecord?.platformOrderId || ''} ${t('withdraw.notifyHistory')}`"
       :footer="null"
       width="600px"
     >
@@ -170,13 +176,58 @@
         :bordered="true"
       />
     </a-modal>
+
+    <!-- 通知詳情彈窗 -->
+    <a-modal
+      v-model:open="notifyDetailVisible"
+      :title="t('withdraw.notifyDetail')"
+      :width="800"
+      @cancel="handleNotifyDetailCancel"
+    >
+      <div class="notify-detail">
+        <div class="detail-item">
+          <div class="detail-label">{{ t('withdraw.notifyUrl') }}:</div>
+          <a-input v-model:value="notifyUrl" class="notify-url-input" />
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">{{ t('withdraw.notifyContent') }}:</div>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>JSON</span>
+              <copy-outlined class="copy-icon" @click="copyContent(notifyContent)" />
+            </div>
+            <a-card class="code-card">
+              <pre class="code-block json"><code v-html="highlightJson(notifyContent)"></code></pre>
+            </a-card>
+          </div>
+        </div>
+        <div class="detail-item">
+          <div class="detail-label">{{ t('withdraw.errorContent') }}:</div>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>JSON</span>
+              <copy-outlined class="copy-icon" @click="copyContent(errorContent)" />
+            </div>
+            <a-card class="code-card">
+              <pre class="code-block json"><code v-html="highlightJson(errorContent)"></code></pre>
+            </a-card>
+          </div>
+        </div>
+      </div>
+      <template #footer>
+        <a-space>
+          <a-button @click="handleNotifyDetailCancel">{{ t('withdraw.cancel') }}</a-button>
+          <a-button type="primary" @click="handleNotifyRetry">{{ t('withdraw.retry') }}</a-button>
+        </a-space>
+      </template>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { CopyOutlined } from '@ant-design/icons-vue'
+import { CopyOutlined, LinkOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
@@ -186,15 +237,16 @@ import zhLocale from '@/locales/order/Withdraw/zh.json'
 import enLocale from '@/locales/order/Withdraw/en.json'
 import zhCommon from '@/locales/common/zh.json'
 import enCommon from '@/locales/common/en.json'
+import mockData from '@/mock/order/Withdraw/withdraw.mock.json'
 
 const messages = {
   zh: {
     common: zhCommon,
-    ...zhLocale
+    withdraw: zhLocale
   },
   en: {
     common: enCommon,
-    ...enLocale
+    withdraw: enLocale
   }
 }
 
@@ -232,59 +284,53 @@ const handleQuery = () => {
 
 const columns = computed(() => [
   {
-    title: t('merchant'),
+    title: t('withdraw.merchant'),
     dataIndex: 'merchant',
     key: 'merchant',
-    slots: { customRender: 'merchant' },
     width: 120,
   },
   {
-    title: t('transactionDocument'),
+    title: t('withdraw.transactionDocument'),
     dataIndex: 'orderInfo',
     key: 'orderInfo',
-    slots: { customRender: 'orderInfo' },
     width: 300,
   },
   {
-    title: t('transactionAmount'),
+    title: t('withdraw.transactionAmount'),
     dataIndex: 'amount',
     key: 'amount',
     align: 'right',
     width: 120,
   },
   {
-    title: t('usdtValue'),
+    title: t('withdraw.usdtValue'),
     dataIndex: 'usdtValue',
     key: 'usdtValue',
     align: 'right',
     width: 120,
   },
   {
-    title: t('receivingAddress'),
+    title: t('withdraw.receivingAddress'),
     dataIndex: 'address',
     key: 'address',
-    slots: { customRender: 'address' },
     width: 200,
   },
   {
-    title: t('orderStatus'),
+    title: t('withdraw.orderStatus'),
     dataIndex: 'orderStatus',
     key: 'orderStatus',
-    slots: { customRender: 'orderStatus' },
     width: 120,
   },
   {
-    title: t('notifyStatus'),
+    title: t('withdraw.notifyStatus'),
     dataIndex: 'notifyStatus',
     key: 'notifyStatus',
-    slots: { customRender: 'notifyStatus' },
     width: 120,
   },
   {
-    title: t('timeInfo'),
+    title: t('withdraw.timeInfo'),
     dataIndex: 'timeInfo',
     key: 'timeInfo',
-    slots: { customRender: 'timeInfo' },
     width: 300,
   },
 ])
@@ -311,51 +357,124 @@ const formatAddress = (address) => {
 const copyAddress = async (address) => {
   try {
     await navigator.clipboard.writeText(address)
-    message.success(t('copySuccess'))
+    message.success(t('withdraw.copySuccess'))
   } catch (err) {
-    message.error(t('copyFailed'))
+    message.error(t('withdraw.copyFailed'))
   }
 }
 
 const getOrderStatusText = (status) => {
   const statusMap = {
-    waiting: t('waiting'),
-    confirming: t('confirming'),
-    processing: t('processing'),
-    retrying: t('retrying'),
-    success: `${t('successful')}(x/x)`,
-    failed: t('failed')
+    waiting: t('withdraw.waiting'),
+    confirming: t('withdraw.confirming'),
+    processing: t('withdraw.processing'),
+    retrying: t('withdraw.retrying'),
+    success: `${t('withdraw.successful')}(x/x)`,
+    failed: t('withdraw.failed')
   }
   return statusMap[status] || status
 }
 
 const getNotifyStatusText = (status) => {
   const statusMap = {
-    success: t('successful'),
-    timeout: t('notifyTimeout'),
-    retrying: t('retrying')
+    success: t('withdraw.successful'),
+    timeout: t('withdraw.notifyTimeout'),
+    retrying: t('withdraw.retrying')
   }
   return statusMap[status] || status
 }
 
 const handleTransferIdClick = (transferId) => {
-  // 處理轉帳單號點擊事件
-  console.log('TransferId clicked:', transferId)
+  // 跳轉到轉帳訂單查詢頁面
+  const route = {
+    path: '/wallet/transfer',
+    query: {
+      transferId
+    }
+  }
+  window.open(`#${route.path}?transferId=${route.query.transferId}`, '_blank')
 }
 
-const handleTxHashClick = (txHash) => {
-  // 處理 TxHash 點擊事件
-  console.log('TxHash clicked:', txHash)
+const handleTxHashDetailClick = (txHash) => {
+  // 跳轉到交易詳情查詢頁面
+  const route = {
+    path: '/order/transaction',
+    query: {
+      txHash
+    }
+  }
+  window.open(`#${route.path}?txHash=${route.query.txHash}`, '_blank')
+}
+
+const handleTxHashExplorerClick = (txHash) => {
+  // 跳轉到區塊鏈瀏覽器查看交易詳情
+  const explorerUrl = import.meta.env.VITE_EXPLORER_URL || 'https://etherscan.io/tx/'
+  window.open(`${explorerUrl}${txHash}`, '_blank')
 }
 
 const handleRetryNotify = (record) => {
-  // 處理重試通知邏輯
-  console.log('Retry notify for record:', record)
+  currentRecord.value = record
+  notifyUrl.value = 'https://api.example.com/callback' // 預設的通知 URL
+  notifyContent.value = {
+    orderId: record.platformOrderId,
+    merchantId: record.merchant,
+    status: record.orderStatus,
+    amount: record.amount,
+    txHash: record.txHash,
+    // ... 其他通知內容
+  }
+  errorContent.value = {
+    code: 500,
+    message: 'Internal Server Error',
+    timestamp: '2024-01-15 10:05:00',
+    // ... 其他錯誤內容
+  }
+  notifyDetailVisible.value = true
 }
 
-const handleTransferDetail = (transferId) => {
-  // 處理詳情按鈕點擊事件
-  console.log('Transfer detail clicked:', transferId)
+const handleNotifyDetailCancel = () => {
+  notifyDetailVisible.value = false
+  currentRecord.value = null
+}
+
+const handleNotifyRetry = () => {
+  // 實現重試邏輯
+  console.log('Retry notify with URL:', notifyUrl.value)
+  console.log('Record:', currentRecord.value)
+  notifyDetailVisible.value = false
+  currentRecord.value = null
+}
+
+const highlightJson = (json) => {
+  const jsonString = JSON.stringify(json, null, 2)
+  return jsonString
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
+      let cls = 'number'
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          cls = 'key'
+        } else {
+          cls = 'string'
+        }
+      } else if (/true|false/.test(match)) {
+        cls = 'boolean'
+      } else if (/null/.test(match)) {
+        cls = 'null'
+      }
+      return `<span class="json-${cls}">${match}</span>`
+    })
+}
+
+const copyContent = async (content) => {
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(content, null, 2))
+    message.success(t('withdraw.copySuccess'))
+  } catch (err) {
+    message.error(t('withdraw.copyFailed'))
+  }
 }
 
 const notifyHistoryVisible = ref(false)
@@ -364,19 +483,19 @@ const notifyHistoryData = ref([])
 
 const notifyHistoryColumns = computed(() => [
   {
-    title: t('notifyReason'),
+    title: t('withdraw.notifyReason'),
     dataIndex: 'reason',
     key: 'reason',
     width: 200,
   },
   {
-    title: t('notifyTime'),
+    title: t('withdraw.notifyTime'),
     dataIndex: 'notifyTime',
     key: 'notifyTime',
     width: 180,
   },
   {
-    title: t('notifyResult'),
+    title: t('withdraw.notifyResult'),
     dataIndex: 'result',
     key: 'result',
     width: 120,
@@ -386,203 +505,30 @@ const notifyHistoryColumns = computed(() => [
 const handleNotifyHistory = (record) => {
   currentRecord.value = record
   notifyHistoryVisible.value = true
-  // 模擬通知歷程數據
-  notifyHistoryData.value = [
-    {
-      key: '1',
-      reason: `${t('confirmations')} 3 ${t('notify')}`,
-      notifyTime: '2024-03-15 10:01:00',
-      result: t('successful')
-    },
-    {
-      key: '2',
-      reason: `${t('confirmations')} 6 ${t('notify')}`,
-      notifyTime: '2024-03-15 10:02:00',
-      result: t('successful')
-    },
-    {
-      key: '3',
-      reason: t('statusNotify'),
-      notifyTime: '2024-03-15 10:03:00',
-      result: t('failed')
-    }
-  ]
+  notifyHistoryData.value = mockData.notifyHistoryData
 }
 
-const tableData = [
-  {
-    key: '1',
-    merchant: 'Merchant A',
-    platformOrderId: 'W202403150001',
-    merchantOrderId: 'M202403150001',
-    transferId: 'T202403150001',
-    showTransferDetail: true,
-    txHash: '0x1234...5678',
-    amount: '1000.00000000',
-    usdtValue: '1000.00',
-    address: '0x1234567890abcdef1234567890abcdef12345678',
-    orderStatus: 'confirming',
-    notifyStatus: 'success',
-    createTime: '2024-03-15 10:00:00',
-    successTime: null,
-    notifyTime: '2024-03-15 10:01:00',
-    confirmations: '3',
-    requiredConfirmations: '6'
-  },
-  {
-    key: '2',
-    merchant: 'Merchant B',
-    platformOrderId: 'W202403150002',
-    merchantOrderId: 'M202403150002',
-    transferId: 'T202403150002',
-    showTransferDetail: false,
-    txHash: '0x2345...6789',
-    amount: '2000.00000000',
-    usdtValue: '2000.00',
-    address: '0x2345678901abcdef2345678901abcdef23456789',
-    orderStatus: 'processing',
-    notifyStatus: 'timeout',
-    createTime: '2024-03-15 09:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '3',
-    merchant: 'Merchant C',
-    platformOrderId: 'W202403150003',
-    merchantOrderId: 'M202403150003',
-    transferId: 'T202403150003',
-    showTransferDetail: true,
-    txHash: '0x3456...7890',
-    amount: '3000.00000000',
-    usdtValue: '3000.00',
-    address: '0x3456789012abcdef3456789012abcdef34567890',
-    orderStatus: 'failed',
-    notifyStatus: 'retrying',
-    createTime: '2024-03-15 08:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '4',
-    merchant: 'Merchant A',
-    platformOrderId: 'W202403150004',
-    merchantOrderId: 'M202403150004',
-    transferId: 'T202403150004',
-    showTransferDetail: false,
-    txHash: '0x4567...8901',
-    amount: '4000.00000000',
-    usdtValue: '4000.00',
-    address: '0x4567890123abcdef4567890123abcdef45678901',
-    orderStatus: 'retrying',
-    notifyStatus: 'success',
-    createTime: '2024-03-15 07:00:00',
-    successTime: null,
-    notifyTime: '2024-03-15 07:01:00'
-  },
-  {
-    key: '5',
-    merchant: 'Merchant B',
-    platformOrderId: 'W202403150005',
-    merchantOrderId: 'M202403150005',
-    transferId: 'T202403150005',
-    showTransferDetail: false,
-    txHash: '0x5678...9012',
-    amount: '5000.00000000',
-    usdtValue: '5000.00',
-    address: '0x5678901234abcdef5678901234abcdef56789012',
-    orderStatus: 'success',
-    notifyStatus: 'success',
-    createTime: '2024-03-15 06:00:00',
-    successTime: '2024-03-15 06:05:00',
-    notifyTime: '2024-03-15 06:06:00'
-  },
-  {
-    key: '6',
-    merchant: 'Merchant C',
-    platformOrderId: 'W202403150006',
-    merchantOrderId: 'M202403150006',
-    transferId: 'T202403150006',
-    showTransferDetail: false,
-    txHash: '0x6789...0123',
-    amount: '6000.00000000',
-    usdtValue: '6000.00',
-    address: '0x6789012345abcdef6789012345abcdef67890123',
-    orderStatus: 'failed',
-    notifyStatus: 'timeout',
-    createTime: '2024-03-15 05:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '7',
-    merchant: 'Merchant A',
-    platformOrderId: 'W202403150007',
-    merchantOrderId: 'M202403150007',
-    transferId: 'T202403150007',
-    showTransferDetail: false,
-    txHash: '0x7890...1234',
-    amount: '7000.00000000',
-    usdtValue: '7000.00',
-    address: '0x7890123456abcdef7890123456abcdef78901234',
-    orderStatus: 'processing',
-    notifyStatus: 'retrying',
-    createTime: '2024-03-15 04:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '8',
-    merchant: 'Merchant B',
-    platformOrderId: 'W202403150008',
-    merchantOrderId: 'M202403150008',
-    transferId: 'T202403150008',
-    showTransferDetail: false,
-    txHash: '0x8901...2345',
-    amount: '8000.00000000',
-    usdtValue: '8000.00',
-    address: '0x8901234567abcdef8901234567abcdef89012345',
-    orderStatus: 'success',
-    notifyStatus: 'success',
-    createTime: '2024-03-15 03:00:00',
-    successTime: '2024-03-15 03:05:00',
-    notifyTime: '2024-03-15 03:06:00'
-  },
-  {
-    key: '9',
-    merchant: 'Merchant C',
-    platformOrderId: 'W202403150009',
-    merchantOrderId: 'M202403150009',
-    transferId: 'T202403150009',
-    showTransferDetail: false,
-    txHash: '0x9012...3456',
-    amount: '9000.00000000',
-    usdtValue: '9000.00',
-    address: '0x9012345678abcdef9012345678abcdef90123456',
-    orderStatus: 'waiting',
-    notifyStatus: 'timeout',
-    createTime: '2024-03-15 02:00:00',
-    successTime: null,
-    notifyTime: null
-  },
-  {
-    key: '10',
-    merchant: 'Merchant A',
-    platformOrderId: 'W202403150010',
-    merchantOrderId: 'M202403150010',
-    transferId: 'T202403150010',
-    showTransferDetail: false,
-    txHash: '0x0123...4567',
-    amount: '10000.00000000',
-    usdtValue: '10000.00',
-    address: '0x0123456789abcdef0123456789abcdef01234567',
-    orderStatus: 'retrying',
-    notifyStatus: 'retrying',
-    createTime: '2024-03-15 01:00:00',
-    successTime: null,
-    notifyTime: null
+const tableData = ref(mockData.tableData)
+
+// 通知詳情相關
+const notifyDetailVisible = ref(false)
+const notifyUrl = ref('')
+const notifyContent = ref({})
+const errorContent = ref({})
+
+const formatTxHash = (hash) => {
+  if (!hash) return ''
+  return `${hash.slice(0, 6)}***${hash.slice(-6)}`
+}
+
+const copyTxHash = async (hash) => {
+  try {
+    await navigator.clipboard.writeText(hash)
+    message.success(t('withdraw.copySuccess'))
+  } catch (err) {
+    message.error(t('withdraw.copyFailed'))
   }
-]
+}
 </script>
 
 <style scoped>
@@ -848,5 +794,111 @@ const tableData = [
 
 :deep(.ant-modal-close:hover) {
   color: rgba(255, 255, 255, 0.85);
+}
+
+.notify-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.notify-url-input {
+  width: 100%;
+}
+
+.code-block-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #1a1a1a;
+  border: 1px solid #303030;
+  border-bottom: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #a9b7c6;
+}
+
+.code-card {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background: #000;
+}
+
+.code-block {
+  margin: 0;
+  padding: 12px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #a9b7c6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.json-string {
+  color: #6a8759;
+}
+
+.json-number {
+  color: #6897bb;
+}
+
+.json-boolean {
+  color: #cc7832;
+}
+
+.json-null {
+  color: #cc7832;
+}
+
+.json-key {
+  color: #9876aa;
+}
+
+.txhash-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-icon {
+  cursor: pointer;
+  color: #177ddc;
+  transition: all 0.3s;
+}
+
+.action-icon:hover {
+  opacity: 0.8;
+}
+
+.txhash-link {
+  color: #177ddc;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.txhash-link:hover {
+  color: #1890ff;
+  text-decoration: underline;
 }
 </style> 
