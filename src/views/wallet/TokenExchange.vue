@@ -143,35 +143,46 @@
       <div class="exchange-amount-container">
         <a-form layout="vertical">
           <div class="exchange-form-row">
-            <a-form-item :label="t('common.field.exchangeAmount')" class="exchange-amount-item">
-              <a-input-number
-                v-model:value="exchangeAmount"
-                :min="0"
-                :max="maxAmount"
-                :precision="8"
-                class="exchange-input"
-              />
-              <a-checkbox v-model:checked="useMaxAmount" @change="handleMaxAmountChange">
-                {{ t('exchange.useMaxAmount') }}
-              </a-checkbox>
-            </a-form-item>
-          </div>
-          
-          <div class="exchange-info-row">
-            <div class="info-item">
-              <span class="info-label">{{ t('exchange.rate') }}</span>
-              <span class="info-value">{{ formatNumber(currentPrice) }}</span>
-            </div>
-            <div class="info-item">
-              <span class="info-label">{{ t('exchange.receiveAmount') }}</span>
-              <span class="info-value">{{ formatNumber(receiveAmount) }}</span>
-            </div>
-          </div>
+            <div class="exchange-form-items">
+              <a-form-item :label="t('common.field.exchangeAmount')" class="exchange-amount-item">
+                <a-input-number
+                  v-model:value="exchangeAmount"
+                  :min="0"
+                  :max="maxAmount"
+                  :precision="8"
+                  class="exchange-input"
+                />
+                <a-checkbox v-model:checked="useMaxAmount" @change="handleMaxAmountChange" class="max-amount-checkbox">
+                  {{ t('exchange.useMaxAmount') }}
+                </a-checkbox>
+              </a-form-item>
 
-          <div class="exchange-button-row">
-            <a-button type="primary" @click="handleExchange">
-              {{ t('common.action.exchange') }}
-            </a-button>
+              <a-form-item :label="t('common.field.exchangePlatform')" class="exchange-platform-item">
+                <a-select
+                  v-model:value="selectedPlatform"
+                  class="platform-select"
+                  :options="[
+                    { value: 'binance', label: t('exchange.platform.binance') },
+                    { value: 'mexc', label: t('exchange.platform.mexc') },
+                    { value: 'gateio', label: t('exchange.platform.gateio') }
+                  ]"
+                />
+              </a-form-item>
+
+              <a-form-item :label="t('exchange.rate')" class="exchange-rate-item">
+                <div class="rate-value">{{ formatNumber(currentPrice) }}</div>
+              </a-form-item>
+
+              <a-form-item :label="t('exchange.receiveAmount')" class="receive-amount-item">
+                <div class="receive-value">{{ formatNumber(receiveAmount) }}</div>
+              </a-form-item>
+
+              <a-form-item label=" " class="exchange-button-item">
+                <a-button type="primary" @click="handleExchange">
+                  {{ t('common.action.exchange') }}
+                </a-button>
+              </a-form-item>
+            </div>
           </div>
         </a-form>
       </div>
@@ -209,6 +220,10 @@
               <span class="confirm-label">{{ t('common.address') }}</span>
               <span class="confirm-value">{{ fromWalletForm.address }}</span>
             </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ t('common.field.exchangeAmount') }}</span>
+              <span class="confirm-value highlight-value">{{ formatNumber(exchangeAmount) }}</span>
+            </div>
           </div>
         </a-card>
 
@@ -234,19 +249,34 @@
               <span class="confirm-label">{{ t('common.address') }}</span>
               <span class="confirm-value">{{ toWalletForm.address }}</span>
             </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ t('exchange.receiveAmount') }}</span>
+              <span class="confirm-value highlight-value">{{ formatNumber(receiveAmount) }}</span>
+            </div>
           </div>
         </a-card>
 
-        <!-- 兌換金額資訊 -->
-        <div class="confirm-amount">
-          <span class="confirm-label">{{ t('common.field.exchangeAmount') }}</span>
-          <span class="confirm-value">{{ formatNumber(exchangeAmount) }}</span>
-        </div>
+        <!-- 兌換資訊卡片 -->
+        <a-card :bordered="false" class="confirm-card">
+          <template #title>
+            <span class="card-title">{{ t('exchange.exchangeInfo') }}</span>
+          </template>
+          <div class="confirm-card-content">
+            <div class="confirm-item">
+              <span class="confirm-label">{{ t('common.field.exchangePlatform') }}</span>
+              <span class="confirm-value">{{ t(`exchange.platform.${selectedPlatform}`) }}</span>
+            </div>
+            <div class="confirm-item">
+              <span class="confirm-label">{{ t('exchange.rate') }}</span>
+              <span class="confirm-value">{{ formatNumber(currentPrice) }}</span>
+            </div>
+          </div>
+        </a-card>
       </div>
     </a-modal>
 
-    <!-- 兌換列表 -->
-    <a-card :title="t('exchange.exchangeList')" class="exchange-card list-card">
+    <!-- 兌換審核列表 -->
+    <a-card :title="t('exchange.auditList')" class="exchange-card list-card">
       <template #extra>
         <a-space>
           <a-button type="primary" @click="handleQuery">
@@ -271,19 +301,13 @@
               {{ t(`common.status.${record.exchangeStatus}`) }}
             </a-tag>
           </template>
+          <template v-else-if="column.key === 'exchangePlatform'">
+            {{ t(`exchange.platform.${record.exchangePlatform}`) }}
+          </template>
           <template v-else-if="column.key === 'action'">
-            <a-space>
-              <template v-if="record.exchangeStatus === 'pending'">
-                <a-button type="primary" size="small" @click="handleAudit(record)">
-                  {{ t('common.action.audit') }}
-                </a-button>
-              </template>
-              <template v-else>
-                <a-button type="link" size="small" @click="handleViewDetail(record)">
-                  {{ t('common.action.detail') }}
-                </a-button>
-              </template>
-            </a-space>
+            <a-button type="primary" size="small" @click="handleAudit(record)">
+              {{ t('common.action.audit') }}
+            </a-button>
           </template>
         </template>
       </a-table>
@@ -313,51 +337,6 @@
           />
         </a-form-item>
       </a-form>
-    </a-modal>
-
-    <!-- 詳情彈窗 -->
-    <a-modal
-      v-model:open="detailModalVisible"
-      :title="t('common.action.detail')"
-      :footer="null"
-      width="800px"
-    >
-      <template v-if="currentRecord">
-        <a-descriptions bordered :column="2">
-          <a-descriptions-item :label="t('common.field.exchangeId')">
-            {{ currentRecord.exchangeId }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.exchangeStatus')">
-            <a-tag :color="getStatusColor(currentRecord.exchangeStatus)">
-              {{ t(`common.status.${currentRecord.exchangeStatus}`) }}
-            </a-tag>
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.fromWalletId')">
-            {{ currentRecord.fromWalletId }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.toWalletId')">
-            {{ currentRecord.toWalletId }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.fromChainType')">
-            {{ currentRecord.fromChainType }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.toChainType')">
-            {{ currentRecord.toChainType }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.fromCurrency')">
-            {{ currentRecord.fromCurrency }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.toCurrency')">
-            {{ currentRecord.toCurrency }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.fromAmount')">
-            {{ formatNumber(currentRecord.fromAmount) }}
-          </a-descriptions-item>
-          <a-descriptions-item :label="t('common.field.toAmount')">
-            {{ formatNumber(currentRecord.toAmount) }}
-          </a-descriptions-item>
-        </a-descriptions>
-      </template>
     </a-modal>
   </div>
 </template>
@@ -402,11 +381,17 @@ const toWalletDetail = reactive({
 })
 
 // 兌換相關數據
-const exchangeAmount = ref(0)
-const currentPrice = ref(1.5) // 當前兌換價格
-const receiveAmount = computed(() => exchangeAmount.value * currentPrice.value) // 計算獲得數量
+const exchangeAmount = ref(null)
+const currentPrice = ref(1.5)
+const receiveAmount = computed(() => {
+  if (exchangeAmount.value === null || exchangeAmount.value === undefined) {
+    return 0
+  }
+  return exchangeAmount.value * currentPrice.value
+})
 const maxAmount = computed(() => fromWalletDetail.availableOutflow)
 const useMaxAmount = ref(false)
+const selectedPlatform = ref('binance')
 
 // 處理最大數量變更
 const handleMaxAmountChange = (checked) => {
@@ -446,7 +431,7 @@ const confirmLoading = ref(false)
 
 // 處理兌換按鈕點擊
 const handleExchange = () => {
-  if (!exchangeAmount.value) {
+  if (!exchangeAmount.value && exchangeAmount.value !== 0) {
     message.warning(t('common.prompt.pleaseInputExchangeAmount'))
     return
   }
@@ -465,6 +450,9 @@ const handleConfirmExchange = async () => {
     await new Promise(resolve => setTimeout(resolve, 1000))
     message.success(t('common.prompt.exchangeSuccess'))
     confirmModalVisible.value = false
+    // 成功後重置表單
+    exchangeAmount.value = null
+    useMaxAmount.value = false
     handleQuery() // 重新加載列表
   } catch (error) {
     message.error(t('common.prompt.exchangeFailed'))
@@ -476,6 +464,7 @@ const handleConfirmExchange = async () => {
 // 處理取消兌換
 const handleCancelExchange = () => {
   confirmModalVisible.value = false
+  // 不重置兌換金額，保持原值
 }
 
 // 查詢參數
@@ -554,6 +543,12 @@ const columns = [
     width: 120,
   },
   {
+    title: t('common.field.exchangePlatform'),
+    dataIndex: 'exchangePlatform',
+    key: 'exchangePlatform',
+    width: 120,
+  },
+  {
     title: t('common.field.exchangeStatus'),
     dataIndex: 'exchangeStatus',
     key: 'exchangeStatus',
@@ -591,9 +586,6 @@ const auditForm = reactive({
   reason: ''
 })
 
-// 詳情相關
-const detailModalVisible = ref(false)
-
 // 處理審核
 const handleAudit = (record) => {
   currentRecord.value = record
@@ -628,15 +620,10 @@ const handleCancelAudit = () => {
   auditForm.reason = ''
 }
 
-// 查看詳情
-const handleViewDetail = (record) => {
-  currentRecord.value = record
-  detailModalVisible.value = true
-}
-
 // 生成模擬數據
 const generateMockData = () => {
   const data = []
+  const platforms = ['binance', 'mexc', 'gateio']
   for (let i = 0; i < 10; i++) {
     data.push({
       exchangeId: `EX${String(i + 1).padStart(6, '0')}`,
@@ -648,7 +635,8 @@ const generateMockData = () => {
       toChainType: 'BSC',
       toCurrency: 'USDT',
       toAmount: Math.random() * 1000000,
-      exchangeStatus: ['pending', 'transferringOut', 'exchanging', 'transferringIn', 'success', 'transferOutFailed', 'exchangeFailed', 'rejected'][Math.floor(Math.random() * 8)],
+      exchangePlatform: platforms[Math.floor(Math.random() * platforms.length)],
+      exchangeStatus: 'pending'  // 只生成待審核狀態的數據
     })
   }
   return data
@@ -700,12 +688,17 @@ const handleTableChange = (pag) => {
 
 .wallet-token-exchange {
   padding: 24px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .exchange-card,
 .detail-card {
   margin-bottom: 24px;
   background-color: var(--component-background);
+  flex-shrink: 0;
 }
 
 .exchange-info {
@@ -767,45 +760,44 @@ const handleTableChange = (pag) => {
   margin-bottom: 24px;
 }
 
-.exchange-amount-item {
+.exchange-form-items {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  gap: 24px;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.exchange-amount-item,
+.exchange-platform-item,
+.exchange-rate-item,
+.receive-amount-item,
+.exchange-button-item {
+  margin-bottom: 0;
 }
 
 .exchange-input {
   width: 200px;
 }
 
-.exchange-info-row {
-  display: flex;
-  gap: 48px;
-  margin-bottom: 24px;
-  padding: 16px;
-  background-color: var(--item-hover-bg);
-  border-radius: 4px;
+.platform-select {
+  width: 160px;
 }
 
-.info-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.max-amount-checkbox {
+  margin-left: 24px;
 }
 
-.info-label {
-  color: var(--text-color-secondary);
-  font-size: 14px;
-}
-
-.info-value {
-  color: var(--text-color);
+.rate-value,
+.receive-value {
   font-size: 16px;
   font-weight: 500;
+  color: var(--text-color);
+  line-height: 32px;
+  min-width: 120px;
 }
 
-.exchange-button-row {
-  display: flex;
-  justify-content: flex-end;
+.exchange-button-item {
+  margin-left: auto;
 }
 
 .confirm-content {
@@ -814,6 +806,7 @@ const handleTableChange = (pag) => {
 
 .confirm-card {
   margin-bottom: 16px;
+  background-color: var(--component-background);
 }
 
 .confirm-card-content {
@@ -828,23 +821,58 @@ const handleTableChange = (pag) => {
 
 .confirm-label {
   color: var(--text-color-secondary);
+  min-width: 100px;
 }
 
 .confirm-value {
   color: var(--text-color);
+  text-align: right;
+  word-break: break-all;
+  margin-left: 16px;
 }
 
-.confirm-amount {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px;
-  background-color: var(--item-hover-bg);
-  border-radius: 4px;
+.highlight-value {
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 16px;
 }
 
 .list-card {
   margin-top: 24px;
   background-color: var(--component-background);
+  display: flex;
+  flex-direction: column;
+}
+
+.list-card :deep(.ant-card-body) {
+  padding: 24px;
+  height: calc(100vh - 800px);
+  min-height: 400px;
+}
+
+.list-card :deep(.ant-table-wrapper) {
+  height: 100%;
+}
+
+.list-card :deep(.ant-spin-nested-loading) {
+  height: 100%;
+}
+
+.list-card :deep(.ant-spin-container) {
+  height: 100%;
+}
+
+.list-card :deep(.ant-table) {
+  height: 100%;
+}
+
+.list-card :deep(.ant-table-container) {
+  height: 100%;
+}
+
+.list-card :deep(.ant-table-body) {
+  max-height: calc(100% - 55px) !important;
+  overflow-y: auto !important;
 }
 
 /* Dark mode variables */

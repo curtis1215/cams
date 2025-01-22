@@ -1,0 +1,59 @@
+{
+  "card": {
+    "nodeHeight": "節點高度告警",
+    "withdrawDuration": "提幣時長告警",
+    "largeAmount": "大額充提幣告警"
+  },
+  "settings": "告警設置",
+  "modal": {
+    "largeAmount": "大額交易告警設置",
+    "withdrawDuration": "提幣時長設置",
+    "nodeHeight": "節點高度告警設置"
+  },
+  "threshold": {
+    "deposit": "大額存款閾值",
+    "withdraw": "大額提現閾值",
+    "processingTimeout": "處理中時長閾值",
+    "waitingTimeout": "等待時長閾值",
+    "notifyTimeout": "通知時長閾值"
+  },
+  "column": {
+    "merchant": "商戶",
+    "orderId": "訂單編號",
+    "userId": "用戶ID",
+    "amount": "金額",
+    "usdtValue": "USDT價值",
+    "coin": "幣種",
+    "duration": "時長",
+    "createTime": "創建時間",
+    "status": "狀態",
+    "chain": "鏈",
+    "serviceHeight": "服務高度",
+    "nodeHeight": "節點高度",
+    "chainHeight": "鏈高度",
+    "alertReason": "告警原因"
+  },
+  "reason": {
+    "serviceHeightBehind": "服務高度落後",
+    "nodeHeightBehind": "節點高度落後",
+    "processingTimeout": "處理超時",
+    "waitingTimeout": "等待超時",
+    "notifyTimeout": "通知超時"
+  },
+  "unit": {
+    "minutes": "分鐘"
+  },
+  "text": {
+    "when": "當",
+    "lagsBehind": "落後",
+    "reaches": "達到",
+    "serviceHeight": "服務高度",
+    "nodeHeight": "節點高度"
+  },
+  "message": {
+    "settingsSaved": "設置已保存"
+  },
+  "button": {
+    "addRule": "添加規則"
+  }
+} 

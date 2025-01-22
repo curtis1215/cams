@@ -1,0 +1,16 @@
+{
+  "platformTitle": "Platform",
+  "allPlatformsTitle": "All Platforms",
+  "hourlyAnalysisTitle": "24 Hours Analysis",
+  "todayDepositCardTitle": "Today's Deposit",
+  "todayWithdrawCardTitle": "Today's Withdrawal",
+  "avgDepositDurationCardTitle": "Average Deposit Duration",
+  "avgWithdrawDurationCardTitle": "Average Withdrawal Duration",
+  "depositCoinRatioChartTitle": "Deposit Currency Distribution",
+  "withdrawCoinRatioChartTitle": "Withdrawal Currency Distribution",
+  "chainDepositDurationChartTitle": "Chain Deposit Duration",
+  "chainWithdrawDurationChartTitle": "Chain Withdrawal Duration",
+  "operationDeposit": "Deposit",
+  "operationWithdraw": "Withdraw",
+  "unitMinutes": "Minutes"
+} 

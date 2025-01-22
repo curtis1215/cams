@@ -1,0 +1,49 @@
+{
+  "title": {
+    "queryCondition": "錢包查詢",
+    "walletList": "錢包列表"
+  },
+  "field": {
+    "merchant": "商戶",
+    "chainType": "鏈類型",
+    "currency": "幣種",
+    "address": "地址",
+    "walletId": "錢包ID",
+    "userId": "用戶ID",
+    "walletType": "錢包類型",
+    "assetValue": "資產價值",
+    "status": "狀態"
+  },
+  "walletType": {
+    "user": "用戶錢包",
+    "collection": "收款錢包",
+    "withdrawal": "提現錢包",
+    "transfer": "轉賬錢包"
+  },
+  "prompt": {
+    "addWallet": "新增錢包",
+    "pleaseInputAddress": "請輸入地址",
+    "selectMerchant": "請選擇商戶",
+    "selectChainType": "請選擇鏈類型",
+    "selectCurrency": "請選擇幣種",
+    "selectWalletType": "請選擇錢包類型",
+    "inputAddress": "請輸入地址"
+  },
+  "message": {
+    "copySuccess": "複製成功",
+    "copyFailed": "複製失敗",
+    "addSuccess": "新增成功"
+  },
+  "action": {
+    "search": "查詢",
+    "details": "詳情",
+    "transfer": "轉賬",
+    "addWallet": "新增錢包",
+    "action": "操作"
+  },
+  "status": {
+    "label": "狀態",
+    "enabled": "已啟用",
+    "disabled": "已禁用"
+  }
+} 

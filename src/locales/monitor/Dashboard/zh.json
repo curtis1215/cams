@@ -1,0 +1,16 @@
+{
+  "platformTitle": "平台",
+  "allPlatformsTitle": "所有平台",
+  "hourlyAnalysisTitle": "24小時分析",
+  "todayDepositCardTitle": "今日存款",
+  "todayWithdrawCardTitle": "今日提幣",
+  "avgDepositDurationCardTitle": "平均存款時長",
+  "avgWithdrawDurationCardTitle": "平均提幣時長",
+  "depositCoinRatioChartTitle": "存款幣種分佈",
+  "withdrawCoinRatioChartTitle": "提幣幣種分佈",
+  "chainDepositDurationChartTitle": "鏈存款時長",
+  "chainWithdrawDurationChartTitle": "鏈提幣時長",
+  "operationDeposit": "充值",
+  "operationWithdraw": "提幣",
+  "unitMinutes": "分鐘"
+} 

@@ -3,34 +3,34 @@
     <!-- 查詢表單 -->
     <a-card :bordered="false" class="filter-card">
       <template #title>
-        <span class="card-title">{{ t('wallet.queryCondition') }}</span>
+        <span class="card-title">{{ t('title.queryCondition') }}</span>
       </template>
       <a-form layout="inline" :model="queryParams" class="query-form">
-        <a-form-item :label="t('common.merchant')" class="form-item">
+        <a-form-item :label="t('field.merchant')" class="form-item">
           <merchant-select 
             v-model="queryParams.merchant" 
-            :placeholder="t('common.prompt.selectMerchant')"
+            :placeholder="t('prompt.selectMerchant')"
             :style="{ width: '180px' }" 
           />
         </a-form-item>
-        <a-form-item :label="t('common.chainType')" class="form-item">
+        <a-form-item :label="t('field.chainType')" class="form-item">
           <chain-type-select 
             v-model="queryParams.chainType" 
-            :placeholder="t('common.prompt.selectChainType')"
+            :placeholder="t('prompt.selectChainType')"
             :style="{ width: '180px' }" 
           />
         </a-form-item>
-        <a-form-item :label="t('common.currency')" class="form-item">
+        <a-form-item :label="t('field.currency')" class="form-item">
           <currency-select 
             v-model="queryParams.currency" 
-            :placeholder="t('common.prompt.selectCurrency')"
+            :placeholder="t('prompt.selectCurrency')"
             :style="{ width: '180px' }" 
           />
         </a-form-item>
-        <a-form-item :label="t('common.address')" class="form-item">
+        <a-form-item :label="t('field.address')" class="form-item">
           <a-input
             v-model:value="queryParams.address"
-            :placeholder="t('wallet.prompt.pleaseInputAddress')"
+            :placeholder="t('prompt.pleaseInputAddress')"
             :style="{ width: '300px' }"
             allow-clear
           />
@@ -38,7 +38,7 @@
         <a-form-item class="form-item">
           <a-button type="primary" @click="handleQuery">
             <template #icon><SearchOutlined /></template>
-            {{ t('common.action.search') }}
+            {{ t('action.search') }}
           </a-button>
         </a-form-item>
       </a-form>
@@ -48,10 +48,10 @@
     <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="table-card">
       <template #title>
         <div style="display: flex; justify-content: space-between; align-items: center">
-          <span class="card-title">{{ t('wallet.walletList') }}</span>
+          <span class="card-title">{{ t('title.walletList') }}</span>
           <a-button type="primary" @click="showAddWalletModal">
             <template #icon><PlusOutlined /></template>
-            {{ t('common.action.addWallet') }}
+            {{ t('action.addWallet') }}
           </a-button>
         </div>
       </template>
@@ -79,10 +79,10 @@
             <template v-else-if="column.key === 'action'">
               <a-space>
                 <a-button type="link" size="small" @click="handleDetail(record)">
-                  {{ t('common.action.details') }}
+                  {{ t('action.details') }}
                 </a-button>
                 <a-button type="link" size="small" @click="handleTransfer(record)">
-                  {{ t('common.action.transfer') }}
+                  {{ t('action.transfer') }}
                 </a-button>
               </a-space>
             </template>
@@ -97,7 +97,7 @@
             </template>
             <template v-else-if="column.key === 'status'">
               <span :class="['status-tag', record.isDisabled ? 'status-disabled' : 'status-enabled']">
-                {{ record.isDisabled ? t('common.status.disabled') : t('common.status.enabled') }}
+                {{ record.isDisabled ? t('status.disabled') : t('status.enabled') }}
               </span>
             </template>
           </template>
@@ -108,7 +108,7 @@
     <!-- 新增錢包彈窗 -->
     <a-modal
       v-model:open="addWalletModalVisible"
-      :title="t('wallet.prompt.addWallet')"
+      :title="t('prompt.addWallet')"
       @ok="handleAddWallet"
       @cancel="handleCancelAdd"
       :confirmLoading="confirmLoading"
@@ -120,29 +120,29 @@
         layout="vertical"
       >
         <!-- 鏈類型 -->
-        <a-form-item :label="t('common.chainType')" name="chainType">
+        <a-form-item :label="t('field.chainType')" name="chainType">
           <chain-type-select v-model="addWalletForm.chainType" />
         </a-form-item>
 
         <!-- 幣種 -->
-        <a-form-item :label="t('common.currency')" name="currency">
+        <a-form-item :label="t('field.currency')" name="currency">
           <currency-select v-model="addWalletForm.currency" />
         </a-form-item>
 
         <!-- 錢包類型 -->
-        <a-form-item :label="t('wallet.typeLabel')" name="walletType">
+        <a-form-item :label="t('field.walletType')" name="walletType">
           <wallet-type-select v-model="addWalletForm.walletType" @change="handleWalletTypeChange" />
         </a-form-item>
 
         <!-- 錢包地址（僅當選擇外轉錢包時顯示） -->
         <a-form-item
           v-if="addWalletForm.walletType === 'transfer'"
-          :label="t('common.address')"
+          :label="t('field.address')"
           name="address"
         >
           <a-input
             v-model:value="addWalletForm.address"
-            :placeholder="t('wallet.prompt.pleaseInputAddress')"
+            :placeholder="t('prompt.pleaseInputAddress')"
             allow-clear
           />
         </a-form-item>
@@ -161,9 +161,19 @@ import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
-import mockData from './query.mock.json'
+import mockData from '@/mock/wallet/Query/query.mock.json'
+import zhLocale from '@/locales/wallet/Query/zh.json'
+import enLocale from '@/locales/wallet/Query/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const router = useRouter()
 
@@ -177,70 +187,70 @@ const queryParams = ref({
 
 // 狀態選項
 const statusOptions = [
-  { value: 'enabled', label: t('common.status.enabled') },
-  { value: 'disabled', label: t('common.status.disabled') }
+  { value: 'enabled', label: t('status.enabled') },
+  { value: 'disabled', label: t('status.disabled') }
 ]
 
 // 表格列配置
 const columns = [
   {
-    title: t('common.walletId'),
+    title: t('field.walletId'),
     dataIndex: 'walletId',
     key: 'walletId',
     width: 150
   },
   {
-    title: t('common.merchant'),
+    title: t('field.merchant'),
     dataIndex: 'merchant',
     key: 'merchant',
     width: 150
   },
   {
-    title: t('common.userId'),
+    title: t('field.userId'),
     dataIndex: 'userId',
     key: 'userId',
     width: 150
   },
   {
-    title: t('wallet.typeLabel'),
+    title: t('field.walletType'),
     dataIndex: 'walletType',
     key: 'walletType',
     width: 150,
     customRender: ({ text }) => t(text)
   },
   {
-    title: t('common.chainType'),
+    title: t('field.chainType'),
     dataIndex: 'chainType',
     key: 'chainType',
     width: 150
   },
   {
-    title: t('common.currency'),
+    title: t('field.currency'),
     dataIndex: 'currency',
     key: 'currency',
     width: 150
   },
   {
-    title: t('common.address'),
+    title: t('field.address'),
     dataIndex: 'address',
     key: 'address',
     width: 300
   },
   {
-    title: t('common.assetValue'),
+    title: t('field.assetValue'),
     dataIndex: 'assetValue',
     key: 'assetValue',
     width: 280,
     align: 'right'
   },
   {
-    title: t('common.status.label'),
+    title: t('status.label'),
     dataIndex: 'status',
     key: 'status',
     width: 100
   },
   {
-    title: t('common.action.action'),
+    title: t('action.action'),
     key: 'action',
     width: 150,
     fixed: 'right'
@@ -280,9 +290,9 @@ const formatAddress = (address) => {
 const copyAddress = async (address) => {
   try {
     await navigator.clipboard.writeText(address)
-    message.success(t('common.copySuccess'))
+    message.success(t('message.copySuccess'))
   } catch (err) {
-    message.error(t('common.copyFailed'))
+    message.error(t('message.copyFailed'))
   }
 }
 
@@ -305,14 +315,12 @@ const formatNumberWithColor = (value) => {
 
 // 處理詳情按鈕點擊
 const handleDetail = (record) => {
-  console.log('View detail:', record)
-  // TODO: 實現查看詳情功能
+  router.push('/wallet/detail')
 }
 
 // 處理轉賬按鈕點擊
 const handleTransfer = (record) => {
-  console.log('Transfer:', record)
-  // TODO: 實現轉賬功能
+  router.push('/wallet/transfer')
 }
 
 // 顯示添加錢包彈窗
@@ -335,10 +343,10 @@ const addWalletForm = reactive({
 
 // 表單驗證規則
 const addWalletRules = {
-  chainType: [{ required: true, message: t('common.prompt.selectChainType') }],
-  currency: [{ required: true, message: t('common.prompt.selectCurrency') }],
-  walletType: [{ required: true, message: t('common.prompt.selectWalletType') }],
-  address: [{ required: true, message: t('common.prompt.inputAddress'), trigger: 'blur' }],
+  chainType: [{ required: true, message: t('prompt.selectChainType') }],
+  currency: [{ required: true, message: t('prompt.selectCurrency') }],
+  walletType: [{ required: true, message: t('prompt.selectWalletType') }],
+  address: [{ required: true, message: t('prompt.inputAddress'), trigger: 'blur' }],
 }
 
 // 處理錢包類型變更
@@ -359,7 +367,7 @@ const handleAddWallet = async () => {
     
     // 模擬 API 調用
     setTimeout(() => {
-      message.success(t('prompt.addSuccess'))
+      message.success(t('message.addSuccess'))
       addWalletModalVisible.value = false
       confirmLoading.value = false
       // 重置表單

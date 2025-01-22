@@ -1,0 +1,60 @@
+{
+  "heightAlertData": [
+    {
+      "chain": "ETH",
+      "serviceHeight": "18234567",
+      "nodeHeight": "18234267",
+      "chainHeight": "18234867",
+      "alertReason": "monitor.serviceHeightBehind",
+      "severity": "high"
+    },
+    {
+      "chain": "BSC",
+      "serviceHeight": "32145678",
+      "nodeHeight": "32145378",
+      "chainHeight": "32145978",
+      "alertReason": "monitor.nodeHeightBehind",
+      "severity": "medium"
+    }
+  ],
+  "withdrawAlertData": [
+    {
+      "merchant": "商戶A",
+      "orderId": "WD202401010001",
+      "chain": "ETH",
+      "coin": "USDT",
+      "createTime": "2024-01-01 10:00:00",
+      "alertReason": "monitor.processingTimeout",
+      "status": "processing"
+    },
+    {
+      "merchant": "商戶B",
+      "orderId": "WD202401010002",
+      "chain": "BSC",
+      "coin": "USDT",
+      "createTime": "2024-01-01 11:00:00",
+      "alertReason": "monitor.waitingTimeout",
+      "status": "waiting"
+    }
+  ],
+  "largeAmountData": [
+    {
+      "merchant": "商戶A",
+      "orderId": "WD202401010003",
+      "chain": "ETH",
+      "coin": "USDT",
+      "amount": "100000",
+      "usdtValue": "100000",
+      "userId": "U123456"
+    },
+    {
+      "merchant": "商戶B",
+      "orderId": "WD202401010004",
+      "chain": "BSC",
+      "coin": "USDT",
+      "amount": "200000",
+      "usdtValue": "200000",
+      "userId": "U234567"
+    }
+  ]
+} 

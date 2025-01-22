@@ -4,10 +4,10 @@
     <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
       <template #title>
         <div class="card-header">
-          <span class="card-title">{{ $t('monitor.nodeHeightAlertTitle') }}</span>
+          <span class="card-title">{{ t('card.nodeHeight') }}</span>
           <a-button type="primary" size="small" @click="showHeightSettingModal">
             <template #icon><SettingOutlined /></template>
-            {{ $t('monitor.alertSettingsTitle') }}
+            {{ t('settings') }}
           </a-button>
         </div>
       </template>
@@ -50,10 +50,10 @@
     <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
       <template #title>
         <div class="card-header">
-          <span class="card-title">{{ $t('monitor.withdrawDurationAlertTitle') }}</span>
+          <span class="card-title">{{ t('card.withdrawDuration') }}</span>
           <a-button type="primary" size="small" @click="showDurationSettingModal">
             <template #icon><SettingOutlined /></template>
-            {{ $t('monitor.alertSettingsTitle') }}
+            {{ t('settings') }}
           </a-button>
         </div>
       </template>
@@ -84,10 +84,10 @@
     <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
       <template #title>
         <div class="card-header">
-          <span class="card-title">{{ $t('monitor.largeAmountAlertTitle') }}</span>
+          <span class="card-title">{{ t('card.largeAmount') }}</span>
           <a-button type="primary" size="small" @click="showSettingModal">
             <template #icon><SettingOutlined /></template>
-            {{ $t('monitor.alertSettingsTitle') }}
+            {{ t('settings') }}
           </a-button>
         </div>
       </template>
@@ -115,11 +115,11 @@
     <!-- 設置彈窗 -->
     <a-modal
       v-model:open="settingModalVisible"
-      :title="t('monitor.largeAmountAlertSettingsTitle')"
+      :title="t('modal.largeAmount')"
       @ok="handleSettingSave"
     >
       <a-form :model="alertSettings" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
-        <a-form-item :label="t('monitor.depositAlertThreshold')">
+        <a-form-item :label="t('threshold.deposit')">
           <a-input-number
             v-model:value="alertSettings.depositThreshold"
             :min="0"
@@ -129,7 +129,7 @@
             <template #addonAfter>USDT</template>
           </a-input-number>
         </a-form-item>
-        <a-form-item :label="t('monitor.withdrawAlertThreshold')">
+        <a-form-item :label="t('threshold.withdraw')">
           <a-input-number
             v-model:value="alertSettings.withdrawThreshold"
             :min="0"
@@ -145,38 +145,38 @@
     <!-- 提幣時長設置彈窗 -->
     <a-modal
       v-model:open="durationSettingModalVisible"
-      :title="t('monitor.withdrawDurationSettingsTitle')"
+      :title="t('modal.withdrawDuration')"
       @ok="handleDurationSettingSave"
     >
       <a-form :model="durationSettings" :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">
-        <a-form-item :label="t('monitor.processingTimeout')">
+        <a-form-item :label="t('threshold.processingTimeout')">
           <a-input-number
             v-model:value="durationSettings.processingDuration"
             :min="1"
             :step="1"
             style="width: 150px"
           >
-            <template #addonAfter>{{ t('monitor.minutes') }}</template>
+            <template #addonAfter>{{ t('unit.minutes') }}</template>
           </a-input-number>
         </a-form-item>
-        <a-form-item :label="t('monitor.waitingTimeout')">
+        <a-form-item :label="t('threshold.waitingTimeout')">
           <a-input-number
             v-model:value="durationSettings.waitingDuration"
             :min="1"
             :step="1"
             style="width: 150px"
           >
-            <template #addonAfter>{{ t('monitor.minutes') }}</template>
+            <template #addonAfter>{{ t('unit.minutes') }}</template>
           </a-input-number>
         </a-form-item>
-        <a-form-item :label="t('monitor.notifyTimeout')">
+        <a-form-item :label="t('threshold.notifyTimeout')">
           <a-input-number
             v-model:value="durationSettings.notifyDuration"
             :min="1"
             :step="1"
             style="width: 150px"
           >
-            <template #addonAfter>{{ t('monitor.minutes') }}</template>
+            <template #addonAfter>{{ t('unit.minutes') }}</template>
           </a-input-number>
         </a-form-item>
       </a-form>
@@ -185,36 +185,36 @@
     <!-- 節點高度告警設置彈窗 -->
     <a-modal
       v-model:open="heightSettingModalVisible"
-      :title="t('monitor.nodeHeightAlertSettingsTitle')"
+      :title="t('modal.nodeHeight')"
       @ok="handleHeightSettingSave"
       width="800px"
     >
       <div class="height-alert-settings">
         <div v-for="(rule, index) in heightAlertRules" :key="index" class="height-alert-rule">
           <div class="rule-content">
-            <span>{{ t('monitor.when') }}</span>
+            <span>{{ t('text.when') }}</span>
             <a-select
               v-model:value="rule.type"
               style="width: 120px"
               :options="[
-                { value: 'service', label: t('monitor.serviceHeight') },
-                { value: 'node', label: t('monitor.nodeHeight') }
+                { value: 'service', label: t('text.serviceHeight') },
+                { value: 'node', label: t('text.nodeHeight') }
               ]"
             />
-            <span>{{ t('monitor.lagsBehind') }}</span>
+            <span>{{ t('text.lagsBehind') }}</span>
             <a-input-number
               v-model:value="rule.threshold"
               :min="1"
               style="width: 100px"
               :step="100"
             />
-            <span>{{ t('monitor.reaches') }}</span>
+            <span>{{ t('text.reaches') }}</span>
             <a-input-number
               v-model:value="rule.duration"
               :min="1"
               style="width: 80px"
             />
-            <span>{{ t('monitor.minutes') }}</span>
+            <span>{{ t('unit.minutes') }}</span>
           </div>
           <a-button type="text" danger @click="removeHeightRule(index)">
             <template #icon><DeleteOutlined /></template>
@@ -223,7 +223,7 @@
         <div class="add-rule">
           <a-button type="dashed" block @click="addHeightRule">
             <template #icon><PlusOutlined /></template>
-            {{ t('monitor.addRule') }}
+            {{ t('button.addRule') }}
           </a-button>
         </div>
       </div>
@@ -236,37 +236,47 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SettingOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-import mockData from './alert.mock.json'
+import mockData from '@/mock/monitor/Alert/alert.mock.json'
+import zhLocale from '@/locales/monitor/Alert/zh.json'
+import enLocale from '@/locales/monitor/Alert/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const columns = computed(() => [
   {
-    title: t('monitor.chain'),
+    title: t('column.chain'),
     dataIndex: 'chain',
     key: 'chain',
     width: 120,
   },
   {
-    title: t('monitor.serviceHeight'),
+    title: t('column.serviceHeight'),
     dataIndex: 'serviceHeight',
     key: 'serviceHeight',
     width: 150,
   },
   {
-    title: t('monitor.nodeHeight'),
+    title: t('column.nodeHeight'),
     dataIndex: 'nodeHeight',
     key: 'nodeHeight',
     width: 150,
   },
   {
-    title: t('monitor.chainHeight'),
+    title: t('column.chainHeight'),
     dataIndex: 'chainHeight',
     key: 'chainHeight',
     width: 150,
   },
   {
-    title: t('monitor.alertReason'),
+    title: t('column.alertReason'),
     dataIndex: 'alertReason',
     key: 'alertReason',
     width: 300,
@@ -275,42 +285,42 @@ const columns = computed(() => [
 
 const alertData = computed(() => mockData.heightAlertData.map(item => ({
   ...item,
-  alertReason: t(item.alertReason)
+  alertReason: t(`reason.${item.alertReason.split('.')[1]}`)
 })))
 
 const withdrawColumns = computed(() => [
   {
-    title: t('monitor.merchant'),
+    title: t('column.merchant'),
     dataIndex: 'merchant',
     key: 'merchant',
     width: 120,
   },
   {
-    title: t('monitor.orderId'),
+    title: t('column.orderId'),
     dataIndex: 'orderId',
     key: 'orderId',
     width: 200,
   },
   {
-    title: t('monitor.chain'),
+    title: t('column.chain'),
     dataIndex: 'chain',
     key: 'chain',
     width: 100,
   },
   {
-    title: t('monitor.coin'),
+    title: t('column.coin'),
     dataIndex: 'coin',
     key: 'coin',
     width: 100,
   },
   {
-    title: t('monitor.createTime'),
+    title: t('column.createTime'),
     dataIndex: 'createTime',
     key: 'createTime',
     width: 180,
   },
   {
-    title: t('monitor.alertReason'),
+    title: t('column.alertReason'),
     dataIndex: 'alertReason',
     key: 'alertReason',
     width: 200,
@@ -319,48 +329,48 @@ const withdrawColumns = computed(() => [
 
 const withdrawAlertData = computed(() => mockData.withdrawAlertData.map(item => ({
   ...item,
-  alertReason: t(item.alertReason)
+  alertReason: t(`reason.${item.alertReason.split('.')[1]}`)
 })))
 
 const largeAmountColumns = computed(() => [
   {
-    title: t('monitor.merchant'),
+    title: t('column.merchant'),
     dataIndex: 'merchant',
     key: 'merchant',
     width: 120,
   },
   {
-    title: t('monitor.orderId'),
+    title: t('column.orderId'),
     dataIndex: 'orderId',
     key: 'orderId',
     width: 200,
   },
   {
-    title: t('monitor.chain'),
+    title: t('column.chain'),
     dataIndex: 'chain',
     key: 'chain',
     width: 100,
   },
   {
-    title: t('monitor.coin'),
+    title: t('column.coin'),
     dataIndex: 'coin',
     key: 'coin',
     width: 100,
   },
   {
-    title: t('monitor.amount'),
+    title: t('column.amount'),
     dataIndex: 'amount',
     key: 'amount',
     width: 150,
   },
   {
-    title: t('monitor.usdtValue'),
+    title: t('column.usdtValue'),
     dataIndex: 'usdtValue',
     key: 'usdtValue',
     width: 150,
   },
   {
-    title: t('monitor.userId'),
+    title: t('column.userId'),
     dataIndex: 'userId',
     key: 'userId',
     width: 150,
@@ -389,7 +399,7 @@ const showSettingModal = () => {
 }
 
 const handleSettingSave = () => {
-  message.success(t('monitor.settingsSaved'))
+  message.success(t('message.settingsSaved'))
   settingModalVisible.value = false
 }
 
@@ -405,7 +415,7 @@ const showDurationSettingModal = () => {
 }
 
 const handleDurationSettingSave = () => {
-  message.success(t('monitor.settingsSaved'))
+  message.success(t('message.settingsSaved'))
   durationSettingModalVisible.value = false
 }
 
@@ -440,7 +450,7 @@ const removeHeightRule = (index) => {
 }
 
 const handleHeightSettingSave = () => {
-  message.success(t('monitor.settingsSaved'))
+  message.success(t('message.settingsSaved'))
   heightSettingModalVisible.value = false
 }
 </script>

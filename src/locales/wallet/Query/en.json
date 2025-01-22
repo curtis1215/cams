@@ -1,0 +1,49 @@
+{
+  "title": {
+    "queryCondition": "Query Condition",
+    "walletList": "Wallet List"
+  },
+  "field": {
+    "merchant": "Merchant",
+    "chainType": "Chain Type",
+    "currency": "Currency",
+    "address": "Address",
+    "walletId": "Wallet ID",
+    "userId": "User ID",
+    "walletType": "Wallet Type",
+    "assetValue": "Asset Value",
+    "status": "Status"
+  },
+  "walletType": {
+    "user": "User Wallet",
+    "collection": "Collection Wallet",
+    "withdrawal": "Withdrawal Wallet",
+    "transfer": "Transfer Wallet"
+  },
+  "prompt": {
+    "addWallet": "Add Wallet",
+    "pleaseInputAddress": "Please Input Address",
+    "selectMerchant": "Please Select Merchant",
+    "selectChainType": "Please Select Chain Type",
+    "selectCurrency": "Please Select Currency",
+    "selectWalletType": "Please Select Wallet Type",
+    "inputAddress": "Please Input Address"
+  },
+  "message": {
+    "copySuccess": "Copy Success",
+    "copyFailed": "Copy Failed",
+    "addSuccess": "Add Success"
+  },
+  "action": {
+    "search": "Search",
+    "details": "Details",
+    "transfer": "Transfer",
+    "addWallet": "Add Wallet",
+    "action": "Action"
+  },
+  "status": {
+    "label": "Status",
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  }
+} 

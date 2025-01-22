@@ -6,7 +6,7 @@
         style="width: 200px"
         @change="handlePlatformChange"
       >
-        <a-select-option value="all">{{ $t('dashboard.allPlatforms') }}</a-select-option>
+        <a-select-option value="all">{{ t('dashboard.allPlatformsTitle') }}</a-select-option>
         <a-select-option value="fameex">Fameex</a-select-option>
         <a-select-option value="cnx">CNX</a-select-option>
       </a-select>
@@ -15,7 +15,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <MoneyCollectOutlined /> {{ $t('dashboard.todayDeposit') }}
+            <MoneyCollectOutlined /> {{ t('dashboard.todayDepositCardTitle') }}
           </template>
           <h2>{{ formatNumber(12345678.12345678) }} USDT</h2>
         </a-card>
@@ -23,7 +23,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <ClockCircleOutlined /> {{ $t('dashboard.avgDepositDuration') }}
+            <ClockCircleOutlined /> {{ t('dashboard.avgDepositDurationCardTitle') }}
           </template>
           <h2>02:45:30</h2>
         </a-card>
@@ -31,7 +31,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <TransactionOutlined /> {{ $t('dashboard.todayWithdraw') }}
+            <TransactionOutlined /> {{ t('dashboard.todayWithdrawCardTitle') }}
           </template>
           <h2>{{ formatNumber(87654321.87654321) }} USDT</h2>
         </a-card>
@@ -39,7 +39,7 @@
       <a-col :span="6">
         <a-card>
           <template #title>
-            <FieldTimeOutlined /> {{ $t('dashboard.avgWithdrawDuration') }}
+            <FieldTimeOutlined /> {{ t('dashboard.avgWithdrawDurationCardTitle') }}
           </template>
           <h2>01:30:15</h2>
         </a-card>
@@ -49,12 +49,12 @@
     <!-- 圓餅圖區域 -->
     <a-row :gutter="16" class="chart-row">
       <a-col :span="12">
-        <a-card :title="$t('dashboard.depositCoinRatio')">
+        <a-card :title="t('dashboard.depositCoinRatioChartTitle')">
           <v-chart class="chart" :option="depositPieOption" />
         </a-card>
       </a-col>
       <a-col :span="12">
-        <a-card :title="$t('dashboard.withdrawCoinRatio')">
+        <a-card :title="t('dashboard.withdrawCoinRatioChartTitle')">
           <v-chart class="chart" :option="withdrawPieOption" />
         </a-card>
       </a-col>
@@ -63,12 +63,12 @@
     <!-- 長條圖區域 -->
     <a-row :gutter="16" class="chart-row">
       <a-col :span="12">
-        <a-card :title="$t('dashboard.chainDepositDuration')">
+        <a-card :title="t('dashboard.chainDepositDurationChartTitle')">
           <v-chart class="chart" :option="depositBarOption" />
         </a-card>
       </a-col>
       <a-col :span="12">
-        <a-card :title="$t('dashboard.chainWithdrawDuration')">
+        <a-card :title="t('dashboard.chainWithdrawDurationChartTitle')">
           <v-chart class="chart" :option="withdrawBarOption" />
         </a-card>
       </a-col>
@@ -77,7 +77,7 @@
     <!-- 折線圖區域 -->
     <a-row class="chart-row">
       <a-col :span="24">
-        <a-card :title="$t('dashboard.hourlyAnalysis')">
+        <a-card :title="t('dashboard.hourlyAnalysisTitle')">
           <v-chart class="chart large" :option="lineOption" />
         </a-card>
       </a-col>
@@ -98,6 +98,20 @@ import {
 } from 'echarts/components'
 import VChart from 'vue-echarts'
 import { MoneyCollectOutlined, ClockCircleOutlined, TransactionOutlined, FieldTimeOutlined } from '@ant-design/icons-vue'
+import { useI18n } from 'vue-i18n'
+import zhLocale from '@/locales/monitor/Dashboard/zh.json'
+import enLocale from '@/locales/monitor/Dashboard/en.json'
+
+// 註冊 i18n
+const messages = {
+  zh: { dashboard: zhLocale },
+  en: { dashboard: enLocale }
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 // 註冊 ECharts 必要組件
 use([
@@ -213,7 +227,10 @@ const lineOption = computed(() => ({
     trigger: 'axis'
   },
   legend: {
-    data: ['充值', '提幣']
+    data: [
+      t('dashboard.operationDeposit'),
+      t('dashboard.operationWithdraw')
+    ]
   },
   xAxis: {
     type: 'category',
@@ -225,19 +242,24 @@ const lineOption = computed(() => ({
   },
   series: [
     {
-      name: '充值',
+      name: t('dashboard.operationDeposit'),
       type: 'line',
       smooth: true,
       data: Array.from({ length: 25 }, () => Math.floor(Math.random() * 50000 + 10000))
     },
     {
-      name: '提幣',
+      name: t('dashboard.operationWithdraw'),
       type: 'line',
       smooth: true,
       data: Array.from({ length: 25 }, () => Math.floor(Math.random() * 40000 + 8000))
     }
   ]
 }))
+
+// 時長顯示
+const formatDuration = (minutes) => {
+  return `${minutes} ${t('dashboard.unitMinutes')}`
+}
 </script>
 
 <style scoped>

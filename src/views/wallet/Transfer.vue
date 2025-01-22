@@ -494,28 +494,22 @@ const loading = ref(false)
 // 表格列定義
 const columns = [
   {
-    title: t('wallet.fromWallet'),
-    dataIndex: 'fromMerchant',
-    key: 'fromMerchant',
-    width: 120
-  },
-  {
-    title: t('wallet.fromWalletId'),
+    title: t('common.field.fromWalletId'),
     dataIndex: 'fromWalletId',
     key: 'fromWalletId',
-    width: 140
+    width: 180,
   },
   {
-    title: t('wallet.fromChainType'),
+    title: t('common.field.fromChainType'),
     dataIndex: 'fromChainType',
     key: 'fromChainType',
-    width: 100
+    width: 120,
   },
   {
-    title: t('wallet.fromCurrency'),
+    title: t('common.field.fromCurrency'),
     dataIndex: 'fromCurrency',
     key: 'fromCurrency',
-    width: 100
+    width: 120,
   },
   {
     title: t('wallet.transferAmount'),

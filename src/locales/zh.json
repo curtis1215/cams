@@ -88,7 +88,8 @@
       "fromWalletId": "來源錢包ID",
       "fromChainType": "來源鏈類型",
       "fromCurrency": "來源幣種",
-      "fromAmount": "來源金額"
+      "fromAmount": "來源金額",
+      "exchangePlatform": "兌換交易所"
     },
     "status": {
       "label": "狀態",
@@ -383,7 +384,66 @@
 
   "monitor": {
     "data": "數據監控",
-    "alert": "告警監控",
+    "alert": {
+      "title": "節點高度告警",
+      "settings": "告警設置",
+      "card": {
+        "nodeHeight": "節點高度告警",
+        "withdrawDuration": "提現時長告警",
+        "largeAmount": "大額交易告警"
+      },
+      "modal": {
+        "largeAmount": "大額交易告警設置",
+        "withdrawDuration": "提現時長設置",
+        "nodeHeight": "節點高度告警設置"
+      },
+      "threshold": {
+        "deposit": "大額存款閾值",
+        "withdraw": "大額提現閾值",
+        "processingTimeout": "處理中時長閾值",
+        "waitingTimeout": "等待時長閾值",
+        "notifyTimeout": "通知時長閾值"
+      },
+      "column": {
+        "merchant": "商戶",
+        "orderId": "訂單編號",
+        "userId": "用戶ID",
+        "amount": "金額",
+        "usdtValue": "USDT價值",
+        "coin": "幣種",
+        "duration": "時長",
+        "createTime": "創建時間",
+        "status": "狀態",
+        "chain": "鏈",
+        "serviceHeight": "服務高度",
+        "nodeHeight": "節點高度",
+        "chainHeight": "鏈高度",
+        "alertReason": "告警原因"
+      },
+      "reason": {
+        "serviceHeightBehind": "服務高度落後",
+        "nodeHeightBehind": "節點高度落後",
+        "processingTimeout": "處理超時",
+        "waitingTimeout": "等待超時",
+        "notifyTimeout": "通知超時"
+      },
+      "unit": {
+        "minutes": "分鐘"
+      },
+      "text": {
+        "when": "當",
+        "lagsBehind": "落後",
+        "reaches": "達到",
+        "serviceHeight": "服務高度",
+        "nodeHeight": "節點高度"
+      },
+      "message": {
+        "settingsSaved": "設置已保存"
+      },
+      "button": {
+        "addRule": "添加規則"
+      }
+    },
     "nodeHeight": "節點高度",
     "nodeHeightAlertTitle": "節點高度告警",
     "serviceHeight": "服務高度",
@@ -469,7 +529,13 @@
     "exchangeInfo": "兌換信息",
     "exchangeList": "兌換列表",
     "useMaxAmount": "使用最大金額",
-    "receiveAmount": "獲得金額"
+    "receiveAmount": "獲得金額",
+    "platform": {
+      "binance": "幣安",
+      "mexc": "MEXC",
+      "gateio": "Gate.io"
+    },
+    "auditList": "兌換審核列表"
   },
 
   "user": {

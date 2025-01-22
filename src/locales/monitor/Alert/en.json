@@ -1,0 +1,59 @@
+{
+  "card": {
+    "nodeHeight": "Node Height Alert",
+    "withdrawDuration": "Withdrawal Duration Alert",
+    "largeAmount": "Large Amount Alert"
+  },
+  "settings": "Alert Settings",
+  "modal": {
+    "largeAmount": "Large Amount Alert Settings",
+    "withdrawDuration": "Withdrawal Duration Settings",
+    "nodeHeight": "Node Height Alert Settings"
+  },
+  "threshold": {
+    "deposit": "Deposit Alert Threshold",
+    "withdraw": "Withdrawal Alert Threshold",
+    "processingTimeout": "Processing Timeout Threshold",
+    "waitingTimeout": "Waiting Timeout Threshold",
+    "notifyTimeout": "Notify Timeout Threshold"
+  },
+  "column": {
+    "merchant": "Merchant",
+    "orderId": "Order ID",
+    "userId": "User ID",
+    "amount": "Amount",
+    "usdtValue": "USDT Value",
+    "coin": "Coin",
+    "duration": "Duration",
+    "createTime": "Create Time",
+    "status": "Status",
+    "chain": "Chain",
+    "serviceHeight": "Service Height",
+    "nodeHeight": "Node Height",
+    "chainHeight": "Chain Height",
+    "alertReason": "Alert Reason"
+  },
+  "reason": {
+    "serviceHeightBehind": "Service Height Behind",
+    "nodeHeightBehind": "Node Height Behind",
+    "processingTimeout": "Processing Timeout",
+    "waitingTimeout": "Waiting Timeout",
+    "notifyTimeout": "Notify Timeout"
+  },
+  "unit": {
+    "minutes": "Minutes"
+  },
+  "text": {
+    "when": "When",
+    "lagsBehind": "Lags Behind",
+    "reaches": "Reaches",
+    "serviceHeight": "Service Height",
+    "nodeHeight": "Node Height"
+  },
+  "message": {
+    "settingsSaved": "Settings Saved"
+  },
+  "button": {
+    "addRule": "Add Rule"
+  }
+} 
