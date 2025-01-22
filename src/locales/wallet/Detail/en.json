@@ -1,0 +1,100 @@
+{
+  "title": {
+    "queryCondition": "Query Condition",
+    "walletInfo": "Wallet Information",
+    "tokenDetail": "Token Detail"
+  },
+  "field": {
+    "walletId": "Wallet ID",
+    "address": "Wallet Address",
+    "chainType": "Chain Type",
+    "merchant": "Merchant",
+    "userId": "User ID",
+    "walletType": "Wallet Type",
+    "status": "Status",
+    "privateKeyManagement": "Private Key Management",
+    "currency": "Currency"
+  },
+  "balance": {
+    "current": "Current Balance",
+    "available": "Available Balance",
+    "availableInflow": "Available Inflow",
+    "availableOutflow": "Available Outflow"
+  },
+  "token": {
+    "coin": "Coin",
+    "holdingCost": "Holding Cost",
+    "assetValue": "Asset Value",
+    "lastTransactionTime": "Last Transaction Time",
+    "storageLimit": "Storage Limit"
+  },
+  "action": {
+    "search": "Search",
+    "changeType": "Change Type",
+    "changeStatus": "Change Status",
+    "changeHistory": "Change History",
+    "downloadPrivateKey": "Download Private Key",
+    "privateKeyHistory": "Private Key History",
+    "transferHistory": "Transfer History",
+    "transactionDetail": "Transaction Detail",
+    "action": "Action"
+  },
+  "prompt": {
+    "pleaseInputCoin": "Please Input Coin",
+    "pleaseInputAddress": "Please Input Address",
+    "pleaseInputReason": "Please Input Reason",
+    "pleaseSelectStatus": "Please Select Status",
+    "downloadPrivateKey": "Download Private Key",
+    "downloadReason": "Download Reason",
+    "changeType": "Change Type",
+    "changeStatus": "Change Status",
+    "pleaseInputDownloadReason": "Please Input Download Reason",
+    "pleaseInputChangeReason": "Please Input Change Reason"
+  },
+  "history": {
+    "changeTime": "Change Time",
+    "oldType": "Original Type",
+    "newType": "New Type",
+    "oldStatus": "Original Status",
+    "newStatus": "New Status",
+    "changeReason": "Change Reason",
+    "operator": "Operator",
+    "downloadTime": "Download Time",
+    "downloadReason": "Download Reason",
+    "typeHistory": "Type Change History",
+    "statusHistory": "Status Change History"
+  },
+  "transfer": {
+    "id": "Transfer ID",
+    "fromWallet": "From Wallet",
+    "toWallet": "To Wallet",
+    "amount": "Transfer Amount",
+    "price": "Price",
+    "cost": "Cost",
+    "status": {
+      "label": "Transfer Status",
+      "submitted": "Submitted",
+      "onChain": "On Chain",
+      "confirming": "Confirming",
+      "completed": "Completed",
+      "failed": "Failed"
+    },
+    "time": {
+      "create": "Create Time",
+      "submit": "Submit Time",
+      "onChain": "On Chain Time",
+      "complete": "Complete Time",
+      "update": "Update Time"
+    }
+  },
+  "message": {
+    "copySuccess": "Copy Success",
+    "copyFailed": "Copy Failed",
+    "changeSuccess": "Change Success",
+    "downloadSuccess": "Download Success"
+  },
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  }
+} 

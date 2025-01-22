@@ -1,1 +1,100 @@
- 
+{
+  "title": {
+    "queryCondition": "錢包查詢",
+    "walletInfo": "錢包資訊",
+    "tokenDetail": "代幣詳情"
+  },
+  "field": {
+    "walletId": "錢包ID",
+    "address": "錢包地址",
+    "chainType": "鏈類型",
+    "merchant": "商戶",
+    "userId": "用戶ID",
+    "walletType": "錢包類型",
+    "status": "狀態",
+    "privateKeyManagement": "私鑰管理",
+    "currency": "幣種"
+  },
+  "balance": {
+    "current": "當前餘額",
+    "available": "可用餘額",
+    "availableInflow": "可用轉入量",
+    "availableOutflow": "可用轉出量"
+  },
+  "token": {
+    "coin": "幣種",
+    "holdingCost": "持有成本",
+    "assetValue": "資產價值",
+    "lastTransactionTime": "最後交易時間",
+    "storageLimit": "儲存限額"
+  },
+  "action": {
+    "search": "查詢",
+    "changeType": "變更類型",
+    "changeStatus": "變更狀態",
+    "changeHistory": "變更歷史",
+    "downloadPrivateKey": "下載私鑰",
+    "privateKeyHistory": "私鑰歷史",
+    "transferHistory": "轉賬歷史",
+    "transactionDetail": "交易明細",
+    "action": "操作"
+  },
+  "prompt": {
+    "pleaseInputCoin": "請輸入幣種",
+    "pleaseInputAddress": "請輸入地址",
+    "pleaseInputReason": "請輸入原因",
+    "pleaseSelectStatus": "請選擇狀態",
+    "downloadPrivateKey": "下載私鑰",
+    "downloadReason": "下載原因",
+    "changeType": "變更類型",
+    "changeStatus": "變更狀態",
+    "pleaseInputDownloadReason": "請輸入下載原因",
+    "pleaseInputChangeReason": "請輸入變更原因"
+  },
+  "history": {
+    "changeTime": "變更時間",
+    "oldType": "原類型",
+    "newType": "新類型",
+    "oldStatus": "原狀態",
+    "newStatus": "新狀態",
+    "changeReason": "變更原因",
+    "operator": "操作人",
+    "downloadTime": "下載時間",
+    "downloadReason": "下載原因",
+    "typeHistory": "類型變更歷史",
+    "statusHistory": "狀態變更歷史"
+  },
+  "transfer": {
+    "id": "轉賬ID",
+    "fromWallet": "來源錢包",
+    "toWallet": "目標錢包",
+    "amount": "轉賬金額",
+    "price": "價格",
+    "cost": "成本",
+    "status": {
+      "label": "轉賬狀態",
+      "submitted": "已提交",
+      "onChain": "已上鏈",
+      "confirming": "確認中",
+      "completed": "已完成",
+      "failed": "失敗"
+    },
+    "time": {
+      "create": "創建時間",
+      "submit": "提交時間",
+      "onChain": "上鏈時間",
+      "complete": "完成時間",
+      "update": "更新時間"
+    }
+  },
+  "message": {
+    "copySuccess": "複製成功",
+    "copyFailed": "複製失敗",
+    "changeSuccess": "變更成功",
+    "downloadSuccess": "下載成功"
+  },
+  "status": {
+    "enabled": "已啟用",
+    "disabled": "已禁用"
+  }
+} 

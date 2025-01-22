@@ -1,0 +1,96 @@
+{
+  "walletInfo": {
+    "walletId": "WALLET20240315001",
+    "address": "0x1234567890abcdef1234567890abcdef12345678",
+    "chainType": "ETH",
+    "merchant": "商戶A",
+    "userId": "USER001",
+    "walletType": "collection",
+    "isDisabled": false
+  },
+  "privateKeyHistory": [
+    {
+      "key": "1",
+      "operator": "Admin",
+      "reason": "例行備份",
+      "time": "2024-03-15 10:30:25"
+    },
+    {
+      "key": "2",
+      "operator": "Manager",
+      "reason": "安全檢查",
+      "time": "2024-03-14 15:45:30"
+    }
+  ],
+  "typeHistory": [
+    {
+      "key": "1",
+      "operator": "Admin",
+      "reason": "業務需求",
+      "beforeType": "user",
+      "afterType": "collection",
+      "time": "2024-03-15 10:30:25"
+    },
+    {
+      "key": "2",
+      "operator": "Manager",
+      "reason": "功能調整",
+      "beforeType": "transfer",
+      "afterType": "user",
+      "time": "2024-03-14 15:45:30"
+    }
+  ],
+  "transferHistory": [
+    {
+      "key": "1",
+      "transferId": "T20240315001",
+      "fromWallet": "0x1234...5678",
+      "toWallet": "0xabcd...ef90",
+      "amount": "1000.00000000",
+      "price": "1.00000000",
+      "cost": "1000.00000000",
+      "status": "completed",
+      "confirmations": 12,
+      "requiredConfirmations": 12,
+      "createTime": "2024-03-15 10:00:00",
+      "submitTime": "2024-03-15 10:01:00",
+      "onChainTime": "2024-03-15 10:02:00",
+      "completeTime": "2024-03-15 10:10:00",
+      "updateTime": "2024-03-15 10:10:00"
+    },
+    {
+      "key": "2",
+      "transferId": "T20240315002",
+      "fromWallet": "0x1234...5678",
+      "toWallet": "0xabcd...ef90",
+      "amount": "2000.00000000",
+      "price": "1.00000000",
+      "cost": "2000.00000000",
+      "status": "confirming",
+      "confirmations": 6,
+      "requiredConfirmations": 12,
+      "createTime": "2024-03-15 11:00:00",
+      "submitTime": "2024-03-15 11:01:00",
+      "onChainTime": "2024-03-15 11:02:00",
+      "completeTime": null,
+      "updateTime": "2024-03-15 11:05:00"
+    },
+    {
+      "key": "3",
+      "transferId": "T20240315003",
+      "fromWallet": "0x1234...5678",
+      "toWallet": "0xabcd...ef90",
+      "amount": "3000.00000000",
+      "price": "1.00000000",
+      "cost": "3000.00000000",
+      "status": "submitted",
+      "confirmations": 0,
+      "requiredConfirmations": 12,
+      "createTime": "2024-03-15 12:00:00",
+      "submitTime": "2024-03-15 12:01:00",
+      "onChainTime": null,
+      "completeTime": null,
+      "updateTime": "2024-03-15 12:01:00"
+    }
+  ]
+} 
