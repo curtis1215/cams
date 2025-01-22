@@ -272,6 +272,11 @@ const localeOptions = [
   justify-content: space-between;
   align-items: center;
   padding: 0 24px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
 }
 
 .logo {
@@ -294,5 +299,20 @@ const localeOptions = [
 
 .user-dropdown:hover {
   color: #1890ff;
+}
+
+:deep(.ant-layout-sider) {
+  position: fixed;
+  left: 0;
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+  z-index: 999;
+  top: 64px;
+}
+
+:deep(.ant-layout-content) {
+  margin-left: 200px;
+  margin-top: 64px;
+  overflow-y: auto;
 }
 </style>
