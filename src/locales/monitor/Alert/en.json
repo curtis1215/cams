@@ -4,7 +4,8 @@
     "nodeHeight": "Node Height Alert",
     "withdrawDuration": "Withdrawal Duration Alert",
     "largeAmount": "Large Transaction Alert",
-    "unconfirmedTransfer": "Unconfirmed Transfers"
+    "unconfirmedTransfer": "Unconfirmed Transfers",
+    "walletBalance": "Wallet Balance Alert"
   },
   "settings": "Settings",
   "modal": {
@@ -36,6 +37,10 @@
     "chainHeight": "Chain Height",
     "alertReason": "Alert Reason",
     "walletId": "Wallet ID",
+    "walletType": "Wallet Type",
+    "currentBalance": "Current Balance",
+    "storageLimit": "Storage Limit",
+    "remainingLevel": "Remaining Level",
     "transferAmount": "Transfer Amount",
     "time": "Time",
     "transferId": "Transfer ID",
@@ -71,6 +76,7 @@
     "withdrawDuration": "Withdrawal Duration Alert",
     "largeAmount": "Large Transaction Alert",
     "unconfirmedTransfer": "Unconfirmed Transfers",
+    "walletBalance": "Wallet Balance Alert",
     "lessThan30": "Under 30 mins",
     "between30And60": "30-60 mins",
     "moreThan60": "Over 60 mins"

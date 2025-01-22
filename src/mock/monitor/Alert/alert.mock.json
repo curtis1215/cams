@@ -196,5 +196,52 @@
       "time": "2024-01-01 10:30:00",
       "duration": 75
     }
+  ],
+  "walletBalanceData": [
+    {
+      "merchant": "商戶A",
+      "walletId": "HOT_WALLET_001",
+      "walletType": "熱錢包",
+      "currentBalance": "1000000",
+      "storageLimit": "5000000",
+      "remainingLevel": 80,
+      "duration": 15
+    },
+    {
+      "merchant": "商戶B",
+      "walletId": "HOT_WALLET_002",
+      "walletType": "熱錢包",
+      "currentBalance": "800000",
+      "storageLimit": "2000000",
+      "remainingLevel": 40,
+      "duration": 35
+    },
+    {
+      "merchant": "商戶C",
+      "walletId": "COLD_WALLET_001",
+      "walletType": "冷錢包",
+      "currentBalance": "100000",
+      "storageLimit": "1000000",
+      "remainingLevel": 10,
+      "duration": 45
+    },
+    {
+      "merchant": "商戶D",
+      "walletId": "HOT_WALLET_003",
+      "walletType": "熱錢包",
+      "currentBalance": "300000",
+      "storageLimit": "2000000",
+      "remainingLevel": 15,
+      "duration": 65
+    },
+    {
+      "merchant": "商戶E",
+      "walletId": "COLD_WALLET_002",
+      "walletType": "冷錢包",
+      "currentBalance": "5000000",
+      "storageLimit": "10000000",
+      "remainingLevel": 50,
+      "duration": 75
+    }
   ]
 } 

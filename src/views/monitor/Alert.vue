@@ -164,6 +164,33 @@
       </div>
     </a-card>
 
+    <!-- 錢包水位告警卡片 -->
+    <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
+      <template #title>
+        <div class="card-header">
+          <span class="card-title">{{ t('card.walletBalance') }}</span>
+        </div>
+      </template>
+
+      <div class="table-container">
+        <a-table
+          :columns="walletBalanceColumns"
+          :data-source="walletBalanceData"
+          :pagination="pagination"
+          :scroll="{ x: 1000 }"
+          :bordered="true"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'remainingLevel'">
+              <span :style="{ color: getRemainingLevelColor(record.remainingLevel) }">
+                {{ record.remainingLevel }}%
+              </span>
+            </template>
+          </template>
+        </a-table>
+      </div>
+    </a-card>
+
     <!-- 設置彈窗 -->
     <a-modal
       v-model:open="settingModalVisible"
@@ -523,6 +550,47 @@ const unconfirmedColumns = computed(() => [
   },
 ])
 
+const walletBalanceColumns = computed(() => [
+  {
+    title: t('column.merchant'),
+    dataIndex: 'merchant',
+    key: 'merchant',
+    width: 120,
+  },
+  {
+    title: t('column.walletId'),
+    dataIndex: 'walletId',
+    key: 'walletId',
+    width: 200,
+  },
+  {
+    title: t('column.walletType'),
+    dataIndex: 'walletType',
+    key: 'walletType',
+    width: 120,
+  },
+  {
+    title: t('column.currentBalance'),
+    dataIndex: 'currentBalance',
+    key: 'currentBalance',
+    width: 150,
+  },
+  {
+    title: t('column.storageLimit'),
+    dataIndex: 'storageLimit',
+    key: 'storageLimit',
+    width: 150,
+  },
+  {
+    title: t('column.remainingLevel'),
+    dataIndex: 'remainingLevel',
+    key: 'remainingLevel',
+    width: 150,
+  },
+])
+
+const walletBalanceData = computed(() => mockData.walletBalanceData || [])
+
 const isHeightColumn = (key) => {
   return ['serviceHeight', 'nodeHeight', 'chainHeight'].includes(key)
 }
@@ -605,6 +673,12 @@ const handleHeightSettingSave = () => {
   heightSettingModalVisible.value = false
 }
 
+const getRemainingLevelColor = (level) => {
+  if (level <= 20) return '#ff4d4f'
+  if (level <= 50) return '#faad14'
+  return '#52c41a'
+}
+
 const alertStatistics = computed(() => [
   {
     title: t('statistics.nodeHeight'),
@@ -629,6 +703,12 @@ const alertStatistics = computed(() => [
     under30: unconfirmedTransferData.value.filter(item => item.duration < 30).length,
     between30And60: unconfirmedTransferData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
     over60: unconfirmedTransferData.value.filter(item => item.duration >= 60).length
+  },
+  {
+    title: t('statistics.walletBalance'),
+    under30: walletBalanceData.value.filter(item => item.duration < 30).length,
+    between30And60: walletBalanceData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
+    over60: walletBalanceData.value.filter(item => item.duration >= 60).length
   }
 ])
 
@@ -768,13 +848,13 @@ const pagination = {
 
 .statistics-container {
   display: flex;
-  gap: 24px;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
 .stat-item {
-  flex: 1;
-  min-width: 280px;
+  flex: 0 0 calc(20% - 13px);  /* 5張卡片，每張佔20%寬度，減去間距 */
+  min-width: 200px;
   background: #1f1f1f;
   border-radius: 8px;
   padding: 16px;
@@ -782,26 +862,29 @@ const pagination = {
 }
 
 .stat-title {
-  font-size: 16px;
+  font-size: 14px;  /* 調小字體大小 */
   font-weight: 500;
   margin-bottom: 16px;
   color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;  /* 防止標題換行 */
+  overflow: hidden;
+  text-overflow: ellipsis;  /* 超出部分顯示省略號 */
 }
 
 .stat-numbers {
   display: flex;
-  gap: 16px;
+  gap: 8px;  /* 減小數字之間的間距 */
   justify-content: center;
   padding: 8px 0;
 }
 
 .number-value {
-  font-size: 24px;
+  font-size: 20px;  /* 調小數字大小 */
   font-weight: 600;
-  min-width: 60px;
+  min-width: 50px;  /* 減小最小寬度 */
   text-align: center;
-  padding: 12px 16px;
-  border-radius: 8px;
+  padding: 8px 12px;  /* 減小內邊距 */
+  border-radius: 6px;
 }
 
 .number-value.success {

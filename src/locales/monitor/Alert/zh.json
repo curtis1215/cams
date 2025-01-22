@@ -4,7 +4,8 @@
     "nodeHeight": "節點高度告警",
     "withdrawDuration": "提幣時長告警",
     "largeAmount": "大額充提幣告警",
-    "unconfirmedTransfer": "未確認轉帳"
+    "unconfirmedTransfer": "未確認轉帳",
+    "walletBalance": "錢包水位告警"
   },
   "settings": "告警設置",
   "modal": {
@@ -36,6 +37,10 @@
     "chainHeight": "鏈高度",
     "alertReason": "告警原因",
     "walletId": "錢包ID",
+    "walletType": "錢包類型",
+    "currentBalance": "當前餘額",
+    "storageLimit": "儲存上限",
+    "remainingLevel": "剩餘水位",
     "transferAmount": "轉帳數量",
     "time": "時間",
     "transferId": "轉帳單號",
@@ -71,6 +76,7 @@
     "withdrawDuration": "提幣時長告警",
     "largeAmount": "大額充提幣告警",
     "unconfirmedTransfer": "未確認轉帳",
+    "walletBalance": "錢包水位告警",
     "lessThan30": "30分鐘以內",
     "between30And60": "30-60分鐘",
     "moreThan60": "60分鐘以上"
