@@ -62,91 +62,93 @@
     </a-card>
 
     <a-card :title="t('title.orderList')" class="list-card">
-      <a-table
-        :columns="columns"
-        :data-source="tableData"
-        :pagination="pagination"
-        :bordered="true"
-        @change="handleTableChange"
-      >
-        <template #bodyCell="{ column, text, record }">
-          <template v-if="column.key === 'merchant'">
-            {{ text }}
-          </template>
-          
-          <template v-else-if="column.key === 'orderInfo'">
-            <div class="order-info">
-              <div class="info-item">
-                <span class="label">{{ t('field.platformOrderId') }}:</span>
-                <span>{{ record.platformOrderId }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">{{ t('field.merchantOrderId') }}:</span>
-                <span>{{ record.merchantOrderId }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">{{ t('field.transferId') }}:</span>
-                <a @click="handleTransferIdClick(record.transferId)">{{ record.transferId }}</a>
-              </div>
-              <div class="info-item">
-                <span class="label">TxHash:</span>
-                <div class="txhash-container">
-                  <span>{{ formatTxHash(record.txHash) }}</span>
-                  <copy-outlined class="action-icon" @click="copyTxHash(record.txHash)" />
-                  <link-outlined class="action-icon" @click="handleTxHashClick(record.txHash)" />
+      <div class="table-container">
+        <a-table
+          :columns="columns"
+          :data-source="tableData"
+          :pagination="pagination"
+          :bordered="true"
+          @change="handleTableChange"
+        >
+          <template #bodyCell="{ column, text, record }">
+            <template v-if="column.key === 'merchant'">
+              {{ text }}
+            </template>
+            
+            <template v-else-if="column.key === 'orderInfo'">
+              <div class="order-info">
+                <div class="info-item">
+                  <span class="label">{{ t('field.platformOrderId') }}:</span>
+                  <span>{{ record.platformOrderId }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">{{ t('field.merchantOrderId') }}:</span>
+                  <span>{{ record.merchantOrderId }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">{{ t('field.transferId') }}:</span>
+                  <a @click="handleTransferIdClick(record.transferId)">{{ record.transferId }}</a>
+                </div>
+                <div class="info-item">
+                  <span class="label">TxHash:</span>
+                  <div class="txhash-container">
+                    <span>{{ formatTxHash(record.txHash) }}</span>
+                    <copy-outlined class="action-icon" @click="copyTxHash(record.txHash)" />
+                    <link-outlined class="action-icon" @click="handleTxHashClick(record.txHash)" />
+                  </div>
                 </div>
               </div>
-            </div>
-          </template>
+            </template>
 
-          <template v-else-if="column.key === 'address'">
-            <div class="address-container">
-              <span>{{ formatAddress(text) }}</span>
-              <copy-outlined class="copy-icon" @click="copyAddress(text)" />
-            </div>
-          </template>
+            <template v-else-if="column.key === 'address'">
+              <div class="address-container">
+                <span>{{ formatAddress(text) }}</span>
+                <copy-outlined class="copy-icon" @click="copyAddress(text)" />
+              </div>
+            </template>
 
-          <template v-else-if="column.key === 'orderStatus'">
-            <a-tag :class="['status-tag', `status-${record.orderStatus}`]">
-              {{ getOrderStatusText(record) }}
-            </a-tag>
-          </template>
-
-          <template v-else-if="column.key === 'notifyStatus'">
-            <div class="notify-status-container">
-              <a-tag :class="['status-tag', `notify-${record.notifyStatus}`]">
-                {{ getNotifyStatusText(record.notifyStatus) }}
+            <template v-else-if="column.key === 'orderStatus'">
+              <a-tag :class="['status-tag', `status-${record.orderStatus}`]">
+                {{ getOrderStatusText(record) }}
               </a-tag>
-              <a-button
-                v-if="record.notifyStatus === 'timeout'"
-                type="link"
-                size="small"
-                class="retry-button"
-                @click="handleRetryNotify(record)"
-              >
-                {{ t('action.retry') }}
-              </a-button>
-            </div>
-          </template>
+            </template>
 
-          <template v-else-if="column.key === 'timeInfo'">
-            <div class="time-info">
-              <div class="info-item">
-                <span class="label">{{ t('field.createTime') }}:</span>
-                <span>{{ record.createTime }}</span>
+            <template v-else-if="column.key === 'notifyStatus'">
+              <div class="notify-status-container">
+                <a-tag :class="['status-tag', `notify-${record.notifyStatus}`]">
+                  {{ getNotifyStatusText(record.notifyStatus) }}
+                </a-tag>
+                <a-button
+                  v-if="record.notifyStatus === 'timeout'"
+                  type="link"
+                  size="small"
+                  class="retry-button"
+                  @click="handleRetryNotify(record)"
+                >
+                  {{ t('action.retry') }}
+                </a-button>
               </div>
-              <div class="info-item">
-                <span class="label">{{ t('field.successTime') }}:</span>
-                <span>{{ record.successTime || '-' }}</span>
+            </template>
+
+            <template v-else-if="column.key === 'timeInfo'">
+              <div class="time-info">
+                <div class="info-item">
+                  <span class="label">{{ t('field.createTime') }}:</span>
+                  <span>{{ record.createTime }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">{{ t('field.successTime') }}:</span>
+                  <span>{{ record.successTime || '-' }}</span>
+                </div>
+                <div class="info-item">
+                  <span class="label">{{ t('field.notifyTime') }}:</span>
+                  <span>{{ record.notifyTime || '-' }}</span>
+                </div>
               </div>
-              <div class="info-item">
-                <span class="label">{{ t('field.notifyTime') }}:</span>
-                <span>{{ record.notifyTime || '-' }}</span>
-              </div>
-            </div>
+            </template>
           </template>
-        </template>
-      </a-table>
+        </a-table>
+      </div>
     </a-card>
 
     <!-- 通知詳情彈窗 -->
@@ -163,15 +165,27 @@
         </div>
         <div class="detail-item">
           <div class="detail-label">{{ t('field.notifyContent') }}:</div>
-          <a-card class="code-card">
-            <pre class="code-block">{{ formatJson(notifyContent) }}</pre>
-          </a-card>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>JSON</span>
+              <copy-outlined class="copy-icon" @click="copyContent(notifyContent)" />
+            </div>
+            <a-card class="code-card">
+              <pre class="code-block json"><code v-html="highlightJson(notifyContent)"></code></pre>
+            </a-card>
+          </div>
         </div>
         <div class="detail-item">
           <div class="detail-label">{{ t('field.errorContent') }}:</div>
-          <a-card class="code-card">
-            <pre class="code-block">{{ formatJson(errorContent) }}</pre>
-          </a-card>
+          <div class="code-block-wrapper">
+            <div class="code-header">
+              <span>JSON</span>
+              <copy-outlined class="copy-icon" @click="copyContent(errorContent)" />
+            </div>
+            <a-card class="code-card">
+              <pre class="code-block json"><code v-html="highlightJson(errorContent)"></code></pre>
+            </a-card>
+          </div>
         </div>
       </div>
       <template #footer>
@@ -389,8 +403,36 @@ const handleNotifyRetry = () => {
   currentRecord.value = null
 }
 
-const formatJson = (json) => {
-  return JSON.stringify(json, null, 2)
+const highlightJson = (json) => {
+  const jsonString = JSON.stringify(json, null, 2)
+  return jsonString
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, (match) => {
+      let cls = 'number'
+      if (/^"/.test(match)) {
+        if (/:$/.test(match)) {
+          cls = 'key'
+        } else {
+          cls = 'string'
+        }
+      } else if (/true|false/.test(match)) {
+        cls = 'boolean'
+      } else if (/null/.test(match)) {
+        cls = 'null'
+      }
+      return `<span class="json-${cls}">${match}</span>`
+    })
+}
+
+const copyContent = async (content) => {
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(content, null, 2))
+    message.success(t('message.copySuccess'))
+  } catch (err) {
+    message.error(t('message.copyFailed'))
+  }
 }
 
 const formatTxHash = (hash) => {
@@ -415,6 +457,12 @@ const copyTxHash = async (hash) => {
 
 .filter-card {
   margin-bottom: 24px;
+  background: #141414;
+}
+
+.list-card {
+  margin-bottom: 24px;
+  background: #141414;
 }
 
 :deep(.ant-card) {
@@ -436,6 +484,7 @@ const copyTxHash = async (hash) => {
 
 :deep(.ant-card-body) {
   background-color: #141414;
+  padding: 20px 24px;
 }
 
 .query-form {
@@ -484,8 +533,10 @@ const copyTxHash = async (hash) => {
   justify-content: flex-end;
 }
 
-.list-card {
-  margin-bottom: 24px;
+.table-container {
+  padding: 12px;
+  background: #141414;
+  border-radius: 8px;
 }
 
 .order-info {
@@ -660,18 +711,60 @@ const copyTxHash = async (hash) => {
   width: 100%;
 }
 
-.code-card {
-  background: #000;
+.code-block-wrapper {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #1a1a1a;
   border: 1px solid #303030;
+  border-bottom: none;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  font-family: monospace;
+  font-size: 12px;
+  color: #a9b7c6;
+}
+
+.code-card {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  background: #000;
 }
 
 .code-block {
   margin: 0;
-  padding: 8px;
-  font-family: monospace;
-  font-size: 12px;
+  padding: 12px;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 13px;
+  line-height: 1.5;
   color: #a9b7c6;
   white-space: pre-wrap;
   word-break: break-all;
+}
+
+.json-string {
+  color: #6a8759;
+}
+
+.json-number {
+  color: #6897bb;
+}
+
+.json-boolean {
+  color: #cc7832;
+}
+
+.json-null {
+  color: #cc7832;
+}
+
+.json-key {
+  color: #9876aa;
 }
 </style> 
