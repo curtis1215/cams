@@ -6,8 +6,8 @@
         <a-switch
           :checked="isDark"
           @change="toggleDark"
-          :checkedChildren="$t('common.darkMode')"
-          :unCheckedChildren="$t('common.lightMode')"
+          :checkedChildren="t('common.darkMode')"
+          :unCheckedChildren="t('common.lightMode')"
         />
         <a-select
           v-model:value="currentLocale"
@@ -26,7 +26,7 @@
             <a-menu>
               <a-menu-item @click="handleLogout">
                 <LogoutOutlined />
-                <span>{{ $t('logout') }}</span>
+                <span>{{ t('user.logout') }}</span>
               </a-menu-item>
             </a-menu>
           </template>
@@ -45,95 +45,95 @@
             <template #title>
               <span>
                 <FundOutlined />
-                {{ $t('nav.monitoring') }}
+                {{ t('nav.monitoring') }}
               </span>
             </template>
             <a-menu-item key="dashboard" @click="router.push('/monitor/dashboard')">
               <DashboardOutlined />
-              {{ $t('nav.dataMonitoring') }}
+              {{ t('nav.dataMonitoring') }}
             </a-menu-item>
             <a-menu-item key="alert" @click="router.push('/monitor/alert')">
               <AlertOutlined />
-              {{ $t('nav.alertMonitoring') }}
+              {{ t('nav.alertMonitoring') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="wallet">
             <template #title>
               <span>
                 <WalletOutlined />
-                {{ $t('nav.walletManagement') }}
+                {{ t('nav.walletManagement') }}
               </span>
             </template>
             <a-menu-item key="walletQuery" @click="router.push('/wallet/query')">
               <SearchOutlined />
-              {{ $t('nav.walletQuery') }}
+              {{ t('nav.walletQuery') }}
             </a-menu-item>
             <a-menu-item key="walletDetail" @click="router.push('/wallet/detail')">
               <FileSearchOutlined />
-              {{ $t('nav.walletDetail') }}
+              {{ t('nav.walletDetail') }}
             </a-menu-item>
             <a-menu-item key="walletTransfer" @click="router.push('/wallet/transfer')">
               <SwapOutlined />
-              {{ $t('nav.walletTransfer') }}
+              {{ t('nav.walletTransfer') }}
             </a-menu-item>
             <a-menu-item key="tokenExchange" @click="router.push('/wallet/token-exchange')">
               <SyncOutlined />
-              {{ $t('nav.tokenExchangeManagement') }}
+              {{ t('nav.tokenExchangeManagement') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="order">
             <template #title>
               <span>
                 <OrderedListOutlined />
-                {{ $t('nav.orderManagement') }}
+                {{ t('nav.orderManagement') }}
               </span>
             </template>
             <a-menu-item key="depositOrder" @click="router.push('/order/deposit')">
               <PayCircleOutlined />
-              {{ $t('nav.depositOrderQuery') }}
+              {{ t('nav.depositOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="withdrawOrder" @click="router.push('/order/withdraw')">
               <BankOutlined />
-              {{ $t('nav.withdrawOrderQuery') }}
+              {{ t('nav.withdrawOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="transferOrder" @click="router.push('/order/transfer')">
               <SwapOutlined />
-              {{ $t('nav.transferOrderQuery') }}
+              {{ t('nav.transferOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="exchangeOrder" @click="router.push('/order/exchange')">
               <SyncOutlined />
-              {{ $t('nav.exchangeOrderQuery') }}
+              {{ t('nav.exchangeOrderQuery') }}
             </a-menu-item>
             <a-menu-item key="transactionDetail" @click="router.push('/order/transaction')">
               <TransactionOutlined />
-              {{ $t('nav.transactionDetailQuery') }}
+              {{ t('nav.transactionDetailQuery') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="params">
             <template #title>
               <span>
                 <ToolOutlined />
-                {{ $t('nav.paramsManagement') }}
+                {{ t('nav.paramsManagement') }}
               </span>
             </template>
             <a-menu-item key="blockchain" @click="router.push('/params/blockchain')">
               <BlockOutlined />
-              {{ $t('nav.blockchainManagement') }}
+              {{ t('nav.blockchainManagement') }}
             </a-menu-item>
             <a-menu-item key="contractCoin" @click="router.push('/params/contract-coin')">
               <CodeOutlined />
-              {{ $t('nav.contractCoinManagement') }}
+              {{ t('nav.contractCoinManagement') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="system">
             <template #title>
               <span>
                 <SettingOutlined />
-                {{ $t('nav.system') }}
+                {{ t('nav.system') }}
               </span>
             </template>
-            <a-menu-item key="users">{{ $t('nav.userManagement') }}</a-menu-item>
-            <a-menu-item key="roles">{{ $t('nav.roleManagement') }}</a-menu-item>
+            <a-menu-item key="users">{{ t('nav.userManagement') }}</a-menu-item>
+            <a-menu-item key="roles">{{ t('nav.roleManagement') }}</a-menu-item>
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
@@ -172,11 +172,12 @@ import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import storage from '../services/storage'
 
+const { t, locale } = useI18n()
+
 const router = useRouter()
 const route = useRoute()
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
-const { locale } = useI18n()
 const currentLocale = ref(locale.value)
 const username = ref('')
 const selectedKeys = ref(['dashboard'])

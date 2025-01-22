@@ -35,8 +35,8 @@
     "createTime": "Create Time",
     "updateTime": "Update Time",
     "remark": "Remark",
-    "darkMode": "Dark",
-    "lightMode": "Light",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
     "walletId": "Wallet ID",
     "assetValue": "Asset Value",
     "status": {
@@ -151,14 +151,14 @@
     "walletQuery": "Wallet Query",
     "walletDetail": "Wallet Detail",
     "walletTransfer": "Wallet Transfer",
-    "tokenExchangeManagement": "Token Exchange Management",
+    "tokenExchangeManagement": "Token Exchange",
     "orderManagement": "Order Management",
-    "depositOrderQuery": "Deposit Order Query",
-    "withdrawOrderQuery": "Withdraw Order Query",
-    "transferOrderQuery": "Transfer Order Query",
-    "exchangeOrderQuery": "Exchange Order Query",
-    "transactionDetailQuery": "Transaction Detail Query",
-    "paramsManagement": "Parameters Management",
+    "depositOrderQuery": "Deposit Orders",
+    "withdrawOrderQuery": "Withdraw Orders",
+    "transferOrderQuery": "Transfer Orders",
+    "exchangeOrderQuery": "Exchange Orders",
+    "transactionDetailQuery": "Transaction Details",
+    "paramsManagement": "Parameters",
     "blockchainManagement": "Blockchain Management",
     "contractCoinManagement": "Contract Coin Management",
     "system": "System",
@@ -464,7 +464,8 @@
     "management": "User Management",
     "role": "Role Management",
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+    "logout": "Logout"
   },
 
   "prompt": {

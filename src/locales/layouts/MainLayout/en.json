@@ -1,0 +1,31 @@
+{
+  "common": {
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  },
+  "user": {
+    "logout": "Logout"
+  },
+  "nav": {
+    "monitoring": "Monitoring",
+    "dataMonitoring": "Data Monitoring",
+    "alertMonitoring": "Alert Monitoring",
+    "walletManagement": "Wallet Management",
+    "walletQuery": "Wallet Query",
+    "walletDetail": "Wallet Detail",
+    "walletTransfer": "Wallet Transfer",
+    "tokenExchangeManagement": "Token Exchange",
+    "orderManagement": "Order Management",
+    "depositOrderQuery": "Deposit Orders",
+    "withdrawOrderQuery": "Withdraw Orders",
+    "transferOrderQuery": "Transfer Orders",
+    "exchangeOrderQuery": "Exchange Orders",
+    "transactionDetailQuery": "Transaction Details",
+    "paramsManagement": "Parameters",
+    "blockchainManagement": "Blockchain Management",
+    "contractCoinManagement": "Contract Coin Management",
+    "system": "System",
+    "userManagement": "User Management",
+    "roleManagement": "Role Management"
+  }
+} 

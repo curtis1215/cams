@@ -35,8 +35,8 @@
     "createTime": "創建時間",
     "updateTime": "更新時間",
     "remark": "備註",
-    "darkMode": "深色",
-    "lightMode": "淺色",
+    "darkMode": "暗色模式",
+    "lightMode": "亮色模式",
     "walletId": "錢包ID",
     "assetValue": "資產價值",
     "field": {
@@ -178,7 +178,7 @@
 
   "nav": {
     "dashboard": "儀表板",
-    "monitoring": "監控",
+    "monitoring": "監控管理",
     "dataMonitoring": "數據監控",
     "alertMonitoring": "告警監控",
     "settings": "設置",
@@ -190,11 +190,11 @@
     "walletTransfer": "錢包轉賬",
     "tokenExchangeManagement": "代幣兌換管理",
     "orderManagement": "訂單管理",
-    "depositOrderQuery": "存款訂單查詢",
+    "depositOrderQuery": "充值訂單查詢",
     "withdrawOrderQuery": "提現訂單查詢",
     "transferOrderQuery": "轉賬訂單查詢",
     "exchangeOrderQuery": "兌換訂單查詢",
-    "transactionDetailQuery": "交易詳情查詢",
+    "transactionDetailQuery": "交易明細查詢",
     "paramsManagement": "參數管理",
     "blockchainManagement": "區塊鏈管理",
     "contractCoinManagement": "合約幣種管理",
@@ -542,6 +542,7 @@
     "management": "用戶管理",
     "role": "角色管理",
     "username": "用戶名",
-    "password": "密碼"
+    "password": "密碼",
+    "logout": "登出"
   }
 }
