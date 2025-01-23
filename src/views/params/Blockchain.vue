@@ -63,92 +63,144 @@
       @ok="handleModalConfirm"
       @cancel="handleModalCancel"
       :confirmLoading="confirmLoading"
-      width="600px"
+      width="800px"
     >
-      <a-form
-        :model="formData"
-        :rules="formRules"
-        ref="formRef"
-        layout="vertical"
-      >
-        <a-form-item :label="t('field.chainName')" name="chainName">
-          <a-input
-            v-model:value="formData.chainName"
-            :placeholder="t('prompt.inputChainName')"
-          />
-        </a-form-item>
+      <a-tabs v-model:activeKey="activeTabKey">
+        <!-- 區塊鏈資訊分頁 -->
+        <a-tab-pane :key="1" :tab="t('tabs.blockchainInfo')">
+          <a-form
+            :model="formData"
+            :rules="formRules"
+            ref="formRef"
+            layout="vertical"
+          >
+            <a-form-item :label="t('field.chainName')" name="chainName">
+              <a-input
+                v-model:value="formData.chainName"
+                :placeholder="t('prompt.inputChainName')"
+              />
+            </a-form-item>
 
-        <a-form-item :label="t('field.chainCode')" name="chainCode">
-          <a-input
-            v-model:value="formData.chainCode"
-            :placeholder="t('prompt.inputChainCode')"
-          />
-        </a-form-item>
+            <a-form-item :label="t('field.chainCode')" name="chainCode">
+              <a-input
+                v-model:value="formData.chainCode"
+                :placeholder="t('prompt.inputChainCode')"
+              />
+            </a-form-item>
 
-        <a-form-item :label="t('field.servicePath')" name="servicePath">
-          <a-input
-            v-model:value="formData.servicePath"
-            :placeholder="t('prompt.inputServicePath')"
-            :disabled="true"
-            :value="'cryp-' + formData.chainCode"
-          />
-        </a-form-item>
+            <a-form-item :label="t('field.servicePath')" name="servicePath">
+              <a-input
+                v-model:value="formData.servicePath"
+                :placeholder="t('prompt.inputServicePath')"
+                :disabled="true"
+                :value="'cryp-' + formData.chainCode"
+              />
+            </a-form-item>
 
-        <a-form-item :label="t('field.confirmBlocks')" name="confirmBlocks">
-          <a-input-number
-            v-model:value="formData.confirmBlocks"
-            :placeholder="t('prompt.inputConfirmBlocks')"
-            :min="1"
-            style="width: 100%"
-          />
-        </a-form-item>
+            <a-form-item :label="t('field.confirmBlocks')" name="confirmBlocks">
+              <a-input-number
+                v-model:value="formData.confirmBlocks"
+                :placeholder="t('prompt.inputConfirmBlocks')"
+                :min="1"
+                style="width: 100%"
+              />
+            </a-form-item>
 
-        <a-form-item :label="t('field.unlockBlocks')" name="unlockBlocks">
-          <a-input-number
-            v-model:value="formData.unlockBlocks"
-            :placeholder="t('prompt.inputUnlockBlocks')"
-            :min="1"
-            style="width: 100%"
-          />
-        </a-form-item>
+            <a-form-item :label="t('field.unlockBlocks')" name="unlockBlocks">
+              <a-input-number
+                v-model:value="formData.unlockBlocks"
+                :placeholder="t('prompt.inputUnlockBlocks')"
+                :min="1"
+                style="width: 100%"
+              />
+            </a-form-item>
 
-        <a-form-item :label="t('field.explorer')" name="explorer" :extra="t('description.explorer')">
-          <a-input
-            v-model:value="formData.explorer"
-            :placeholder="t('prompt.inputExplorer')"
-          />
-        </a-form-item>
+            <a-form-item :label="t('field.explorer')" name="explorer" :extra="t('description.explorer')">
+              <a-input
+                v-model:value="formData.explorer"
+                :placeholder="t('prompt.inputExplorer')"
+              />
+            </a-form-item>
 
-        <a-form-item :label="t('field.isEvm')" name="isEvm">
-          <a-checkbox v-model:checked="formData.isEvm" />
-        </a-form-item>
+            <a-form-item :label="t('field.isEvm')" name="isEvm">
+              <a-checkbox v-model:checked="formData.isEvm" />
+            </a-form-item>
 
-        <a-form-item 
-          :label="t('field.expectedTime')" 
-          name="expectedTime"
-          :extra="t('description.expectedTime')"
-        >
-          <a-input-number
-            v-model:value="formData.expectedTime"
-            :placeholder="t('prompt.inputExpectedTime')"
-            :min="1"
-            :addonAfter="t('prompt.minuteUnit')"
-            style="width: 100%"
-          />
-        </a-form-item>
+            <a-form-item 
+              :label="t('field.expectedTime')" 
+              name="expectedTime"
+              :extra="t('description.expectedTime')"
+            >
+              <a-input-number
+                v-model:value="formData.expectedTime"
+                :placeholder="t('prompt.inputExpectedTime')"
+                :min="1"
+                :addonAfter="t('prompt.minuteUnit')"
+                style="width: 100%"
+              />
+            </a-form-item>
 
-        <a-form-item 
-          :label="t('field.addressRegex')" 
-          name="addressRegex"
-          :extra="t('description.addressRegex')"
-        >
-          <a-textarea
-            v-model:value="formData.addressRegex"
-            :placeholder="t('prompt.inputAddressRegex')"
-            :auto-size="{ minRows: 2, maxRows: 6 }"
-          />
-        </a-form-item>
-      </a-form>
+            <a-form-item 
+              :label="t('field.addressRegex')" 
+              name="addressRegex"
+              :extra="t('description.addressRegex')"
+            >
+              <a-textarea
+                v-model:value="formData.addressRegex"
+                :placeholder="t('prompt.inputAddressRegex')"
+                :auto-size="{ minRows: 2, maxRows: 6 }"
+              />
+            </a-form-item>
+          </a-form>
+        </a-tab-pane>
+
+        <!-- 節點管理分頁 -->
+        <a-tab-pane :key="2" :tab="t('tabs.nodeManagement')">
+          <div class="node-management">
+            <div class="node-table-header">
+              <a-button type="primary" @click="handleAddNode">
+                <template #icon><PlusOutlined /></template>
+                {{ t('action.addNode') }}
+              </a-button>
+            </div>
+            <a-table
+              :columns="nodeColumns"
+              :data-source="formData.nodes"
+              :pagination="false"
+              :bordered="true"
+            >
+              <template #bodyCell="{ column, record, index }">
+                <template v-if="column.key === 'url'">
+                  <a-input
+                    v-model:value="record.url"
+                    :placeholder="t('prompt.inputNodeUrl')"
+                  />
+                </template>
+                <template v-if="column.key === 'priority'">
+                  <a-input-number
+                    v-model:value="record.priority"
+                    :min="1"
+                    :disabled="true"
+                    style="width: 100%"
+                  />
+                </template>
+                <template v-if="column.key === 'isCurrentUsing'">
+                  <a-checkbox
+                    v-model:checked="record.isCurrentUsing"
+                    @change="handleCurrentUsingChange(record, index)"
+                  />
+                </template>
+                <template v-if="column.key === 'action'">
+                  <DeleteOutlined 
+                    class="action-icon" 
+                    @click="handleDeleteNode(index)" 
+                  />
+                </template>
+              </template>
+            </a-table>
+          </div>
+        </a-tab-pane>
+      </a-tabs>
     </a-modal>
   </div>
 </template>
@@ -229,6 +281,36 @@ const columns = [
   }
 ]
 
+// 節點表格列配置
+const nodeColumns = [
+  {
+    title: t('field.nodeUrl'),
+    dataIndex: 'url',
+    key: 'url',
+    width: 300
+  },
+  {
+    title: t('field.priority'),
+    dataIndex: 'priority',
+    key: 'priority',
+    width: 100
+  },
+  {
+    title: t('field.isCurrentUsing'),
+    dataIndex: 'isCurrentUsing',
+    key: 'isCurrentUsing',
+    width: 100,
+    customRender: ({ text }) => {
+      return text ? '✓' : ''
+    }
+  },
+  {
+    title: t('action.action'),
+    key: 'action',
+    width: 80
+  }
+]
+
 // 表格數據
 const tableData = ref([])
 const pagination = reactive({
@@ -246,6 +328,7 @@ const modalTitle = ref('')
 const confirmLoading = ref(false)
 const formRef = ref(null)
 const isEdit = ref(false)
+const activeTabKey = ref(1)
 
 // 表單數據
 const formData = reactive({
@@ -257,7 +340,8 @@ const formData = reactive({
   explorer: '',
   isEvm: false,
   expectedTime: undefined,
-  addressRegex: ''
+  addressRegex: '',
+  nodes: []
 })
 
 // 表單驗證規則
@@ -267,7 +351,21 @@ const formRules = {
   servicePath: [{ required: true, message: t('prompt.inputServicePath') }],
   confirmBlocks: [{ required: true, message: t('prompt.inputConfirmBlocks') }],
   unlockBlocks: [{ required: true, message: t('prompt.inputUnlockBlocks') }],
-  expectedTime: [{ required: true, message: t('prompt.inputExpectedTime') }]
+  expectedTime: [{ required: true, message: t('prompt.inputExpectedTime') }],
+  nodes: [{ 
+    required: true, 
+    validator: (_, value) => {
+      if (!value || value.length === 0) {
+        return Promise.reject(new Error(t('prompt.inputNodeUrl')))
+      }
+      for (const node of value) {
+        if (!node.url) {
+          return Promise.reject(new Error(t('prompt.inputNodeUrl')))
+        }
+      }
+      return Promise.resolve()
+    }
+  }]
 }
 
 // 加載數據
@@ -300,9 +398,10 @@ const handleAdd = () => {
   isEdit.value = false
   modalTitle.value = t('title.addBlockchain')
   Object.keys(formData).forEach(key => {
-    formData[key] = undefined
+    formData[key] = key === 'nodes' ? [] : undefined
   })
   modalVisible.value = true
+  activeTabKey.value = 1 // 重置為第一個分頁
 }
 
 // 處理編輯
@@ -312,7 +411,12 @@ const handleEdit = (record) => {
   Object.keys(formData).forEach(key => {
     formData[key] = record[key]
   })
+  // 確保節點數據是數組
+  if (!formData.nodes) {
+    formData.nodes = []
+  }
   modalVisible.value = true
+  activeTabKey.value = 1 // 重置為第一個分頁
 }
 
 // 處理刪除
@@ -330,7 +434,7 @@ const handleModalConfirm = async () => {
     setTimeout(() => {
       modalVisible.value = false
       confirmLoading.value = false
-      message.success(isEdit.value ? '編輯成功' : '新增成功')
+      message.success(isEdit.value ? t('message.editSuccess') : t('message.addSuccess'))
       loadData()
     }, 1000)
   } catch (error) {
@@ -352,6 +456,48 @@ watch(() => formData.chainCode, (newVal) => {
     formData.servicePath = ''
   }
 })
+
+// 處理新增節點
+const handleAddNode = () => {
+  if (!formData.nodes) {
+    formData.nodes = []
+  }
+  formData.nodes.push({
+    url: '',
+    priority: formData.nodes.length + 1,
+    isCurrentUsing: formData.nodes.length === 0
+  })
+}
+
+// 處理刪除節點
+const handleDeleteNode = (index) => {
+  formData.nodes.splice(index, 1)
+  // 重新排序優先順序
+  formData.nodes.forEach((node, idx) => {
+    node.priority = idx + 1
+  })
+  // 如果刪除的是當前使用的節點，將第一個節點設為當前使用
+  if (!formData.nodes.some(node => node.isCurrentUsing) && formData.nodes.length > 0) {
+    formData.nodes[0].isCurrentUsing = true
+  }
+}
+
+// 處理當前使用節點變更
+const handleCurrentUsingChange = (record, index) => {
+  if (record.isCurrentUsing) {
+    // 將其他節點設為非當前使用
+    formData.nodes.forEach((node, idx) => {
+      if (idx !== index) {
+        node.isCurrentUsing = false
+      }
+    })
+  } else {
+    // 如果取消當前使用的節點，將第一個節點設為當前使用
+    if (!formData.nodes.some(node => node.isCurrentUsing)) {
+      formData.nodes[0].isCurrentUsing = true
+    }
+  }
+}
 
 // 初始化加載數據
 onMounted(() => {
@@ -490,5 +636,91 @@ onMounted(() => {
 
 :deep(.ant-form-item-extra) {
   color: rgba(255, 255, 255, 0.45);
+}
+
+.node-management {
+  padding: 12px;
+  background: #141414;
+  border-radius: 8px;
+}
+
+.node-table-header {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* 節點表格樣式 */
+.node-management :deep(.ant-table) {
+  background: transparent;
+}
+
+.node-management :deep(.ant-table-thead > tr > th) {
+  background: #1f1f1f;
+  border-bottom: 1px solid #303030;
+}
+
+.node-management :deep(.ant-table-tbody > tr > td) {
+  padding: 8px;
+  border-bottom: 1px solid #303030;
+}
+
+.node-management :deep(.ant-table-tbody > tr:hover > td) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.node-management :deep(.ant-input),
+.node-management :deep(.ant-input-number) {
+  width: 100%;
+  background-color: #1f1f1f;
+  border-color: #434343;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.node-management :deep(.ant-input:hover),
+.node-management :deep(.ant-input:focus),
+.node-management :deep(.ant-input-number:hover),
+.node-management :deep(.ant-input-number:focus) {
+  border-color: var(--ant-primary-color);
+}
+
+.node-management :deep(.ant-checkbox-inner) {
+  background-color: #1f1f1f;
+  border-color: #434343;
+}
+
+.node-management :deep(.ant-checkbox-checked .ant-checkbox-inner) {
+  background-color: var(--ant-primary-color);
+  border-color: var(--ant-primary-color);
+}
+
+/* 操作圖標樣式 */
+.node-management .action-icon {
+  font-size: 16px;
+  cursor: pointer;
+  padding: 4px 8px;
+  color: var(--ant-primary-color);
+}
+
+.node-management .action-icon:hover {
+  opacity: 0.8;
+}
+
+/* 分頁樣式 */
+:deep(.ant-tabs) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-tabs-tab) {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+:deep(.ant-tabs-tab-active) {
+  color: var(--ant-primary-color) !important;
+}
+
+:deep(.ant-tabs-ink-bar) {
+  background: var(--ant-primary-color);
 }
 </style> 

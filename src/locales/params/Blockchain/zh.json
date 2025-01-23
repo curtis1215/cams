@@ -5,6 +5,10 @@
     "addBlockchain": "新增區塊鏈",
     "editBlockchain": "編輯區塊鏈"
   },
+  "tabs": {
+    "blockchainInfo": "區塊鏈資訊",
+    "nodeManagement": "節點管理"
+  },
   "field": {
     "chainType": "鏈類型",
     "chainCode": "鏈代碼",
@@ -16,7 +20,10 @@
     "lastUpdateTime": "最後更新時間",
     "expectedTime": "預期轉帳時間",
     "isEvm": "是否為 EVM",
-    "addressRegex": "地址正則表達式"
+    "addressRegex": "地址正則表達式",
+    "nodeUrl": "節點URL",
+    "priority": "優先順序",
+    "isCurrentUsing": "當前使用"
   },
   "action": {
     "add": "新增",
@@ -25,7 +32,8 @@
     "action": "操作",
     "search": "查詢",
     "confirm": "確認",
-    "cancel": "取消"
+    "cancel": "取消",
+    "addNode": "新增節點"
   },
   "prompt": {
     "selectChainType": "請選擇鏈類型",
@@ -37,12 +45,16 @@
     "inputExplorer": "請輸入區塊瀏覽器地址",
     "inputExpectedTime": "請輸入預期轉帳時間",
     "inputAddressRegex": "請輸入地址正則表達式",
+    "inputNodeUrl": "請輸入節點URL",
+    "inputPriority": "請輸入優先順序",
     "minuteUnit": "分鐘"
   },
   "description": {
     "expectedTime": "轉帳上鏈超過該時間，則會觸發異常告警",
     "addressRegex": "未符合正則表達式地址，在提幣請求時將會直接拒絕",
-    "explorer": "請添加{hash}於url中需帶入txhash值的位置"
+    "explorer": "請添加{hash}於url中需帶入txhash值的位置",
+    "nodeUrl": "請輸入完整的節點URL，包含協議和端口",
+    "priority": "數字越小優先順序越高"
   },
   "common": {
     "pagination": {
