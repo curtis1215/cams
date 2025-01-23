@@ -1,7 +1,7 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="$t('common.prompt.selectMerchant')"
+    :placeholder="t('prompt.selectMerchant')"
     :style="style"
     allow-clear
     @update:value="handleChange"
@@ -15,8 +15,18 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import zhLocale from '@/locales/common/zh.json'
+import enLocale from '@/locales/common/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const props = defineProps({
   modelValue: {
@@ -33,7 +43,7 @@ const emit = defineEmits(['update:modelValue'])
 
 // 商戶選項
 const merchants = [
-  { value: 'all', label: t('common.field.allMerchants') },
+  { value: 'all', label: t('field.allMerchants') },
   { value: 'fameex', label: 'Fameex' },
   { value: 'cnx', label: 'CNX' }
 ]
