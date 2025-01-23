@@ -37,6 +37,22 @@
           </a-button>
         </a-form-item>
       </a-form>
+      
+      <div class="divider">
+        <a-divider>{{ t('auth.login.or') }}</a-divider>
+      </div>
+      
+      <a-button 
+        block 
+        @click="handleGoogleLogin" 
+        :loading="googleLoading"
+        class="google-button"
+      >
+        <template #icon>
+          <GoogleOutlined />
+        </template>
+        {{ t('auth.login.googleLogin') }}
+      </a-button>
     </a-card>
   </div>
 </template>
@@ -44,7 +60,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { useDark } from '@vueuse/core'
 import { useI18n } from 'vue-i18n'
@@ -65,6 +81,7 @@ const { t } = useI18n({
 const router = useRouter()
 const loading = ref(false)
 const isDark = useDark()
+const googleLoading = ref(false)
 
 const formState = reactive({
   username: '',
@@ -96,6 +113,29 @@ const handleLogin = async (values) => {
     message.error(error.message || t('auth.login.loginFailed'))
   } finally {
     loading.value = false
+  }
+}
+
+const handleGoogleLogin = async () => {
+  googleLoading.value = true
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    const userData = {
+      username: 'google_user@gmail.com',
+      token: 'mock-google-token',
+      loginTime: new Date().toISOString(),
+      provider: 'google'
+    }
+    
+    storage.set('user', userData)
+    message.success(t('auth.login.googleLoginSuccess'))
+    router.push('/')
+  } catch (error) {
+    console.error('Google login failed:', error)
+    message.error(t('auth.login.googleLoginFailed'))
+  } finally {
+    googleLoading.value = false
   }
 }
 </script>
@@ -138,5 +178,26 @@ const handleLogin = async (values) => {
 
 .dark-card :deep(.ant-form-item-label > label) {
   color: #fff;
+}
+
+.divider {
+  margin: 16px 0;
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-card .google-button {
+  background: #1f1f1f;
+  border-color: #434343;
+  color: #fff;
+}
+
+.dark-card .google-button:hover {
+  background: #303030;
+  border-color: #434343;
 }
 </style> 

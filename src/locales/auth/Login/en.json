@@ -7,7 +7,11 @@
       "pleaseInputUsername": "Please input your username",
       "pleaseInputPassword": "Please input your password",
       "pleaseInputAllRequired": "Please input all required fields",
-      "loginFailed": "Login failed"
+      "loginFailed": "Login failed",
+      "or": "OR",
+      "googleLogin": "Sign in with Google",
+      "googleLoginSuccess": "Google login successful",
+      "googleLoginFailed": "Google login failed"
     }
   }
 } 

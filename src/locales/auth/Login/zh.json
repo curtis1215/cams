@@ -7,7 +7,11 @@
       "pleaseInputUsername": "請輸入用戶名",
       "pleaseInputPassword": "請輸入密碼",
       "pleaseInputAllRequired": "請輸入所有必填項",
-      "loginFailed": "登錄失敗"
+      "loginFailed": "登錄失敗",
+      "or": "或",
+      "googleLogin": "使用 Google 帳號登入",
+      "googleLoginSuccess": "Google 登入成功",
+      "googleLoginFailed": "Google 登入失敗"
     }
   }
 } 
