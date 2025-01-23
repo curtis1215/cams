@@ -1,0 +1,74 @@
+{
+  "contractCoinManagement": "合約幣管理",
+  "search": {
+    "title": "幣種查詢",
+    "searchButton": "查詢"
+  },
+  "list": {
+    "title": "幣種列表",
+    "addButton": "新增幣種",
+    "columns": {
+      "recordType": "鏈類型",
+      "coinName": "幣種名稱",
+      "coinCode": "幣種代碼",
+      "contractAddress": "合約地址",
+      "decimals": "精度",
+      "price": "幣價",
+      "priceSource": "幣價來源",
+      "sourcePair": "來源幣對",
+      "updateTime": "更新時間",
+      "actions": "操作",
+      "edit": "編輯",
+      "delete": "刪除"
+    }
+  },
+  "modal": {
+    "tabs": {
+      "basicInfo": "幣種基本資訊",
+      "walletParams": "錢包參數"
+    },
+    "form": {
+      "contractAddress": "合約地址",
+      "coinName": "幣種名稱",
+      "coinCode": "幣種代碼",
+      "decimals": "精度",
+      "gasLimitMax": "燃料上限",
+      "gasLimitMin": "燃料下限",
+      "gasPrice": "燃料價格",
+      "transferFee": "轉帳提交手續費",
+      "priceSource": "幣價來源",
+      "sourcePair": "幣兌選擇",
+      "storageLimit": "儲存上限",
+      "reserveAmount": "錢包保留數量",
+      "transferLimit": "單筆轉帳上限",
+      "userStorageLimit": "用戶錢包儲存上限",
+      "collectionStorageLimit": "歸集錢包儲存上限",
+      "withdrawalStorageLimit": "出款錢包儲存上限",
+      "userReserveAmount": "用戶錢包保留數量",
+      "collectionReserveAmount": "歸集錢包保留數量",
+      "withdrawalReserveAmount": "出款錢包保留數量",
+      "userTransferLimit": "用戶錢包單筆轉帳上限",
+      "collectionTransferLimit": "歸集錢包單筆轉帳上限",
+      "withdrawalTransferLimit": "出款錢包單筆轉帳上限"
+    },
+    "walletType": {
+      "user": "用戶錢包",
+      "collection": "歸集錢包",
+      "withdrawal": "出款錢包"
+    },
+    "button": {
+      "query": "查詢"
+    },
+    "placeholder": {
+      "contractAddress": "請輸入合約地址",
+      "enterAmount": "請輸入金額"
+    },
+    "message": {
+      "enterContractAddress": "請輸入合約地址",
+      "querySuccess": "查詢成功",
+      "queryFailed": "查詢失敗",
+      "addSuccess": "新增成功",
+      "addFailed": "新增失敗"
+    }
+  }
+} 

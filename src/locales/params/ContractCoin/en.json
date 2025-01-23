@@ -1,0 +1,74 @@
+{
+  "contractCoinManagement": "Contract Coin Management",
+  "search": {
+    "title": "Coin Search",
+    "searchButton": "Search"
+  },
+  "list": {
+    "title": "Coin List",
+    "addButton": "Add Coin",
+    "columns": {
+      "recordType": "Chain Type",
+      "coinName": "Coin Name",
+      "coinCode": "Coin Code",
+      "contractAddress": "Contract Address",
+      "decimals": "Decimals",
+      "price": "Price",
+      "priceSource": "Price Source",
+      "sourcePair": "Source Pair",
+      "updateTime": "Update Time",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "modal": {
+    "tabs": {
+      "basicInfo": "Basic Information",
+      "walletParams": "Wallet Parameters"
+    },
+    "form": {
+      "contractAddress": "Contract Address",
+      "coinName": "Coin Name",
+      "coinCode": "Coin Code",
+      "decimals": "Decimals",
+      "gasLimitMax": "Gas Limit Max",
+      "gasLimitMin": "Gas Limit Min",
+      "gasPrice": "Gas Price",
+      "transferFee": "Transfer Fee",
+      "priceSource": "Price Source",
+      "sourcePair": "Source Pair",
+      "storageLimit": "Storage Limit",
+      "reserveAmount": "Reserve Amount",
+      "transferLimit": "Transfer Limit",
+      "userStorageLimit": "User Wallet Storage Limit",
+      "collectionStorageLimit": "Collection Wallet Storage Limit",
+      "withdrawalStorageLimit": "Withdrawal Wallet Storage Limit",
+      "userReserveAmount": "User Wallet Reserve Amount",
+      "collectionReserveAmount": "Collection Wallet Reserve Amount",
+      "withdrawalReserveAmount": "Withdrawal Wallet Reserve Amount",
+      "userTransferLimit": "User Wallet Transfer Limit",
+      "collectionTransferLimit": "Collection Wallet Transfer Limit",
+      "withdrawalTransferLimit": "Withdrawal Wallet Transfer Limit"
+    },
+    "walletType": {
+      "user": "User Wallet",
+      "collection": "Collection Wallet",
+      "withdrawal": "Withdrawal Wallet"
+    },
+    "button": {
+      "query": "Query"
+    },
+    "placeholder": {
+      "contractAddress": "Please enter contract address",
+      "enterAmount": "Please enter amount"
+    },
+    "message": {
+      "enterContractAddress": "Please enter contract address",
+      "querySuccess": "Query successful",
+      "queryFailed": "Query failed",
+      "addSuccess": "Add successful",
+      "addFailed": "Add failed"
+    }
+  }
+} 

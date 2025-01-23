@@ -1,0 +1,124 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "recordType": "ERC20",
+      "coinName": "Tether USD",
+      "coinCode": "USDT",
+      "contractAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+      "decimals": 6,
+      "price": "1.0000",
+      "priceSource": "Binance",
+      "sourcePair": "USDT/USD",
+      "updateTime": "2024-03-15 10:00:00"
+    },
+    {
+      "id": "2",
+      "recordType": "ERC20",
+      "coinName": "USD Coin",
+      "coinCode": "USDC",
+      "contractAddress": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48",
+      "decimals": 6,
+      "price": "0.9998",
+      "priceSource": "Coinbase",
+      "sourcePair": "USDC/USD",
+      "updateTime": "2024-03-15 10:01:00"
+    },
+    {
+      "id": "3",
+      "recordType": "BEP20",
+      "coinName": "Binance USD",
+      "coinCode": "BUSD",
+      "contractAddress": "0x4fabb145d64652a948d72533023f6e7a623c7c53",
+      "decimals": 18,
+      "price": "1.0001",
+      "priceSource": "Binance",
+      "sourcePair": "BUSD/USD",
+      "updateTime": "2024-03-15 10:02:00"
+    },
+    {
+      "id": "4",
+      "recordType": "ERC20",
+      "coinName": "Wrapped Bitcoin",
+      "coinCode": "WBTC",
+      "contractAddress": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599",
+      "decimals": 8,
+      "price": "67890.50",
+      "priceSource": "Kraken",
+      "sourcePair": "WBTC/USD",
+      "updateTime": "2024-03-15 10:03:00"
+    },
+    {
+      "id": "5",
+      "recordType": "ERC20",
+      "coinName": "Wrapped Ether",
+      "coinCode": "WETH",
+      "contractAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
+      "decimals": 18,
+      "price": "3456.78",
+      "priceSource": "Binance",
+      "sourcePair": "WETH/USD",
+      "updateTime": "2024-03-15 10:04:00"
+    },
+    {
+      "id": "6",
+      "recordType": "BEP20",
+      "coinName": "BNB",
+      "coinCode": "BNB",
+      "contractAddress": "0xB8c77482e45F1F44dE1745F52C74426C631bDD52",
+      "decimals": 18,
+      "price": "567.89",
+      "priceSource": "Binance",
+      "sourcePair": "BNB/USD",
+      "updateTime": "2024-03-15 10:05:00"
+    },
+    {
+      "id": "7",
+      "recordType": "ERC20",
+      "coinName": "Chainlink",
+      "coinCode": "LINK",
+      "contractAddress": "0x514910771af9ca656af840dff83e8264ecf986ca",
+      "decimals": 18,
+      "price": "18.45",
+      "priceSource": "Coinbase",
+      "sourcePair": "LINK/USD",
+      "updateTime": "2024-03-15 10:06:00"
+    },
+    {
+      "id": "8",
+      "recordType": "ERC20",
+      "coinName": "Uniswap",
+      "coinCode": "UNI",
+      "contractAddress": "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984",
+      "decimals": 18,
+      "price": "12.34",
+      "priceSource": "Huobi",
+      "sourcePair": "UNI/USD",
+      "updateTime": "2024-03-15 10:07:00"
+    },
+    {
+      "id": "9",
+      "recordType": "BEP20",
+      "coinName": "PancakeSwap",
+      "coinCode": "CAKE",
+      "contractAddress": "0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82",
+      "decimals": 18,
+      "price": "3.45",
+      "priceSource": "Binance",
+      "sourcePair": "CAKE/USD",
+      "updateTime": "2024-03-15 10:08:00"
+    },
+    {
+      "id": "10",
+      "recordType": "ERC20",
+      "coinName": "Aave",
+      "coinCode": "AAVE",
+      "contractAddress": "0x7fc66500c84a76ad7e9c93437bfc5ac33e2ddae9",
+      "decimals": 18,
+      "price": "98.76",
+      "priceSource": "Kraken",
+      "sourcePair": "AAVE/USD",
+      "updateTime": "2024-03-15 10:09:00"
+    }
+  ]
+} 
