@@ -1,0 +1,52 @@
+{
+  "title": {
+    "blockchainQuery": "Blockchain Query",
+    "blockchainList": "Blockchain List",
+    "addBlockchain": "Add Blockchain",
+    "editBlockchain": "Edit Blockchain"
+  },
+  "field": {
+    "chainType": "Chain Type",
+    "chainCode": "Chain Code",
+    "chainName": "Chain Name",
+    "servicePath": "Service Path",
+    "confirmBlocks": "Confirm Blocks",
+    "unlockBlocks": "Unlock Blocks",
+    "explorer": "Block Explorer",
+    "lastUpdateTime": "Last Update Time",
+    "expectedTime": "Expected Transfer Time",
+    "isEvm": "Is EVM",
+    "addressRegex": "Address Regex"
+  },
+  "action": {
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "action": "Action",
+    "search": "Search",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  "prompt": {
+    "selectChainType": "Please select chain type",
+    "inputChainName": "Please input chain name",
+    "inputChainCode": "Please input chain code",
+    "inputServicePath": "Please input service path",
+    "inputConfirmBlocks": "Please input confirm blocks",
+    "inputUnlockBlocks": "Please input unlock blocks",
+    "inputExplorer": "Please input block explorer URL",
+    "inputExpectedTime": "Please input expected transfer time",
+    "inputAddressRegex": "Please input address regex",
+    "minuteUnit": "minutes"
+  },
+  "description": {
+    "expectedTime": "An alert will be triggered if the transfer exceeds this time",
+    "addressRegex": "Withdrawal requests will be rejected if the address does not match the regex pattern",
+    "explorer": "Please add {hash} where the txhash value should be placed in the URL"
+  },
+  "common": {
+    "pagination": {
+      "total": "Total {total} items"
+    }
+  }
+} 

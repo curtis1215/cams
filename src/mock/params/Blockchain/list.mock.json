@@ -1,0 +1,115 @@
+{
+  "total": 10,
+  "list": [
+    {
+      "id": 1,
+      "chainName": "Ethereum",
+      "chainCode": "ETH",
+      "chainType": "evm",
+      "servicePath": "cryp-ETH",
+      "confirmBlocks": 12,
+      "unlockBlocks": 100,
+      "explorer": "https://etherscan.io/tx/{hash}",
+      "lastUpdateTime": "2024-03-15 10:30:00"
+    },
+    {
+      "id": 2,
+      "chainName": "BNB Smart Chain",
+      "chainCode": "BSC",
+      "chainType": "evm",
+      "servicePath": "cryp-BSC",
+      "confirmBlocks": 15,
+      "unlockBlocks": 120,
+      "explorer": "https://bscscan.com/tx/{hash}",
+      "lastUpdateTime": "2024-03-15 11:20:00"
+    },
+    {
+      "id": 3,
+      "chainName": "TRON",
+      "chainCode": "TRON",
+      "chainType": "tron",
+      "servicePath": "cryp-TRON",
+      "confirmBlocks": 20,
+      "unlockBlocks": 160,
+      "explorer": "https://tronscan.org/#/transaction/{hash}",
+      "lastUpdateTime": "2024-03-15 12:15:00"
+    },
+    {
+      "id": 4,
+      "chainName": "Polygon",
+      "chainCode": "MATIC",
+      "chainType": "evm",
+      "servicePath": "cryp-MATIC",
+      "confirmBlocks": 128,
+      "unlockBlocks": 256,
+      "explorer": "https://polygonscan.com/tx/{hash}",
+      "lastUpdateTime": "2024-03-15 13:10:00"
+    },
+    {
+      "id": 5,
+      "chainName": "Bitcoin",
+      "chainCode": "BTC",
+      "chainType": "btc",
+      "servicePath": "cryp-BTC",
+      "confirmBlocks": 6,
+      "unlockBlocks": 60,
+      "explorer": "https://www.blockchain.com/explorer/transactions/btc/{hash}",
+      "lastUpdateTime": "2024-03-15 14:05:00"
+    },
+    {
+      "id": 6,
+      "chainName": "Arbitrum One",
+      "chainCode": "ARBITRUM",
+      "chainType": "evm",
+      "servicePath": "cryp-ARBITRUM",
+      "confirmBlocks": 64,
+      "unlockBlocks": 128,
+      "explorer": "https://arbiscan.io/tx/{hash}",
+      "lastUpdateTime": "2024-03-15 15:00:00"
+    },
+    {
+      "id": 7,
+      "chainName": "Optimism Mainnet",
+      "chainCode": "OPTIMISM",
+      "chainType": "evm",
+      "servicePath": "cryp-OPTIMISM",
+      "confirmBlocks": 50,
+      "unlockBlocks": 100,
+      "explorer": "https://optimistic.etherscan.io/tx/{hash}",
+      "lastUpdateTime": "2024-03-15 15:55:00"
+    },
+    {
+      "id": 8,
+      "chainName": "Avalanche C-Chain",
+      "chainCode": "AVAX",
+      "chainType": "evm",
+      "servicePath": "cryp-AVAX",
+      "confirmBlocks": 12,
+      "unlockBlocks": 24,
+      "explorer": "https://snowtrace.io/tx/{hash}",
+      "lastUpdateTime": "2024-03-15 16:50:00"
+    },
+    {
+      "id": 9,
+      "chainName": "EOS",
+      "chainCode": "EOS",
+      "chainType": "eos",
+      "servicePath": "cryp-EOS",
+      "confirmBlocks": 180,
+      "unlockBlocks": 360,
+      "explorer": "https://bloks.io/transaction/{hash}",
+      "lastUpdateTime": "2024-03-15 17:45:00"
+    },
+    {
+      "id": 10,
+      "chainName": "Base Mainnet",
+      "chainCode": "BASE",
+      "chainType": "evm",
+      "servicePath": "cryp-BASE",
+      "confirmBlocks": 40,
+      "unlockBlocks": 80,
+      "explorer": "https://basescan.org/tx/{hash}",
+      "lastUpdateTime": "2024-03-15 18:40:00"
+    }
+  ]
+} 
