@@ -16,14 +16,17 @@
     "confirm": "確認原因",
     "walletAction": "錢包操作",
     "actionReason": "操作事由",
-    "pleaseInputActionReason": "請輸入操作事由"
+    "pleaseInputActionReason": "請輸入操作事由",
+    "walletAbnormal": "錢包異常告警設置"
   },
   "threshold": {
     "deposit": "大額存款閾值",
     "withdraw": "大額提現閾值",
     "processingTimeout": "處理中時長閾值",
     "waitingTimeout": "等待時長閾值",
-    "notifyTimeout": "通知時長閾值"
+    "notifyTimeout": "通知時長閾值",
+    "transferFailureCount": "連續轉出失敗達",
+    "confirmationTimeout": "提交後超過閥值達"
   },
   "column": {
     "merchant": "商戶",
@@ -61,6 +64,7 @@
     "confirmationDelay": "上鏈後長時間未確認"
   },
   "unit": {
+    "count": "筆",
     "minutes": "分鐘"
   },
   "text": {

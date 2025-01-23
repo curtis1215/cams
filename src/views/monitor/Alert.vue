@@ -196,6 +196,10 @@
       <template #title>
         <div class="card-header">
           <span class="card-title">{{ t('card.walletAbnormal') }}</span>
+          <a-button type="primary" size="small" @click="showWalletAbnormalSettingModal">
+            <template #icon><SettingOutlined /></template>
+            {{ t('settings') }}
+          </a-button>
         </div>
       </template>
 
@@ -376,6 +380,36 @@
             :placeholder="t('modal.pleaseInputActionReason')"
             :rows="4"
           />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 錢包異常告警設置彈窗 -->
+    <a-modal
+      v-model:open="walletAbnormalSettingModalVisible"
+      :title="t('modal.walletAbnormal')"
+      @ok="handleWalletAbnormalSettingSave"
+    >
+      <a-form :model="walletAbnormalSettings" :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">
+        <a-form-item :label="t('threshold.transferFailureCount')">
+          <a-input-number
+            v-model:value="walletAbnormalSettings.failureCount"
+            :min="1"
+            :step="1"
+            style="width: 150px"
+          >
+            <template #addonAfter>{{ t('unit.count') }}</template>
+          </a-input-number>
+        </a-form-item>
+        <a-form-item :label="t('threshold.confirmationTimeout')">
+          <a-input-number
+            v-model:value="walletAbnormalSettings.confirmationTimeout"
+            :min="1"
+            :step="1"
+            style="width: 150px"
+          >
+            <template #addonAfter>{{ t('unit.minutes') }}</template>
+          </a-input-number>
         </a-form-item>
       </a-form>
     </a-modal>
@@ -852,6 +886,23 @@ const pagination = {
   showSizeChanger: false,
   showQuickJumper: false,
   showTotal: (total) => t('pagination.total', { total })
+}
+
+// 錢包異常告警設置
+const walletAbnormalSettingModalVisible = ref(false)
+const walletAbnormalSettings = reactive({
+  failureCount: 3,
+  confirmationTimeout: 30
+})
+
+const showWalletAbnormalSettingModal = () => {
+  walletAbnormalSettingModalVisible.value = true
+}
+
+const handleWalletAbnormalSettingSave = () => {
+  // TODO: 調用API保存設置
+  message.success(t('message.settingsSaved'))
+  walletAbnormalSettingModalVisible.value = false
 }
 </script>
 
