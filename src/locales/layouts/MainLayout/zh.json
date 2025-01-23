@@ -30,7 +30,8 @@
     "contractCoinManagement": "合約幣種管理",
     "system": "系統管理",
     "userManagement": "用戶管理",
-    "roleManagement": "角色管理"
+    "roleManagement": "角色管理",
+    "merchantManagement": "商戶管理"
   },
   "language": {
     "english": "English",

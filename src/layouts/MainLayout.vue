@@ -146,6 +146,10 @@
             </template>
             <a-menu-item key="users">{{ t('nav.userManagement') }}</a-menu-item>
             <a-menu-item key="roles">{{ t('nav.roleManagement') }}</a-menu-item>
+            <a-menu-item key="merchants" @click="router.push('/system/merchants')">
+              <ShopOutlined />
+              {{ t('nav.merchantManagement') }}
+            </a-menu-item>
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
@@ -180,7 +184,8 @@ import {
   CodeOutlined,
   SyncOutlined,
   AccountBookOutlined,
-  WalletFilled
+  WalletFilled,
+  ShopOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'

@@ -67,6 +67,11 @@ const routes = [
         component: () => import('../views/system/Roles.vue')
       },
       {
+        path: 'system/merchants',
+        name: 'MerchantManagement',
+        component: () => import('../views/system/Merchants.vue')
+      },
+      {
         path: 'order/deposit',
         name: 'DepositOrder',
         component: () => import('../views/order/Deposit.vue')

@@ -23,14 +23,15 @@
     "transferOrderQuery": "Transfer Orders",
     "exchangeOrderQuery": "Exchange Orders",
     "transactionDetailQuery": "Transaction Details",
-    "reconciliation": "Reconciliation Management",
-    "walletBalanceQuery": "Wallet Balance Query",
+    "reconciliation": "Reconciliation",
+    "walletBalanceQuery": "Balance Query",
     "paramsManagement": "Parameters",
     "blockchainManagement": "Blockchain",
     "contractCoinManagement": "Contract Coins",
     "system": "System",
     "userManagement": "Users",
-    "roleManagement": "Roles"
+    "roleManagement": "Roles",
+    "merchantManagement": "Merchants"
   },
   "language": {
     "english": "English",

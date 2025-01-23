@@ -1,0 +1,74 @@
+{
+  "merchantList": [
+    {
+      "id": "M001",
+      "name": "測試商戶1",
+      "code": "TEST001",
+      "status": "active",
+      "updateTime": "2024-01-22 10:30:45"
+    },
+    {
+      "id": "M002",
+      "name": "測試商戶2",
+      "code": "TEST002",
+      "status": "inactive",
+      "updateTime": "2024-01-22 09:15:30"
+    },
+    {
+      "id": "M003",
+      "name": "測試商戶3",
+      "code": "TEST003",
+      "status": "active",
+      "updateTime": "2024-01-21 16:45:20"
+    },
+    {
+      "id": "M004",
+      "name": "測試商戶4",
+      "code": "TEST004",
+      "status": "active",
+      "updateTime": "2024-01-21 14:20:10"
+    },
+    {
+      "id": "M005",
+      "name": "測試商戶5",
+      "code": "TEST005",
+      "status": "inactive",
+      "updateTime": "2024-01-20 17:55:40"
+    },
+    {
+      "id": "M006",
+      "name": "測試商戶6",
+      "code": "TEST006",
+      "status": "active",
+      "updateTime": "2024-01-20 11:30:25"
+    },
+    {
+      "id": "M007",
+      "name": "測試商戶7",
+      "code": "TEST007",
+      "status": "active",
+      "updateTime": "2024-01-19 15:40:35"
+    },
+    {
+      "id": "M008",
+      "name": "測試商戶8",
+      "code": "TEST008",
+      "status": "inactive",
+      "updateTime": "2024-01-19 09:25:15"
+    },
+    {
+      "id": "M009",
+      "name": "測試商戶9",
+      "code": "TEST009",
+      "status": "active",
+      "updateTime": "2024-01-18 16:50:30"
+    },
+    {
+      "id": "M010",
+      "name": "測試商戶10",
+      "code": "TEST010",
+      "status": "active",
+      "updateTime": "2024-01-18 13:15:50"
+    }
+  ]
+} 
