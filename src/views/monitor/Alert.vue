@@ -191,6 +191,38 @@
       </div>
     </a-card>
 
+    <!-- 錢包異常告警卡片 -->
+    <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
+      <template #title>
+        <div class="card-header">
+          <span class="card-title">{{ t('card.walletAbnormal') }}</span>
+        </div>
+      </template>
+
+      <div class="table-container">
+        <a-table
+          :columns="walletAbnormalColumns"
+          :data-source="walletAbnormalData"
+          :pagination="pagination"
+          :scroll="{ x: 1000 }"
+          :bordered="true"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'reason'">
+              <a-tag :color="record.reason === 'monitor.transferFailure' ? 'red' : 'orange'">
+                {{ t(`reason.${record.reason.split('.')[1]}`) }}
+              </a-tag>
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <a-button type="primary" size="small" @click="handleWalletAction(record)">
+                {{ t('column.action') }}
+              </a-button>
+            </template>
+          </template>
+        </a-table>
+      </div>
+    </a-card>
+
     <!-- 設置彈窗 -->
     <a-modal
       v-model:open="settingModalVisible"
@@ -319,6 +351,29 @@
           <a-textarea
             v-model:value="confirmForm.reason"
             :placeholder="t('prompt.pleaseInputConfirmReason')"
+            :rows="4"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 錢包操作彈窗 -->
+    <a-modal
+      v-model:open="walletActionModalVisible"
+      :title="t('modal.walletAction')"
+      @ok="handleWalletActionSubmit"
+    >
+      <a-form :model="walletActionForm" layout="vertical">
+        <a-form-item :label="t('column.action')" required>
+          <a-radio-group v-model:value="walletActionForm.action">
+            <a-radio value="unlock">{{ t('action.unlockWallet') }}</a-radio>
+            <a-radio value="lock">{{ t('action.lockWallet') }}</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item :label="t('modal.actionReason')" required>
+          <a-textarea
+            v-model:value="walletActionForm.reason"
+            :placeholder="t('modal.pleaseInputActionReason')"
             :rows="4"
           />
         </a-form-item>
@@ -679,6 +734,80 @@ const getRemainingLevelColor = (level) => {
   return '#52c41a'
 }
 
+const walletAbnormalColumns = computed(() => [
+  {
+    title: t('column.walletId'),
+    dataIndex: 'walletId',
+    key: 'walletId',
+    width: 200,
+  },
+  {
+    title: t('column.walletType'),
+    dataIndex: 'walletType',
+    key: 'walletType',
+    width: 120,
+  },
+  {
+    title: t('column.chain'),
+    dataIndex: 'chain',
+    key: 'chain',
+    width: 100,
+  },
+  {
+    title: t('column.coin'),
+    dataIndex: 'coin',
+    key: 'coin',
+    width: 100,
+  },
+  {
+    title: t('column.reason'),
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 200,
+  },
+  {
+    title: t('column.time'),
+    dataIndex: 'time',
+    key: 'time',
+    width: 180,
+  },
+  {
+    title: t('column.action'),
+    key: 'action',
+    width: 120,
+    fixed: 'right'
+  }
+])
+
+const walletAbnormalData = computed(() => mockData.walletAbnormalData)
+
+const walletActionModalVisible = ref(false)
+const walletActionForm = reactive({
+  walletId: '',
+  action: 'unlock',
+  reason: ''
+})
+
+const handleWalletAction = (record) => {
+  walletActionForm.walletId = record.walletId
+  walletActionForm.action = 'unlock'
+  walletActionForm.reason = ''
+  walletActionModalVisible.value = true
+}
+
+const handleWalletActionSubmit = () => {
+  if (!walletActionForm.reason.trim()) {
+    message.error(t('modal.pleaseInputActionReason'))
+    return
+  }
+  
+  // TODO: 調用API處理錢包操作邏輯
+  console.log('Wallet action:', walletActionForm)
+  
+  message.success(t('message.actionSuccess'))
+  walletActionModalVisible.value = false
+}
+
 const alertStatistics = computed(() => [
   {
     title: t('statistics.nodeHeight'),
@@ -709,6 +838,12 @@ const alertStatistics = computed(() => [
     under30: walletBalanceData.value.filter(item => item.duration < 30).length,
     between30And60: walletBalanceData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
     over60: walletBalanceData.value.filter(item => item.duration >= 60).length
+  },
+  {
+    title: t('statistics.walletAbnormal'),
+    under30: walletAbnormalData.value.filter(item => item.duration < 30).length,
+    between30And60: walletAbnormalData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
+    over60: walletAbnormalData.value.filter(item => item.duration >= 60).length
   }
 ])
 

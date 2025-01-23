@@ -243,5 +243,52 @@
       "remainingLevel": 50,
       "duration": 75
     }
+  ],
+  "walletAbnormalData": [
+    {
+      "walletId": "WALLET_001",
+      "walletType": "熱錢包",
+      "chain": "ETH",
+      "coin": "USDT",
+      "reason": "monitor.transferFailure",
+      "time": "2024-01-01 10:00:00",
+      "duration": 15
+    },
+    {
+      "walletId": "WALLET_002",
+      "walletType": "冷錢包",
+      "chain": "BSC",
+      "coin": "USDC",
+      "reason": "monitor.confirmationDelay",
+      "time": "2024-01-01 11:00:00",
+      "duration": 35
+    },
+    {
+      "walletId": "WALLET_003",
+      "walletType": "熱錢包",
+      "chain": "TRON",
+      "coin": "TRX",
+      "reason": "monitor.transferFailure",
+      "time": "2024-01-01 12:00:00",
+      "duration": 45
+    },
+    {
+      "walletId": "WALLET_004",
+      "walletType": "熱錢包",
+      "chain": "POLYGON",
+      "coin": "MATIC",
+      "reason": "monitor.confirmationDelay",
+      "time": "2024-01-01 13:00:00",
+      "duration": 65
+    },
+    {
+      "walletId": "WALLET_005",
+      "walletType": "冷錢包",
+      "chain": "ARBITRUM",
+      "coin": "ETH",
+      "reason": "monitor.transferFailure",
+      "time": "2024-01-01 14:00:00",
+      "duration": 75
+    }
   ]
 } 
