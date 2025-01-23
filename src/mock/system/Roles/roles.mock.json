@@ -1,0 +1,39 @@
+{
+  "roleList": [
+    {
+      "id": 1,
+      "roleName": "超級管理員",
+      "roleDescription": "系統最高權限管理員，可以管理所有功能",
+      "createTime": "2024-03-20 10:00:00",
+      "updateTime": "2024-03-20 10:00:00"
+    },
+    {
+      "id": 2,
+      "roleName": "財務管理員",
+      "roleDescription": "負責處理錢包轉賬、訂單管理和對帳等財務相關操作",
+      "createTime": "2024-03-20 11:30:00",
+      "updateTime": "2024-03-20 14:15:00"
+    },
+    {
+      "id": 3,
+      "roleName": "運維人員",
+      "roleDescription": "負責系統監控和告警處理",
+      "createTime": "2024-03-20 13:45:00",
+      "updateTime": "2024-03-20 16:20:00"
+    },
+    {
+      "id": 4,
+      "roleName": "商戶管理員",
+      "roleDescription": "負責商戶管理和商戶相關配置",
+      "createTime": "2024-03-21 09:00:00",
+      "updateTime": "2024-03-21 09:00:00"
+    },
+    {
+      "id": 5,
+      "roleName": "查詢人員",
+      "roleDescription": "擁有所有模塊的只讀權限",
+      "createTime": "2024-03-21 10:30:00",
+      "updateTime": "2024-03-21 10:30:00"
+    }
+  ]
+} 

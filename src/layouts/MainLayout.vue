@@ -1,7 +1,7 @@
 <template>
   <a-layout class="layout">
     <a-layout-header class="header">
-      <div class="logo">CryptoPool</div>
+      <div class="logo">CAMS</div>
       <div class="header-right">
         <a-switch
           :checked="isDark"
@@ -145,7 +145,10 @@
               </span>
             </template>
             <a-menu-item key="users">{{ t('nav.userManagement') }}</a-menu-item>
-            <a-menu-item key="roles">{{ t('nav.roleManagement') }}</a-menu-item>
+            <a-menu-item key="roles" @click="router.push('/system/roles')">
+              <TeamOutlined />
+              {{ t('nav.roleManagement') }}
+            </a-menu-item>
             <a-menu-item key="merchants" @click="router.push('/system/merchants')">
               <ShopOutlined />
               {{ t('nav.merchantManagement') }}
@@ -185,7 +188,8 @@ import {
   SyncOutlined,
   AccountBookOutlined,
   WalletFilled,
-  ShopOutlined
+  ShopOutlined,
+  TeamOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'

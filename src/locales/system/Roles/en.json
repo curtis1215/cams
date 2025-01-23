@@ -1,0 +1,81 @@
+{
+  "title": {
+    "roleList": "Role List",
+    "roleManagement": "Role Management",
+    "addRole": "Add Role",
+    "editRole": "Edit Role"
+  },
+  "field": {
+    "roleName": "Role Name",
+    "roleDescription": "Role Description",
+    "permissions": "Permissions",
+    "createTime": "Create Time",
+    "updateTime": "Update Time",
+    "twoFactorAuth": "Two-Factor Authentication",
+    "twoFactorAuthRequired": "Enable Two-Factor Authentication"
+  },
+  "action": {
+    "addRole": "Add Role",
+    "editRole": "Edit Role",
+    "deleteRole": "Delete Role",
+    "save": "Save",
+    "cancel": "Cancel",
+    "action": "Actions"
+  },
+  "permission": {
+    "read": "Read",
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete"
+  },
+  "module": {
+    "monitor": {
+      "title": "Monitoring",
+      "dashboard": "Data Monitoring",
+      "alert": "Alert Monitoring"
+    },
+    "wallet": {
+      "title": "Wallet Management",
+      "query": "Wallet Query",
+      "detail": "Wallet Detail",
+      "privateKey": "Private Key Management",
+      "transfer": "Wallet Transfer",
+      "tokenExchange": "Token Exchange"
+    },
+    "order": {
+      "title": "Order Management",
+      "deposit": "Deposit Orders",
+      "withdraw": "Withdraw Orders",
+      "transfer": "Transfer Orders",
+      "exchange": "Exchange Orders",
+      "transaction": "Transaction Details"
+    },
+    "reconciliation": {
+      "title": "Reconciliation",
+      "walletBalance": "Balance Query"
+    },
+    "params": {
+      "title": "Parameters",
+      "blockchain": "Blockchain",
+      "contractCoin": "Contract Coins"
+    },
+    "system": {
+      "title": "System",
+      "users": "Users",
+      "roles": "Roles",
+      "merchants": "Merchants"
+    }
+  },
+  "message": {
+    "deleteConfirm": "Are you sure you want to delete this role?",
+    "deleteSuccess": "Role deleted successfully",
+    "saveFailed": "Save failed",
+    "saveSuccess": "Save successful",
+    "roleNameRequired": "Please input role name",
+    "roleDescriptionRequired": "Please input role description"
+  },
+  "prompt": {
+    "inputRoleName": "Please input role name",
+    "inputRoleDescription": "Please input role description"
+  }
+} 

@@ -64,7 +64,12 @@ const routes = [
       },
       {
         path: 'system/roles',
-        component: () => import('../views/system/Roles.vue')
+        name: 'RoleManagement',
+        component: () => import('../views/system/Roles.vue'),
+        meta: {
+          title: 'title.roleManagement',
+          requiresAuth: true
+        }
       },
       {
         path: 'system/merchants',

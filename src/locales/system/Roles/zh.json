@@ -1,0 +1,81 @@
+{
+  "title": {
+    "roleList": "角色列表",
+    "roleManagement": "角色管理",
+    "addRole": "新增角色",
+    "editRole": "編輯角色"
+  },
+  "field": {
+    "roleName": "角色名稱",
+    "roleDescription": "角色描述",
+    "permissions": "權限設置",
+    "createTime": "創建時間",
+    "updateTime": "更新時間",
+    "twoFactorAuth": "雙重認證",
+    "twoFactorAuthRequired": "是否啟用雙重認證"
+  },
+  "action": {
+    "addRole": "新增角色",
+    "editRole": "編輯角色",
+    "deleteRole": "刪除角色",
+    "save": "保存",
+    "cancel": "取消",
+    "action": "操作"
+  },
+  "permission": {
+    "read": "讀取",
+    "create": "新增",
+    "update": "編輯",
+    "delete": "刪除"
+  },
+  "module": {
+    "monitor": {
+      "title": "監控管理",
+      "dashboard": "數據監控",
+      "alert": "告警監控"
+    },
+    "wallet": {
+      "title": "錢包管理",
+      "query": "錢包查詢",
+      "detail": "錢包詳情",
+      "privateKey": "私鑰管理",
+      "transfer": "錢包轉賬",
+      "tokenExchange": "代幣兌換管理"
+    },
+    "order": {
+      "title": "訂單管理",
+      "deposit": "充值訂單查詢",
+      "withdraw": "提現訂單查詢",
+      "transfer": "轉賬訂單查詢",
+      "exchange": "兌換訂單查詢",
+      "transaction": "交易明細查詢"
+    },
+    "reconciliation": {
+      "title": "對帳管理",
+      "walletBalance": "對帳明細查詢"
+    },
+    "params": {
+      "title": "參數管理",
+      "blockchain": "區塊鏈管理",
+      "contractCoin": "合約幣種管理"
+    },
+    "system": {
+      "title": "系統管理",
+      "users": "用戶管理",
+      "roles": "角色管理",
+      "merchants": "商戶管理"
+    }
+  },
+  "message": {
+    "deleteConfirm": "確定要刪除此角色嗎？",
+    "deleteSuccess": "角色刪除成功",
+    "saveFailed": "保存失敗",
+    "saveSuccess": "保存成功",
+    "roleNameRequired": "請輸入角色名稱",
+    "roleDescriptionRequired": "請輸入角色描述"
+  },
+  "prompt": {
+    "inputRoleName": "請輸入角色名稱",
+    "inputRoleDescription": "請輸入角色描述"
+  }
+} 
