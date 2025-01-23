@@ -1,0 +1,11 @@
+{
+  "chainTypeSelect": {
+    "placeholder": "請選擇鏈類型",
+    "options": {
+      "evm": "EVM",
+      "btc": "BTC",
+      "tron": "TRON",
+      "eos": "EOS"
+    }
+  }
+} 

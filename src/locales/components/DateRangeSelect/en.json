@@ -1,6 +1,10 @@
 {
   "field": {
+    "dateRange": "Date Range",
     "startDate": "Start Date",
     "endDate": "End Date"
+  },
+  "prompt": {
+    "selectDateRange": "Please select date range"
   }
 } 

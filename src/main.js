@@ -5,6 +5,8 @@ import App from './App.vue'
 import { router } from './router'
 import zhCN from './locales/zh.json'
 import enUS from './locales/en.json'
+import zhMainLayout from './locales/layouts/MainLayout/zh.json'
+import enMainLayout from './locales/layouts/MainLayout/en.json'
 import 'ant-design-vue/dist/reset.css'
 import tronService from './services/tron'
 
@@ -12,8 +14,14 @@ const i18n = createI18n({
   legacy: false,
   locale: 'zh',
   messages: {
-    'zh': zhCN,
-    'en': enUS
+    'zh': {
+      ...zhCN,
+      ...zhMainLayout
+    },
+    'en': {
+      ...enUS,
+      ...enMainLayout
+    }
   }
 })
 

@@ -1,0 +1,11 @@
+{
+  "currencySelect": {
+    "placeholder": "Please select currency",
+    "options": {
+      "BTC": "Bitcoin (BTC)",
+      "ETH": "Ethereum (ETH)",
+      "USDT": "Tether (USDT)",
+      "USDC": "USD Coin (USDC)"
+    }
+  }
+} 

@@ -92,6 +92,21 @@ const routes = [
         component: () => import('../views/order/Exchange.vue')
       }
     ]
+  },
+  {
+    path: '/reconciliation',
+    component: () => import('@/layouts/MainLayout.vue'),
+    children: [
+      {
+        path: 'wallet-balance',
+        name: 'WalletBalance',
+        component: () => import('@/views/reconciliation/WalletBalance.vue'),
+        meta: {
+          title: 'nav.walletBalanceQuery',
+          requiresAuth: true
+        }
+      }
+    ]
   }
 ]
 

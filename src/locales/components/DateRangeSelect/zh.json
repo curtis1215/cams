@@ -1,6 +1,10 @@
 {
   "field": {
+    "dateRange": "日期範圍",
     "startDate": "開始日期",
     "endDate": "結束日期"
+  },
+  "prompt": {
+    "selectDateRange": "請選擇日期範圍"
   }
 } 

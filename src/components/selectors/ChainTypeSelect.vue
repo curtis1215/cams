@@ -1,22 +1,32 @@
 <template>
   <a-select
     :value="modelValue"
-    :placeholder="t('common.prompt.selectChainType')"
+    :placeholder="t('chainTypeSelect.placeholder')"
     show-search
     :filter-option="filterOption"
     allow-clear
     @update:value="handleChange"
   >
     <a-select-option v-for="item in chainTypes" :key="item.value" :value="item.value">
-      {{ item.label }}
+      {{ t(`chainTypeSelect.options.${item.value}`) }}
     </a-select-option>
   </a-select>
 </template>
 
 <script setup>
 import { useI18n } from 'vue-i18n'
+import zhLocale from '@/locales/components/ChainTypeSelect/zh.json'
+import enLocale from '@/locales/components/ChainTypeSelect/en.json'
 
-const { t } = useI18n()
+const messages = {
+  zh: zhLocale,
+  en: enLocale
+}
+
+const { t } = useI18n({
+  messages,
+  legacy: false
+})
 
 const props = defineProps({
   modelValue: {

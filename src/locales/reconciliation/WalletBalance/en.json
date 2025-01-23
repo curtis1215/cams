@@ -1,0 +1,69 @@
+{
+  "reconciliation": {
+    "WalletBalance": {
+      "title": {
+        "walletBalanceQuery": "Wallet Balance Query",
+        "reconciliationDetails": "Reconciliation Details",
+        "transferOrders": "Transfer Orders"
+      },
+      "form": {
+        "walletId": "Wallet ID",
+        "pleaseEnterWalletId": "Please enter wallet ID",
+        "walletAddress": "Wallet Address",
+        "pleaseEnterWalletAddress": "Please enter wallet address",
+        "walletType": "Wallet Type",
+        "chainType": "Chain Type",
+        "currency": "Currency"
+      },
+      "table": {
+        "date": "Date",
+        "merchant": "Merchant",
+        "walletId": "Wallet ID",
+        "chainType": "Chain Type",
+        "currency": "Currency",
+        "balance": "Balance",
+        "reconciliationStatus": "Reconciliation Status",
+        "action": "Action"
+      },
+      "details": {
+        "openingBalance": "Opening Balance",
+        "outAmount": "Out Amount",
+        "inAmount": "In Amount",
+        "theoreticalBalance": "Theoretical Balance",
+        "closingBalance": "Closing Balance",
+        "difference": "Difference",
+        "transferId": "Transfer ID",
+        "fromWallet": "From Wallet",
+        "toWallet": "To Wallet",
+        "transferType": "Transfer Type",
+        "amount": "Amount",
+        "txHash": "Transaction Hash",
+        "createTime": "Create Time"
+      },
+      "transferType": {
+        "pending": "Pending",
+        "fee": "Fee",
+        "manualDeposit": "Manual Deposit",
+        "manualWithdrawal": "Manual Withdrawal",
+        "deposit": "Deposit",
+        "withdrawal": "Withdrawal",
+        "collection": "Collection",
+        "exchange": "Exchange",
+        "supplement": "Supplement"
+      },
+      "status": {
+        "success": "Success",
+        "failed": "Failed"
+      },
+      "action": {
+        "viewDetails": "View Details"
+      },
+      "common": {
+        "search": "Search",
+        "reset": "Reset",
+        "searchError": "Search failed, please try again later",
+        "close": "Close"
+      }
+    }
+  }
+} 

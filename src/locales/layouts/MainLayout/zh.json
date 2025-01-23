@@ -1,10 +1,12 @@
 {
   "common": {
     "darkMode": "暗色模式",
-    "lightMode": "亮色模式"
+    "lightMode": "亮色模式",
+    "appName": "加密資產池"
   },
   "user": {
-    "logout": "登出"
+    "logout": "登出",
+    "profile": "個人資料"
   },
   "nav": {
     "monitoring": "監控管理",
@@ -21,11 +23,17 @@
     "transferOrderQuery": "轉賬訂單查詢",
     "exchangeOrderQuery": "兌換訂單查詢",
     "transactionDetailQuery": "交易明細查詢",
+    "reconciliation": "對帳管理",
+    "walletBalanceQuery": "對帳明細查詢",
     "paramsManagement": "參數管理",
     "blockchainManagement": "區塊鏈管理",
     "contractCoinManagement": "合約幣種管理",
     "system": "系統管理",
     "userManagement": "用戶管理",
     "roleManagement": "角色管理"
+  },
+  "language": {
+    "english": "English",
+    "chinese": "中文"
   }
 } 

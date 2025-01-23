@@ -1,10 +1,12 @@
 {
   "common": {
     "darkMode": "Dark Mode",
-    "lightMode": "Light Mode"
+    "lightMode": "Light Mode",
+    "appName": "CryptoPool"
   },
   "user": {
-    "logout": "Logout"
+    "logout": "Logout",
+    "profile": "Profile"
   },
   "nav": {
     "monitoring": "Monitoring",
@@ -21,11 +23,17 @@
     "transferOrderQuery": "Transfer Orders",
     "exchangeOrderQuery": "Exchange Orders",
     "transactionDetailQuery": "Transaction Details",
+    "reconciliation": "Reconciliation Management",
+    "walletBalanceQuery": "Wallet Balance Query",
     "paramsManagement": "Parameters",
-    "blockchainManagement": "Blockchain Management",
-    "contractCoinManagement": "Contract Coin Management",
+    "blockchainManagement": "Blockchain",
+    "contractCoinManagement": "Contract Coins",
     "system": "System",
-    "userManagement": "User Management",
-    "roleManagement": "Role Management"
+    "userManagement": "Users",
+    "roleManagement": "Roles"
+  },
+  "language": {
+    "english": "English",
+    "chinese": "中文"
   }
 } 

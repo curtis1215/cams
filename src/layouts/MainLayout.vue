@@ -109,6 +109,18 @@
               {{ t('nav.transactionDetailQuery') }}
             </a-menu-item>
           </a-sub-menu>
+          <a-sub-menu key="reconciliation">
+            <template #title>
+              <span>
+                <AccountBookOutlined />
+                {{ t('nav.reconciliation') }}
+              </span>
+            </template>
+            <a-menu-item key="walletBalance" @click="router.push('/reconciliation/wallet-balance')">
+              <WalletFilled />
+              {{ t('nav.walletBalanceQuery') }}
+            </a-menu-item>
+          </a-sub-menu>
           <a-sub-menu key="params">
             <template #title>
               <span>
@@ -166,7 +178,9 @@ import {
   ToolOutlined,
   BlockOutlined,
   CodeOutlined,
-  SyncOutlined
+  SyncOutlined,
+  AccountBookOutlined,
+  WalletFilled
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -195,6 +209,8 @@ const setSelectedKeysByRoute = () => {
     openKeys.value = ['order']
   } else if (path.includes('/params/')) {
     openKeys.value = ['params']
+  } else if (path.includes('/reconciliation/')) {
+    openKeys.value = ['reconciliation']
   }
 
   if (path.includes('/monitor/dashboard')) {
@@ -227,6 +243,8 @@ const setSelectedKeysByRoute = () => {
     selectedKeys.value = ['blockchain']
   } else if (path.includes('/params/contract-coin')) {
     selectedKeys.value = ['contractCoin']
+  } else if (path.includes('/reconciliation/wallet-balance')) {
+    selectedKeys.value = ['walletBalance']
   }
 }
 

@@ -1,0 +1,206 @@
+{
+  "walletBalanceList": [
+    {
+      "id": "WB20240122001",
+      "date": "2024-01-22",
+      "merchant": "商戶A",
+      "walletId": "WALLET001",
+      "chainType": "BTC",
+      "currency": "BTC",
+      "balance": "12.45678900",
+      "reconciliationStatus": "success"
+    },
+    {
+      "id": "WB20240122002",
+      "date": "2024-01-22",
+      "merchant": "商戶B",
+      "walletId": "WALLET002",
+      "chainType": "ETH",
+      "currency": "ETH",
+      "balance": "156.78900000",
+      "reconciliationStatus": "failed"
+    },
+    {
+      "id": "WB20240122003",
+      "date": "2024-01-22",
+      "merchant": "商戶C",
+      "walletId": "WALLET003",
+      "chainType": "TRON",
+      "currency": "USDT",
+      "balance": "50000.00000000",
+      "reconciliationStatus": "success"
+    },
+    {
+      "id": "WB20240122004",
+      "date": "2024-01-22",
+      "merchant": "商戶A",
+      "walletId": "WALLET004",
+      "chainType": "EVM",
+      "currency": "USDC",
+      "balance": "75000.00000000",
+      "reconciliationStatus": "success"
+    },
+    {
+      "id": "WB20240122005",
+      "date": "2024-01-22",
+      "merchant": "商戶D",
+      "walletId": "WALLET005",
+      "chainType": "BTC",
+      "currency": "BTC",
+      "balance": "3.45678900",
+      "reconciliationStatus": "failed"
+    },
+    {
+      "id": "WB20240122006",
+      "date": "2024-01-22",
+      "merchant": "商戶B",
+      "walletId": "WALLET006",
+      "chainType": "ETH",
+      "currency": "ETH",
+      "balance": "89.12345600",
+      "reconciliationStatus": "success"
+    },
+    {
+      "id": "WB20240122007",
+      "date": "2024-01-22",
+      "merchant": "商戶C",
+      "walletId": "WALLET007",
+      "chainType": "TRON",
+      "currency": "USDT",
+      "balance": "120000.00000000",
+      "reconciliationStatus": "success"
+    },
+    {
+      "id": "WB20240122008",
+      "date": "2024-01-22",
+      "merchant": "商戶D",
+      "walletId": "WALLET008",
+      "chainType": "EVM",
+      "currency": "USDC",
+      "balance": "95000.00000000",
+      "reconciliationStatus": "failed"
+    },
+    {
+      "id": "WB20240122009",
+      "date": "2024-01-22",
+      "merchant": "商戶A",
+      "walletId": "WALLET009",
+      "chainType": "BTC",
+      "currency": "BTC",
+      "balance": "5.67890000",
+      "reconciliationStatus": "success"
+    },
+    {
+      "id": "WB20240122010",
+      "date": "2024-01-22",
+      "merchant": "商戶B",
+      "walletId": "WALLET010",
+      "chainType": "ETH",
+      "currency": "ETH",
+      "balance": "234.56789000",
+      "reconciliationStatus": "success"
+    }
+  ],
+  "reconciliationDetails": {
+    "WB20240122001": {
+      "openingBalance": "10.00000000",
+      "outAmount": "2.50000000",
+      "inAmount": "4.95678900",
+      "theoreticalBalance": "12.45678900",
+      "closingBalance": "12.45678900",
+      "difference": "0.00000000",
+      "transferOrders": [
+        {
+          "id": "TR20240122001",
+          "fromWallet": "WALLET001",
+          "toWallet": "WALLET002",
+          "type": "fee",
+          "amount": "-0.00050000",
+          "txHash": "0x1234...5678",
+          "createTime": "2024-01-22 10:00:00"
+        },
+        {
+          "id": "TR20240122002",
+          "fromWallet": "WALLET003",
+          "toWallet": "WALLET001",
+          "type": "deposit",
+          "amount": "2.45678900",
+          "txHash": "0x2345...6789",
+          "createTime": "2024-01-22 11:30:00"
+        },
+        {
+          "id": "TR20240122003",
+          "fromWallet": "WALLET001",
+          "toWallet": "WALLET004",
+          "type": "withdrawal",
+          "amount": "-1.50000000",
+          "txHash": "0x3456...7890",
+          "createTime": "2024-01-22 14:20:00"
+        },
+        {
+          "id": "TR20240122004",
+          "fromWallet": "WALLET005",
+          "toWallet": "WALLET001",
+          "type": "collection",
+          "amount": "2.50000000",
+          "txHash": "0x4567...8901",
+          "createTime": "2024-01-22 15:45:00"
+        },
+        {
+          "id": "TR20240122005",
+          "fromWallet": "WALLET001",
+          "toWallet": "WALLET006",
+          "type": "pending",
+          "amount": "1.00000000",
+          "txHash": "0x5678...9012",
+          "createTime": "2024-01-22 16:30:00"
+        },
+        {
+          "id": "TR20240122006",
+          "fromWallet": "WALLET007",
+          "toWallet": "WALLET001",
+          "type": "manualDeposit",
+          "amount": "0.50000000",
+          "txHash": "-",
+          "createTime": "2024-01-22 17:15:00"
+        },
+        {
+          "id": "TR20240122007",
+          "fromWallet": "WALLET001",
+          "toWallet": "WALLET008",
+          "type": "manualWithdrawal",
+          "amount": "-1.00000000",
+          "txHash": "-",
+          "createTime": "2024-01-22 17:45:00"
+        },
+        {
+          "id": "TR20240122008",
+          "fromWallet": "WALLET009",
+          "toWallet": "WALLET001",
+          "type": "exchange",
+          "amount": "1.50000000",
+          "txHash": "0x8901...2345",
+          "createTime": "2024-01-22 18:20:00"
+        },
+        {
+          "id": "TR20240122009",
+          "fromWallet": "WALLET010",
+          "toWallet": "WALLET001",
+          "type": "supplement",
+          "amount": "0.50000000",
+          "txHash": "-",
+          "createTime": "2024-01-22 19:00:00"
+        },
+        {
+          "id": "TR20240122010",
+          "fromWallet": "WALLET001",
+          "toWallet": "WALLET011",
+          "type": "fee",
+          "amount": "-0.00050000",
+          "txHash": "0x9012...3456",
+          "createTime": "2024-01-22 19:30:00"
+        }
+      ]
+    }
+  }
+} 

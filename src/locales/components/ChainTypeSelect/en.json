@@ -1,0 +1,11 @@
+{
+  "chainTypeSelect": {
+    "placeholder": "Please select chain type",
+    "options": {
+      "evm": "EVM",
+      "btc": "BTC",
+      "tron": "TRON",
+      "eos": "EOS"
+    }
+  }
+} 

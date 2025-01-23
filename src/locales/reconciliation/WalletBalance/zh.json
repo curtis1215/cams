@@ -1,0 +1,69 @@
+{
+  "reconciliation": {
+    "WalletBalance": {
+      "title": {
+        "walletBalanceQuery": "對帳明細查詢",
+        "reconciliationDetails": "對帳明細",
+        "transferOrders": "轉帳訂單"
+      },
+      "form": {
+        "walletId": "錢包ID",
+        "pleaseEnterWalletId": "請輸入錢包ID",
+        "walletAddress": "錢包地址",
+        "pleaseEnterWalletAddress": "請輸入錢包地址",
+        "walletType": "錢包類型",
+        "chainType": "鏈類型",
+        "currency": "幣種"
+      },
+      "table": {
+        "date": "日期",
+        "merchant": "商戶",
+        "walletId": "錢包ID",
+        "chainType": "鏈類型",
+        "currency": "幣種",
+        "balance": "餘額",
+        "reconciliationStatus": "對帳狀態",
+        "action": "操作"
+      },
+      "details": {
+        "openingBalance": "期初餘額",
+        "outAmount": "轉出數量",
+        "inAmount": "轉入數量",
+        "theoreticalBalance": "理論餘額",
+        "closingBalance": "期末餘額",
+        "difference": "誤差值",
+        "transferId": "轉帳單號",
+        "fromWallet": "轉出錢包",
+        "toWallet": "目標錢包",
+        "transferType": "轉帳類型",
+        "amount": "轉帳數量",
+        "txHash": "交易哈希",
+        "createTime": "創建時間"
+      },
+      "transferType": {
+        "pending": "待確認",
+        "fee": "手續費",
+        "manualDeposit": "人工入金",
+        "manualWithdrawal": "人工出金",
+        "deposit": "充值",
+        "withdrawal": "提現",
+        "collection": "歸集",
+        "exchange": "兌換",
+        "supplement": "補充"
+      },
+      "status": {
+        "success": "對帳成功",
+        "failed": "對帳失敗"
+      },
+      "action": {
+        "viewDetails": "對帳明細"
+      },
+      "common": {
+        "search": "搜索",
+        "reset": "重置",
+        "searchError": "搜索失敗，請稍後重試",
+        "close": "關閉"
+      }
+    }
+  }
+} 
