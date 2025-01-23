@@ -1,0 +1,54 @@
+{
+  "title": {
+    "userList": "User List",
+    "queryCondition": "Query Condition",
+    "addUser": "Add User",
+    "editUser": "Edit User"
+  },
+  "field": {
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Name",
+    "email": "Email",
+    "role": "Role",
+    "status": "Status",
+    "lastLoginTime": "Last Login Time",
+    "createTime": "Create Time",
+    "updateTime": "Update Time",
+    "action": "Action"
+  },
+  "status": {
+    "enabled": "Enabled",
+    "disabled": "Disabled"
+  },
+  "action": {
+    "search": "Search",
+    "reset": "Reset",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "enable": "Enable",
+    "disable": "Disable",
+    "viewHistory": "View History"
+  },
+  "prompt": {
+    "pleaseInputUsername": "Please input username",
+    "pleaseInputPassword": "Please input password",
+    "pleaseConfirmPassword": "Please confirm password",
+    "pleaseInputName": "Please input name",
+    "pleaseInputEmail": "Please input email",
+    "pleaseSelectRole": "Please select role",
+    "confirmDelete": "Are you sure to delete this user?",
+    "confirmEnable": "Are you sure to enable this user?",
+    "confirmDisable": "Are you sure to disable this user?"
+  },
+  "message": {
+    "addSuccess": "Add user successfully",
+    "editSuccess": "Edit user successfully",
+    "deleteSuccess": "Delete user successfully",
+    "enableSuccess": "Enable user successfully",
+    "disableSuccess": "Disable user successfully",
+    "passwordNotMatch": "The two passwords do not match"
+  }
+} 

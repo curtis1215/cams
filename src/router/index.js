@@ -60,7 +60,12 @@ const routes = [
       },
       {
         path: 'system/users',
-        component: () => import('../views/system/Users.vue')
+        name: 'UserManagement',
+        component: () => import('../views/system/Users.vue'),
+        meta: {
+          title: 'nav.userManagement',
+          requiresAuth: true
+        }
       },
       {
         path: 'system/roles',

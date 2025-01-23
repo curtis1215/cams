@@ -144,7 +144,10 @@
                 {{ t('nav.system') }}
               </span>
             </template>
-            <a-menu-item key="users">{{ t('nav.userManagement') }}</a-menu-item>
+            <a-menu-item key="users" @click="router.push('/system/users')">
+              <UserOutlined />
+              {{ t('nav.userManagement') }}
+            </a-menu-item>
             <a-menu-item key="roles" @click="router.push('/system/roles')">
               <TeamOutlined />
               {{ t('nav.roleManagement') }}
@@ -236,6 +239,7 @@ const setSelectedKeysByRoute = () => {
     selectedKeys.value = ['tokenExchange']
   } else if (path.includes('/system/users')) {
     selectedKeys.value = ['users']
+    openKeys.value = ['system']
   } else if (path.includes('/system/roles')) {
     selectedKeys.value = ['roles']
   } else if (path.includes('/order/deposit')) {
