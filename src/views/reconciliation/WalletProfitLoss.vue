@@ -101,15 +101,51 @@
             <template v-if="column.key === 'averagePrice' || column.key === 'price'">
               {{ formatNumber(record[column.key]) }}
             </template>
+            <template v-if="column.key === 'walletBalance'">
+              {{ formatNumber(record.walletBalance) }}
+            </template>
+            <template v-if="column.key === 'detail'">
+              <a-button type="link" @click="handleShowChart(record)">
+                {{ t('reconciliation.walletProfitLoss.table.detail') }}
+              </a-button>
+            </template>
           </template>
         </a-table>
       </div>
     </a-card>
+
+    <!--詳情彈窗-->
+    <a-modal
+      v-model:open="chartVisible"
+      :title="t('reconciliation.walletProfitLoss.detail.title')"
+      :width="800"
+      :footer="null"
+      :destroyOnClose="true"
+    >
+      <div class="modal-content">
+        <div class="chart-container">
+          <ApexChart
+            width="100%"
+            height="400"
+            type="line"
+            :options="chartOptions"
+            :series="chartSeries"
+          />
+        </div>
+        <div class="radio-group">
+          <a-radio-group v-model:value="timeRange" @change="handleChangeTimeRange">
+            <a-radio-button value="7">7天</a-radio-button>
+            <a-radio-button value="30">30天</a-radio-button>
+            <a-radio-button value="90">90天</a-radio-button>
+          </a-radio-group>
+        </div>
+      </div>
+    </a-modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, nextTick, computed, watch, shallowRef, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import mockData from '@/mock/reconciliation/walletprofitloss/list.mock.json'
@@ -121,6 +157,7 @@ import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import WalletTypeSelect from '@/components/selectors/WalletTypeSelect.vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
+import VueApexCharts from 'vue3-apexcharts'
 
 // @ts-ignore
 const messages = {
@@ -139,6 +176,9 @@ const { t } = useI18n({
   messages,
   legacy: false
 })
+
+// 定義組件
+const ApexChart = VueApexCharts
 
 // 搜索表單數據
 const searchForm = reactive({
@@ -166,8 +206,34 @@ const currencies = ref([
   { value: 'USDT', label: 'USDT' }
 ])
 
-// 表格數據
-const tableData = ref([])
+interface TableDataItem {
+  id: number;
+  date: string;
+  merchant: string;
+  walletId: string;
+  chainType: string;
+  currency: string;
+  averagePrice: string;
+  holdingCost: string;
+  holdingCostChange: number;
+  price: string;
+  marketValue: string;
+  marketValueChange: number;
+  walletBalance: number;
+}
+
+// 添加圖表數據的接口定義
+interface ChartDataPoint {
+  x: number;
+  y: number;
+}
+
+interface ChartData {
+  holdingCost: ChartDataPoint[];
+  marketValue: ChartDataPoint[];
+}
+
+const tableData = ref<TableDataItem[]>([])
 const loading = ref(false)
 const pagination = reactive({
   current: 1,
@@ -197,6 +263,12 @@ const columns = [
     dataIndex: 'walletId',
     key: 'walletId',
     width: 150
+  },
+  {
+    title: t('reconciliation.walletProfitLoss.table.walletBalance'),
+    dataIndex: 'walletBalance',
+    key: 'walletBalance',
+    width: 120
   },
   {
     title: t('reconciliation.walletProfitLoss.table.chainType'),
@@ -235,6 +307,14 @@ const columns = [
     key: 'marketValue',
     width: 200,
     align: 'right'
+  },
+  {
+    title: t('reconciliation.walletProfitLoss.table.detail'),
+    key: 'detail',
+    width: 120,
+    customCell: () => ({
+      style: { textAlign: 'center' }
+    })
   }
 ]
 
@@ -244,6 +324,173 @@ const formatNumber = (value: string) => {
     minimumFractionDigits: 8,
     maximumFractionDigits: 8
   }).format(parseFloat(value))
+}
+
+//詳情彈窗數據
+const chartVisible = ref(false)
+const timeRange = ref('7')
+const currentRecord = ref<TableDataItem | null>(null)
+
+const chartOptions = computed(() => ({
+  chart: {
+    type: 'line',
+    height: 350,
+    toolbar: {
+      show: true,
+      tools: {
+        download: true,
+        selection: true,
+        zoom: true,
+        zoomin: true,
+        zoomout: true,
+        pan: true,
+        reset: true
+      }
+    },
+    animations: {
+      enabled: true,
+      easing: 'easeinout',
+      speed: 800,
+      animateGradually: {
+        enabled: true,
+        delay: 150
+      },
+      dynamicAnimation: {
+        enabled: true,
+        speed: 350
+      }
+    },
+    background: '#1f1f1f',
+    foreColor: '#999'
+  },
+  colors: ['#00E396', '#FF4560'],
+  stroke: {
+    curve: 'smooth',
+    width: 3
+  },
+  dataLabels: {
+    enabled: false
+  },
+  grid: {
+    borderColor: '#303030',
+    strokeDashArray: 3,
+    padding: {
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10
+    }
+  },
+  xaxis: {
+    type: 'datetime',
+    labels: {
+      style: {
+        colors: '#999'
+      },
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: 'MM/dd',
+        day: 'MM/dd',
+        hour: 'HH:mm'
+      }
+    },
+    axisBorder: {
+      color: '#303030'
+    },
+    axisTicks: {
+      color: '#303030'
+    }
+  },
+  yaxis: {
+    labels: {
+      style: {
+        colors: '#999'
+      },
+      formatter: (value: number) => {
+        return value.toFixed(8)
+      }
+    }
+  },
+  tooltip: {
+    theme: 'dark',
+    x: {
+      format: 'yyyy/MM/dd HH:mm'
+    },
+    y: {
+      formatter: (value: number) => {
+        return value.toFixed(8)
+      }
+    }
+  },
+  legend: {
+    show: true,
+    position: 'top',
+    horizontalAlign: 'right',
+    labels: {
+      colors: '#999'
+    }
+  }
+}))
+
+// 修改數據生成函數
+const generateChartData = (record: TableDataItem | null, days: number): ChartData => {
+  if (!record) return { holdingCost: [], marketValue: [] }
+  
+  const data: ChartData = {
+    holdingCost: [],
+    marketValue: []
+  }
+  const currentDate = new Date()
+  const baseHoldingCost = parseFloat(record.holdingCost)
+  const baseMarketValue = parseFloat(record.marketValue)
+  
+  for (let i = 0; i < days; i++) {
+    const date = new Date(currentDate)
+    date.setDate(date.getDate() - i)
+    
+    const randomFactor1 = 0.98 + Math.random() * 0.04
+    const randomFactor2 = 0.98 + Math.random() * 0.04
+    
+    data.holdingCost.unshift({
+      x: date.getTime(),
+      y: baseHoldingCost * randomFactor1
+    })
+    
+    data.marketValue.unshift({
+      x: date.getTime(),
+      y: baseMarketValue * randomFactor2
+    })
+  }
+  
+  return data
+}
+
+const chartSeries = computed(() => {
+  const days = parseInt(timeRange.value)
+  const data = generateChartData(currentRecord.value, days)
+  
+  return [
+    {
+      name: t('reconciliation.walletProfitLoss.chart.holdingCost'),
+      data: data.holdingCost
+    },
+    {
+      name: t('reconciliation.walletProfitLoss.chart.marketValue'),
+      data: data.marketValue
+    }
+  ]
+})
+
+const handleShowChart = (record: TableDataItem) => {
+  console.log('handleShowChart called', record)
+  currentRecord.value = record
+  chartVisible.value = true
+}
+
+const handleChangeTimeRange = (e: any) => {
+  console.log('Time range changed:', e.target.value)
+  timeRange.value = e.target.value
+  // 數據會通過 computed 自動更新
 }
 
 // 搜索方法
@@ -366,22 +613,13 @@ onMounted(() => {
     padding: 12px;
     background: #141414;
     border-radius: 8px;
-  }
-
-  .percentage {
-    margin-left: 8px;
-    
-    &.increase {
-      color: #52c41a;
-    }
-    
-    &.decrease {
-      color: #ff4d4f;
-    }
+    overflow-x: auto;
+    width: 100%;
   }
 
   :deep(.ant-table) {
     background: transparent;
+    min-width: 100%;
   }
 
   :deep(.ant-table-thead > tr > th) {
@@ -410,5 +648,34 @@ onMounted(() => {
   :deep(.ant-pagination-item-active) {
     border-color: #177ddc !important;
   }
+
+  .percentage {
+    margin-left: 8px;
+    
+    &.increase {
+      color: #52c41a;
+    }
+    
+    &.decrease {
+      color: #ff4d4f;
+    }
+  }
+
+  .modal-content {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .chart-container {
+    width: 100%;
+    background: #1f1f1f;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+  }
+
+  .radio-group {
+    text-align: center;
+  }
 }
-</style> 
+</style>

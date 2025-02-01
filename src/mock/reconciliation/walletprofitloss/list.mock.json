@@ -12,7 +12,13 @@
       "holdingCostChange": 2.35,
       "price": "43125.90",
       "marketValue": "86251.80",
-      "marketValueChange": 3.15
+      "marketValueChange": 3.15,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-15", "y": 86251.80}
+        ]
+      }
     },
     {
       "id": 2,
@@ -26,7 +32,13 @@
       "holdingCostChange": -1.25,
       "price": "2498.45",
       "marketValue": "12492.25",
-      "marketValueChange": -1.85
+      "marketValueChange": -1.85,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-15", "y": 12492.25}
+        ]
+      }
     },
     {
       "id": 3,
@@ -40,7 +52,13 @@
       "holdingCostChange": 0,
       "price": "1.0000",
       "marketValue": "50000.00",
-      "marketValueChange": 0
+      "marketValueChange": 0,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-15", "y": 50000.00}
+        ]
+      }
     },
     {
       "id": 4,
@@ -54,7 +72,13 @@
       "holdingCostChange": 3.45,
       "price": "43125.90",
       "marketValue": "215629.50",
-      "marketValueChange": 4.25
+      "marketValueChange": 4.25,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-15", "y": 215629.50}
+        ]
+      }
     },
     {
       "id": 5,
@@ -68,7 +92,13 @@
       "holdingCostChange": -2.15,
       "price": "2498.45",
       "marketValue": "24984.50",
-      "marketValueChange": -1.95
+      "marketValueChange": -1.95,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-15", "y": 24984.50}
+        ]
+      }
     },
     {
       "id": 6,
@@ -82,7 +112,13 @@
       "holdingCostChange": 1.85,
       "price": "42156.78",
       "marketValue": "84313.56",
-      "marketValueChange": 2.35
+      "marketValueChange": 2.35,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-14", "y": 84313.56}
+        ]
+      }
     },
     {
       "id": 7,
@@ -96,7 +132,13 @@
       "holdingCostChange": 0.95,
       "price": "2543.21",
       "marketValue": "12716.05",
-      "marketValueChange": -1.25
+      "marketValueChange": -1.25,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-14", "y": 12716.05}
+        ]
+      }
     },
     {
       "id": 8,
@@ -110,7 +152,13 @@
       "holdingCostChange": 0,
       "price": "1.0000",
       "marketValue": "50000.00",
-      "marketValueChange": 0
+      "marketValueChange": 0,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-14", "y": 50000.00}
+        ]
+      }
     },
     {
       "id": 9,
@@ -124,7 +172,13 @@
       "holdingCostChange": 2.75,
       "price": "41890.45",
       "marketValue": "209452.25",
-      "marketValueChange": 3.45
+      "marketValueChange": 3.45,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-14", "y": 209452.25}
+        ]
+      }
     },
     {
       "id": 10,
@@ -138,7 +192,13 @@
       "holdingCostChange": -1.45,
       "price": "2489.65",
       "marketValue": "24896.50",
-      "marketValueChange": -2.15
+      "marketValueChange": -2.15,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-14", "y": 24896.50}
+        ]
+      }
     },
     {
       "id": 11,
@@ -152,7 +212,13 @@
       "holdingCostChange": -0.85,
       "price": "41235.67",
       "marketValue": "82471.34",
-      "marketValueChange": 1.85
+      "marketValueChange": 1.85,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-13", "y": 82471.34}
+        ]
+      }
     },
     {
       "id": 12,
@@ -166,7 +232,13 @@
       "holdingCostChange": 1.25,
       "price": "2575.45",
       "marketValue": "12877.25",
-      "marketValueChange": 0.95
+      "marketValueChange": 0.95,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-13", "y": 12877.25}
+        ]
+      }
     },
     {
       "id": 13,
@@ -180,7 +252,13 @@
       "holdingCostChange": 0,
       "price": "1.0000",
       "marketValue": "50000.00",
-      "marketValueChange": 0
+      "marketValueChange": 0,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-13", "y": 50000.00}
+        ]
+      }
     },
     {
       "id": 14,
@@ -194,7 +272,13 @@
       "holdingCostChange": 1.95,
       "price": "40567.89",
       "marketValue": "202839.45",
-      "marketValueChange": 2.75
+      "marketValueChange": 2.75,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-13", "y": 202839.45}
+        ]
+      }
     },
     {
       "id": 15,
@@ -208,7 +292,13 @@
       "holdingCostChange": 0.75,
       "price": "2545.32",
       "marketValue": "25453.20",
-      "marketValueChange": -1.45
+      "marketValueChange": -1.45,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-13", "y": 25453.20}
+        ]
+      }
     },
     {
       "id": 16,
@@ -222,7 +312,13 @@
       "holdingCostChange": -1.25,
       "price": "40512.34",
       "marketValue": "81024.68",
-      "marketValueChange": -0.85
+      "marketValueChange": -0.85,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-12", "y": 81024.68}
+        ]
+      }
     },
     {
       "id": 17,
@@ -236,7 +332,13 @@
       "holdingCostChange": 0.85,
       "price": "2551.23",
       "marketValue": "12756.15",
-      "marketValueChange": 1.25
+      "marketValueChange": 1.25,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-12", "y": 12756.15}
+        ]
+      }
     },
     {
       "id": 18,
@@ -250,7 +352,13 @@
       "holdingCostChange": 0,
       "price": "1.0000",
       "marketValue": "50000.00",
-      "marketValueChange": 0
+      "marketValueChange": 0,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-12", "y": 50000.00}
+        ]
+      }
     },
     {
       "id": 19,
@@ -264,7 +372,13 @@
       "holdingCostChange": 1.45,
       "price": "39456.78",
       "marketValue": "197283.90",
-      "marketValueChange": 1.95
+      "marketValueChange": 1.95,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-12", "y": 197283.90}
+        ]
+      }
     },
     {
       "id": 20,
@@ -278,7 +392,17 @@
       "holdingCostChange": 0.45,
       "price": "2582.45",
       "marketValue": "25824.50",
-      "marketValueChange": 0.75
+      "marketValueChange": 0.75,
+      "walletBalance": 12345.67,
+      "detail": {
+        "chartData": [
+          {"x": "2024-01-12", "y": 25824.50}
+        ]
+      }
     }
-  ]
-} 
+  ],
+  "chartData": {
+    "dates": ["2023-01-01", "2023-01-02", "2023-01-03"],
+    "prices": [100, 200, 150]
+  }
+}

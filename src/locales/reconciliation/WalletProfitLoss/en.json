@@ -3,8 +3,8 @@
     "reconciliation": {
       "walletProfitLoss": {
         "title": {
-          "search": "Wallet Position Profit/Loss Query",
-          "detail": "Wallet Position Profit/Loss Details"
+          "search": "Search Criteria",
+          "detail": "Details"
         },
         "form": {
           "dateRange": "Date Range",
@@ -18,18 +18,25 @@
           "date": "Date",
           "merchant": "Merchant",
           "walletId": "Wallet ID",
+          "walletBalance": "Wallet Balance",
           "chainType": "Chain Type",
           "currency": "Currency",
-          "averagePrice": "Average Position Price",
+          "averagePrice": "Average Price",
           "holdingCost": "Holding Cost",
-          "price": "Price",
-          "marketValue": "Market Value"
+          "price": "Current Price",
+          "marketValue": "Market Value",
+          "detail": "Details"
         },
         "walletType": {
           "hot": "Hot Wallet",
           "cold": "Cold Wallet"
+        },
+        "walletBalance": "Wallet Balance",
+        "chart": {
+          "holdingCost": "Holding Cost",
+          "marketValue": "Market Value"
         }
       }
     }
   }
-} 
+}

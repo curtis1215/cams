@@ -26,17 +26,26 @@
         "date": "日期",
         "merchant": "商戶",
         "walletId": "錢包ID",
+        "walletBalance": "錢包餘額",
         "chainType": "鏈類型",
         "currency": "幣種",
-        "averagePrice": "持倉均價",
+        "averagePrice": "平均價格",
         "holdingCost": "持倉成本",
-        "price": "市價",
-        "marketValue": "市值"
+        "price": "當前價格",
+        "marketValue": "市值",
+        "detail": "詳情"
       },
       "walletType": {
         "hot": "熱錢包",
         "cold": "冷錢包"
+      },
+      "detail": {
+        "title": "詳情"
+      },
+      "chart": {
+        "holdingCost": "持倉成本",
+        "marketValue": "市值"
       }
     }
   }
-} 
+}
