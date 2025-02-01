@@ -26,6 +26,7 @@
         :data-source="tableData"
         :row-key="record => record.id"
         :pagination="{ pageSize: 10 }"
+        :scroll="{ x: 1500 }"
       >
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'actions'">
@@ -45,10 +46,10 @@
     <!-- 新增幣種彈窗 -->
     <a-modal
       v-model:open="addModalVisible"
-      :title="t('list.addButton')"
+      :title="formData.id ? t('list.editButton') : t('list.addButton')"
       :width="800"
-      @ok="handleAddSubmit"
-      @cancel="handleAddCancel"
+      @ok="handleSubmit"
+      @cancel="handleCancel"
     >
       <a-tabs v-model:activeKey="activeTabKey">
         <!-- 幣種基本資訊 -->
@@ -133,14 +134,9 @@
                     <a-input-group compact>
                       <a-input-number
                         v-model:value="formData[`${wallet.key}StorageLimit`]"
-                        style="width: calc(100% - 60px)"
+                        style="width: 100%"
                         :precision="2"
                         :placeholder="t('modal.placeholder.enterAmount')"
-                      />
-                      <a-input
-                        style="width: 60px; text-align: center"
-                        :value="'USDT'"
-                        disabled
                       />
                     </a-input-group>
                   </a-col>
@@ -152,11 +148,18 @@
                     />
                   </a-col>
                   <a-col :span="8">
-                    <a-input-number
-                      :value="calculateTokenAmount(formData[`${wallet.key}StorageLimit`])"
-                      style="width: 100%"
-                      disabled
-                    />
+                    <a-input-group compact>
+                      <a-input-number
+                        :value="calculateTokenAmount(formData[`${wallet.key}StorageLimit`])"
+                        style="width: calc(100% - 60px)"
+                        disabled
+                      />
+                      <a-input
+                        style="width: 60px; text-align: center"
+                        :value="'USDT'"
+                        disabled
+                      />
+                    </a-input-group>
                   </a-col>
                 </a-row>
               </a-form-item>
@@ -171,14 +174,9 @@
                     <a-input-group compact>
                       <a-input-number
                         v-model:value="formData[`${wallet.key}ReserveAmount`]"
-                        style="width: calc(100% - 60px)"
+                        style="width: 100%"
                         :precision="2"
                         :placeholder="t('modal.placeholder.enterAmount')"
-                      />
-                      <a-input
-                        style="width: 60px; text-align: center"
-                        :value="'USDT'"
-                        disabled
                       />
                     </a-input-group>
                   </a-col>
@@ -190,11 +188,18 @@
                     />
                   </a-col>
                   <a-col :span="8">
-                    <a-input-number
-                      :value="calculateTokenAmount(formData[`${wallet.key}ReserveAmount`])"
-                      style="width: 100%"
-                      disabled
-                    />
+                    <a-input-group compact>
+                      <a-input-number
+                        :value="calculateTokenAmount(formData[`${wallet.key}ReserveAmount`])"
+                        style="width: calc(100% - 60px)"
+                        disabled
+                      />
+                      <a-input
+                        style="width: 60px; text-align: center"
+                        :value="'USDT'"
+                        disabled
+                      />
+                    </a-input-group>
                   </a-col>
                 </a-row>
               </a-form-item>
@@ -209,14 +214,9 @@
                     <a-input-group compact>
                       <a-input-number
                         v-model:value="formData[`${wallet.key}TransferLimit`]"
-                        style="width: calc(100% - 60px)"
+                        style="width: 100%"
                         :precision="2"
                         :placeholder="t('modal.placeholder.enterAmount')"
-                      />
-                      <a-input
-                        style="width: 60px; text-align: center"
-                        :value="'USDT'"
-                        disabled
                       />
                     </a-input-group>
                   </a-col>
@@ -228,11 +228,18 @@
                     />
                   </a-col>
                   <a-col :span="8">
-                    <a-input-number
-                      :value="calculateTokenAmount(formData[`${wallet.key}TransferLimit`])"
-                      style="width: 100%"
-                      disabled
-                    />
+                    <a-input-group compact>
+                      <a-input-number
+                        :value="calculateTokenAmount(formData[`${wallet.key}TransferLimit`])"
+                        style="width: calc(100% - 60px)"
+                        disabled
+                      />
+                      <a-input
+                        style="width: 60px; text-align: center"
+                        :value="'USDT'"
+                        disabled
+                      />
+                    </a-input-group>
                   </a-col>
                 </a-row>
               </a-form-item>
@@ -353,6 +360,7 @@ const walletTypes = [
 
 // 表單數據
 const formData = ref({
+  id: undefined,
   contractAddress: '',
   coinName: '',
   coinCode: '',
@@ -375,8 +383,12 @@ const formData = ref({
   withdrawalTransferLimit: undefined
 })
 
+// 在 script setup 部分添加
+const isEditing = ref(false)
+
 // 處理新增按鈕點擊
 const handleAdd = () => {
+  isEditing.value = false
   addModalVisible.value = true
 }
 
@@ -424,20 +436,24 @@ const calculateTokenAmount = (usdtAmount) => {
 }
 
 // 處理提交
-const handleAddSubmit = async () => {
+const handleSubmit = async () => {
   try {
     // TODO: 實現提交邏輯
-    message.success(t('modal.message.addSuccess'))
+    const message = isEditing.value ? t('modal.message.editSuccess') : t('modal.message.addSuccess')
+    message.success(message)
     addModalVisible.value = false
   } catch (error) {
-    message.error(t('modal.message.addFailed'))
+    const errorMessage = isEditing.value ? t('modal.message.editFailed') : t('modal.message.addFailed')
+    message.error(errorMessage)
   }
 }
 
 // 處理取消
-const handleAddCancel = () => {
+const handleCancel = () => {
   addModalVisible.value = false
+  isEditing.value = false
   formData.value = {
+    id: undefined,
     contractAddress: '',
     coinName: '',
     coinCode: '',
@@ -462,8 +478,35 @@ const handleAddCancel = () => {
 
 // 添加處理函數
 const handleEdit = (record) => {
-  // TODO: 實現編輯邏輯
-  console.log('Edit record:', record)
+  isEditing.value = true
+  // 填充表單數據
+  formData.value = {
+    id: record.id,
+    contractAddress: record.contractAddress,
+    coinName: record.coinName,
+    coinCode: record.coinCode,
+    decimals: record.decimals,
+    gasLimitMax: record.gasLimitMax,
+    gasLimitMin: record.gasLimitMin,
+    gasPrice: record.gasPrice,
+    transferFee: record.transferFee,
+    priceSource: record.priceSource,
+    sourcePair: record.sourcePair,
+    userStorageLimit: record.userStorageLimit,
+    collectionStorageLimit: record.collectionStorageLimit,
+    withdrawalStorageLimit: record.withdrawalStorageLimit,
+    userReserveAmount: record.userReserveAmount,
+    collectionReserveAmount: record.collectionReserveAmount,
+    withdrawalReserveAmount: record.withdrawalReserveAmount,
+    userTransferLimit: record.userTransferLimit,
+    collectionTransferLimit: record.collectionTransferLimit,
+    withdrawalTransferLimit: record.withdrawalTransferLimit
+  }
+  
+  // 打開彈窗
+  addModalVisible.value = true
+  // 設置為第一個標籤頁
+  activeTabKey.value = 1
 }
 
 const handleDelete = (record) => {
@@ -480,6 +523,7 @@ onMounted(() => {
 <style scoped>
 .contract-coin-management {
   padding: 24px;
+  overflow-x: hidden;
 }
 
 .filter-card {
@@ -487,8 +531,9 @@ onMounted(() => {
   background: #141414;
 }
 
-.table-card {
-  background: #141414;
+.list-card {
+  width: 100%;
+  overflow-x: auto;
 }
 
 .contract-coin-management :deep(.ant-card) {
@@ -519,8 +564,14 @@ onMounted(() => {
 }
 
 /* 表格样式 */
+:deep(.ant-table-wrapper) {
+  width: 100%;
+  overflow-x: auto;
+}
+
 :deep(.ant-table) {
   background: transparent;
+  min-width: 100%;
 }
 
 :deep(.ant-table-thead > tr > th) {

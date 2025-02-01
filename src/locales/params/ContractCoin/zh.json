@@ -7,6 +7,7 @@
   "list": {
     "title": "幣種列表",
     "addButton": "新增幣種",
+    "editButton": "編輯幣種",
     "columns": {
       "recordType": "鏈類型",
       "coinName": "幣種名稱",
@@ -68,7 +69,9 @@
       "querySuccess": "查詢成功",
       "queryFailed": "查詢失敗",
       "addSuccess": "新增成功",
-      "addFailed": "新增失敗"
+      "addFailed": "新增失敗",
+      "editSuccess": "編輯成功",
+      "editFailed": "編輯失敗"
     }
   }
 } 
