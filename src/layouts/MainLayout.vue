@@ -37,6 +37,7 @@
       <a-layout-sider width="200">
         <a-menu
           mode="inline"
+          theme="dark"
           v-model:selectedKeys="selectedKeys"
           v-model:openKeys="openKeys"
           :style="{ height: '100%', borderRight: 0 }"
@@ -120,6 +121,10 @@
               <WalletFilled />
               {{ t('nav.walletBalanceQuery') }}
             </a-menu-item>
+            <a-menu-item key="walletProfitLoss" @click="router.push('/reconciliation/wallet-profit-loss')">
+              <LineChartOutlined />
+              {{ t('nav.walletProfitLossQuery') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="params">
             <template #title>
@@ -192,7 +197,8 @@ import {
   AccountBookOutlined,
   WalletFilled,
   ShopOutlined,
-  TeamOutlined
+  TeamOutlined,
+  LineChartOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -211,59 +217,54 @@ const openKeys = ref(['monitor'])
 
 const setSelectedKeysByRoute = () => {
   const path = route.path
-  if (path.includes('/monitor/')) {
+
+  // 根據路徑設置 openKeys
+  if (path.startsWith('/monitor')) {
     openKeys.value = ['monitor']
-  } else if (path.includes('/wallet/')) {
+  } else if (path.startsWith('/wallet')) {
     openKeys.value = ['wallet']
-  } else if (path.includes('/system/')) {
+  } else if (path.startsWith('/system')) {
     openKeys.value = ['system']
-  } else if (path.includes('/order/')) {
+  } else if (path.startsWith('/order')) {
     openKeys.value = ['order']
-  } else if (path.includes('/params/')) {
+  } else if (path.startsWith('/params')) {
     openKeys.value = ['params']
-  } else if (path.includes('/reconciliation/')) {
+  } else if (path.startsWith('/reconciliation')) {
     openKeys.value = ['reconciliation']
   }
 
-  if (path.includes('/monitor/dashboard')) {
-    selectedKeys.value = ['dashboard']
-  } else if (path.includes('/monitor/alert')) {
-    selectedKeys.value = ['alert']
-  } else if (path.includes('/wallet/query')) {
-    selectedKeys.value = ['walletQuery']
-  } else if (path.includes('/wallet/detail')) {
-    selectedKeys.value = ['walletDetail']
-  } else if (path.includes('/wallet/transfer')) {
-    selectedKeys.value = ['walletTransfer']
-  } else if (path.includes('/wallet/token-exchange')) {
-    selectedKeys.value = ['tokenExchange']
-  } else if (path.includes('/system/users')) {
-    selectedKeys.value = ['users']
-    openKeys.value = ['system']
-  } else if (path.includes('/system/roles')) {
-    selectedKeys.value = ['roles']
-  } else if (path.includes('/order/deposit')) {
-    selectedKeys.value = ['depositOrder']
-  } else if (path.includes('/order/withdraw')) {
-    selectedKeys.value = ['withdrawOrder']
-  } else if (path.includes('/order/transfer')) {
-    selectedKeys.value = ['transferOrder']
-  } else if (path.includes('/order/exchange')) {
-    selectedKeys.value = ['exchangeOrder']
-  } else if (path.includes('/order/transaction')) {
-    selectedKeys.value = ['transactionDetail']
-  } else if (path.includes('/params/blockchain')) {
-    selectedKeys.value = ['blockchain']
-  } else if (path.includes('/params/contract-coin')) {
-    selectedKeys.value = ['contractCoin']
-  } else if (path.includes('/reconciliation/wallet-balance')) {
-    selectedKeys.value = ['walletBalance']
+  // 根據具體路徑設置 selectedKeys
+  const pathMap = {
+    '/monitor/dashboard': 'dashboard',
+    '/monitor/alert': 'alert',
+    '/wallet/query': 'walletQuery',
+    '/wallet/detail': 'walletDetail',
+    '/wallet/transfer': 'walletTransfer',
+    '/wallet/token-exchange': 'tokenExchange',
+    '/system/users': 'users',
+    '/system/roles': 'roles',
+    '/order/deposit': 'depositOrder',
+    '/order/withdraw': 'withdrawOrder',
+    '/order/transfer': 'transferOrder',
+    '/order/exchange': 'exchangeOrder',
+    '/order/transaction': 'transactionDetail',
+    '/params/blockchain': 'blockchain',
+    '/params/contract-coin': 'contractCoin',
+    '/reconciliation/wallet-balance': 'walletBalance',
+    '/reconciliation/wallet-profit-loss': 'walletProfitLoss'
   }
+
+  selectedKeys.value = [pathMap[path] || 'dashboard']
 }
+
+onMounted(() => {
+  getUserInfo()
+  setSelectedKeysByRoute()
+})
 
 watch(() => route.path, () => {
   setSelectedKeysByRoute()
-}, { immediate: true })
+})
 
 const getUserInfo = () => {
   const user = storage.get('user')
@@ -278,10 +279,6 @@ const handleLogout = () => {
   storage.remove('user')
   router.push('/login')
 }
-
-onMounted(() => {
-  getUserInfo()
-})
 
 const changeLocale = (value) => {
   locale.value = value

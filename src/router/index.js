@@ -120,6 +120,15 @@ const routes = [
           title: 'nav.walletBalanceQuery',
           requiresAuth: true
         }
+      },
+      {
+        path: 'wallet-profit-loss',
+        name: 'WalletProfitLoss',
+        component: () => import('@/views/reconciliation/WalletProfitLoss.vue'),
+        meta: {
+          title: 'nav.walletProfitLossQuery',
+          requiresAuth: true
+        }
       }
     ]
   }

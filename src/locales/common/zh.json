@@ -1,78 +1,92 @@
 {
-  "prompt": {
-    "selectStatus": "請選擇狀態",
-    "selectMerchant": "請選擇商戶",
-    "selectChainType": "請選擇鏈類型",
-    "selectCurrency": "請選擇幣種",
-    "selectStartDate": "請選擇開始日期",
-    "selectEndDate": "請選擇結束日期",
-    "pleaseInputOrderId": "請輸入訂單號",
-    "pleaseInputUserId": "請輸入用戶ID",
-    "pleaseInputAddress": "請輸入地址",
-    "pleaseInputTxHash": "請輸入交易哈希",
-    "selectTransferType": "請選擇轉賬類型",
-    "selectAll": "全部"
-  },
-  "field": {
-    "allMerchants": "所有商戶",
-    "startDate": "開始日期",
-    "endDate": "結束日期",
-    "orderId": "訂單號",
-    "dateRange": "日期範圍",
-    "merchant": "商戶",
-    "status": "狀態",
-    "userId": "用戶ID",
-    "address": "地址",
-    "platformOrderId": "平台訂單號",
-    "merchantOrderId": "商戶訂單號",
-    "transferId": "轉帳單號",
-    "createTime": "創建時間",
-    "successTime": "成功時間",
-    "notifyTime": "通知時間"
-  },
-  "dateFormat": {
-    "dateTime": "YYYY-MM-DD HH:mm:ss",
-    "date": "YYYY-MM-DD"
-  },
-  "status": {
-    "waiting": "等待中",
-    "confirming": "確認中",
-    "processing": "處理中",
-    "retrying": "重試中",
-    "success": "成功",
-    "successful": "成功",
-    "failed": "失敗",
-    "pending": "待處理",
-    "rejected": "已拒絕",
-    "transferringOut": "轉出中",
-    "exchanging": "兌換中",
-    "transferringIn": "轉入中",
-    "transferOutFailed": "轉出失敗",
-    "exchangeFailed": "兌換失敗",
-    "timeout": "超時"
-  },
-  "message": {
-    "copySuccess": "複製成功",
-    "copyFailed": "複製失敗"
-  },
-  "action": {
-    "retry": "重試",
-    "reset": "重置",
-    "query": "查詢",
-    "search": "搜索"
-  },
-  "title": {
-    "depositOrderQuery": "充值訂單查詢",
-    "orderList": "訂單列表"
-  },
-  "table": {
-    "merchant": "商戶",
-    "transactionDocument": "交易單據",
-    "transactionAmount": "交易金額",
-    "usdtValue": "USDT價值",
-    "receivingAddress": "收款地址",
-    "orderStatus": "訂單狀態",
-    "notifyStatus": "通知狀態",
-    "timeInfo": "時間信息"
+  "common": {
+    "prompt": {
+      "selectStatus": "請選擇狀態",
+      "selectMerchant": "請選擇商戶",
+      "selectChainType": "請選擇鏈類型",
+      "selectCurrency": "請選擇幣種",
+      "selectStartDate": "請選擇開始日期",
+      "selectEndDate": "請選擇結束日期",
+      "pleaseInputOrderId": "請輸入訂單號",
+      "pleaseInputUserId": "請輸入用戶ID",
+      "pleaseInputAddress": "請輸入地址",
+      "pleaseInputTxHash": "請輸入交易哈希",
+      "selectTransferType": "請選擇轉賬類型",
+      "selectAll": "全部"
+    },
+    "field": {
+      "allMerchants": "所有商戶",
+      "startDate": "開始日期",
+      "endDate": "結束日期",
+      "orderId": "訂單號",
+      "dateRange": "日期範圍",
+      "merchant": "商戶",
+      "status": "狀態",
+      "userId": "用戶ID",
+      "address": "地址",
+      "platformOrderId": "平台訂單號",
+      "merchantOrderId": "商戶訂單號",
+      "transferId": "轉帳單號",
+      "createTime": "創建時間",
+      "successTime": "成功時間",
+      "notifyTime": "通知時間"
+    },
+    "dateFormat": {
+      "dateTime": "YYYY-MM-DD HH:mm:ss",
+      "date": "YYYY-MM-DD"
+    },
+    "status": {
+      "waiting": "等待中",
+      "confirming": "確認中",
+      "processing": "處理中",
+      "retrying": "重試中",
+      "success": "成功",
+      "successful": "成功",
+      "failed": "失敗",
+      "pending": "待處理",
+      "rejected": "已拒絕",
+      "transferringOut": "轉出中",
+      "exchanging": "兌換中",
+      "transferringIn": "轉入中",
+      "transferOutFailed": "轉出失敗",
+      "exchangeFailed": "兌換失敗",
+      "timeout": "超時"
+    },
+    "message": {
+      "copySuccess": "複製成功",
+      "copyFailed": "複製失敗",
+      "success": "操作成功",
+      "error": "操作失敗",
+      "loading": "加載中..."
+    },
+    "action": {
+      "retry": "重試",
+      "reset": "重置",
+      "query": "查詢",
+      "search": "搜索",
+      "confirm": "確認",
+      "cancel": "取消",
+      "back": "返回",
+      "edit": "編輯",
+      "delete": "刪除",
+      "add": "新增",
+      "save": "保存",
+      "view": "查看"
+    },
+    "title": {
+      "depositOrderQuery": "充值訂單查詢",
+      "orderList": "訂單列表"
+    },
+    "table": {
+      "merchant": "商戶",
+      "transactionDocument": "交易單據",
+      "transactionAmount": "交易金額",
+      "usdtValue": "USDT價值",
+      "receivingAddress": "收款地址",
+      "orderStatus": "訂單狀態",
+      "notifyStatus": "通知狀態",
+      "timeInfo": "時間信息",
+      "total": "共 {total} 條"
+    }
   }
 } 

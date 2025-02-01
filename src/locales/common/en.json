@@ -36,11 +36,6 @@
       "dateTime": "YYYY-MM-DD HH:mm:ss",
       "date": "YYYY-MM-DD"
     },
-    "action": {
-      "reset": "Reset",
-      "query": "Query",
-      "retry": "Retry"
-    },
     "status": {
       "confirming": "Confirming",
       "successful": "Successful",
@@ -52,15 +47,24 @@
       "pending": "Pending",
       "manualConfirm": "Manual Confirm"
     },
-    "table": {
-      "merchant": "Merchant",
-      "transactionDocument": "Transaction Document",
-      "transactionAmount": "Transaction Amount",
-      "usdtValue": "USDT Value",
-      "receivingAddress": "Receiving Address",
-      "orderStatus": "Order Status",
-      "notifyStatus": "Notify Status",
-      "timeInfo": "Time Info"
+    "message": {
+      "copySuccess": "Copy successful",
+      "copyFailed": "Copy failed",
+      "success": "Operation successful",
+      "error": "Operation failed",
+      "loading": "Loading..."
+    },
+    "action": {
+      "search": "Search",
+      "reset": "Reset",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "back": "Back",
+      "edit": "Edit",
+      "delete": "Delete",
+      "add": "Add",
+      "save": "Save",
+      "view": "View"
     },
     "title": {
       "depositOrderQuery": "Deposit Order Query",
@@ -70,9 +74,16 @@
       "walletInfo": "Wallet Info",
       "tokenDetail": "Token Detail"
     },
-    "message": {
-      "copySuccess": "Copy successful",
-      "copyFailed": "Copy failed"
+    "table": {
+      "merchant": "Merchant",
+      "transactionDocument": "Transaction Document",
+      "transactionAmount": "Transaction Amount",
+      "usdtValue": "USDT Value",
+      "receivingAddress": "Receiving Address",
+      "orderStatus": "Order Status",
+      "notifyStatus": "Notify Status",
+      "timeInfo": "Time Info",
+      "total": "Total {total} items"
     },
     "tx": {
       "deposit": "Deposit",

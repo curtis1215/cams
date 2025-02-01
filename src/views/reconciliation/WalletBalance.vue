@@ -1,63 +1,69 @@
 <template>
   <div class="wallet-balance">
-    <a-card :title="t('reconciliation.WalletBalance.title.walletBalanceQuery')" :bordered="false" class="filter-card">
-      <!-- 搜索表單 -->
-      <a-form layout="inline" :model="searchForm" @finish="handleSearch" class="query-form">
-        <a-form-item :label="t('field.dateRange')" class="form-item">
-          <date-range-select
-            v-model="searchForm.dateRange"
-            :style="{ width: '280px' }"
-          />
-        </a-form-item>
-        <a-form-item :label="t('reconciliation.WalletBalance.form.walletId')" class="form-item">
-          <a-input
-            v-model:value="searchForm.walletId"
-            :placeholder="t('reconciliation.WalletBalance.form.pleaseEnterWalletId')"
-            allow-clear
-          />
-        </a-form-item>
-        <a-form-item :label="t('reconciliation.WalletBalance.form.walletAddress')" class="form-item">
-          <a-input
-            v-model:value="searchForm.walletAddress"
-            :placeholder="t('reconciliation.WalletBalance.form.pleaseEnterWalletAddress')"
-            allow-clear
-          />
-        </a-form-item>
-        <a-form-item :label="t('reconciliation.WalletBalance.form.walletType')" class="form-item">
-          <wallet-type-select
-            v-model="searchForm.walletType"
-            :style="{ width: '180px' }"
-          />
-        </a-form-item>
-        <a-form-item :label="t('reconciliation.WalletBalance.form.chainType')" class="form-item">
-          <chain-type-select
-            v-model="searchForm.chainType"
-            :style="{ width: '180px' }"
-          />
-        </a-form-item>
-        <a-form-item :label="t('reconciliation.WalletBalance.form.currency')" class="form-item">
-          <currency-select
-            v-model="searchForm.currency"
-            :style="{ width: '180px' }"
-          />
-        </a-form-item>
-        <a-form-item class="form-item">
-          <a-space>
-            <a-button type="primary" html-type="submit">
-              <template #icon><SearchOutlined /></template>
-              {{ t('reconciliation.WalletBalance.common.search') }}
-            </a-button>
-            <a-button @click="handleReset">
-              <template #icon><ReloadOutlined /></template>
-              {{ t('reconciliation.WalletBalance.common.reset') }}
-            </a-button>
-          </a-space>
-        </a-form-item>
+    <!-- 查詢表單 -->
+    <a-card :bordered="false" class="filter-card">
+      <template #title>
+        <span class="card-title">{{ t('reconciliation.WalletBalance.title.walletBalanceQuery') }}</span>
+      </template>
+      <a-form :model="searchForm" class="query-form">
+        <div class="form-row">
+          <a-form-item :label="t('field.dateRange')" class="form-item-lg">
+            <date-range-select
+              v-model="searchForm.dateRange"
+              style="width: 100%"
+            />
+          </a-form-item>
+          <a-form-item :label="t('reconciliation.WalletBalance.form.walletId')" class="form-item-md">
+            <a-input
+              v-model:value="searchForm.walletId"
+              :placeholder="t('reconciliation.WalletBalance.form.pleaseEnterWalletId')"
+              style="width: 100%"
+              allow-clear
+            />
+          </a-form-item>
+          <a-form-item :label="t('reconciliation.WalletBalance.form.walletAddress')" class="form-item-lg">
+            <a-input
+              v-model:value="searchForm.walletAddress"
+              :placeholder="t('reconciliation.WalletBalance.form.pleaseEnterWalletAddress')"
+              style="width: 100%"
+              allow-clear
+            />
+          </a-form-item>
+        </div>
+        <div class="form-row">
+          <a-form-item :label="t('reconciliation.WalletBalance.form.walletType')" class="form-item-md">
+            <wallet-type-select
+              v-model="searchForm.walletType"
+              style="width: 100%"
+            />
+          </a-form-item>
+          <a-form-item :label="t('reconciliation.WalletBalance.form.chainType')" class="form-item-md">
+            <chain-type-select
+              v-model="searchForm.chainType"
+              style="width: 100%"
+            />
+          </a-form-item>
+          <a-form-item :label="t('reconciliation.WalletBalance.form.currency')" class="form-item-md">
+            <currency-select
+              v-model="searchForm.currency"
+              style="width: 100%"
+            />
+          </a-form-item>
+          <div class="form-item-sm button-group">
+            <a-space>
+              <a-button @click="handleReset">{{ t('reconciliation.WalletBalance.common.reset') }}</a-button>
+              <a-button type="primary" @click="handleSearch">{{ t('reconciliation.WalletBalance.common.search') }}</a-button>
+            </a-space>
+          </div>
+        </div>
       </a-form>
     </a-card>
 
     <!-- 對帳明細表格 -->
-    <a-card :title="t('reconciliation.WalletBalance.title.reconciliationDetails')" :bordered="false" class="table-card">
+    <a-card :bordered="false" :bodyStyle="{ padding: '20px 24px' }" class="table-card">
+      <template #title>
+        <span class="card-title">{{ t('reconciliation.WalletBalance.title.reconciliationDetails') }}</span>
+      </template>
       <div class="table-container">
         <a-table
           :columns="columns"
@@ -383,187 +389,184 @@ const hasDifference = computed(() => {
 })
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .wallet-balance {
   padding: 24px;
-}
 
-.filter-card {
-  margin-bottom: 24px;
-  background: #141414;
-}
+  .filter-card {
+    margin-bottom: 24px;
+    background: #141414;
+  }
 
-.table-card {
-  background: #141414;
-}
+  .table-card {
+    margin-bottom: 24px;
+    background: #141414;
+  }
 
-.wallet-balance :deep(.ant-card) {
-  border-radius: 8px;
-  border: 1px solid #303030;
-}
+  :deep(.ant-card) {
+    border-radius: 8px;
+    border: 1px solid #303030;
+  }
 
-.wallet-balance :deep(.ant-card-head) {
-  background-color: #1f1f1f;
-  border-bottom: 1px solid #303030;
-  min-height: 48px;
-}
+  :deep(.ant-card-head) {
+    background-color: #1f1f1f;
+    border-bottom: 1px solid #303030;
+    min-height: 48px;
+  }
 
-.wallet-balance :deep(.ant-card-head-title) {
-  font-size: 16px;
-  font-weight: 500;
-  padding: 12px 0;
-}
+  :deep(.ant-card-head-title) {
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 0;
+  }
 
-.wallet-balance :deep(.ant-card-body) {
-  background-color: #141414;
-}
+  :deep(.ant-card-body) {
+    background-color: #141414;
+    padding: 20px 24px;
+  }
 
-.query-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+  .query-form {
+    width: 100%;
+  }
 
-.form-item {
-  margin: 0;
-}
+  .form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    width: 100%;
 
-.table-container {
-  padding: 12px;
-  background: #141414;
-  border-radius: 8px;
-}
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 
-/* 深色模式表格樣式 */
-:deep(.ant-table) {
-  background: transparent;
-}
-
-:deep(.ant-table-thead > tr > th) {
-  background: #1f1f1f;
-  border-bottom: 1px solid #303030;
-}
-
-:deep(.ant-table-tbody > tr > td) {
-  border-bottom: 1px solid #303030;
-}
-
-:deep(.ant-table-tbody > tr:hover > td) {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* 分頁器樣式 */
-:deep(.ant-pagination-item),
-:deep(.ant-pagination-prev),
-:deep(.ant-pagination-next),
-:deep(.ant-pagination-jump-prev),
-:deep(.ant-pagination-jump-next) {
-  background: transparent;
-  border-color: #303030;
-}
-
-:deep(.ant-pagination-item-active) {
-  background: var(--ant-primary-color);
-  border-color: var(--ant-primary-color);
-}
-
-:deep(.ant-pagination-item-active a) {
-  color: #fff;
-}
-
-/* 表單元素深色模式樣式 */
-:deep(.ant-input),
-:deep(.ant-select-selector) {
-  background-color: #1f1f1f !important;
-  border-color: #434343 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-:deep(.ant-input:hover),
-:deep(.ant-input:focus),
-:deep(.ant-select-selector:hover),
-:deep(.ant-select-selector:focus) {
-  border-color: var(--ant-primary-color) !important;
-}
-
-:deep(.ant-select-arrow) {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-:deep(.ant-select-dropdown) {
-  background-color: #1f1f1f;
-  border: 1px solid #303030;
-}
-
-:deep(.ant-select-item) {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-:deep(.ant-select-item-option-active) {
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-:deep(.ant-select-item-option-selected) {
-  background-color: var(--ant-primary-1);
-}
-
-.reconciliation-info {
-  margin-bottom: 24px;
-  background: #1f1f1f;
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 16px;
-
-  &:last-child {
+  :deep(.ant-form-item) {
     margin-bottom: 0;
+    width: 100%;
   }
-}
 
-.info-item {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  
-  .label {
-    color: rgba(255, 255, 255, 0.45);
-    margin-right: 8px;
-    white-space: nowrap;
+  .form-item-xl {
+    flex: 3;
+    min-width: 0;
   }
-  
-  .value {
+
+  .form-item-lg {
+    flex: 2;
+    min-width: 0;
+  }
+
+  .form-item-md {
+    flex: 1.5;
+    min-width: 0;
+  }
+
+  .form-item-sm {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .button-group {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .table-container {
+    padding: 12px;
+    background: #141414;
+    border-radius: 8px;
+  }
+
+  :deep(.ant-table) {
+    background: transparent;
+  }
+
+  :deep(.ant-table-thead > tr > th) {
+    background: #1f1f1f;
+    border-bottom: 1px solid #303030;
+  }
+
+  :deep(.ant-table-tbody > tr > td) {
+    border-bottom: 1px solid #303030;
+  }
+
+  :deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  :deep(.ant-pagination-item-link) {
+    background: transparent !important;
+    border-color: #303030 !important;
+  }
+
+  :deep(.ant-pagination-item) {
+    background: transparent !important;
+    border-color: #303030 !important;
+  }
+
+  :deep(.ant-pagination-item-active) {
+    border-color: #177ddc !important;
+  }
+
+  /* 對帳明細相關樣式 */
+  .reconciliation-info {
+    margin-bottom: 24px;
+    background: #1f1f1f;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 16px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .info-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    
+    .label {
+      color: rgba(255, 255, 255, 0.45);
+      margin-right: 8px;
+      white-space: nowrap;
+    }
+    
+    .value {
+      color: rgba(255, 255, 255, 0.85);
+      font-family: monospace;
+    }
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
     color: rgba(255, 255, 255, 0.85);
-    font-family: monospace;
   }
-}
 
-.section-title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 16px;
-  color: rgba(255, 255, 255, 0.85);
-}
+  .transfer-orders {
+    background: #1f1f1f;
+    border-radius: 8px;
+    padding: 16px;
+  }
 
-.transfer-orders {
-  background: #1f1f1f;
-  border-radius: 8px;
-  padding: 16px;
-}
+  .negative-amount {
+    color: #ff4d4f;
+  }
 
-.negative-amount {
-  color: #ff4d4f;
-}
+  .error-text {
+    color: #ff4d4f;
+  }
 
-.error-text {
-  color: #ff4d4f;
-}
-
-.hash-text {
-  font-family: monospace;
-  color: var(--ant-primary-color);
+  .hash-text {
+    font-family: monospace;
+    color: var(--ant-primary-color);
+  }
 }
 </style> 

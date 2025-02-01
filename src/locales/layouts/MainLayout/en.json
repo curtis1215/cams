@@ -31,7 +31,8 @@
     "system": "System",
     "userManagement": "User Management",
     "roleManagement": "Role Management",
-    "merchantManagement": "Merchant Management"
+    "merchantManagement": "Merchant Management",
+    "walletProfitLossQuery": "Wallet Position P/L"
   },
   "language": {
     "english": "English",
