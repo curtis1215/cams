@@ -11,7 +11,9 @@
       "or": "或",
       "googleLogin": "使用 Google 帳號登入",
       "googleLoginSuccess": "Google 登入成功",
-      "googleLoginFailed": "Google 登入失敗"
+      "googleLoginFailed": "Google 登入失敗",
+      "adminLogin": "管理員登入",
+      "submit": "確認"
     }
   }
 } 

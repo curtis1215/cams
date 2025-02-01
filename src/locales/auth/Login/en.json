@@ -11,7 +11,9 @@
       "or": "OR",
       "googleLogin": "Sign in with Google",
       "googleLoginSuccess": "Google login successful",
-      "googleLoginFailed": "Google login failed"
+      "googleLoginFailed": "Google login failed",
+      "adminLogin": "Admin Login",
+      "submit": "Submit"
     }
   }
 } 
