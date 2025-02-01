@@ -62,6 +62,12 @@
     </a-card>
 
     <a-card :title="t('title.orderList')" class="list-card">
+      <template #extra>
+        <a-button type="primary" @click="handleDownload">
+          <template #icon><DownloadOutlined /></template>
+          {{ t('action.download') }}
+        </a-button>
+      </template>
       <div class="table-container">
         <a-table
           :columns="columns"
@@ -201,7 +207,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { CopyOutlined, LinkOutlined } from '@ant-design/icons-vue'
+import { CopyOutlined, LinkOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
@@ -447,6 +453,30 @@ const copyTxHash = async (hash) => {
   } catch (err) {
     message.error(t('message.copyFailed'))
   }
+}
+
+const handleDownload = () => {
+  // 將表格數據轉換為CSV格式
+  const headers = columns.map(col => col.title).join(',')
+  const rows = tableData.value.map(row => {
+    return columns.map(col => {
+      const value = row[col.dataIndex] || ''
+      return `"${value}"`
+    }).join(',')
+  })
+  
+  const csv = [headers, ...rows].join('\n')
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+  
+  link.setAttribute('href', url)
+  link.setAttribute('download', `deposit_${new Date().toISOString().split('T')[0]}.csv`)
+  link.style.visibility = 'hidden'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  message.success(t('message.downloadSuccess'))
 }
 </script>
 

@@ -1,67 +1,73 @@
 <template>
   <div class="withdraw-order">
-    <a-card :title="t('withdraw.withdrawOrderQuery')" class="filter-card">
+    <a-card :title="t('title.withdrawOrderQuery')" class="filter-card">
       <a-form layout="vertical" :model="queryParams" class="query-form">
         <div class="form-row">
-          <a-form-item :label="t('withdraw.orderId')" class="form-item-lg">
+          <a-form-item :label="t('field.orderId')" class="form-item-lg">
             <a-input
               v-model:value="queryParams.orderId"
-              :placeholder="t('withdraw.pleaseInputOrderId')"
+              :placeholder="t('prompt.pleaseInputOrderId')"
               allow-clear
             />
           </a-form-item>
-          <a-form-item :label="t('withdraw.dateRange')" class="form-item-lg">
+          <a-form-item :label="t('field.dateRange')" class="form-item-lg">
             <date-range-select
               v-model="queryParams.dateRange"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('withdraw.merchant')" class="form-item-md">
+          <a-form-item :label="t('field.merchant')" class="form-item-md">
             <merchant-select
               v-model="queryParams.merchant"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('withdraw.status')" class="form-item-sm">
+          <a-form-item :label="t('field.status')" class="form-item-sm">
             <withdraw-status-select
               v-model="queryParams.status"
               style="width: 100%"
             />
           </a-form-item>
-          <a-form-item :label="t('withdraw.userId')" class="form-item-md">
+          <a-form-item :label="t('field.userId')" class="form-item-md">
             <a-input
               v-model:value="queryParams.userId"
-              :placeholder="t('withdraw.pleaseInputUserId')"
+              :placeholder="t('prompt.pleaseInputUserId')"
               allow-clear
             />
           </a-form-item>
         </div>
         <div class="form-row">
-          <a-form-item :label="t('withdraw.address')" class="form-item-xl">
+          <a-form-item :label="t('field.address')" class="form-item-xl">
             <a-input
               v-model:value="queryParams.address"
-              :placeholder="t('withdraw.pleaseInputAddress')"
+              :placeholder="t('prompt.pleaseInputAddress')"
               allow-clear
             />
           </a-form-item>
           <a-form-item label="TxHash" class="form-item-xl">
             <a-input
               v-model:value="queryParams.txHash"
-              :placeholder="t('withdraw.pleaseInputTxHash')"
+              :placeholder="t('prompt.pleaseInputTxHash')"
               allow-clear
             />
           </a-form-item>
           <div class="form-item-sm button-group">
             <a-space>
-              <a-button @click="handleReset">{{ t('withdraw.reset') }}</a-button>
-              <a-button type="primary" @click="handleQuery">{{ t('withdraw.query') }}</a-button>
+              <a-button @click="handleReset">{{ t('action.reset') }}</a-button>
+              <a-button type="primary" @click="handleQuery">{{ t('action.query') }}</a-button>
             </a-space>
           </div>
         </div>
       </a-form>
     </a-card>
 
-    <a-card :title="t('withdraw.orderList')" class="list-card">
+    <a-card :title="t('title.orderList')" class="list-card">
+      <template #extra>
+        <a-button type="primary" @click="handleDownload">
+          <template #icon><DownloadOutlined /></template>
+          {{ t('action.download') }}
+        </a-button>
+      </template>
       <a-table
         :columns="columns"
         :data-source="tableData"
@@ -77,18 +83,18 @@
           <template v-else-if="column.key === 'orderInfo'">
             <div class="order-info">
               <div class="info-item">
-                <span class="label">{{ t('withdraw.platformOrderId') }}:</span>
+                <span class="label">{{ t('field.platformOrderId') }}:</span>
                 <span>{{ record.platformOrderId }}</span>
               </div>
               <div class="info-item">
-                <span class="label">{{ t('withdraw.merchantOrderId') }}:</span>
+                <span class="label">{{ t('field.merchantOrderId') }}:</span>
                 <span>{{ record.merchantOrderId }}</span>
               </div>
               <div class="info-item">
-                <span class="label">{{ t('withdraw.transferId') }}:</span>
+                <span class="label">{{ t('field.transferId') }}:</span>
                 <template v-if="record.showTransferDetail">
                   <a-button type="link" size="small" @click="handleTransferDetail(record.transferId)">
-                    {{ t('withdraw.details') }}
+                    {{ t('action.details') }}
                   </a-button>
                 </template>
                 <template v-else>
@@ -133,7 +139,7 @@
                 class="retry-button"
                 @click="handleRetryNotify(record)"
               >
-                {{ t('withdraw.retry') }}
+                {{ t('action.retry') }}
               </a-button>
             </div>
           </template>
@@ -141,20 +147,20 @@
           <template v-else-if="column.key === 'timeInfo'">
             <div class="time-info">
               <div class="info-item">
-                <span class="label">{{ t('withdraw.createTime') }}:</span>
+                <span class="label">{{ t('field.createTime') }}:</span>
                 <span>{{ record.createTime }}</span>
               </div>
               <div class="info-item">
-                <span class="label">{{ t('withdraw.successTime') }}:</span>
+                <span class="label">{{ t('field.successTime') }}:</span>
                 <span>{{ record.successTime || '-' }}</span>
               </div>
               <div class="info-item">
-                <span class="label">{{ t('withdraw.notifyTime') }}:</span>
+                <span class="label">{{ t('field.notifyTime') }}:</span>
                 <span>{{ record.notifyTime || '-' }}</span>
               </div>
               <div class="info-item notify-history">
                 <a-button type="link" size="small" @click="handleNotifyHistory(record)">
-                  {{ t('withdraw.notifyHistory') }}
+                  {{ t('title.notifyHistory') }}
                 </a-button>
               </div>
             </div>
@@ -165,7 +171,7 @@
 
     <a-modal
       v-model:open="notifyHistoryVisible"
-      :title="`${currentRecord?.platformOrderId || ''} ${t('withdraw.notifyHistory')}`"
+      :title="`${currentRecord?.platformOrderId || ''} ${t('title.notifyHistory')}`"
       :footer="null"
       width="600px"
     >
@@ -180,17 +186,17 @@
     <!-- 通知詳情彈窗 -->
     <a-modal
       v-model:open="notifyDetailVisible"
-      :title="t('withdraw.notifyDetail')"
+      :title="t('title.notifyDetail')"
       :width="800"
       @cancel="handleNotifyDetailCancel"
     >
       <div class="notify-detail">
         <div class="detail-item">
-          <div class="detail-label">{{ t('withdraw.notifyUrl') }}:</div>
+          <div class="detail-label">{{ t('field.notifyUrl') }}:</div>
           <a-input v-model:value="notifyUrl" class="notify-url-input" />
         </div>
         <div class="detail-item">
-          <div class="detail-label">{{ t('withdraw.notifyContent') }}:</div>
+          <div class="detail-label">{{ t('field.notifyContent') }}:</div>
           <div class="code-block-wrapper">
             <div class="code-header">
               <span>JSON</span>
@@ -202,7 +208,7 @@
           </div>
         </div>
         <div class="detail-item">
-          <div class="detail-label">{{ t('withdraw.errorContent') }}:</div>
+          <div class="detail-label">{{ t('field.errorContent') }}:</div>
           <div class="code-block-wrapper">
             <div class="code-header">
               <span>JSON</span>
@@ -216,8 +222,8 @@
       </div>
       <template #footer>
         <a-space>
-          <a-button @click="handleNotifyDetailCancel">{{ t('withdraw.cancel') }}</a-button>
-          <a-button type="primary" @click="handleNotifyRetry">{{ t('withdraw.retry') }}</a-button>
+          <a-button @click="handleNotifyDetailCancel">{{ t('action.cancel') }}</a-button>
+          <a-button type="primary" @click="handleNotifyRetry">{{ t('action.retry') }}</a-button>
         </a-space>
       </template>
     </a-modal>
@@ -227,7 +233,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
-import { CopyOutlined, LinkOutlined } from '@ant-design/icons-vue'
+import { CopyOutlined, LinkOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
@@ -241,12 +247,12 @@ import mockData from '@/mock/order/Withdraw/withdraw.mock.json'
 
 const messages = {
   zh: {
-    common: zhCommon,
-    withdraw: zhLocale
+    ...zhCommon,
+    ...zhLocale
   },
   en: {
-    common: enCommon,
-    withdraw: enLocale
+    ...enCommon,
+    ...enLocale
   }
 }
 
@@ -284,51 +290,51 @@ const handleQuery = () => {
 
 const columns = computed(() => [
   {
-    title: t('withdraw.merchant'),
+    title: t('field.merchant'),
     dataIndex: 'merchant',
     key: 'merchant',
     width: 120,
   },
   {
-    title: t('withdraw.transactionDocument'),
+    title: t('field.transactionDocument'),
     dataIndex: 'orderInfo',
     key: 'orderInfo',
     width: 300,
   },
   {
-    title: t('withdraw.transactionAmount'),
+    title: t('field.transactionAmount'),
     dataIndex: 'amount',
     key: 'amount',
     align: 'right',
     width: 120,
   },
   {
-    title: t('withdraw.usdtValue'),
+    title: t('field.usdtValue'),
     dataIndex: 'usdtValue',
     key: 'usdtValue',
     align: 'right',
     width: 120,
   },
   {
-    title: t('withdraw.receivingAddress'),
+    title: t('field.receivingAddress'),
     dataIndex: 'address',
     key: 'address',
     width: 200,
   },
   {
-    title: t('withdraw.orderStatus'),
+    title: t('field.orderStatus'),
     dataIndex: 'orderStatus',
     key: 'orderStatus',
     width: 120,
   },
   {
-    title: t('withdraw.notifyStatus'),
+    title: t('field.notifyStatus'),
     dataIndex: 'notifyStatus',
     key: 'notifyStatus',
     width: 120,
   },
   {
-    title: t('withdraw.timeInfo'),
+    title: t('field.timeInfo'),
     dataIndex: 'timeInfo',
     key: 'timeInfo',
     width: 300,
@@ -357,31 +363,30 @@ const formatAddress = (address) => {
 const copyAddress = async (address) => {
   try {
     await navigator.clipboard.writeText(address)
-    message.success(t('withdraw.copySuccess'))
+    message.success(t('message.copySuccess'))
   } catch (err) {
-    message.error(t('withdraw.copyFailed'))
+    message.error(t('message.copyFailed'))
   }
 }
 
 const getOrderStatusText = (status) => {
-  const statusMap = {
-    waiting: t('withdraw.waiting'),
-    confirming: t('withdraw.confirming'),
-    processing: t('withdraw.processing'),
-    retrying: t('withdraw.retrying'),
-    success: `${t('withdraw.successful')}(x/x)`,
-    failed: t('withdraw.failed')
+  if (status === 'timeout') {
+    return t('status.notifyTimeout')
   }
-  return statusMap[status] || status
+  if (status === 'success') {
+    return t('status.successful')
+  }
+  return t(`status.${status}`)
 }
 
 const getNotifyStatusText = (status) => {
-  const statusMap = {
-    success: t('withdraw.successful'),
-    timeout: t('withdraw.notifyTimeout'),
-    retrying: t('withdraw.retrying')
+  if (status === 'timeout') {
+    return t('status.notifyTimeout')
   }
-  return statusMap[status] || status
+  if (status === 'success') {
+    return t('status.successful')
+  }
+  return t(`status.${status}`)
 }
 
 const handleTransferIdClick = (transferId) => {
@@ -471,9 +476,9 @@ const highlightJson = (json) => {
 const copyContent = async (content) => {
   try {
     await navigator.clipboard.writeText(JSON.stringify(content, null, 2))
-    message.success(t('withdraw.copySuccess'))
+    message.success(t('message.copySuccess'))
   } catch (err) {
-    message.error(t('withdraw.copyFailed'))
+    message.error(t('message.copyFailed'))
   }
 }
 
@@ -483,19 +488,19 @@ const notifyHistoryData = ref([])
 
 const notifyHistoryColumns = computed(() => [
   {
-    title: t('withdraw.notifyReason'),
+    title: t('field.notifyReason'),
     dataIndex: 'reason',
     key: 'reason',
     width: 200,
   },
   {
-    title: t('withdraw.notifyTime'),
+    title: t('field.notifyTime'),
     dataIndex: 'notifyTime',
     key: 'notifyTime',
     width: 180,
   },
   {
-    title: t('withdraw.notifyResult'),
+    title: t('field.notifyResult'),
     dataIndex: 'result',
     key: 'result',
     width: 120,
@@ -524,10 +529,34 @@ const formatTxHash = (hash) => {
 const copyTxHash = async (hash) => {
   try {
     await navigator.clipboard.writeText(hash)
-    message.success(t('withdraw.copySuccess'))
+    message.success(t('message.copySuccess'))
   } catch (err) {
-    message.error(t('withdraw.copyFailed'))
+    message.error(t('message.copyFailed'))
   }
+}
+
+const handleDownload = () => {
+  // 將表格數據轉換為CSV格式
+  const headers = columns.map(col => col.title).join(',')
+  const rows = tableData.value.map(row => {
+    return columns.map(col => {
+      const value = row[col.dataIndex] || ''
+      return `"${value}"`
+    }).join(',')
+  })
+  
+  const csv = [headers, ...rows].join('\n')
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+  
+  link.setAttribute('href', url)
+  link.setAttribute('download', `withdraw_${new Date().toISOString().split('T')[0]}.csv`)
+  link.style.visibility = 'hidden'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  message.success(t('message.downloadSuccess'))
 }
 </script>
 
@@ -683,7 +712,7 @@ const copyTxHash = async (hash) => {
   border: 1px solid #177ddc;
 }
 
-.status-success {
+.status-successful {
   background: rgba(82, 196, 26, 0.1);
   color: #52c41a;
   border: 1px solid #52c41a;
@@ -901,4 +930,4 @@ const copyTxHash = async (hash) => {
   color: #1890ff;
   text-decoration: underline;
 }
-</style> 
+</style>

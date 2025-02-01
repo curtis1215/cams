@@ -1,7 +1,8 @@
 {
   "title": {
     "transferOrderQuery": "Transfer Order Query",
-    "transferList": "Transfer List"
+    "transferList": "Transfer List",
+    "notifyDetail": "Notification Details"
   },
   "field": {
     "orderId": "Order ID",
@@ -46,21 +47,21 @@
     "failed": "Failed"
   },
   "transferType": {
-    "manualOut": "Manual Out",
-    "manualIn": "Manual In",
-    "systemError": "System Error",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "collection": "Collection",
     "exchange": "Exchange",
     "replenish": "Replenish",
     "manual": "Manual",
+    "manualOut": "Manual Out",
+    "manualIn": "Manual In",
+    "systemError": "System Error",
     "pendingConfirm": "Pending Confirm",
     "fee": "Fee"
   },
   "message": {
     "copySuccess": "Copy Success",
     "copyFailed": "Copy Failed",
-    "updateSuccess": "Update Success"
+    "updateSuccess": "Update successful"
   }
 } 

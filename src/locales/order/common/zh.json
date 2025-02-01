@@ -1,12 +1,24 @@
 {
-  "title": {
-    "depositOrderQuery": "充值訂單查詢",
-    "orderList": "充值訂單列表",
-    "notifyDetail": "通知詳情"
+  "action": {
+    "search": "搜索",
+    "reset": "重置",
+    "query": "查詢",
+    "download": "下載數據",
+    "retry": "重試",
+    "cancel": "取消",
+    "confirm": "確認",
+    "transfer": "轉賬"
+  },
+  "message": {
+    "copySuccess": "複製成功",
+    "copyFailed": "複製失敗",
+    "downloadSuccess": "下載成功",
+    "downloadFailed": "下載失敗"
   },
   "field": {
     "dateRange": "日期範圍",
     "merchant": "商戶",
+    "allMerchants": "全部商戶",
     "status": "狀態",
     "orderId": "訂單號",
     "userId": "用戶 ID",
@@ -27,38 +39,16 @@
     "pleaseInputOrderId": "請輸入訂單號",
     "pleaseInputUserId": "請輸入用戶 ID",
     "pleaseInputAddress": "請輸入地址",
-    "pleaseInputTxHash": "請輸入交易哈希"
-  },
-  "action": {
-    "search": "搜索",
-    "reset": "重置",
-    "query": "查詢",
-    "download": "下載數據",
-    "retry": "重試",
-    "cancel": "取消"
+    "pleaseInputTxHash": "請輸入交易哈希",
+    "selectMerchant": "請選擇商戶"
   },
   "status": {
     "confirming": "確認中",
     "processing": "處理中",
+    "success": "成功",
     "successful": "成功",
     "failed": "失敗",
     "timeout": "超時",
     "retrying": "重試中"
-  },
-  "message": {
-    "copySuccess": "複製成功",
-    "copyFailed": "複製失敗",
-    "downloadSuccess": "下載成功",
-    "downloadFailed": "下載失敗"
-  },
-  "table": {
-    "merchant": "商戶",
-    "transactionDocument": "交易單據",
-    "transactionAmount": "交易金額",
-    "usdtValue": "USDT 價值",
-    "receivingAddress": "收款地址",
-    "orderStatus": "訂單狀態",
-    "notifyStatus": "通知狀態",
-    "timeInfo": "時間信息"
   }
 } 

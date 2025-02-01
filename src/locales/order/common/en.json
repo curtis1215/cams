@@ -1,0 +1,54 @@
+{
+  "action": {
+    "search": "Search",
+    "reset": "Reset",
+    "query": "Query",
+    "download": "Download Data",
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "transfer": "Transfer"
+  },
+  "message": {
+    "copySuccess": "Copy successful",
+    "copyFailed": "Copy failed",
+    "downloadSuccess": "Download successful",
+    "downloadFailed": "Download failed"
+  },
+  "field": {
+    "dateRange": "Date Range",
+    "merchant": "Merchant",
+    "allMerchants": "All Merchants",
+    "status": "Status",
+    "orderId": "Order ID",
+    "userId": "User ID",
+    "address": "Address",
+    "createTime": "Create Time",
+    "successTime": "Success Time",
+    "notifyTime": "Notify Time",
+    "notifyUrl": "Notify URL",
+    "notifyContent": "Notify Content",
+    "errorContent": "Error Content",
+    "platformOrderId": "Platform Order ID",
+    "merchantOrderId": "Merchant Order ID",
+    "transferId": "Transfer ID"
+  },
+  "prompt": {
+    "pleaseSelect": "Please select",
+    "pleaseInput": "Please input",
+    "pleaseInputOrderId": "Please input order ID",
+    "pleaseInputUserId": "Please input user ID",
+    "pleaseInputAddress": "Please input address",
+    "pleaseInputTxHash": "Please input transaction hash",
+    "selectMerchant": "Please select merchant"
+  },
+  "status": {
+    "confirming": "Confirming",
+    "processing": "Processing",
+    "success": "Success",
+    "successful": "Successful",
+    "failed": "Failed",
+    "timeout": "Timeout",
+    "retrying": "Retrying"
+  }
+} 

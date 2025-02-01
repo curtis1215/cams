@@ -1,0 +1,12 @@
+{
+  "prompt": {
+    "selectMerchant": "Please select merchant"
+  },
+  "field": {
+    "allMerchants": "All Merchants"
+  },
+  "options": {
+    "fameex": "Fameex",
+    "cnx": "CNX"
+  }
+} 

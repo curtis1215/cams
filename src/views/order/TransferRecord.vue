@@ -63,6 +63,12 @@
     </a-card>
 
     <a-card :title="t('title.transferList')" class="list-card">
+      <template #extra>
+        <a-button type="primary" @click="handleDownload">
+          <template #icon><DownloadOutlined /></template>
+          {{ t('action.download') }}
+        </a-button>
+      </template>
       <a-table
         :columns="columns"
         :data-source="tableData"
@@ -187,7 +193,7 @@
 import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
-import { CopyOutlined, LinkOutlined } from '@ant-design/icons-vue'
+import { CopyOutlined, LinkOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import TransferStatusSelect from '@/components/selectors/TransferStatusSelect.vue'
 import TransferTypeSelect from '@/components/selectors/TransferTypeSelect.vue'
 import zhLocale from '@/locales/order/TransferRecord/zh.json'
@@ -409,6 +415,30 @@ const showReason = (record) => {
     currentReason.value = record.transferType.reason || t('noReasonProvided')
     reasonModalVisible.value = true
   }
+}
+
+const handleDownload = () => {
+  // 將表格數據轉換為CSV格式
+  const headers = columns.map(col => col.title).join(',')
+  const rows = tableData.value.map(row => {
+    return columns.map(col => {
+      const value = row[col.dataIndex] || ''
+      return `"${value}"`
+    }).join(',')
+  })
+  
+  const csv = [headers, ...rows].join('\n')
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+  
+  link.setAttribute('href', url)
+  link.setAttribute('download', `transfer_record_${new Date().toISOString().split('T')[0]}.csv`)
+  link.style.visibility = 'hidden'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  message.success(t('message.downloadSuccess'))
 }
 </script>
 

@@ -1,44 +1,55 @@
 {
   "title": {
     "depositOrderQuery": "Deposit Order Query",
-    "orderList": "Order List"
+    "orderList": "Deposit Order List",
+    "notifyDetail": "Notification Details"
   },
   "field": {
-    "orderId": "Order ID",
     "dateRange": "Date Range",
     "merchant": "Merchant",
     "status": "Status",
+    "orderId": "Order ID",
     "userId": "User ID",
     "address": "Address",
-    "platformOrderId": "Platform Order ID",
-    "merchantOrderId": "Merchant Order ID",
-    "transferId": "Transfer ID",
     "createTime": "Create Time",
     "successTime": "Success Time",
-    "notifyTime": "Notify Time"
+    "notifyTime": "Notification Time",
+    "notifyUrl": "Notification URL",
+    "notifyContent": "Notification Content",
+    "errorContent": "Error Content",
+    "platformOrderId": "Platform Order ID",
+    "merchantOrderId": "Merchant Order ID",
+    "transferId": "Transfer ID"
   },
   "prompt": {
+    "pleaseSelect": "Please select",
+    "pleaseInput": "Please input",
     "pleaseInputOrderId": "Please input order ID",
     "pleaseInputUserId": "Please input user ID",
     "pleaseInputAddress": "Please input address",
-    "pleaseInputTxHash": "Please input transaction hash",
-    "selectStatus": "Please select status"
+    "pleaseInputTxHash": "Please input transaction hash"
   },
   "action": {
+    "search": "Search",
     "reset": "Reset",
     "query": "Query",
-    "retry": "Retry"
+    "download": "Download Data",
+    "retry": "Retry",
+    "cancel": "Cancel"
   },
   "status": {
     "confirming": "Confirming",
+    "processing": "Processing",
     "successful": "Successful",
     "failed": "Failed",
-    "retrying": "Retrying",
-    "timeout": "Timeout"
+    "timeout": "Timeout",
+    "retrying": "Retrying"
   },
   "message": {
     "copySuccess": "Copy successful",
-    "copyFailed": "Copy failed"
+    "copyFailed": "Copy failed",
+    "downloadSuccess": "Download successful",
+    "downloadFailed": "Download failed"
   },
   "table": {
     "merchant": "Merchant",
@@ -47,7 +58,7 @@
     "usdtValue": "USDT Value",
     "receivingAddress": "Receiving Address",
     "orderStatus": "Order Status",
-    "notifyStatus": "Notify Status",
+    "notifyStatus": "Notification Status",
     "timeInfo": "Time Info"
   }
 } 

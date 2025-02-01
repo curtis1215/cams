@@ -164,10 +164,19 @@ import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
 import mockData from '@/mock/wallet/Query/query.mock.json'
 import zhLocale from '@/locales/wallet/Query/zh.json'
 import enLocale from '@/locales/wallet/Query/en.json'
+import zhCommon from '@/locales/order/common/zh.json'
+import enCommon from '@/locales/order/common/en.json'
 
+// 合併翻譯，優先使用頁面特定的翻譯
 const messages = {
-  zh: zhLocale,
-  en: enLocale
+  zh: {
+    ...zhCommon,  // 先放公共翻譯
+    ...zhLocale   // 後放頁面翻譯，這樣頁面翻譯會覆蓋公共翻譯中的同名鍵值
+  },
+  en: {
+    ...enCommon,
+    ...enLocale
+  }
 }
 
 const { t } = useI18n({

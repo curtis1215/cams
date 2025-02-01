@@ -2,22 +2,22 @@
   "exchange": {
     "exchangeOrderQuery": "兌幣訂單查詢",
     "exchangeOrderList": "兌幣訂單列表",
-    "fromWalletId": "來源錢包ID",
-    "toWalletId": "目標錢包ID",
+    "fromWalletId": "來源錢包",
+    "toWalletId": "目標錢包",
     "fromChainType": "來源鏈類型",
     "fromCurrency": "來源幣種",
     "toChainType": "目標鏈類型",
     "toCurrency": "目標幣種",
-    "targetExchange": "目標交易所",
-    "exchangeRate": "兌換匯率",
-    "exchangeTime": "兌換時間",
-    "exchangeOrderId": "兌幣訂單ID",
-    "fromTransferId": "來源轉帳ID",
-    "toTransferId": "目標轉帳ID",
+    "exchangeOrderId": "兌幣訂單號",
     "fromAmount": "來源金額",
     "toAmount": "目標金額",
     "fromTransferTime": "來源轉帳時間",
-    "toTransferTime": "目標轉帳時間"
+    "toTransferTime": "目標轉帳時間",
+    "fromTransferId": "來源轉帳單號",
+    "toTransferId": "目標轉帳單號",
+    "targetExchange": "目標交易所",
+    "exchangeRate": "兌換匯率",
+    "exchangeTime": "兌換時間"
   },
   "status": {
     "label": "狀態",
@@ -31,16 +31,16 @@
     "exchangeFailed": "兌換失敗"
   },
   "field": {
-    "fee": "手續費",
-    "feeValue": "手續費價值",
     "createTime": "創建時間",
-    "updateTime": "更新時間",
     "onChainTime": "上鏈時間",
-    "completeTime": "完成時間"
+    "completeTime": "完成時間",
+    "updateTime": "更新時間",
+    "fee": "手續費",
+    "feeValue": "手續費價值"
   },
   "prompt": {
-    "inputFromWalletId": "請輸入來源錢包ID",
-    "inputToWalletId": "請輸入目標錢包ID",
+    "inputFromWalletId": "請輸入來源錢包",
+    "inputToWalletId": "請輸入目標錢包",
     "selectFromChainType": "請選擇來源鏈類型",
     "selectFromCurrency": "請選擇來源幣種",
     "selectToChainType": "請選擇目標鏈類型",
@@ -49,11 +49,12 @@
   },
   "action": {
     "search": "搜索",
-    "reset": "重置"
+    "reset": "重置",
+    "download": "下載"
   },
   "message": {
     "copyToClipboardSuccess": "複製成功",
     "copyToClipboardFailed": "複製失敗"
   },
   "total": "共 {total} 條"
-} 
+}

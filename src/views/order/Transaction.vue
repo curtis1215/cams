@@ -82,6 +82,12 @@
     </a-card>
 
     <a-card :title="t('title.transactionList')" :bordered="false">
+      <template #extra>
+        <a-button type="primary" @click="handleDownload">
+          <template #icon><DownloadOutlined /></template>
+          {{ t('action.download') }}
+        </a-button>
+      </template>
       <a-table
         :columns="columns"
         :data-source="tableData"
@@ -136,7 +142,7 @@
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
-import { CopyOutlined, LinkOutlined } from '@ant-design/icons-vue'
+import { CopyOutlined, LinkOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
@@ -312,6 +318,30 @@ const openTxHashLink = (txHash) => {
 
 // 使用 mock 數據
 const tableData = ref(mockData.transactionList)
+
+const handleDownload = () => {
+  // 將表格數據轉換為CSV格式
+  const headers = columns.map(col => col.title).join(',')
+  const rows = tableData.value.map(row => {
+    return columns.map(col => {
+      const value = row[col.dataIndex] || ''
+      return `"${value}"`
+    }).join(',')
+  })
+  
+  const csv = [headers, ...rows].join('\n')
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
+  const link = document.createElement('a')
+  const url = URL.createObjectURL(blob)
+  
+  link.setAttribute('href', url)
+  link.setAttribute('download', `transaction_${new Date().toISOString().split('T')[0]}.csv`)
+  link.style.visibility = 'hidden'
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  message.success(t('message.downloadSuccess'))
+}
 
 </script>
 

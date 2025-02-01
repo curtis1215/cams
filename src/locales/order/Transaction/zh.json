@@ -1,6 +1,6 @@
 {
   "title": {
-    "transactionDetailQuery": "交易明細查詢",
+    "transactionDetailQuery": "交易詳情查詢",
     "transactionList": "交易列表"
   },
   "field": {
@@ -12,7 +12,7 @@
     "txHash": "交易哈希",
     "blockHeight": "區塊高度",
     "status": "狀態",
-    "detailId": "明細ID",
+    "detailId": "詳情 ID",
     "feeCurrency": "手續費幣種",
     "feeAmount": "手續費金額",
     "onChainTime": "上鏈時間",
@@ -27,16 +27,17 @@
   },
   "status": {
     "success": "成功",
-    "confirming": "確認中 ({current}/{required})",
+    "confirming": "確認中({current}/{required})",
     "failed": "失敗"
   },
   "action": {
     "search": "搜索",
-    "reset": "重置"
+    "reset": "重置",
+    "download": "下載"
   },
   "message": {
     "copySuccess": "複製成功",
     "copyFailed": "複製失敗"
   },
   "totalItems": "共 {total} 條"
-} 
+}

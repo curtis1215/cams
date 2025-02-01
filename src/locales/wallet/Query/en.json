@@ -24,15 +24,15 @@
     "addWallet": "Add Wallet",
     "pleaseInputAddress": "Please Input Address",
     "selectMerchant": "Please Select Merchant",
-    "selectChainType": "Please Select Chain Type",
-    "selectCurrency": "Please Select Currency",
-    "selectWalletType": "Please Select Wallet Type",
-    "inputAddress": "Please Input Address"
+    "selectChainType": "Please select chain type",
+    "selectCurrency": "Please select currency",
+    "selectWalletType": "Please select wallet type",
+    "inputAddress": "Please input wallet address"
   },
   "message": {
     "copySuccess": "Copy Success",
     "copyFailed": "Copy Failed",
-    "addSuccess": "Add Success"
+    "addSuccess": "Add successful"
   },
   "action": {
     "search": "Search",

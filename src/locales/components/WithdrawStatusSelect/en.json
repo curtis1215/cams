@@ -1,0 +1,13 @@
+{
+  "withdrawStatusSelect": {
+    "placeholder": "Select Status",
+    "options": {
+      "waiting": "Waiting",
+      "confirming": "Confirming",
+      "processing": "Processing",
+      "retrying": "Retrying",
+      "successful": "Successful",
+      "failed": "Failed"
+    }
+  }
+}

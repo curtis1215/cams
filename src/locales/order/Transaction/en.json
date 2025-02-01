@@ -15,7 +15,7 @@
     "detailId": "Detail ID",
     "feeCurrency": "Fee Currency",
     "feeAmount": "Fee Amount",
-    "onChainTime": "On Chain Time",
+    "onChainTime": "On-chain Time",
     "confirmTime": "Confirm Time"
   },
   "prompt": {
@@ -27,7 +27,7 @@
   },
   "status": {
     "success": "Success",
-    "confirming": "Confirming ({current}/{required})",
+    "confirming": "Confirming({current}/{required})",
     "failed": "Failed"
   },
   "action": {

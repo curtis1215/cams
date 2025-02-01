@@ -1,0 +1,12 @@
+{
+  "prompt": {
+    "selectMerchant": "請選擇商戶"
+  },
+  "field": {
+    "allMerchants": "全部商戶"
+  },
+  "options": {
+    "fameex": "Fameex",
+    "cnx": "CNX"
+  }
+} 

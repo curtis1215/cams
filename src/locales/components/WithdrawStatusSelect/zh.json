@@ -1,0 +1,13 @@
+{
+  "withdrawStatusSelect": {
+    "placeholder": "請選擇狀態",
+    "options": {
+      "waiting": "待處理",
+      "confirming": "確認中",
+      "processing": "處理中",
+      "retrying": "重試中",
+      "successful": "成功",
+      "failed": "失敗"
+    }
+  }
+}

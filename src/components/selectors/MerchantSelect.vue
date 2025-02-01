@@ -15,8 +15,8 @@
 <script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import zhLocale from '@/locales/common/zh.json'
-import enLocale from '@/locales/common/en.json'
+import zhLocale from '@/locales/components/MerchantSelect/zh.json'
+import enLocale from '@/locales/components/MerchantSelect/en.json'
 
 const messages = {
   zh: zhLocale,
@@ -44,8 +44,8 @@ const emit = defineEmits(['update:modelValue'])
 // 商戶選項
 const merchants = [
   { value: 'all', label: t('field.allMerchants') },
-  { value: 'fameex', label: 'Fameex' },
-  { value: 'cnx', label: 'CNX' }
+  { value: 'fameex', label: t('options.fameex') },
+  { value: 'cnx', label: t('options.cnx') }
 ]
 
 // 處理選擇變更

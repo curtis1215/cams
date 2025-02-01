@@ -1,6 +1,6 @@
 {
   "title": {
-    "queryCondition": "錢包查詢",
+    "queryCondition": "查詢條件",
     "walletList": "錢包列表"
   },
   "field": {
@@ -8,7 +8,7 @@
     "chainType": "鏈類型",
     "currency": "幣種",
     "address": "地址",
-    "walletId": "錢包ID",
+    "walletId": "錢包 ID",
     "userId": "用戶ID",
     "walletType": "錢包類型",
     "assetValue": "資產價值",
@@ -27,7 +27,7 @@
     "selectChainType": "請選擇鏈類型",
     "selectCurrency": "請選擇幣種",
     "selectWalletType": "請選擇錢包類型",
-    "inputAddress": "請輸入地址"
+    "inputAddress": "請輸入錢包地址"
   },
   "message": {
     "copySuccess": "複製成功",
@@ -43,7 +43,7 @@
   },
   "status": {
     "label": "狀態",
-    "enabled": "已啟用",
-    "disabled": "已禁用"
+    "enabled": "啟用",
+    "disabled": "禁用"
   }
 } 
