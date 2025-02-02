@@ -2,7 +2,9 @@
   "common": {
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode",
-    "appName": "CryptoPool"
+    "appName": "CryptoPool",
+    "demoMode": "DEMO Page",
+    "prdMode": "PRD Doc"
   },
   "user": {
     "logout": "Logout",

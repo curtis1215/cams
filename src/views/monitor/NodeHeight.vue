@@ -56,12 +56,22 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 import { ReloadOutlined } from '@ant-design/icons-vue'
 import mockData from '@/mock/monitor/nodeHeight.mock.json'
+
+interface NodeHeightData {
+  chainType: string
+  nodeHeight: number
+  nodeHeightDiff: number
+  dbHeight: number
+  dbHeightDiff: number
+  latestHeight: number
+  updateTime: string
+}
 
 const { t } = useI18n({
   messages: {
@@ -112,14 +122,14 @@ const columns = [
     dataIndex: 'nodeHeight',
     key: 'nodeHeight',
     width: 200,
-    sorter: (a, b) => a.nodeHeightDiff - b.nodeHeightDiff
+    sorter: (a: NodeHeightData, b: NodeHeightData) => a.nodeHeightDiff - b.nodeHeightDiff
   },
   {
     title: t('field.dbHeight'),
     dataIndex: 'dbHeight',
     key: 'dbHeight',
     width: 200,
-    sorter: (a, b) => a.dbHeightDiff - b.dbHeightDiff
+    sorter: (a: NodeHeightData, b: NodeHeightData) => a.dbHeightDiff - b.dbHeightDiff
   },
   {
     title: t('field.latestHeight'),
@@ -136,10 +146,10 @@ const columns = [
 ]
 
 // 表格數據
-const tableData = ref(mockData.nodeHeightList)
+const tableData = ref<NodeHeightData[]>(mockData.nodeHeightList)
 
 // 格式化日期時間
-const formatDateTime = (timestamp) => {
+const formatDateTime = (timestamp: string) => {
   return dayjs(timestamp).format('YYYY-MM-DD HH:mm:ss')
 }
 

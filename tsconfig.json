@@ -14,7 +14,12 @@
     "paths": {
       "@/*": ["src/*"]
     },
-    "types": ["vite/client", "node"]
+    "types": ["vite/client", "node"],
+    "allowJs": true,
+    "checkJs": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
   },
   "include": [
     "src/**/*.ts",
@@ -22,5 +27,10 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "src/**/*.json"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.js"
   ]
 } 

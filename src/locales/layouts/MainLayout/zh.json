@@ -2,7 +2,9 @@
   "common": {
     "darkMode": "暗色模式",
     "lightMode": "亮色模式",
-    "appName": "加密資產池"
+    "appName": "加密資產池",
+    "demoMode": "DEMO頁面",
+    "prdMode": "PRD文檔"
   },
   "user": {
     "logout": "登出",

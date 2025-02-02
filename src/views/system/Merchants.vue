@@ -174,7 +174,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
@@ -183,6 +183,30 @@ import zhLocale from '@/locales/system/Merchant/zh.json'
 import enLocale from '@/locales/system/Merchant/en.json'
 import mockData from '@/mock/system/Merchant/query.mock.json'
 import currencyData from '@/mock/system/Merchant/currencies.mock.json'
+
+interface MerchantRecord {
+  id: string
+  name: string
+  code: string
+  status: 'active' | 'inactive'
+  updateTime: string
+  privateKey?: string
+  retryCount: number
+  depositStatus: boolean
+  withdrawStatus: boolean
+  availableCurrencies: string[]
+}
+
+interface PaginationEvent {
+  current: number
+  pageSize: number
+}
+
+interface CheckboxEvent {
+  target: {
+    checked: boolean
+  }
+}
 
 const messages = {
   zh: zhLocale,
@@ -237,15 +261,16 @@ const formRef = ref()
 const activeTabKey = ref(1)
 const currencies = ref(currencyData.currencies)
 
-const formState = reactive({
+const formState = reactive<MerchantRecord>({
+  id: '',
   name: '',
   code: '',
   status: 'active',
-  privateKey: '',
+  updateTime: '',
   retryCount: 3,
   depositStatus: true,
   withdrawStatus: true,
-  availableCurrencies: [],
+  availableCurrencies: []
 })
 
 const rules = {
@@ -294,10 +319,11 @@ const handleQuery = () => {
 const handleAdd = () => {
   modalTitle.value = t('title.addMerchant')
   Object.assign(formState, {
+    id: '',
     name: '',
     code: '',
     status: 'active',
-    privateKey: '',
+    updateTime: '',
     retryCount: 3,
     depositStatus: true,
     withdrawStatus: true,
@@ -307,7 +333,7 @@ const handleAdd = () => {
   activeTabKey.value = 1
 }
 
-const handleEdit = (record) => {
+const handleEdit = (record: MerchantRecord) => {
   modalTitle.value = t('title.editMerchant')
   Object.assign(formState, {
     ...record,
@@ -319,7 +345,7 @@ const handleEdit = (record) => {
   activeTabKey.value = 1
 }
 
-const handleDelete = async (record) => {
+const handleDelete = async (record: MerchantRecord) => {
   // TODO: Implement delete logic
   message.success(t('message.deleteSuccess'))
 }
@@ -340,7 +366,7 @@ const handleModalCancel = () => {
   modalOpen.value = false
 }
 
-const handleTableChange = (pag) => {
+const handleTableChange = (pag: PaginationEvent) => {
   pagination.current = pag.current
   pagination.pageSize = pag.pageSize
   fetchData()
@@ -368,7 +394,7 @@ const isIndeterminate = computed(() => {
          formState.availableCurrencies.length < currencies.value.length
 })
 
-const handleSelectAll = (e) => {
+const handleSelectAll = (e: CheckboxEvent) => {
   formState.availableCurrencies = e.target.checked 
     ? currencies.value.map(currency => currency.code)
     : []

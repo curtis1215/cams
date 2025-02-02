@@ -1,7 +1,16 @@
 <template>
   <a-layout class="layout">
     <a-layout-header class="header">
-      <div class="logo">CAMS</div>
+      <div class="logo-section">
+        <div class="logo">CAMS</div>
+        <a-switch
+          v-model:checked="isDemoMode"
+          class="mode-switch"
+          @change="handleModeChange"
+          :checkedChildren="t('common.demoMode')"
+          :unCheckedChildren="t('common.prdMode')"
+        />
+      </div>
       <div class="header-right">
         <a-switch
           :checked="isDark"
@@ -191,7 +200,7 @@
   </a-layout>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDark, useToggle } from '@vueuse/core'
@@ -227,6 +236,33 @@ import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
 import storage from '../services/storage'
 
+type PathMap = {
+  [key: string]: string;
+}
+
+const pathMap: PathMap = {
+  '/monitor/dashboard': 'dashboard',
+  '/monitor/alert': 'alert',
+  '/monitor/node-height': 'nodeHeight',
+  '/wallet/query': 'walletQuery',
+  '/wallet/detail': 'walletDetail',
+  '/wallet/transfer': 'walletTransfer',
+  '/wallet/token-exchange': 'tokenExchange',
+  '/system/users': 'users',
+  '/system/roles': 'roles',
+  '/order/deposit': 'depositOrder',
+  '/order/withdraw': 'withdrawOrder',
+  '/order/transfer': 'transferOrder',
+  '/order/exchange': 'exchangeOrder',
+  '/order/transaction': 'transactionDetail',
+  '/params/blockchain': 'blockchain',
+  '/params/contract-coin': 'contractCoin',
+  '/reconciliation/wallet-balance': 'walletBalance',
+  '/report/deposit-withdraw-duration': 'depositWithdrawDuration',
+  '/report/wallet-profit-loss': 'walletProfitLoss',
+  '/report/node-height-analysis': 'nodeHeightAnalysis'
+}
+
 const { t, locale } = useI18n()
 
 const router = useRouter()
@@ -237,6 +273,7 @@ const currentLocale = ref(locale.value)
 const username = ref('')
 const selectedKeys = ref(['dashboard'])
 const openKeys = ref(['monitor'])
+const isDemoMode = ref(true)
 
 const setSelectedKeysByRoute = () => {
   const path = route.path
@@ -256,28 +293,6 @@ const setSelectedKeysByRoute = () => {
     openKeys.value = ['reconciliation']
   } else if (path.startsWith('/report')) {
     openKeys.value = ['report']
-  }
-
-  // 根據具體路徑設置 selectedKeys
-  const pathMap = {
-    '/monitor/dashboard': 'dashboard',
-    '/monitor/alert': 'alert',
-    '/wallet/query': 'walletQuery',
-    '/wallet/detail': 'walletDetail',
-    '/wallet/transfer': 'walletTransfer',
-    '/wallet/token-exchange': 'tokenExchange',
-    '/system/users': 'users',
-    '/system/roles': 'roles',
-    '/order/deposit': 'depositOrder',
-    '/order/withdraw': 'withdrawOrder',
-    '/order/transfer': 'transferOrder',
-    '/order/exchange': 'exchangeOrder',
-    '/order/transaction': 'transactionDetail',
-    '/params/blockchain': 'blockchain',
-    '/params/contract-coin': 'contractCoin',
-    '/reconciliation/wallet-balance': 'walletBalance',
-    '/report/deposit-withdraw-duration': 'depositWithdrawDuration',
-    '/report/wallet-profit-loss': 'walletProfitLoss'
   }
 
   selectedKeys.value = [pathMap[path] || 'dashboard']
@@ -306,7 +321,7 @@ const handleLogout = () => {
   router.push('/login')
 }
 
-const changeLocale = (value) => {
+const changeLocale = (value: string) => {
   locale.value = value
 }
 
@@ -314,6 +329,16 @@ const localeOptions = [
   { value: 'zh-TW', label: '繁體中文' },
   { value: 'en-US', label: 'English' }
 ]
+
+const handleModeChange = (checked: boolean) => {
+  if (checked) {
+    if (route.path === '/prd-doc') {
+      router.back()
+    }
+  } else {
+    router.push('/prd-doc')
+  }
+}
 </script>
 
 <style scoped>
@@ -331,6 +356,12 @@ const localeOptions = [
   left: 0;
   right: 0;
   z-index: 1000;
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
 }
 
 .logo {
@@ -368,5 +399,9 @@ const localeOptions = [
   margin-left: 200px;
   margin-top: 64px;
   overflow-y: auto;
+}
+
+.mode-switch {
+  margin-left: 16px;
 }
 </style>

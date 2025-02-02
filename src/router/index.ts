@@ -1,10 +1,11 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import MainLayout from '../layouts/MainLayout.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/monitor/Dashboard.vue'
 import Alert from '../views/monitor/Alert.vue'
+import PRDDoc from '../views/PRDDoc.vue'
 
-const routes = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/login',
     name: 'Login',
@@ -134,6 +135,14 @@ const routes = [
         component: () => import('@/views/report/NodeHeightAnalysis.vue'),
         meta: {
           title: 'nav.nodeHeightAnalysis',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'prd-doc',
+        name: 'PRDDoc',
+        component: PRDDoc,
+        meta: {
           requiresAuth: true
         }
       }
