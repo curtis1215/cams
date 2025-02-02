@@ -24,7 +24,8 @@
     "edit": "編輯",
     "delete": "刪除",
     "search": "查詢",
-    "generateKey": "生成私鑰"
+    "generateKey": "生成私鑰",
+    "selectAll": "全選"
   },
   "status": {
     "active": "啟用",

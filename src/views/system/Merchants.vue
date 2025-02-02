@@ -147,6 +147,15 @@
             </a-form-item>
             <a-form-item :label="t('field.availableCurrencies')" name="availableCurrencies">
               <div class="currency-grid">
+                <div class="select-all-wrapper">
+                  <a-checkbox
+                    :checked="isAllSelected"
+                    :indeterminate="isIndeterminate"
+                    @change="handleSelectAll"
+                  >
+                    {{ t('action.selectAll') }}
+                  </a-checkbox>
+                </div>
                 <a-checkbox-group v-model:value="formState.availableCurrencies">
                   <a-row :gutter="[16, 16]">
                     <a-col :span="4" v-for="currency in currencies" :key="currency.code">
@@ -166,7 +175,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
 import { PlusOutlined, SearchOutlined } from '@ant-design/icons-vue'
@@ -347,6 +356,22 @@ const fetchData = async () => {
     message.error(t('message.fetchError'))
     loading.value = false
   }
+}
+
+const isAllSelected = computed(() => {
+  return currencies.value.length > 0 && 
+         formState.availableCurrencies.length === currencies.value.length
+})
+
+const isIndeterminate = computed(() => {
+  return formState.availableCurrencies.length > 0 && 
+         formState.availableCurrencies.length < currencies.value.length
+})
+
+const handleSelectAll = (e) => {
+  formState.availableCurrencies = e.target.checked 
+    ? currencies.value.map(currency => currency.code)
+    : []
 }
 
 onMounted(() => {
@@ -563,5 +588,11 @@ onMounted(() => {
 
 :deep(.ant-switch-checked) {
   background-color: var(--ant-primary-color);
+}
+
+.select-all-wrapper {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #303030;
 }
 </style> 

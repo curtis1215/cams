@@ -24,7 +24,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "search": "Search",
-    "generateKey": "Generate Key"
+    "generateKey": "Generate Key",
+    "selectAll": "Select All"
   },
   "status": {
     "active": "Active",
