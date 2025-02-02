@@ -29,6 +29,10 @@ const routes = [
         component: Alert
       },
       {
+        path: '/monitor/node-height',
+        component: () => import('../views/monitor/NodeHeight.vue')
+      },
+      {
         path: 'wallet/query',
         name: 'WalletQuery',
         component: () => import('../views/wallet/Query.vue')

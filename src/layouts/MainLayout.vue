@@ -57,6 +57,10 @@
               <AlertOutlined />
               {{ t('nav.alertMonitoring') }}
             </a-menu-item>
+            <a-menu-item key="nodeHeight" @click="router.push('/monitor/node-height')">
+              <NodeIndexOutlined />
+              {{ t('nav.nodeHeightMonitoring') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="wallet">
             <template #title>
@@ -212,7 +216,8 @@ import {
   TeamOutlined,
   LineChartOutlined,
   BarChartOutlined,
-  ClockCircleOutlined
+  ClockCircleOutlined,
+  NodeIndexOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
