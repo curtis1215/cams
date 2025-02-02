@@ -10,14 +10,78 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { marked } from 'marked'
+import { ref, onMounted, nextTick } from 'vue'
 import DOMPurify from 'dompurify'
 import axios from 'axios'
+import MarkdownIt from 'markdown-it'
+import container from 'markdown-it-container'
+import mermaid from 'mermaid'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/atom-one-dark.css'
 
-// 配置 marked 使用同步模式
-marked.setOptions({
-  async: false
+// 初始化 markdown-it
+const md: MarkdownIt = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true,
+  highlight: function (str: string, lang: string): string {
+    if (lang && hljs.getLanguage(lang)) {
+      try {
+        return '<pre class="hljs"><code>' +
+               hljs.highlight(str, { language: lang, ignoreIllegals: true }).value +
+               '</code></pre>'
+      } catch (__) {
+        // 如果高亮失敗，使用普通文本
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
+      }
+    }
+    return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
+  }
+})
+
+// 配置 mermaid
+mermaid.initialize({
+  theme: 'dark',
+  startOnLoad: false,
+  securityLevel: 'loose',
+  themeVariables: {
+    primaryColor: '#1f2937',
+    primaryTextColor: '#e5e7eb',
+    primaryBorderColor: '#374151',
+    lineColor: '#9ca3af',
+    secondaryColor: '#374151',
+    tertiaryColor: '#1f2937',
+    
+    // 節點樣式
+    nodeBorder: '#4b5563',
+    nodeTextColor: '#e5e7eb',
+    
+    // 子圖樣式
+    subGraphBkg: '#111827',
+    subGraphBorder: '#4b5563',
+    subGraphTextColor: '#e5e7eb',
+
+    // 箭頭顏色
+    edgeColor: '#9ca3af',
+    
+    // 字體
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+    fontSize: '14px'
+  }
+})
+
+// 配置 markdown-it-container 來處理 mermaid 區塊
+md.use(container, 'mermaid', {
+  validate: function(params: string) {
+    return params.trim().match(/^mermaid$/)
+  },
+  render: function(tokens: any[], idx: number) {
+    if (tokens[idx].nesting === 1) {
+      return '<div class="mermaid">'
+    } else {
+      return '</div>'
+    }
+  }
 })
 
 const markdownContent = ref('')
@@ -140,6 +204,20 @@ const generateToc = (content: string, headingMap: HeadingMap): string => {
   return toc
 }
 
+// 渲染 Mermaid 圖表
+const renderMermaidDiagrams = async () => {
+  const elements = document.querySelectorAll<HTMLElement>('.mermaid')
+  elements.forEach(async (element) => {
+    try {
+      const code = element.textContent || ''
+      const { svg } = await mermaid.render('mermaid-' + Math.random().toString(36).substr(2, 9), code)
+      element.innerHTML = svg
+    } catch (error) {
+      console.error('Mermaid 渲染失敗:', error)
+    }
+  })
+}
+
 onMounted(async () => {
   try {
     // 從外部文件加載 Markdown 內容
@@ -154,8 +232,12 @@ onMounted(async () => {
     
     // 添加標題 id 並轉換 markdown
     const contentWithIds = addHeadingIds(content, headingMap)
-    const rawHtml = marked.parse(contentWithIds) as string
+    const rawHtml = md.render(contentWithIds)
     markdownContent.value = DOMPurify.sanitize(rawHtml)
+
+    // 等待 DOM 更新後渲染 Mermaid 圖表
+    await nextTick()
+    await renderMermaidDiagrams()
   } catch (error) {
     console.error('加載 PRD 文檔失敗:', error)
   }
@@ -338,5 +420,66 @@ onMounted(async () => {
 
 :deep(.ant-card) {
   background: var(--ant-background-color);
+}
+
+.markdown-content :deep(.mermaid) {
+  background: var(--ant-background-color-base);
+  padding: 24px;
+  border-radius: 8px;
+  margin: 1.5em 0;
+  text-align: center;
+  border: 1px solid var(--ant-border-color-split);
+}
+
+.markdown-content :deep(.mermaid svg) {
+  max-width: 100%;
+  height: auto;
+  filter: brightness(1.1);
+}
+
+/* 深色模式特定樣式 */
+:deep([data-theme='dark']) .markdown-content .mermaid {
+  background: #111827;
+}
+
+:deep([data-theme='dark']) .markdown-content .mermaid svg {
+  filter: brightness(1.2);
+}
+
+/* 代碼區塊樣式 */
+.markdown-content :deep(pre.hljs) {
+  padding: 16px;
+  border-radius: 8px;
+  margin: 1.5em 0;
+  background: #282c34;
+  border: 1px solid var(--ant-border-color-split);
+  overflow-x: auto;
+}
+
+.markdown-content :deep(code) {
+  font-family: 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* 行內代碼樣式 */
+.markdown-content :deep(:not(pre) > code) {
+  padding: 2px 6px;
+  margin: 0 2px;
+  border-radius: 4px;
+  background: var(--ant-background-color-base);
+  border: 1px solid var(--ant-border-color-split);
+  color: var(--ant-text-color);
+}
+
+/* 深色模式特定樣式 */
+:deep([data-theme='dark']) .markdown-content pre.hljs {
+  background: #1a1d23;
+  border-color: #2a2e37;
+}
+
+:deep([data-theme='dark']) .markdown-content :not(pre) > code {
+  background: #1a1d23;
+  border-color: #2a2e37;
 }
 </style> 

@@ -2,8 +2,9 @@
   "walletType": {
     "user": "用戶錢包",
     "collection": "歸集錢包",
-    "withdrawal": "提幣錢包",
-    "transfer": "中轉錢包"
+    "withdrawal": "提現錢包",
+    "transfer": "外轉錢包",
+    "project": "項目方錢包"
   },
   "prompt": {
     "selectWalletType": "請選擇錢包類型"

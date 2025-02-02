@@ -18,8 +18,13 @@
     "axios": "^1.7.9",
     "dompurify": "^3.2.4",
     "echarts": "^5.6.0",
+    "highlight.js": "^11.11.1",
     "js-cookie": "^3.0.5",
+    "markdown-it": "^14.1.0",
+    "markdown-it-container": "^4.0.0",
+    "markdown-it-mermaid": "^0.2.5",
     "marked": "^15.0.6",
+    "mermaid": "^11.4.1",
     "vue": "^3.5.13",
     "vue-echarts": "^7.0.3",
     "vue-i18n": "^9.14.2",
@@ -27,6 +32,7 @@
     "vue3-apexcharts": "^1.8.0"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
     "@types/node": "^22.13.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "less": "^4.2.1",

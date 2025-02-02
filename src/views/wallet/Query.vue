@@ -27,6 +27,13 @@
             :style="{ width: '180px' }" 
           />
         </a-form-item>
+        <a-form-item :label="t('field.walletType')" class="form-item">
+          <wallet-type-select 
+            v-model="queryParams.walletType" 
+            :placeholder="t('prompt.selectWalletType')"
+            :style="{ width: '180px' }" 
+          />
+        </a-form-item>
         <a-form-item :label="t('field.address')" class="form-item">
           <a-input
             v-model:value="queryParams.address"
@@ -151,12 +158,15 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchOutlined, ReloadOutlined, CopyOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
+import type { FormInstance } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
+import type { WalletRecord, TablePagination, TableSorter, QueryParams, AddWalletForm } from '@/types/wallet'
+import type { TableColumnType } from 'ant-design-vue'
 import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
@@ -187,10 +197,11 @@ const { t } = useI18n({
 const router = useRouter()
 
 // 查詢參數
-const queryParams = ref({
+const queryParams = ref<QueryParams>({
   merchant: undefined,
   chainType: undefined,
   currency: undefined,
+  walletType: undefined,
   address: ''
 })
 
@@ -201,7 +212,7 @@ const statusOptions = [
 ]
 
 // 表格列配置
-const columns = [
+const columns: TableColumnType<WalletRecord>[] = [
   {
     title: t('field.walletId'),
     dataIndex: 'walletId',
@@ -225,7 +236,7 @@ const columns = [
     dataIndex: 'walletType',
     key: 'walletType',
     width: 150,
-    customRender: ({ text }) => t(text)
+    customRender: ({ text }: { text: string }) => t(text)
   },
   {
     title: t('field.chainType'),
@@ -250,7 +261,8 @@ const columns = [
     dataIndex: 'assetValue',
     key: 'assetValue',
     width: 280,
-    align: 'right'
+    align: 'right',
+    customRender: ({ text }: { text: string }) => formatNumberWithColor(text)
   },
   {
     title: t('status.label'),
@@ -267,17 +279,16 @@ const columns = [
 ]
 
 // 表格數據
-const tableData = ref(mockData.walletList)
+const tableData = ref<WalletRecord[]>(mockData.walletList)
 
 // 處理查詢
 const handleQuery = () => {
-  // 在實際應用中，這裡會調用API
   console.log('Query with params:', queryParams.value)
-  // 模擬過濾數據
-  const filteredData = mockData.walletList.filter(item => {
+  const filteredData = mockData.walletList.filter((item: WalletRecord) => {
     if (queryParams.value.merchant && item.merchant !== queryParams.value.merchant) return false
     if (queryParams.value.chainType && item.chainType !== queryParams.value.chainType) return false
     if (queryParams.value.currency && item.currency !== queryParams.value.currency) return false
+    if (queryParams.value.walletType && item.walletType !== queryParams.value.walletType) return false
     if (queryParams.value.address && !item.address.toLowerCase().includes(queryParams.value.address.toLowerCase())) return false
     return true
   })
@@ -285,18 +296,22 @@ const handleQuery = () => {
 }
 
 // 處理表格變更
-const handleTableChange = (pagination, filters, sorter) => {
+const handleTableChange = (
+  pagination: TablePagination,
+  filters: Record<string, (string | number)[] | null>,
+  sorter: TableSorter
+) => {
   console.log('Table change:', { pagination, filters, sorter })
 }
 
 // 格式化地址顯示
-const formatAddress = (address) => {
+const formatAddress = (address: string) => {
   if (!address) return ''
   return address.length > 12 ? `${address.slice(0, 6)}...${address.slice(-6)}` : address
 }
 
 // 複製地址
-const copyAddress = async (address) => {
+const copyAddress = async (address: string) => {
   try {
     await navigator.clipboard.writeText(address)
     message.success(t('message.copySuccess'))
@@ -306,7 +321,7 @@ const copyAddress = async (address) => {
 }
 
 // 格式化數字顯示（帶顏色）
-const formatNumberWithColor = (value) => {
+const formatNumberWithColor = (value: string | undefined) => {
   if (!value) return '0.00000000'
   
   const [intPart, decimalPart] = value.split('.')
@@ -323,12 +338,12 @@ const formatNumberWithColor = (value) => {
 }
 
 // 處理詳情按鈕點擊
-const handleDetail = (record) => {
+const handleDetail = (record: WalletRecord) => {
   router.push('/wallet/detail')
 }
 
 // 處理轉賬按鈕點擊
-const handleTransfer = (record) => {
+const handleTransfer = (record: WalletRecord) => {
   router.push('/wallet/transfer')
 }
 
@@ -340,10 +355,10 @@ const showAddWalletModal = () => {
 // 新增錢包相關
 const addWalletModalVisible = ref(false)
 const confirmLoading = ref(false)
-const addWalletFormRef = ref(null)
+const addWalletFormRef = ref<FormInstance>()
 
 // 新增錢包表單數據
-const addWalletForm = reactive({
+const addWalletForm = reactive<AddWalletForm>({
   chainType: undefined,
   currency: undefined,
   walletType: undefined,
@@ -359,7 +374,7 @@ const addWalletRules = {
 }
 
 // 處理錢包類型變更
-const handleWalletTypeChange = (value) => {
+const handleWalletTypeChange = (value: string | undefined): void => {
   if (value !== 'transfer') {
     addWalletForm.address = ''
   }
@@ -368,20 +383,22 @@ const handleWalletTypeChange = (value) => {
 // 處理新增錢包
 const handleAddWallet = async () => {
   try {
-    await addWalletFormRef.value.validate()
-    confirmLoading.value = true
-    
-    // TODO: 實現新增錢包的 API 調用
-    console.log('新增錢包表單數據:', addWalletForm)
-    
-    // 模擬 API 調用
-    setTimeout(() => {
-      message.success(t('message.addSuccess'))
-      addWalletModalVisible.value = false
-      confirmLoading.value = false
-      // 重置表單
-      addWalletFormRef.value.resetFields()
-    }, 1000)
+    if (addWalletFormRef.value) {
+      await addWalletFormRef.value.validate()
+      confirmLoading.value = true
+      
+      // TODO: 實現新增錢包的 API 調用
+      console.log('新增錢包表單數據:', addWalletForm)
+      
+      // 模擬 API 調用
+      setTimeout(() => {
+        message.success(t('message.addSuccess'))
+        addWalletModalVisible.value = false
+        confirmLoading.value = false
+        // 重置表單
+        addWalletFormRef.value?.resetFields()
+      }, 1000)
+    }
   } catch (error) {
     console.error('表單驗證失敗:', error)
   }
@@ -390,7 +407,7 @@ const handleAddWallet = async () => {
 // 取消新增
 const handleCancelAdd = () => {
   addWalletModalVisible.value = false
-  addWalletFormRef.value.resetFields()
+  addWalletFormRef.value?.resetFields()
 }
 </script>
 

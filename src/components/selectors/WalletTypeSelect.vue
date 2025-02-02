@@ -12,10 +12,15 @@
   </a-select>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import zhLocale from '@/locales/components/WalletTypeSelect/zh.json'
+
+interface WalletTypeOption {
+  value: string;
+  label: string;
+}
 
 const messages = {
   zh: zhLocale
@@ -26,29 +31,27 @@ const { t } = useI18n({
   legacy: false
 })
 
-const props = defineProps({
-  modelValue: {
-    type: [String, Number],
-    default: undefined
-  },
-  style: {
-    type: Object,
-    default: () => ({ width: '200px' })
-  }
-})
+const props = defineProps<{
+  modelValue?: string;
+  style?: Record<string, string>;
+}>()
 
-const emit = defineEmits(['update:modelValue', 'change'])
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string | undefined): void;
+  (e: 'change', value: string | undefined): void;
+}>()
 
 // 錢包類型選項
-const options = computed(() => [
+const options = computed<WalletTypeOption[]>(() => [
   { value: 'user', label: t('walletType.user') },
   { value: 'collection', label: t('walletType.collection') },
   { value: 'withdrawal', label: t('walletType.withdrawal') },
-  { value: 'transfer', label: t('walletType.transfer') }
+  { value: 'transfer', label: t('walletType.transfer') },
+  { value: 'project', label: t('walletType.project') }
 ])
 
 // 處理選擇變更
-const handleChange = (value) => {
+const handleChange = (value: string | undefined) => {
   emit('update:modelValue', value)
   emit('change', value)
 }
