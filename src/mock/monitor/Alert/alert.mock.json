@@ -290,5 +290,57 @@
       "time": "2024-01-01 14:00:00",
       "duration": 75
     }
+  ],
+  "riskAddressData": [
+    {
+      "id": "RISK_001",
+      "merchant": "商戶A",
+      "chain": "ETH",
+      "coin": "USDT",
+      "fromAddress": "0x1234567890abcdef1234567890abcdef12345678",
+      "toAddress": "0xabcdef1234567890abcdef1234567890abcdef12",
+      "userId": "USER_001",
+      "duration": 15
+    },
+    {
+      "id": "RISK_002",
+      "merchant": "商戶B",
+      "chain": "BSC",
+      "coin": "USDC",
+      "fromAddress": "0x2345678901abcdef2345678901abcdef23456789",
+      "toAddress": "0xbcdef1234567890abcdef1234567890abcdef123",
+      "userId": "USER_002",
+      "duration": 35
+    },
+    {
+      "id": "RISK_003",
+      "merchant": "商戶C",
+      "chain": "TRON",
+      "coin": "TRX",
+      "fromAddress": "TJ3yJYK8u2nCFYiHq3SSvuHFfnoxqQGBJZ",
+      "toAddress": "TW2Yr9rDmFpCHk1tpAe7xkNqi3oX5DNtJ9",
+      "userId": "USER_003",
+      "duration": 45
+    },
+    {
+      "id": "RISK_004",
+      "merchant": "商戶D",
+      "chain": "POLYGON",
+      "coin": "MATIC",
+      "fromAddress": "0x3456789012abcdef3456789012abcdef34567890",
+      "toAddress": "0xcdef1234567890abcdef1234567890abcdef1234",
+      "userId": "USER_004",
+      "duration": 65
+    },
+    {
+      "id": "RISK_005",
+      "merchant": "商戶E",
+      "chain": "ARBITRUM",
+      "coin": "ETH",
+      "fromAddress": "0x4567890123abcdef4567890123abcdef45678901",
+      "toAddress": "0xdef1234567890abcdef1234567890abcdef12345",
+      "userId": "USER_005",
+      "duration": 75
+    }
   ]
 } 

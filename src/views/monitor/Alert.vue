@@ -227,6 +227,48 @@
       </div>
     </a-card>
 
+    <!-- 風險地址入帳告警卡片 -->
+    <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
+      <template #title>
+        <div class="card-header">
+          <span class="card-title">{{ t('card.riskAddress') }}</span>
+        </div>
+      </template>
+
+      <div class="table-container">
+        <a-table
+          :columns="riskAddressColumns"
+          :data-source="riskAddressData"
+          :pagination="pagination"
+          :scroll="{ x: 1200 }"
+          :bordered="true"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'fromAddress' || column.key === 'toAddress'">
+              <span>{{ formatAddress(record[column.key]) }}</span>
+              <a-button
+                type="link"
+                size="small"
+                @click="copyAddress(record[column.key])"
+              >
+                <template #icon><CopyOutlined /></template>
+              </a-button>
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <a-space>
+                <a-button type="primary" size="small" @click="handleRiskAction(record, 'approve')">
+                  {{ t('action.approve') }}
+                </a-button>
+                <a-button danger size="small" @click="handleRiskAction(record, 'lock')">
+                  {{ t('action.lock') }}
+                </a-button>
+              </a-space>
+            </template>
+          </template>
+        </a-table>
+      </div>
+    </a-card>
+
     <!-- 設置彈窗 -->
     <a-modal
       v-model:open="settingModalVisible"
@@ -413,13 +455,35 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- 風險地址操作彈窗 -->
+    <a-modal
+      v-model:open="riskActionModalVisible"
+      :title="t('modal.riskAction')"
+      @ok="handleRiskActionSubmit"
+    >
+      <a-form :model="riskActionForm" layout="vertical">
+        <a-form-item :label="t('modal.actionReason')" required>
+          <a-textarea
+            v-model:value="riskActionForm.reason"
+            :placeholder="t('modal.pleaseInputActionReason')"
+            :rows="4"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
 <script setup>
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { SettingOutlined, DeleteOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { 
+  SettingOutlined, 
+  DeleteOutlined, 
+  PlusOutlined,
+  CopyOutlined 
+} from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import mockData from '@/mock/monitor/Alert/alert.mock.json'
 import zhLocale from '@/locales/monitor/Alert/zh.json'
@@ -842,6 +906,90 @@ const handleWalletActionSubmit = () => {
   walletActionModalVisible.value = false
 }
 
+const riskAddressColumns = computed(() => [
+  {
+    title: t('column.merchant'),
+    dataIndex: 'merchant',
+    key: 'merchant',
+    width: 120,
+  },
+  {
+    title: t('column.chain'),
+    dataIndex: 'chain',
+    key: 'chain',
+    width: 100,
+  },
+  {
+    title: t('column.coin'),
+    dataIndex: 'coin',
+    key: 'coin',
+    width: 100,
+  },
+  {
+    title: t('column.fromAddress'),
+    dataIndex: 'fromAddress',
+    key: 'fromAddress',
+    width: 250,
+  },
+  {
+    title: t('column.toAddress'),
+    dataIndex: 'toAddress',
+    key: 'toAddress',
+    width: 250,
+  },
+  {
+    title: t('column.userId'),
+    dataIndex: 'userId',
+    key: 'userId',
+    width: 150,
+  },
+  {
+    title: t('column.action'),
+    key: 'action',
+    width: 200,
+    fixed: 'right'
+  }
+])
+
+const riskAddressData = computed(() => mockData.riskAddressData || [])
+
+const formatAddress = (address) => {
+  if (!address) return ''
+  return `${address.slice(0, 4)}...${address.slice(-4)}`
+}
+
+const copyAddress = (address) => {
+  navigator.clipboard.writeText(address)
+  message.success(t('message.copySuccess'))
+}
+
+const riskActionModalVisible = ref(false)
+const riskActionForm = reactive({
+  id: '',
+  action: '',
+  reason: ''
+})
+
+const handleRiskAction = (record, action) => {
+  riskActionForm.id = record.id
+  riskActionForm.action = action
+  riskActionForm.reason = ''
+  riskActionModalVisible.value = true
+}
+
+const handleRiskActionSubmit = () => {
+  if (!riskActionForm.reason.trim()) {
+    message.error(t('modal.pleaseInputActionReason'))
+    return
+  }
+  
+  // TODO: 調用API處理風險地址操作邏輯
+  console.log('Risk address action:', riskActionForm)
+  
+  message.success(t('message.actionSuccess'))
+  riskActionModalVisible.value = false
+}
+
 const alertStatistics = computed(() => [
   {
     title: t('statistics.nodeHeight'),
@@ -878,6 +1026,12 @@ const alertStatistics = computed(() => [
     under30: walletAbnormalData.value.filter(item => item.duration < 30).length,
     between30And60: walletAbnormalData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
     over60: walletAbnormalData.value.filter(item => item.duration >= 60).length
+  },
+  {
+    title: t('statistics.riskAddress'),
+    under30: riskAddressData.value.filter(item => item.duration < 30).length,
+    between30And60: riskAddressData.value.filter(item => item.duration >= 30 && item.duration < 60).length,
+    over60: riskAddressData.value.filter(item => item.duration >= 60).length
   }
 ])
 

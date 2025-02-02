@@ -5,21 +5,30 @@
     "withdrawDuration": "Withdrawal Duration Alert",
     "largeAmount": "Large Transaction Alert",
     "unconfirmedTransfer": "Unconfirmed Transfers",
-    "walletBalance": "Wallet Balance Alert"
+    "walletBalance": "Wallet Balance Alert",
+    "walletAbnormal": "Wallet Abnormal Alert",
+    "riskAddress": "Risk Address Deposit Alert"
   },
   "settings": "Settings",
   "modal": {
     "largeAmount": "Large Transaction Alert Settings",
     "withdrawDuration": "Withdrawal Duration Settings",
     "nodeHeight": "Node Height Alert Settings",
-    "confirm": "Confirmation Reason"
+    "confirm": "Confirmation Reason",
+    "walletAction": "Wallet Action",
+    "actionReason": "Action Reason",
+    "pleaseInputActionReason": "Please input action reason",
+    "walletAbnormal": "Wallet Abnormal Alert Settings",
+    "riskAction": "Risk Address Action"
   },
   "threshold": {
     "deposit": "Large Deposit Threshold",
     "withdraw": "Large Withdrawal Threshold",
     "processingTimeout": "Processing Duration Threshold",
     "waitingTimeout": "Waiting Duration Threshold",
-    "notifyTimeout": "Notification Duration Threshold"
+    "notifyTimeout": "Notification Duration Threshold",
+    "transferFailureCount": "Consecutive Transfer Failures",
+    "confirmationTimeout": "Confirmation Timeout"
   },
   "column": {
     "merchant": "Merchant",
@@ -44,17 +53,24 @@
     "transferAmount": "Transfer Amount",
     "time": "Time",
     "transferId": "Transfer ID",
-    "action": "Action"
+    "action": "Action",
+    "reason": "Reason",
+    "fromAddress": "From Address",
+    "toAddress": "To Address"
   },
   "reason": {
     "serviceHeightBehind": "Service Height Behind",
     "nodeHeightBehind": "Node Height Behind",
     "processingTimeout": "Processing Timeout",
     "waitingTimeout": "Waiting Timeout",
-    "notifyTimeout": "Notification Timeout"
+    "notifyTimeout": "Notification Timeout",
+    "transferFailure": "Multiple Transfer Failures",
+    "confirmationDelay": "Long Confirmation Delay",
+    "riskAddress": "Risk Address"
   },
   "unit": {
-    "minutes": "minutes"
+    "minutes": "minutes",
+    "count": "count"
   },
   "text": {
     "when": "When",
@@ -66,7 +82,9 @@
   "message": {
     "settingsSaved": "Settings saved",
     "pleaseInputReason": "Please input confirmation reason",
-    "confirmSuccess": "Confirmed successfully"
+    "confirmSuccess": "Confirmed successfully",
+    "actionSuccess": "Action successful",
+    "copySuccess": "Copied successfully"
   },
   "button": {
     "addRule": "Add Rule"
@@ -79,13 +97,19 @@
     "walletBalance": "Wallet Balance Alert",
     "lessThan30": "Under 30 mins",
     "between30And60": "30-60 mins",
-    "moreThan60": "Over 60 mins"
+    "moreThan60": "Over 60 mins",
+    "walletAbnormal": "Wallet Abnormal",
+    "riskAddress": "Risk Address Deposit"
   },
   "pagination": {
     "total": "Total {total} items"
   },
   "action": {
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "unlockWallet": "Unlock Wallet",
+    "lockWallet": "Lock Wallet",
+    "approve": "Approve",
+    "lock": "Lock"
   },
   "field": {
     "reason": "Reason"
