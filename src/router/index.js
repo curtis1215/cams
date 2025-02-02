@@ -105,6 +105,24 @@ const routes = [
         path: 'order/exchange',
         name: 'ExchangeOrder',
         component: () => import('../views/order/Exchange.vue')
+      },
+      {
+        path: 'report/deposit-withdraw-duration',
+        name: 'DepositWithdrawDuration',
+        component: () => import('../views/report/DepositWithdrawDuration.vue'),
+        meta: {
+          title: 'nav.depositWithdrawDurationReport',
+          requiresAuth: true
+        }
+      },
+      {
+        path: 'report/wallet-profit-loss',
+        name: 'WalletProfitLoss',
+        component: () => import('@/views/reconciliation/WalletProfitLoss.vue'),
+        meta: {
+          title: 'nav.walletProfitLossQuery',
+          requiresAuth: true
+        }
       }
     ]
   },
@@ -118,15 +136,6 @@ const routes = [
         component: () => import('@/views/reconciliation/WalletBalance.vue'),
         meta: {
           title: 'nav.walletBalanceQuery',
-          requiresAuth: true
-        }
-      },
-      {
-        path: 'wallet-profit-loss',
-        name: 'WalletProfitLoss',
-        component: () => import('@/views/reconciliation/WalletProfitLoss.vue'),
-        meta: {
-          title: 'nav.walletProfitLossQuery',
           requiresAuth: true
         }
       }

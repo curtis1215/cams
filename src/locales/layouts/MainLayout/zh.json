@@ -32,7 +32,9 @@
     "userManagement": "用戶管理",
     "roleManagement": "角色管理",
     "merchantManagement": "商戶管理",
-    "walletProfitLossQuery": "錢包持倉盈虧"
+    "walletProfitLossQuery": "錢包持倉盈虧",
+    "dataReport": "數據報表",
+    "depositWithdrawDurationReport": "充提時長分析"
   },
   "language": {
     "english": "English",

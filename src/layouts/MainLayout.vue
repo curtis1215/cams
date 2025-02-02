@@ -121,7 +121,19 @@
               <WalletFilled />
               {{ t('nav.walletBalanceQuery') }}
             </a-menu-item>
-            <a-menu-item key="walletProfitLoss" @click="router.push('/reconciliation/wallet-profit-loss')">
+          </a-sub-menu>
+          <a-sub-menu key="report">
+            <template #title>
+              <span>
+                <BarChartOutlined />
+                {{ t('nav.dataReport') }}
+              </span>
+            </template>
+            <a-menu-item key="depositWithdrawDuration" @click="router.push('/report/deposit-withdraw-duration')">
+              <ClockCircleOutlined />
+              {{ t('nav.depositWithdrawDurationReport') }}
+            </a-menu-item>
+            <a-menu-item key="walletProfitLoss" @click="router.push('/report/wallet-profit-loss')">
               <LineChartOutlined />
               {{ t('nav.walletProfitLossQuery') }}
             </a-menu-item>
@@ -198,7 +210,9 @@ import {
   WalletFilled,
   ShopOutlined,
   TeamOutlined,
-  LineChartOutlined
+  LineChartOutlined,
+  BarChartOutlined,
+  ClockCircleOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
@@ -231,6 +245,8 @@ const setSelectedKeysByRoute = () => {
     openKeys.value = ['params']
   } else if (path.startsWith('/reconciliation')) {
     openKeys.value = ['reconciliation']
+  } else if (path.startsWith('/report')) {
+    openKeys.value = ['report']
   }
 
   // 根據具體路徑設置 selectedKeys
@@ -251,7 +267,8 @@ const setSelectedKeysByRoute = () => {
     '/params/blockchain': 'blockchain',
     '/params/contract-coin': 'contractCoin',
     '/reconciliation/wallet-balance': 'walletBalance',
-    '/reconciliation/wallet-profit-loss': 'walletProfitLoss'
+    '/report/deposit-withdraw-duration': 'depositWithdrawDuration',
+    '/report/wallet-profit-loss': 'walletProfitLoss'
   }
 
   selectedKeys.value = [pathMap[path] || 'dashboard']

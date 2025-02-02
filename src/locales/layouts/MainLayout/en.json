@@ -32,7 +32,9 @@
     "userManagement": "User Management",
     "roleManagement": "Role Management",
     "merchantManagement": "Merchant Management",
-    "walletProfitLossQuery": "Wallet Position P/L"
+    "walletProfitLossQuery": "Wallet Position P/L",
+    "dataReport": "Data Reports",
+    "depositWithdrawDurationReport": "Deposit/Withdraw Duration Analysis"
   },
   "language": {
     "english": "English",
