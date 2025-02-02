@@ -118,7 +118,7 @@ const routes = [
       {
         path: 'report/wallet-profit-loss',
         name: 'WalletProfitLoss',
-        component: () => import('@/views/reconciliation/WalletProfitLoss.vue'),
+        component: () => import('@/views/report/WalletProfitLoss.vue'),
         meta: {
           title: 'nav.walletProfitLossQuery',
           requiresAuth: true
