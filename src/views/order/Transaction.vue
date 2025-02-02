@@ -138,7 +138,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
@@ -149,8 +149,38 @@ import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import zhLocale from '@/locales/order/Transaction/zh.json'
 import enLocale from '@/locales/order/Transaction/en.json'
 import mockData from '@/mock/order/Transaction/transaction.mock.json'
-import zhCommon from '@/locales/common/zh.json'
-import enCommon from '@/locales/common/en.json'
+import type { TablePaginationConfig } from 'ant-design-vue'
+
+interface QueryParams {
+  dateRange: string[]
+  chainType: string | undefined
+  currency: string | undefined
+  fromAddress: string
+  toAddress: string
+  txHash: string
+  blockHeight: number | undefined
+  status: string | undefined
+  confirmations: {
+    current: number
+    required: number
+  }
+}
+
+interface TransactionRecord {
+  detailId: string
+  chainType: string
+  currency: string
+  fromAddress: string
+  fromWalletId?: string
+  toAddress: string
+  toWalletId?: string
+  txHash: string
+  feeCurrency: string
+  feeAmount: string
+  status: 'success' | 'confirming' | 'failed'
+  onChainTime: string
+  confirmTime: string
+}
 
 const messages = {
   zh: zhLocale,
@@ -162,7 +192,7 @@ const { t } = useI18n({
   legacy: false
 })
 
-const queryParams = reactive({
+const queryParams = reactive<QueryParams>({
   dateRange: [],
   chainType: undefined,
   currency: undefined,
@@ -183,14 +213,17 @@ const handleSearch = () => {
 }
 
 const handleReset = () => {
-  Object.keys(queryParams).forEach(key => {
+  (Object.keys(queryParams) as Array<keyof QueryParams>).forEach((key) => {
     if (key === 'confirmations') {
       queryParams[key] = { current: 0, required: 0 }
+    } else if (key === 'dateRange') {
+      queryParams[key] = []
+    } else if (key === 'fromAddress' || key === 'toAddress' || key === 'txHash') {
+      queryParams[key] = ''
     } else {
       queryParams[key] = undefined
     }
   })
-  queryParams.dateRange = []
 }
 
 const columns = [
@@ -265,16 +298,20 @@ const pagination = reactive({
   pageSize: 10,
   showSizeChanger: true,
   showQuickJumper: true,
-  showTotal: (total) => t('totalItems', { total })
+  showTotal: (total: number) => t('totalItems', { total })
 })
 
-const handleTableChange = (pag, filters, sorter) => {
-  pagination.current = pag.current
-  pagination.pageSize = pag.pageSize
+const handleTableChange = (
+  pag: TablePaginationConfig,
+  filters: Record<string, string[]>,
+  sorter: { field?: string; order?: 'ascend' | 'descend' | null }
+) => {
+  pagination.current = pag.current || 1
+  pagination.pageSize = pag.pageSize || 10
   // TODO: Implement pagination query logic
 }
 
-const getStatusText = (status) => {
+const getStatusText = (status: TransactionRecord['status']) => {
   const statusMap = {
     success: t('status.success'),
     confirming: t('status.confirming', { current: 6, required: 12 }),
@@ -283,17 +320,17 @@ const getStatusText = (status) => {
   return statusMap[status] || status
 }
 
-const formatAddress = (address) => {
+const formatAddress = (address: string) => {
   if (!address) return ''
   return `${address.slice(0, 4)}****${address.slice(-4)}`
 }
 
-const formatTxHash = (hash) => {
+const formatTxHash = (hash: string) => {
   if (!hash) return ''
   return `${hash.slice(0, 6)}****${hash.slice(-6)}`
 }
 
-const copyAddress = async (address) => {
+const copyAddress = async (address: string) => {
   try {
     await navigator.clipboard.writeText(address)
     message.success(t('message.copySuccess'))
@@ -302,7 +339,7 @@ const copyAddress = async (address) => {
   }
 }
 
-const copyTxHash = async (txHash) => {
+const copyTxHash = async (txHash: string) => {
   try {
     await navigator.clipboard.writeText(txHash)
     message.success(t('message.copySuccess'))
@@ -311,20 +348,25 @@ const copyTxHash = async (txHash) => {
   }
 }
 
-const openTxHashLink = (txHash) => {
+const openTxHashLink = (txHash: string) => {
   // TODO: Open transaction hash link based on chain type
   window.open(`https://etherscan.io/tx/${txHash}`, '_blank')
 }
 
-// 使用 mock 數據
-const tableData = ref(mockData.transactionList)
+// 使用 mock 數據並進行類型轉換
+const tableData = ref<TransactionRecord[]>(
+  (mockData.transactionList as any[]).map(item => ({
+    ...item,
+    status: item.status as TransactionRecord['status']
+  }))
+)
 
 const handleDownload = () => {
   // 將表格數據轉換為CSV格式
   const headers = columns.map(col => col.title).join(',')
   const rows = tableData.value.map(row => {
     return columns.map(col => {
-      const value = row[col.dataIndex] || ''
+      const value = row[col.dataIndex as keyof TransactionRecord] || ''
       return `"${value}"`
     }).join(',')
   })

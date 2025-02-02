@@ -132,7 +132,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
@@ -142,18 +142,53 @@ import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
 import mockData from '@/mock/order/Exchange/exchange.mock.json'
 import zhLocale from '@/locales/order/Exchange/zh.json'
 import enLocale from '@/locales/order/Exchange/en.json'
-import zhCommon from '@/locales/common/zh.json'
-import enCommon from '@/locales/common/en.json'
+import type { TableColumnType } from 'ant-design-vue'
+
+interface QueryParams {
+  fromWalletId: string
+  toWalletId: string
+  fromChainType: string | undefined
+  fromCurrency: string | undefined
+  toChainType: string | undefined
+  toCurrency: string | undefined
+  status: string | undefined
+}
+
+interface ExchangeRecord {
+  exchangeOrderId: string
+  fromWalletId: string
+  fromChainType: string
+  fromCurrency: string
+  fromAmount: string
+  fromTransferCreateTime: string
+  fromTransferOnChainTime: string
+  fromTransferCompleteTime: string
+  fromTransferId: string
+  toWalletId: string
+  toChainType: string
+  toCurrency: string
+  toAmount: string
+  toTransferCreateTime: string
+  toTransferOnChainTime: string
+  toTransferCompleteTime: string
+  toTransferId: string
+  feeCurrency: string
+  feeAmount: string
+  feeValue: string
+  status: 'pending' | 'rejected' | 'transferringOut' | 'exchanging' | 'transferringIn' | 'success' | 'transferOutFailed' | 'exchangeFailed'
+  createTime: string
+  updateTime: string
+}
+
+interface ColumnRenderProps<T = any> {
+  text: T
+  record: ExchangeRecord
+  index: number
+}
 
 const messages = {
-  zh: {
-    common: zhCommon,
-    ...zhLocale
-  },
-  en: {
-    common: enCommon,
-    ...enLocale
-  }
+  zh: zhLocale,
+  en: enLocale
 }
 
 const { t } = useI18n({
@@ -161,7 +196,7 @@ const { t } = useI18n({
   legacy: false
 })
 
-const queryParams = reactive({
+const queryParams = reactive<QueryParams>({
   fromWalletId: '',
   toWalletId: '',
   fromChainType: undefined,
@@ -177,8 +212,8 @@ const handleSearch = () => {
 }
 
 const handleReset = () => {
-  Object.keys(queryParams).forEach(key => {
-    if (typeof queryParams[key] === 'string') {
+  (Object.keys(queryParams) as Array<keyof QueryParams>).forEach(key => {
+    if (key === 'fromWalletId' || key === 'toWalletId') {
       queryParams[key] = ''
     } else {
       queryParams[key] = undefined
@@ -186,13 +221,12 @@ const handleReset = () => {
   })
 }
 
-const columns = [
+const columns: TableColumnType<ExchangeRecord>[] = [
   {
     title: t('exchange.exchangeOrderId'),
     dataIndex: 'exchangeOrderId',
     key: 'exchangeOrderId',
     width: 180,
-    customRender: ({ text }) => h('span', null, text)
   },
   {
     title: t('exchange.fromWalletId'),
@@ -204,7 +238,7 @@ const columns = [
     title: t('exchange.fromChainType'),
     key: 'fromChainType',
     width: 120,
-    customRender: ({ record }) => {
+    customRender: ({ record }: ColumnRenderProps) => {
       return h('div', { class: 'chain-currency-info' }, [
         h('div', { class: 'chain-type' }, record.fromChainType),
         h('div', { class: 'currency' }, record.fromCurrency)
@@ -221,7 +255,7 @@ const columns = [
     title: t('exchange.fromTransferTime'),
     key: 'fromTransferTime',
     width: 180,
-    customRender: ({ record }) => {
+    customRender: ({ record }: ColumnRenderProps) => {
       return h('div', { class: 'time-info' }, [
         h('div', { class: 'time-row' }, [
           h('span', { class: 'time-label' }, `${t('field.createTime')}:`),
@@ -243,7 +277,7 @@ const columns = [
     dataIndex: 'fromTransferId',
     key: 'fromTransferId',
     width: 180,
-    customRender: ({ text }) => {
+    customRender: ({ text }: ColumnRenderProps<string>) => {
       if (!text) return h('span', null, '-')
       return h('a', {
         class: 'order-link',
@@ -273,7 +307,7 @@ const columns = [
     title: t('exchange.toChainType'),
     key: 'toChainType',
     width: 120,
-    customRender: ({ record }) => {
+    customRender: ({ record }: ColumnRenderProps) => {
       return h('div', { class: 'chain-currency-info' }, [
         h('div', { class: 'chain-type' }, record.toChainType),
         h('div', { class: 'currency' }, record.toCurrency)
@@ -290,7 +324,7 @@ const columns = [
     title: t('exchange.toTransferTime'),
     key: 'toTransferTime',
     width: 180,
-    customRender: ({ record }) => {
+    customRender: ({ record }: ColumnRenderProps) => {
       return h('div', { class: 'time-info' }, [
         h('div', { class: 'time-row' }, [
           h('span', { class: 'time-label' }, `${t('field.createTime')}:`),
@@ -312,7 +346,7 @@ const columns = [
     dataIndex: 'toTransferId',
     key: 'toTransferId',
     width: 180,
-    customRender: ({ text }) => {
+    customRender: ({ text }: ColumnRenderProps<string>) => {
       if (!text) return h('span', null, '-')
       return h('a', {
         class: 'order-link',
@@ -335,7 +369,7 @@ const columns = [
     title: t('exchange.exchangeTime'),
     key: 'exchangeTime',
     width: 180,
-    customRender: ({ record }) => {
+    customRender: ({ record }: ColumnRenderProps) => {
       return h('div', { class: 'time-info' }, [
         h('div', { class: 'time-row' }, [
           h('span', { class: 'time-label' }, `${t('field.createTime')}:`),
@@ -359,19 +393,24 @@ const pagination = reactive({
   total: 0,
   current: 1,
   pageSize: 10,
-  showTotal: (total) => t('total', { total }),
+  showTotal: (total: number) => t('total', { total }),
   showSizeChanger: true,
 })
 
-const tableData = ref(mockData.exchangeOrders)
+const tableData = ref<ExchangeRecord[]>(
+  (mockData.exchangeOrders as any[]).map(item => ({
+    ...item,
+    status: item.status as ExchangeRecord['status']
+  }))
+)
 
-const handleTableChange = (pag) => {
+const handleTableChange = (pag: any) => {
   pagination.current = pag.current
   pagination.pageSize = pag.pageSize
   // TODO: 實現分頁邏輯
 }
 
-const getStatusText = (status) => {
+const getStatusText = (status: ExchangeRecord['status']) => {
   const statusMap = {
     pending: t('status.pending'),
     rejected: t('status.rejected'),
@@ -385,17 +424,17 @@ const getStatusText = (status) => {
   return statusMap[status] || status
 }
 
-const handleOrderClick = (orderId) => {
+const handleOrderClick = (orderId: string) => {
   console.log('Navigate to exchange order detail:', orderId)
   // TODO: 實現導航到兌幣訂單詳情頁面的邏輯
 }
 
-const handleTransferClick = (transferId, type) => {
+const handleTransferClick = (transferId: string, type: 'from' | 'to') => {
   console.log(`Navigate to ${type} transfer detail:`, transferId)
   // TODO: 實現導航到轉帳訂單詳情頁面的邏輯
 }
 
-const copyText = async (text) => {
+const copyText = async (text: string) => {
   try {
     await navigator.clipboard.writeText(text)
     message.success(t('message.copyToClipboardSuccess'))
@@ -409,7 +448,8 @@ const handleDownload = () => {
   const headers = columns.map(col => col.title).join(',')
   const rows = tableData.value.map(row => {
     return columns.map(col => {
-      const value = row[col.dataIndex] || ''
+      const dataIndex = col.dataIndex as keyof ExchangeRecord | undefined
+      const value = dataIndex ? row[dataIndex] : ''
       return `"${value}"`
     }).join(',')
   })
