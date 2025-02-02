@@ -1,0 +1,57 @@
+{
+  "total": 100,
+  "current": 1,
+  "pageSize": 10,
+  "data": [
+    {
+      "id": 1,
+      "username": "admin",
+      "name": "系統管理員",
+      "email": "admin@example.com",
+      "role": "admin",
+      "status": "enabled",
+      "lastLoginTime": "2024-03-20 10:30:00",
+      "createTime": "2024-01-01 00:00:00"
+    },
+    {
+      "id": 2,
+      "username": "operator",
+      "name": "運營人員",
+      "email": "operator@example.com",
+      "role": "operator",
+      "status": "enabled",
+      "lastLoginTime": "2024-03-19 15:45:00",
+      "createTime": "2024-01-02 09:00:00"
+    },
+    {
+      "id": 3,
+      "username": "viewer",
+      "name": "查看者",
+      "email": "viewer@example.com",
+      "role": "viewer",
+      "status": "disabled",
+      "lastLoginTime": "2024-03-18 11:20:00",
+      "createTime": "2024-01-03 14:30:00"
+    },
+    {
+      "id": 4,
+      "username": "finance",
+      "name": "財務人員",
+      "email": "finance@example.com",
+      "role": "finance",
+      "status": "enabled",
+      "lastLoginTime": "2024-03-20 09:15:00",
+      "createTime": "2024-01-04 10:00:00"
+    },
+    {
+      "id": 5,
+      "username": "support",
+      "name": "客服人員",
+      "email": "support@example.com",
+      "role": "support",
+      "status": "enabled",
+      "lastLoginTime": "2024-03-19 16:40:00",
+      "createTime": "2024-01-05 11:20:00"
+    }
+  ]
+} 

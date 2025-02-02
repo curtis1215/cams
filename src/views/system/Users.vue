@@ -165,7 +165,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import {
   SearchOutlined,
@@ -179,6 +179,7 @@ import { message } from 'ant-design-vue'
 import RoleSelect from '@/components/selectors/RoleSelect.vue'
 import zhLocale from '@/locales/system/Users/zh.json'
 import enLocale from '@/locales/system/Users/en.json'
+import mockData from '@/mock/system/users/list.mock.json'
 
 const messages = {
   zh: zhLocale,
@@ -256,18 +257,47 @@ const loading = ref(false)
 const pagination = reactive({
   current: 1,
   pageSize: 10,
-  total: 0,
+  total: mockData.total,
   showSizeChanger: true,
   showQuickJumper: true
 })
 
+// 初始化數據
+const initData = () => {
+  loading.value = true
+  // 模擬 API 請求
+  setTimeout(() => {
+    tableData.value = mockData.data
+    loading.value = false
+  }, 300)
+}
+
 // 查詢處理
 const handleQuery = () => {
   loading.value = true
-  // TODO: 實現查詢 API
+  // 模擬 API 請求
   setTimeout(() => {
+    const { username, name, role, status } = queryParams.value
+    
+    // 過濾數據
+    let filteredData = mockData.data.filter(item => {
+      if (username && !item.username.toLowerCase().includes(username.toLowerCase())) return false
+      if (name && !item.name.includes(name)) return false
+      if (role && item.role !== role) return false
+      if (status && item.status !== status) return false
+      return true
+    })
+    
+    // 更新分頁信息
+    pagination.total = filteredData.length
+    
+    // 計算當前頁數據
+    const start = (pagination.current - 1) * pagination.pageSize
+    const end = start + pagination.pageSize
+    tableData.value = filteredData.slice(start, end)
+    
     loading.value = false
-  }, 1000)
+  }, 300)
 }
 
 // 重置查詢
@@ -278,6 +308,7 @@ const resetQuery = () => {
     role: undefined,
     status: undefined
   }
+  pagination.current = 1
   handleQuery()
 }
 
@@ -344,13 +375,13 @@ const handleUserModalOk = async () => {
   try {
     await userFormRef.value.validate()
     modalLoading.value = true
-    // TODO: 實現新增/編輯 API
+    // 模擬 API 請求
     setTimeout(() => {
       modalLoading.value = false
       userModalVisible.value = false
       message.success(isEdit.value ? t('message.editSuccess') : t('message.addSuccess'))
       handleQuery()
-    }, 1000)
+    }, 300)
   } catch (error) {
     console.error('表單驗證失敗:', error)
   }
@@ -364,15 +395,22 @@ const handleUserModalCancel = () => {
 
 // 處理刪除用戶
 const handleDelete = (record) => {
-  // TODO: 實現刪除 API
-  message.success(t('message.deleteSuccess'))
-  handleQuery()
+  // 模擬 API 請求
+  setTimeout(() => {
+    message.success(t('message.deleteSuccess'))
+    handleQuery()
+  }, 300)
 }
 
 // 查看用戶歷程
 const handleViewHistory = (record) => {
   // TODO: 實現查看歷程功能
 }
+
+// 在組件掛載時載入數據
+onMounted(() => {
+  initData()
+})
 </script>
 
 <style scoped>
