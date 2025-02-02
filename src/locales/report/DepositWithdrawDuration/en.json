@@ -1,0 +1,39 @@
+{
+  "report": {
+    "depositWithdrawDuration": {
+      "queryTitle": "Deposit/Withdraw Duration Analysis Query",
+      "analysisTitle": "Deposit/Withdraw Duration Analysis"
+    }
+  },
+  "field": {
+    "dateRange": "Date Range",
+    "merchant": "Merchant",
+    "startDate": "Start Date",
+    "endDate": "End Date"
+  },
+  "action": {
+    "search": "Search",
+    "reset": "Reset",
+    "details": "Details",
+    "chart": "Chart"
+  },
+  "tab": {
+    "deposit": "Deposit",
+    "withdraw": "Withdraw"
+  },
+  "table": {
+    "chainType": "Chain Type",
+    "transactionCount": "Transaction Count",
+    "transactionAmount": "Transaction Amount",
+    "averageProcessTime": "Average Process Time",
+    "currency": "Currency",
+    "action": "Action"
+  },
+  "modal": {
+    "currencyAnalysis": "Currency Analysis"
+  },
+  "chart": {
+    "processTime": "Process Time",
+    "averageProcessTime": "Average Process Time"
+  }
+} 

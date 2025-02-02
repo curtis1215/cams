@@ -1,0 +1,62 @@
+{
+  "depositData": [
+    { "key": "1", "chainType": "EVM", "transactionCount": 156, "averageProcessTime": "00:05:23" },
+    { "key": "2", "chainType": "BTC", "transactionCount": 89, "averageProcessTime": "00:32:15" },
+    { "key": "3", "chainType": "TRON", "transactionCount": 234, "averageProcessTime": "00:03:45" },
+    { "key": "4", "chainType": "BSC", "transactionCount": 178, "averageProcessTime": "00:04:12" },
+    { "key": "5", "chainType": "Polygon", "transactionCount": 145, "averageProcessTime": "00:06:33" },
+    { "key": "6", "chainType": "Arbitrum", "transactionCount": 92, "averageProcessTime": "00:07:18" },
+    { "key": "7", "chainType": "Optimism", "transactionCount": 67, "averageProcessTime": "00:05:55" },
+    { "key": "8", "chainType": "Avalanche", "transactionCount": 123, "averageProcessTime": "00:04:48" },
+    { "key": "9", "chainType": "Solana", "transactionCount": 189, "averageProcessTime": "00:02:35" },
+    { "key": "10", "chainType": "Cosmos", "transactionCount": 45, "averageProcessTime": "00:08:22" },
+    { "key": "11", "chainType": "Cardano", "transactionCount": 78, "averageProcessTime": "00:15:40" },
+    { "key": "12", "chainType": "Polkadot", "transactionCount": 56, "averageProcessTime": "00:12:15" },
+    { "key": "13", "chainType": "Near", "transactionCount": 34, "averageProcessTime": "00:06:50" },
+    { "key": "14", "chainType": "Fantom", "transactionCount": 112, "averageProcessTime": "00:04:25" },
+    { "key": "15", "chainType": "Harmony", "transactionCount": 67, "averageProcessTime": "00:05:30" },
+    { "key": "16", "chainType": "Cronos", "transactionCount": 89, "averageProcessTime": "00:06:15" },
+    { "key": "17", "chainType": "Algorand", "transactionCount": 45, "averageProcessTime": "00:07:40" },
+    { "key": "18", "chainType": "Hedera", "transactionCount": 23, "averageProcessTime": "00:09:20" },
+    { "key": "19", "chainType": "Stellar", "transactionCount": 156, "averageProcessTime": "00:03:15" },
+    { "key": "20", "chainType": "Ripple", "transactionCount": 198, "averageProcessTime": "00:04:45" }
+  ],
+  "withdrawData": [
+    { "key": "1", "chainType": "EVM", "transactionCount": 134, "averageProcessTime": "00:15:45" },
+    { "key": "2", "chainType": "BTC", "transactionCount": 76, "averageProcessTime": "00:45:30" },
+    { "key": "3", "chainType": "TRON", "transactionCount": 198, "averageProcessTime": "00:12:20" },
+    { "key": "4", "chainType": "BSC", "transactionCount": 156, "averageProcessTime": "00:14:45" },
+    { "key": "5", "chainType": "Polygon", "transactionCount": 123, "averageProcessTime": "00:16:10" },
+    { "key": "6", "chainType": "Arbitrum", "transactionCount": 78, "averageProcessTime": "00:18:25" },
+    { "key": "7", "chainType": "Optimism", "transactionCount": 56, "averageProcessTime": "00:17:35" },
+    { "key": "8", "chainType": "Avalanche", "transactionCount": 112, "averageProcessTime": "00:15:50" },
+    { "key": "9", "chainType": "Solana", "transactionCount": 167, "averageProcessTime": "00:10:25" },
+    { "key": "10", "chainType": "Cosmos", "transactionCount": 34, "averageProcessTime": "00:22:15" },
+    { "key": "11", "chainType": "Cardano", "transactionCount": 67, "averageProcessTime": "00:25:40" },
+    { "key": "12", "chainType": "Polkadot", "transactionCount": 45, "averageProcessTime": "00:28:15" },
+    { "key": "13", "chainType": "Near", "transactionCount": 23, "averageProcessTime": "00:19:30" },
+    { "key": "14", "chainType": "Fantom", "transactionCount": 98, "averageProcessTime": "00:16:45" },
+    { "key": "15", "chainType": "Harmony", "transactionCount": 56, "averageProcessTime": "00:18:20" },
+    { "key": "16", "chainType": "Cronos", "transactionCount": 78, "averageProcessTime": "00:17:45" },
+    { "key": "17", "chainType": "Algorand", "transactionCount": 34, "averageProcessTime": "00:21:30" },
+    { "key": "18", "chainType": "Hedera", "transactionCount": 12, "averageProcessTime": "00:24:15" },
+    { "key": "19", "chainType": "Stellar", "transactionCount": 145, "averageProcessTime": "00:13:40" },
+    { "key": "20", "chainType": "Ripple", "transactionCount": 178, "averageProcessTime": "00:15:25" }
+  ],
+  "currencyDetailData": [
+    { "key": "1", "currency": "ETH", "transactionCount": 78, "transactionAmount": "156.8452", "averageProcessTime": "00:05:23" },
+    { "key": "2", "currency": "USDT", "transactionCount": 156, "transactionAmount": "52,450.00", "averageProcessTime": "00:04:15" },
+    { "key": "3", "currency": "BTC", "transactionCount": 45, "transactionAmount": "3.2547", "averageProcessTime": "00:32:15" },
+    { "key": "4", "currency": "USDC", "transactionCount": 123, "transactionAmount": "38,670.00", "averageProcessTime": "00:04:45" },
+    { "key": "5", "currency": "BNB", "transactionCount": 67, "transactionAmount": "245.6723", "averageProcessTime": "00:06:30" },
+    { "key": "6", "currency": "MATIC", "transactionCount": 89, "transactionAmount": "12,450.00", "averageProcessTime": "00:05:15" },
+    { "key": "7", "currency": "SOL", "transactionCount": 112, "transactionAmount": "1,567.00", "averageProcessTime": "00:03:45" },
+    { "key": "8", "currency": "DOT", "transactionCount": 34, "transactionAmount": "678.45", "averageProcessTime": "00:12:30" },
+    { "key": "9", "currency": "AVAX", "transactionCount": 56, "transactionAmount": "890.23", "averageProcessTime": "00:05:45" },
+    { "key": "10", "currency": "ADA", "transactionCount": 78, "transactionAmount": "5,670.00", "averageProcessTime": "00:15:20" }
+  ],
+  "chartData": {
+    "dates": ["1/1", "1/2", "1/3", "1/4", "1/5", "1/6", "1/7"],
+    "processTimeData": [8.5, 12.3, 6.7, 15.2, 9.8, 11.4, 7.6]
+  }
+} 

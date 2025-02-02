@@ -1,0 +1,39 @@
+{
+  "report": {
+    "depositWithdrawDuration": {
+      "queryTitle": "充提數據分析查詢",
+      "analysisTitle": "充提數據分析"
+    }
+  },
+  "field": {
+    "dateRange": "日期範圍",
+    "merchant": "商戶",
+    "startDate": "開始日期",
+    "endDate": "結束日期"
+  },
+  "action": {
+    "search": "查詢",
+    "reset": "重置",
+    "details": "詳情",
+    "chart": "圖表"
+  },
+  "tab": {
+    "deposit": "充值",
+    "withdraw": "提現"
+  },
+  "table": {
+    "chainType": "鏈類型",
+    "transactionCount": "交易筆數",
+    "transactionAmount": "交易數額",
+    "averageProcessTime": "平均處理時間",
+    "currency": "幣種",
+    "action": "操作"
+  },
+  "modal": {
+    "currencyAnalysis": "幣種數據分析"
+  },
+  "chart": {
+    "processTime": "處理時間",
+    "averageProcessTime": "平均處理時間"
+  }
+} 
