@@ -1,0 +1,10 @@
+{
+  "nodeHeightAnalysis": {
+    "dataQuery": "數據查詢",
+    "heightDifferenceAnalysis": "節點高度差異數分析",
+    "chartTitle": "{chain}{days}日節點差異數",
+    "differenceValue": "差異值",
+    "pleaseSelectDateRange": "請選擇日期範圍",
+    "pleaseSelectChainType": "請選擇鏈類型"
+  }
+} 

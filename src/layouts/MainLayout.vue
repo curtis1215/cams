@@ -141,6 +141,10 @@
               <LineChartOutlined />
               {{ t('nav.walletProfitLossQuery') }}
             </a-menu-item>
+            <a-menu-item key="nodeHeightAnalysis" @click="router.push('/report/node-height-analysis')">
+              <BarChartOutlined />
+              {{ t('nav.nodeHeightAnalysis') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="params">
             <template #title>

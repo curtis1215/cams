@@ -1,0 +1,10 @@
+{
+  "nodeHeightAnalysis": {
+    "dataQuery": "Data Query",
+    "heightDifferenceAnalysis": "Node Height Difference Analysis",
+    "chartTitle": "{chain} {days} Days Node Height Difference",
+    "differenceValue": "Difference Value",
+    "pleaseSelectDateRange": "Please select date range",
+    "pleaseSelectChainType": "Please select chain type"
+  }
+} 

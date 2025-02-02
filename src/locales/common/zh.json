@@ -87,6 +87,11 @@
       "notifyStatus": "通知狀態",
       "timeInfo": "時間信息",
       "total": "共 {total} 條"
-    }
+    },
+    "search": "搜索",
+    "reset": "重置",
+    "pleaseSelect": "請選擇",
+    "startDate": "開始日期",
+    "endDate": "結束日期"
   }
 } 

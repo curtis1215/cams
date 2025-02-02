@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
+    "@antv/g2": "^5.2.10",
+    "@antv/g2plot": "^2.4.32",
     "@vueuse/core": "^12.4.0",
     "ant-design-vue": "^4.2.6",
     "apexcharts": "^4.4.0",

@@ -127,6 +127,15 @@ const routes = [
           title: 'nav.walletProfitLossQuery',
           requiresAuth: true
         }
+      },
+      {
+        path: 'report/node-height-analysis',
+        name: 'NodeHeightAnalysis',
+        component: () => import('@/views/report/NodeHeightAnalysis.vue'),
+        meta: {
+          title: 'nav.nodeHeightAnalysis',
+          requiresAuth: true
+        }
       }
     ]
   },

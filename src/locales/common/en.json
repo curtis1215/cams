@@ -104,6 +104,11 @@
         "withdrawal": "Withdrawal Wallet",
         "transfer": "Transfer Wallet"
       }
-    }
+    },
+    "search": "Search",
+    "reset": "Reset",
+    "pleaseSelect": "Please Select",
+    "startDate": "Start Date",
+    "endDate": "End Date"
   }
 } 
