@@ -43,7 +43,7 @@
       </div>
     </a-layout-header>
     <a-layout>
-      <a-layout-sider width="200">
+      <a-layout-sider v-if="showSider" width="200">
         <a-menu
           mode="inline"
           theme="dark"
@@ -197,7 +197,7 @@
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
-      <a-layout-content style="padding: 24px">
+      <a-layout-content :style="contentStyle">
         <router-view></router-view>
       </a-layout-content>
     </a-layout>
@@ -205,7 +205,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDark, useToggle } from '@vueuse/core'
 import {
@@ -278,7 +278,16 @@ const currentLocale = ref(locale.value)
 const username = ref('')
 const selectedKeys = ref(['dashboard'])
 const openKeys = ref(['monitor'])
-const isDemoMode = ref(true)
+const isDemoMode = ref(route.path !== '/prd-doc')
+
+const showSider = computed(() => route.path !== '/prd-doc')
+
+const contentStyle = computed(() => ({
+  padding: '24px',
+  marginLeft: showSider.value ? '200px' : '0',
+  marginTop: '64px',
+  overflowY: 'auto'
+}))
 
 const setSelectedKeysByRoute = () => {
   const path = route.path
@@ -310,6 +319,7 @@ onMounted(() => {
 
 watch(() => route.path, () => {
   setSelectedKeysByRoute()
+  isDemoMode.value = route.path !== '/prd-doc'
 })
 
 const getUserInfo = () => {
@@ -337,9 +347,7 @@ const localeOptions = [
 
 const handleModeChange = (checked: boolean) => {
   if (checked) {
-    if (route.path === '/prd-doc') {
-      router.back()
-    }
+    router.push('/monitor/dashboard')
   } else {
     router.push('/prd-doc')
   }
@@ -401,7 +409,6 @@ const handleModeChange = (checked: boolean) => {
 }
 
 :deep(.ant-layout-content) {
-  margin-left: 200px;
   margin-top: 64px;
   overflow-y: auto;
 }

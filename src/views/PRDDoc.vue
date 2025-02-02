@@ -1,15 +1,19 @@
 <template>
   <div class="prd-doc-container">
+    <div class="toc-container">
+      <div class="toc-content" v-html="tocContent"></div>
+    </div>
     <a-card :bordered="false" class="prd-card">
       <div class="markdown-content" v-html="markdownContent"></div>
     </a-card>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
+import axios from 'axios'
 
 // 配置 marked 使用同步模式
 marked.setOptions({
@@ -17,302 +21,228 @@ marked.setOptions({
 })
 
 const markdownContent = ref('')
+const tocContent = ref('')
 
-const prdContent = `
-# CAMS - 加密貨幣資產管理系統
+interface Heading {
+  level: number
+  title: string
+  id: string
+}
 
-## 系統概述
+interface HeadingMap {
+  [key: string]: string;
+}
 
-CAMS（Cryptocurrency Asset Management System）是一個專業的加密貨幣資產管理系統，為商戶提供完整的加密貨幣資產管理解決方案。
-## 登入頁面
+// 生成標題 ID 映射
+const generateHeadingMap = (content: string): HeadingMap => {
+  const headingMap: HeadingMap = {}
+  const lines = content.split('\n')
+  const usedIds = new Set<string>()
 
-### 登入方式
-  - Google 登入：
-    - 支援 Google OAuth2.0 登入
-    - 登入成功後自動獲取用戶 Google 帳號信息
-    - 顯示 Google 圖標和「Google 登入」文字
-    - 登入過程中顯示 loading 狀態
-  - 管理員登入：
-    - 支援用戶名密碼登入方式
-    - 點擊「管理員登入」按鈕展開登入表單
-    - 表單項目：
-      - 用戶名：必填，顯示用戶圖標
-      - 密碼：必填，顯示鎖定圖標，密碼輸入框
-    - 提交按鈕：全寬度，點擊時顯示 loading 狀態
+  lines.forEach(line => {
+    if (line.startsWith('#')) {
+      const title = line.replace(/^#+\s*/, '')
+      // 生成英文 ID
+      let id = title
+        .toLowerCase()
+        .replace(/[^a-z0-9\u4e00-\u9fa5]+/g, '-') // 保留中文字符
+        .replace(/^-+|-+$/g, '') // 移除首尾的連字符
+        .split('-')
+        .map(part => {
+          // 如果是中文，轉換為拼音或相關英文詞
+          if (/[\u4e00-\u9fa5]/.test(part)) {
+            const mapping: { [key: string]: string } = {
+              '告警': 'alert',
+              '監控': 'monitoring',
+              '數據': 'data',
+              '節點': 'node',
+              '高度': 'height',
+              '錢包': 'wallet',
+              '訂單': 'order',
+              '對帳': 'reconciliation',
+              '報表': 'report',
+              '參數': 'params',
+              '系統': 'system',
+              '管理': 'management'
+            }
+            return part.split('').map(char => mapping[char] || char).join('-')
+          }
+          return part
+        })
+        .join('-')
 
-### 頁面樣式
-  - 響應式設計：
-    - 登入卡片固定寬度 400px
-    - 垂直水平居中顯示
-  - 深色模式支援：
-    - 自動跟隨系統主題切換
-    - 深色模式下調整背景色、文字顏色和邊框顏色
-  - 視覺元素：
-    - 分隔線：Google 登入與管理員登入之間顯示「或」分隔線
-    - 圖標：所有按鈕和輸入框配備相應圖標
-    - 錯誤提示：表單驗證錯誤時顯示紅色提示文字
+      // 確保 ID 唯一
+      let uniqueId = id
+      let counter = 1
+      while (usedIds.has(uniqueId)) {
+        uniqueId = `${id}-${counter}`
+        counter++
+      }
+      usedIds.add(uniqueId)
 
-### 功能邏輯
-  - 表單驗證：
-    - 用戶名和密碼為必填項
-    - 提交前進行表單完整性檢查
-  - 登入流程：
-    - 登入成功：
-      - 保存用戶信息到 sessionStorage
-      - 自動跳轉到系統首頁
-    - 登入失敗：
-      - 錯誤提示類型：
-        - 表單驗證錯誤：
-          - 「請輸入用戶名」：用戶名為空時顯示
-          - 「請輸入密碼」：密碼為空時顯示
-          - 「請填寫所有必填項」：提交時存在未填寫的必填項
-        - 帳號驗證錯誤：
-          - 「用戶名或密碼錯誤」：驗證失敗時顯示
-          - 「帳號已被鎖定」：多次登入失敗後顯示
-          - 「帳號已停用」：帳號狀態異常時顯示
-        - Google 登入錯誤：
-          - 「Google 登入失敗」：OAuth 驗證失敗時顯示
-          - 「Google 帳號未綁定」：首次使用 Google 登入時顯示
-          - 「網絡連接異常」：無法連接 Google 服務時顯示
-        - 系統錯誤：
-          - 「系統維護中」：系統維護時顯示
-          - 「服務暫時不可用」：系統異常時顯示
-          - 「請稍後重試」：臨時性錯誤時顯示
-      - 顯示錯誤提示信息
-      - 保持在登入頁面
+      headingMap[title] = uniqueId
+    }
+  })
 
-### 安全措施
-  - 密碼輸入：使用密碼型輸入框，隱藏實際輸入內容
-  - 表單提交：使用 HTTPS 加密傳輸
-  - Session 管理：登入成功後使用 token 進行身份驗證
-  - Session 過期時間：1天，若期間有進行任何操作，則自動延長1天，最長可延長至14天
+  return headingMap
+}
 
-## 監控管理
+// 修改生成 ID 的函數
+const generateId = (text: string, headingMap: HeadingMap): string => {
+  return headingMap[text] || text
+    .trim()
+    .replace(/\s+/g, '-')
+    .toLowerCase()
+}
 
-### 數據監控（Dashboard）
-  - 平台選擇：支持按不同平台（如 Fameex、CNX）進行數據篩選，選項內容來自於 **參數管理.商戶管理**
-  - 今日數據卡片：
-    - 今日存款總額：以 USDT 為單位顯示今日存款總金額，計算公式：**sum(今日充值訂單.USDT價值)**
-    - 平均存款時長：顯示今日存款訂單的平均處理時間，計算公式：**average(今日充值訂單.處理時間)**
-    - 今日提款總額：以 USDT 為單位顯示今日提款總金額，計算公式：**sum(今日提現訂單.USDT價值)**
-    - 平均提款時長：顯示今日提款訂單的平均處理時間，計算公式：**average(今日提現訂單.處理時間)**
-  - 幣種分佈分析：
-    - 存款幣種佔比：以圓餅圖展示各幣種存款金額佔比
-    - 提款幣種佔比：以圓餅圖展示各幣種提款金額佔比
-  - 鏈上處理時長：
-    - 存款時長分析：以柱狀圖展示各幣種的平均存款處理時長
-    - 提款時長分析：以柱狀圖展示各幣種的平均提款處理時長
-  - 小時趨勢分析：
-    - 24小時存提款趨勢：以折線圖展示24小時內存款和提款金額的變化趨勢，每小時一個數據點，數據來自於 **今日充值訂單每小時加總** 和 *今日提現訂單每小時加總**
-    - 支持按小時查看詳細數據
+// 修改 markdown 標題，添加 id
+const addHeadingIds = (content: string, headingMap: HeadingMap): string => {
+  return content.replace(/^(#{1,6})\s*(.*?)$/gm, (match, hashes, title) => {
+    const id = generateId(title, headingMap)
+    return `${hashes} <span id="${id}"></span>${title}`
+  })
+}
 
-### 告警監控
-  - 告警統計：
-    - 統計維度：
-      - 節點高度告警：顯示30分鐘內、30-60分鐘、60分鐘以上的告警數量
-      - 提幣時長告警：顯示30分鐘內、30-60分鐘、60分鐘以上的告警數量
-      - 大額交易告警：顯示30分鐘內、30-60分鐘、60分鐘以上的告警數量
-      - 未確認轉帳：顯示30分鐘內、30-60分鐘、60分鐘以上的告警數量
-      - 錢包水位告警：顯示30分鐘內、30-60分鐘、60分鐘以上的告警數量
-      - 錢包異常告警：顯示30分鐘內、30-60分鐘、60分鐘以上的告警數量
-      - 風險地址告警：顯示30分鐘內、30-60分鐘、60分鐘以上的告警數量
+// 修改生成目錄的函數
+const generateToc = (content: string, headingMap: HeadingMap): string => {
+  const headings: Heading[] = []
+  const lines = content.split('\n')
+  
+  lines.forEach(line => {
+    if (line.startsWith('#')) {
+      const level = line.match(/^#+/)?.[0].length || 0
+      const title = line.replace(/^#+\s*/, '')
+      const id = generateId(title, headingMap)
+      headings.push({ level, title, id })
+    }
+  })
 
-  - 節點高度告警：
-    - 告警規則設置：
-      - 支持多條規則配置
-      - 規則類型：服務高度延遲、節點高度延遲
-      - 閾值設置：區塊數差異閾值
-      - 持續時間：觸發告警的持續時間（分鐘）
-    - 顯示內容：
-      - 鏈名稱、服務高度、節點高度、鏈上高度
-      - 高度差異：顯示服務高度與節點高度、節點高度與鏈上高度的差值
-      - 告警原因：高度延遲的具體描述
+  let toc = '<ul class="toc-list">'
+  let prevLevel = 1
+  
+  headings.forEach(({ level, title, id }) => {
+    if (level > prevLevel) {
+      toc += '<ul class="toc-sublist">'.repeat(level - prevLevel)
+    } else if (level < prevLevel) {
+      toc += '</ul>'.repeat(prevLevel - level)
+    }
+    
+    toc += `<li class="toc-item">
+      <a href="#${id}" class="toc-link" onclick="event.preventDefault(); document.getElementById('${id}').scrollIntoView({ behavior: 'smooth', block: 'start' }); window.scrollBy(0, -100);">${title}</a>
+    </li>`
+    
+    prevLevel = level
+  })
+  
+  toc += '</ul>'.repeat(prevLevel - 1)
+  toc += '</ul>'
+  
+  return toc
+}
 
-  - 提幣時長告警：
-    - 告警規則設置：
-      - 處理中訂單超時時間（分鐘）
-      - 等待中訂單超時時間（分鐘）
-      - 通知超時時間（分鐘）
-    - 顯示內容：
-      - 商戶、訂單ID（可點擊跳轉）、幣鏈、幣種
-      - 創建時間、告警原因
-      - 狀態標記：使用不同顏色區分處理中和等待中
+onMounted(async () => {
+  try {
+    // 從外部文件加載 Markdown 內容
+    const response = await axios.get('/src/docs/prd.md')
+    const content = response.data as string
 
-  - 大額交易告警：
-    - 告警規則設置：
-      - 存款閾值（USDT）
-      - 提款閾值（USDT）
-    - 顯示內容：
-      - 商戶、訂單ID（可點擊跳轉）、幣鏈、幣種
-      - 金額、USDT價值、用戶ID
-      - 操作按鈕：確認按鈕（需填寫確認原因）
+    // 生成標題映射
+    const headingMap = generateHeadingMap(content)
 
-  - 未確認轉帳告警：
-    - 未確認轉帳定義：
-      - 當**訂單管理.轉帳訂單**生成時，但無法匹配為特定類型，則視為未確認
-    - 顯示內容：
-      - 轉帳ID（可點擊跳轉）、錢包ID
-      - 幣鏈、幣種、轉帳金額、時間
-
-  - 錢包水位告警：
-    - 告警規則設置：
-      - 水位告警閾值：
-        - 危險水位：低於20%時告警（紅色）
-        - 警告水位：低於50%時告警（黃色）
-      - 支持每個商戶單獨配置不同的告警閾值
-    - 顯示內容：
-      - 商戶、錢包ID、錢包類型
-      - 當前餘額、存儲上限、剩餘水位
-      - 水位顏色：
-        - 紅色：低於危險水位
-        - 黃色：低於警告水位
-        - 綠色：高於警告水位
-
-  - 錢包異常告警：
-    - 告警效果：
-      - 告警的錢包暫時停止任何轉帳操作
-      - 操作解鎖後，錢包恢復正常
-      - 操作鎖定後，錢包轉換至已禁用狀態，並新增狀態變更記錄，變更原因為操作時輸入的原因
-    - 告警規則設置：
-      - 轉帳失敗次數閾值
-      - 確認超時時間（分鐘）
-    - 顯示內容：
-      - 錢包ID、錢包類型、幣鏈、幣種
-      - 異常原因、時間
-      - 操作按鈕：支持解鎖/鎖定錢包（需填寫操作原因）
-
-  - 風險地址告警：
-    - 顯示內容：
-      - 商戶、幣鏈、幣種
-      - 來源地址、目標地址（支持複製）
-      - 用戶ID
-      - 操作按鈕：
-        - 批准：允許交易（需填寫原因）
-        - 鎖定：鎖定交易（需填寫原因）
-
-  - 通用功能：
-    - 分頁顯示：每頁顯示5條記錄
-    - 表格排序：支持按時間排序
-    - 表格滾動：水平滾動支持
-    - 深色模式：完整支持深色模式顯示
-
-### 節點高度監控
-  - 提供區塊鏈節點同步狀態監控
-
-#### 2. 錢包管理
-- **錢包查詢**：多維度查詢錢包信息
-- **錢包詳情**：查看錢包詳細信息
-- **錢包轉賬**：進行錢包間轉賬操作
-- **代幣兌換**：不同代幣間的兌換功能
-
-#### 3. 訂單管理
-- **充值訂單**：充值訂單查詢和管理
-- **提現訂單**：提現訂單查詢和管理
-- **轉賬訂單**：轉賬訂單查詢和管理
-- **兌換訂單**：兌換訂單查詢和管理
-- **交易明細**：詳細的交易記錄查詢
-
-#### 4. 對帳管理
-- **錢包餘額對帳**：自動化對帳功能
-
-#### 5. 數據報表
-- **充提時長報表**：分析充提幣效率
-- **錢包盈虧查詢**：分析錢包資產變化
-- **節點高度分析**：分析節點同步情況
-
-#### 6. 參數管理
-- **區塊鏈管理**：管理支持的區塊鏈
-- **合約幣種管理**：管理支持的代幣
-
-#### 7. 系統管理
-- **用戶管理**：系統用戶管理
-- **角色管理**：權限角色管理
-- **商戶管理**：商戶信息管理
-
-## 技術架構
-
-### 前端技術棧
-- Vue 3
-- Ant Design Vue
-- Vue Router
-- Vite
-- TypeScript
-
-### 後端技術棧
-- Node.js
-- Express
-- MongoDB
-- Redis
-
-### 區塊鏈集成
-- Web3.js
-- Ethers.js
-
-## 部署要求
-
-### 硬件要求
-- CPU: 8核心以上
-- 內存: 16GB以上
-- 硬碟: 500GB以上 SSD
-
-### 軟件要求
-- Node.js 16+
-- MongoDB 4.4+
-- Redis 6+
-- Docker 20+
-
-## 安全措施
-
-### 數據安全
-- 數據加密存儲
-- 定期數據備份
-- 敏感信息脫敏
-
-### 訪問安全
-- 多因素認證
-- IP白名單
-- 操作日誌記錄
-
-### 錢包安全
-- 多重簽名
-- 冷熱錢包分離
-- 私鑰加密存儲
-
-## 更新日誌
-
-### v1.0.0 (2024-03-20)
-- 初始版本發布
-- 基礎功能實現
-
-### v1.0.1 (2024-03-21)
-- 修復已知問題
-- 優化用戶體驗
-- 提升系統穩定性
-`
-
-onMounted(() => {
-  // 將 markdown 轉換為 HTML 並進行安全處理
-  const rawHtml = marked.parse(prdContent, { async: false })
-  markdownContent.value = DOMPurify.sanitize(rawHtml)
+    // 生成目錄
+    tocContent.value = DOMPurify.sanitize(generateToc(content, headingMap))
+    
+    // 添加標題 id 並轉換 markdown
+    const contentWithIds = addHeadingIds(content, headingMap)
+    const rawHtml = marked.parse(contentWithIds) as string
+    markdownContent.value = DOMPurify.sanitize(rawHtml)
+  } catch (error) {
+    console.error('加載 PRD 文檔失敗:', error)
+  }
 })
 </script>
 
 <style scoped>
 .prd-doc-container {
   height: 100%;
-  overflow: auto;
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+  position: relative;
+}
+
+.toc-container {
+  width: 280px;
+  flex-shrink: 0;
+  background: var(--ant-background-color);
+  border-radius: 8px;
+  border: 1px solid var(--ant-border-color-split);
+  overflow-y: auto;
+  position: fixed;
+  top: 88px; /* 64px header + 24px padding */
+  left: 24px;
+  bottom: 24px;
+  max-height: calc(100vh - 112px); /* 100vh - 64px header - 48px padding */
 }
 
 .prd-card {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: var(--ant-background-color);
+  flex: 1;
+  margin-left: 304px; /* 280px + 24px gap */
+  overflow: auto;
+}
+
+:deep(.toc-list) {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+:deep(.toc-sublist) {
+  list-style: none;
+  padding-left: 16px;
+  margin: 0;
+}
+
+:deep(.toc-item) {
+  margin: 4px 0;
+}
+
+:deep(.toc-link) {
+  color: var(--ant-text-color);
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.5;
+  display: block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+:deep(.toc-link:hover) {
+  color: var(--ant-primary-color);
+  background: var(--ant-primary-1);
 }
 
 .markdown-content {
   font-size: 16px;
   line-height: 1.6;
   color: var(--ant-text-color);
+}
+
+.markdown-content :deep(h1),
+.markdown-content :deep(h2),
+.markdown-content :deep(h3),
+.markdown-content :deep(h4),
+.markdown-content :deep(h5),
+.markdown-content :deep(h6) {
+  position: relative;
+  scroll-margin-top: 100px;
+}
+
+.markdown-content :deep(span[id]) {
+  position: absolute;
+  top: -100px;
+  visibility: hidden;
 }
 
 .markdown-content :deep(h1) {
