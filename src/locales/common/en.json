@@ -1,0 +1,18 @@
+{
+  "search": "Search",
+  "reset": "Reset",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "delete": "Delete",
+  "edit": "Edit",
+  "add": "Add",
+  "save": "Save",
+  "back": "Back",
+  "loading": "Loading...",
+  "noData": "No Data",
+  "success": "Operation Successful",
+  "error": "Operation Failed",
+  "pleaseSelect": "Please Select",
+  "pleaseInput": "Please Input"
+} 

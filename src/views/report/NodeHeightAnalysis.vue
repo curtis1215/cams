@@ -53,9 +53,10 @@ import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import dayjs from 'dayjs'
 import zhLocale from '@/locales/views/report/NodeHeightAnalysis/zh.json'
 import enLocale from '@/locales/views/report/NodeHeightAnalysis/en.json'
+import commonZhLocale from '@/locales/common/zh.json'
+import commonEnLocale from '@/locales/common/en.json'
 import dateRangeZhLocale from '@/locales/components/DateRangeSelect/zh.json'
 import dateRangeEnLocale from '@/locales/components/DateRangeSelect/en.json'
-import mockData from '@/mock/report/NodeHeightAnalysis/nodeHeightAnalysis.mock.json'
 import { message } from 'ant-design-vue'
 
 // 定義必要的介面
@@ -70,13 +71,16 @@ interface SearchForm {
   chainType: string
 }
 
-const messages = {
+// 統一的消息格式
+const messages: { [key: string]: DefineLocaleMessage } = {
   zh: {
     ...zhLocale,
+    ...commonZhLocale,
     ...dateRangeZhLocale
   },
   en: {
     ...enLocale,
+    ...commonEnLocale,
     ...dateRangeEnLocale
   }
 }

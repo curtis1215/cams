@@ -151,8 +151,8 @@ import { SearchOutlined, ReloadOutlined } from '@ant-design/icons-vue'
 import mockData from '@/mock/report/walletprofitloss/list.mock.json'
 import zhLocale from '@/locales/report/WalletProfitLoss/zh.json'
 import enLocale from '@/locales/report/WalletProfitLoss/en.json'
-import dateRangeZhLocale from '@/locales/components/DateRangeSelect/zh.json'
-import dateRangeEnLocale from '@/locales/components/DateRangeSelect/en.json'
+import commonZhLocale from '@/locales/common/zh.json'
+import commonEnLocale from '@/locales/common/en.json'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import WalletTypeSelect from '@/components/selectors/WalletTypeSelect.vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
@@ -163,11 +163,11 @@ import VueApexCharts from 'vue3-apexcharts'
 const messages = {
   zh: {
     ...zhLocale,
-    ...dateRangeZhLocale
+    ...commonZhLocale
   },
   en: {
     ...enLocale,
-    ...dateRangeEnLocale
+    ...commonEnLocale
   }
 }
 

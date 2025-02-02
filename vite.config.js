@@ -4,13 +4,14 @@ import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: './',
+  base: process.env.NODE_ENV === 'production' ? '/' : './',
   plugins: [vue()],
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')
     }
   },
+  assetsInclude: ['**/*.md'],
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
@@ -23,9 +24,9 @@ export default defineConfig({
     },
     rollupOptions: {
       output: {
-        chunkFileNames: 'js/[name]-[hash].js',
-        entryFileNames: 'js/[name]-[hash].js',
-        assetFileNames: '[ext]/[name]-[hash].[ext]',
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
         manualChunks(id) {
           if (id.includes('node_modules')) {
             return 'vendor'

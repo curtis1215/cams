@@ -30,6 +30,8 @@ import katex from 'katex'
 import 'katex/dist/katex.min.css'
 // @ts-ignore
 import mdKatex from 'markdown-it-katex'
+// 導入 PRD 文檔
+import prdContent from '../docs/prd.md?raw'
 
 // 初始化 markdown-it
 const md: MarkdownIt = new MarkdownIt({
@@ -285,11 +287,11 @@ const updateContent = async (content: string) => {
   await renderMermaidDiagrams()
 }
 
-// 添加手動刷新功能
+// 修改 handleRefresh 函數
 const handleRefresh = async () => {
   try {
-    const response = await axios.get('/src/docs/prd.md')
-    const content = response.data as string
+    // 在生產環境中，直接使用導入的內容
+    const content = prdContent
     if (content !== lastContent.value) {
       lastContent.value = content
       await updateContent(content)
@@ -301,9 +303,8 @@ const handleRefresh = async () => {
 
 onMounted(async () => {
   try {
-    // 從外部文件加載 Markdown 內容
-    const response = await axios.get('/src/docs/prd.md')
-    const content = response.data as string
+    // 在生產環境中，直接使用導入的內容
+    const content = prdContent
     lastContent.value = content
     await updateContent(content)
   } catch (error) {
