@@ -169,6 +169,10 @@
       <template #title>
         <div class="card-header">
           <span class="card-title">{{ t('card.walletBalance') }}</span>
+          <a-button type="primary" size="small" @click="showWalletBalanceSettingModal">
+            <template #icon><SettingOutlined /></template>
+            {{ t('settings') }}
+          </a-button>
         </div>
       </template>
 
@@ -472,10 +476,42 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- 錢包水位告警設置彈窗 -->
+    <a-modal
+      v-model:open="walletBalanceSettingModalVisible"
+      :title="t('modal.walletBalance')"
+      @ok="handleWalletBalanceSettingSave"
+    >
+      <a-form :model="walletBalanceSettings" :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">
+        <a-form-item :label="t('threshold.dangerLevel')">
+          <a-input-number
+            v-model:value="walletBalanceSettings.dangerLevel"
+            :min="1"
+            :max="100"
+            :step="1"
+            style="width: 150px"
+          >
+            <template #addonAfter>%</template>
+          </a-input-number>
+        </a-form-item>
+        <a-form-item :label="t('threshold.warningLevel')">
+          <a-input-number
+            v-model:value="walletBalanceSettings.warningLevel"
+            :min="1"
+            :max="100"
+            :step="1"
+            style="width: 150px"
+          >
+            <template #addonAfter>%</template>
+          </a-input-number>
+        </a-form-item>
+      </a-form>
+    </a-modal>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { 
@@ -489,6 +525,30 @@ import mockData from '@/mock/monitor/Alert/alert.mock.json'
 import zhLocale from '@/locales/monitor/Alert/zh.json'
 import enLocale from '@/locales/monitor/Alert/en.json'
 import { useRouter } from 'vue-router'
+
+interface AlertRecord {
+  id: string
+  orderId?: string
+  transferId?: string
+  walletId?: string
+  merchant?: string
+  chain: string
+  coin?: string
+  amount?: number
+  duration?: number
+  remainingLevel?: number
+  [key: string]: any
+}
+
+interface WalletBalanceSettings {
+  dangerLevel: number
+  warningLevel: number
+}
+
+interface WalletAbnormalSettings {
+  failureCount: number
+  confirmationTimeout: number
+}
 
 const messages = {
   zh: zhLocale,
@@ -590,8 +650,8 @@ const confirmForm = reactive({
   reason: ''
 })
 
-const handleConfirm = (record) => {
-  confirmForm.orderId = record.orderId
+const handleConfirm = (record: AlertRecord) => {
+  confirmForm.orderId = record.orderId || ''
   confirmForm.reason = ''
   confirmModalVisible.value = true
 }
@@ -744,16 +804,16 @@ const walletBalanceColumns = computed(() => [
 
 const walletBalanceData = computed(() => mockData.walletBalanceData || [])
 
-const isHeightColumn = (key) => {
+const isHeightColumn = (key: string) => {
   return ['serviceHeight', 'nodeHeight', 'chainHeight'].includes(key)
 }
 
-const handleOrderClick = (orderId) => {
+const handleOrderClick = (orderId: string) => {
   console.log('訂單點擊:', orderId)
   // 這裡可以添加訂單詳情的處理邏輯
 }
 
-const handleTransferClick = (transferId) => {
+const handleTransferClick = (transferId: string) => {
   router.push({
     path: '/order/transfer',
     query: { transferId }
@@ -817,7 +877,7 @@ const addHeightRule = () => {
   })
 }
 
-const removeHeightRule = (index) => {
+const removeHeightRule = (index: number) => {
   heightAlertRules.value.splice(index, 1)
 }
 
@@ -826,11 +886,13 @@ const handleHeightSettingSave = () => {
   heightSettingModalVisible.value = false
 }
 
-const getRemainingLevelColor = (level) => {
-  if (level <= 20) return '#ff4d4f'
-  if (level <= 50) return '#faad14'
-  return '#52c41a'
-}
+const getRemainingLevelColor = computed(() => {
+  return (level: number) => {
+    if (level <= walletBalanceSettings.dangerLevel) return '#ff4d4f'
+    if (level <= walletBalanceSettings.warningLevel) return '#faad14'
+    return '#52c41a'
+  }
+})
 
 const walletAbnormalColumns = computed(() => [
   {
@@ -886,8 +948,8 @@ const walletActionForm = reactive({
   reason: ''
 })
 
-const handleWalletAction = (record) => {
-  walletActionForm.walletId = record.walletId
+const handleWalletAction = (record: AlertRecord) => {
+  walletActionForm.walletId = record.walletId || ''
   walletActionForm.action = 'unlock'
   walletActionForm.reason = ''
   walletActionModalVisible.value = true
@@ -953,12 +1015,12 @@ const riskAddressColumns = computed(() => [
 
 const riskAddressData = computed(() => mockData.riskAddressData || [])
 
-const formatAddress = (address) => {
+const formatAddress = (address: string) => {
   if (!address) return ''
   return `${address.slice(0, 4)}...${address.slice(-4)}`
 }
 
-const copyAddress = (address) => {
+const copyAddress = (address: string) => {
   navigator.clipboard.writeText(address)
   message.success(t('message.copySuccess'))
 }
@@ -970,7 +1032,7 @@ const riskActionForm = reactive({
   reason: ''
 })
 
-const handleRiskAction = (record, action) => {
+const handleRiskAction = (record: AlertRecord, action: 'approve' | 'lock') => {
   riskActionForm.id = record.id
   riskActionForm.action = action
   riskActionForm.reason = ''
@@ -1039,7 +1101,7 @@ const pagination = {
   pageSize: 5,
   showSizeChanger: false,
   showQuickJumper: false,
-  showTotal: (total) => t('pagination.total', { total })
+  showTotal: (total: number) => t('pagination.total', { total })
 }
 
 // 錢包異常告警設置
@@ -1057,6 +1119,28 @@ const handleWalletAbnormalSettingSave = () => {
   // TODO: 調用API保存設置
   message.success(t('message.settingsSaved'))
   walletAbnormalSettingModalVisible.value = false
+}
+
+// 錢包水位告警設置
+const walletBalanceSettingModalVisible = ref(false)
+const walletBalanceSettings = reactive({
+  dangerLevel: 20,
+  warningLevel: 50
+})
+
+const showWalletBalanceSettingModal = () => {
+  walletBalanceSettingModalVisible.value = true
+}
+
+const handleWalletBalanceSettingSave = () => {
+  if (walletBalanceSettings.dangerLevel >= walletBalanceSettings.warningLevel) {
+    message.error(t('message.dangerLevelMustBeLower'))
+    return
+  }
+  
+  // TODO: 調用API保存設置
+  message.success(t('message.settingsSaved'))
+  walletBalanceSettingModalVisible.value = false
 }
 </script>
 

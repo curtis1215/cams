@@ -19,7 +19,9 @@
     "actionReason": "操作事由",
     "pleaseInputActionReason": "請輸入操作事由",
     "walletAbnormal": "錢包異常告警設置",
-    "riskAction": "風險地址操作"
+    "riskAction": "風險地址操作",
+    "walletBalance": "錢包水位告警設置",
+    "dangerLevelMustBeLower": "危險水位必須低於警告水位"
   },
   "threshold": {
     "deposit": "大額存款閾值",
@@ -28,7 +30,9 @@
     "waitingTimeout": "等待時長閾值",
     "notifyTimeout": "通知時長閾值",
     "transferFailureCount": "連續轉出失敗達",
-    "confirmationTimeout": "提交後超過閥值達"
+    "confirmationTimeout": "提交後超過閥值達",
+    "dangerLevel": "危險水位",
+    "warningLevel": "警告水位"
   },
   "column": {
     "merchant": "商戶",

@@ -72,7 +72,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { UserOutlined, LockOutlined, GoogleOutlined } from '@ant-design/icons-vue'
@@ -82,6 +82,11 @@ import { useI18n } from 'vue-i18n'
 import storage from '../services/storage'
 import zhLocale from '@/locales/auth/Login/zh.json'
 import enLocale from '@/locales/auth/Login/en.json'
+
+interface LoginFormState {
+  username: string
+  password: string
+}
 
 const messages = {
   zh: zhLocale,
@@ -99,12 +104,12 @@ const isDark = useDark()
 const googleLoading = ref(false)
 const showAdminLogin = ref(false)
 
-const formState = reactive({
+const formState = reactive<LoginFormState>({
   username: '',
   password: '',
 })
 
-const handleLogin = async (values) => {
+const handleLogin = async (values: LoginFormState) => {
   if (!values.username || !values.password) {
     message.error(t('auth.login.pleaseInputAllRequired'))
     return
@@ -124,9 +129,9 @@ const handleLogin = async (values) => {
     
     storage.set('user', userData)
     router.push('/')
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Login failed:', error)
-    message.error(error.message || t('auth.login.loginFailed'))
+    message.error(error instanceof Error ? error.message : t('auth.login.loginFailed'))
   } finally {
     loading.value = false
   }
@@ -147,9 +152,9 @@ const handleGoogleLogin = async () => {
     storage.set('user', userData)
     message.success(t('auth.login.googleLoginSuccess'))
     router.push('/')
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Google login failed:', error)
-    message.error(t('auth.login.googleLoginFailed'))
+    message.error(error instanceof Error ? error.message : t('auth.login.googleLoginFailed'))
   } finally {
     googleLoading.value = false
   }

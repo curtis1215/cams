@@ -19,7 +19,9 @@
     "actionReason": "Action Reason",
     "pleaseInputActionReason": "Please input action reason",
     "walletAbnormal": "Wallet Abnormal Alert Settings",
-    "riskAction": "Risk Address Action"
+    "riskAction": "Risk Address Action",
+    "walletBalance": "Wallet Balance Alert Settings",
+    "dangerLevelMustBeLower": "Danger level must be lower than warning level"
   },
   "threshold": {
     "deposit": "Large Deposit Threshold",
@@ -28,7 +30,9 @@
     "waitingTimeout": "Waiting Duration Threshold",
     "notifyTimeout": "Notification Duration Threshold",
     "transferFailureCount": "Consecutive Transfer Failures",
-    "confirmationTimeout": "Confirmation Timeout"
+    "confirmationTimeout": "Confirmation Timeout",
+    "dangerLevel": "Danger Level",
+    "warningLevel": "Warning Level"
   },
   "column": {
     "merchant": "Merchant",
