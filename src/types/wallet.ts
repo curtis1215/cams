@@ -5,7 +5,6 @@ export interface WalletRecord {
   userId: string;
   walletType: string;
   chainType: string;
-  currency: string;
   address: string;
   assetValue: string;
   lastTransactionTime: string;
@@ -26,14 +25,12 @@ export interface TableSorter {
 export interface QueryParams {
   merchant?: string;
   chainType?: string;
-  currency?: string;
   walletType?: string;
   address?: string;
 }
 
 export interface AddWalletForm {
   chainType?: string;
-  currency?: string;
   walletType?: string;
   address?: string;
 } 

@@ -2,7 +2,8 @@
   "title": {
     "depositOrderQuery": "充值訂單查詢",
     "orderList": "充值訂單列表",
-    "notifyDetail": "通知詳情"
+    "notifyDetail": "通知詳情",
+    "notifyHistory": "通知歷史"
   },
   "field": {
     "dateRange": "日期範圍",
@@ -19,7 +20,9 @@
     "errorContent": "錯誤內容",
     "platformOrderId": "平台訂單號",
     "merchantOrderId": "商戶訂單號",
-    "transferId": "轉帳單號"
+    "transferId": "轉帳單號",
+    "notifyReason": "通知原因",
+    "notifyResult": "通知結果"
   },
   "prompt": {
     "pleaseSelect": "請選擇",

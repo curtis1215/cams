@@ -74,6 +74,7 @@
           :data-source="tableData"
           :pagination="pagination"
           :bordered="true"
+          :scroll="{ x: 1500 }"
           @change="handleTableChange"
         >
           <template #bodyCell="{ column, text, record }">
@@ -150,12 +151,32 @@
                   <span class="label">{{ t('field.notifyTime') }}:</span>
                   <span>{{ record.notifyTime || '-' }}</span>
                 </div>
+                <div class="info-item notify-history">
+                  <a-button type="link" size="small" @click="handleNotifyHistory(record)">
+                    {{ t('title.notifyHistory') }}
+                  </a-button>
+                </div>
               </div>
             </template>
           </template>
         </a-table>
       </div>
     </a-card>
+
+    <!-- 通知歷史彈窗 -->
+    <a-modal
+      v-model:open="notifyHistoryVisible"
+      :title="`${currentRecord?.platformOrderId || ''} ${t('title.notifyHistory')}`"
+      :footer="null"
+      width="600px"
+    >
+      <a-table
+        :columns="notifyHistoryColumns"
+        :data-source="notifyHistoryData"
+        :pagination="false"
+        :bordered="true"
+      />
+    </a-modal>
 
     <!-- 通知詳情彈窗 -->
     <a-modal
@@ -204,7 +225,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { CopyOutlined, LinkOutlined, DownloadOutlined } from '@ant-design/icons-vue'
@@ -216,6 +237,42 @@ import '@/styles/common.css'
 import zhLocale from '@/locales/order/Deposit/zh.json'
 import enLocale from '@/locales/order/Deposit/en.json'
 import mockData from '@/mock/order/Deposit/deposit.mock.json'
+import type { TablePaginationConfig } from 'ant-design-vue'
+
+// 定義介面
+interface QueryParams {
+  dateRange: string[]
+  merchant: string | undefined
+  status: string | undefined
+  orderId: string
+  address: string
+  txHash: string
+  userId: string
+}
+
+interface DepositRecord {
+  platformOrderId: string
+  merchantOrderId: string
+  transferId: string
+  txHash: string
+  merchant: string
+  amount: string
+  usdtValue: string
+  address: string
+  orderStatus: 'confirming' | 'success' | 'failed' | 'timeout'
+  notifyStatus: 'retrying' | 'success' | 'timeout'
+  confirmations?: number
+  requiredConfirmations?: number
+  createTime: string
+  successTime?: string
+  notifyTime?: string
+}
+
+interface NotifyHistoryRecord {
+  reason: string
+  notifyTime: string
+  result: string
+}
 
 const messages = {
   zh: zhLocale,
@@ -227,7 +284,7 @@ const { t } = useI18n({
   legacy: false
 })
 
-const queryParams = ref({
+const queryParams = ref<QueryParams>({
   dateRange: [],
   merchant: undefined,
   status: undefined,
@@ -307,7 +364,7 @@ const columns = computed(() => [
   },
 ])
 
-const tableData = ref(mockData.data)
+const tableData = ref<DepositRecord[]>(mockData.data as unknown as DepositRecord[])
 const pagination = ref({
   total: mockData.total,
   current: mockData.current,
@@ -316,18 +373,22 @@ const pagination = ref({
   showQuickJumper: true,
 })
 
-const handleTableChange = (pag, filters, sorter) => {
-  pagination.value.current = pag.current
-  pagination.value.pageSize = pag.pageSize
+const handleTableChange = (
+  pag: TablePaginationConfig,
+  filters: Record<string, string[]>,
+  sorter: { field?: string; order?: 'ascend' | 'descend' | null }
+) => {
+  if (pag.current) pagination.value.current = pag.current
+  if (pag.pageSize) pagination.value.pageSize = pag.pageSize
   // 這裡可以添加獲取數據的邏輯
 }
 
-const formatAddress = (address) => {
+const formatAddress = (address: string): string => {
   if (!address) return ''
   return `${address.slice(0, 4)}****${address.slice(-4)}`
 }
 
-const copyAddress = async (address) => {
+const copyAddress = async (address: string): Promise<void> => {
   try {
     await navigator.clipboard.writeText(address)
     message.success(t('message.copySuccess'))
@@ -336,7 +397,7 @@ const copyAddress = async (address) => {
   }
 }
 
-const getOrderStatusText = (record) => {
+const getOrderStatusText = (record: DepositRecord): string => {
   const { orderStatus, confirmations, requiredConfirmations } = record
   switch (orderStatus) {
     case 'confirming':
@@ -350,7 +411,7 @@ const getOrderStatusText = (record) => {
   }
 }
 
-const getNotifyStatusText = (status) => {
+const getNotifyStatusText = (status: DepositRecord['notifyStatus']): string => {
   const statusMap = {
     success: t('status.successful'),
     timeout: t('status.timeout'),
@@ -359,24 +420,24 @@ const getNotifyStatusText = (status) => {
   return statusMap[status] || status
 }
 
-const handleTransferIdClick = (transferId) => {
+const handleTransferIdClick = (transferId: string) => {
   // 處理轉帳單號點擊事件
   console.log('TransferId clicked:', transferId)
 }
 
-const handleTxHashClick = (txHash) => {
+const handleTxHashClick = (txHash: string) => {
   // 處理 TxHash 點擊事件
   console.log('TxHash clicked:', txHash)
 }
 
 // 通知詳情相關
-const notifyDetailVisible = ref(false)
-const notifyUrl = ref('')
-const notifyContent = ref({})
-const errorContent = ref({})
-const currentRecord = ref(null)
+const notifyDetailVisible = ref<boolean>(false)
+const notifyUrl = ref<string>('')
+const notifyContent = ref<Record<string, unknown>>({})
+const errorContent = ref<Record<string, unknown>>({})
+const currentRecord = ref<DepositRecord | null>(null)
 
-const handleRetryNotify = (record) => {
+const handleRetryNotify = (record: DepositRecord) => {
   currentRecord.value = record
   notifyUrl.value = 'https://api.example.com/callback' // 預設的通知 URL
   notifyContent.value = {
@@ -409,7 +470,7 @@ const handleNotifyRetry = () => {
   currentRecord.value = null
 }
 
-const highlightJson = (json) => {
+const highlightJson = (json: object): string => {
   const jsonString = JSON.stringify(json, null, 2)
   return jsonString
     .replace(/&/g, '&amp;')
@@ -432,7 +493,7 @@ const highlightJson = (json) => {
     })
 }
 
-const copyContent = async (content) => {
+const copyContent = async (content: object) => {
   try {
     await navigator.clipboard.writeText(JSON.stringify(content, null, 2))
     message.success(t('message.copySuccess'))
@@ -441,12 +502,12 @@ const copyContent = async (content) => {
   }
 }
 
-const formatTxHash = (hash) => {
+const formatTxHash = (hash: string): string => {
   if (!hash) return ''
   return `${hash.slice(0, 6)}****${hash.slice(-6)}`
 }
 
-const copyTxHash = async (hash) => {
+const copyTxHash = async (hash: string) => {
   try {
     await navigator.clipboard.writeText(hash)
     message.success(t('message.copySuccess'))
@@ -456,11 +517,11 @@ const copyTxHash = async (hash) => {
 }
 
 const handleDownload = () => {
-  // 將表格數據轉換為CSV格式
-  const headers = columns.map(col => col.title).join(',')
+  const columnsArray = columns.value
+  const headers = columnsArray.map(col => col.title).join(',')
   const rows = tableData.value.map(row => {
-    return columns.map(col => {
-      const value = row[col.dataIndex] || ''
+    return columnsArray.map(col => {
+      const value = row[col.dataIndex as keyof DepositRecord] || ''
       return `"${value}"`
     }).join(',')
   })
@@ -478,6 +539,54 @@ const handleDownload = () => {
   document.body.removeChild(link)
   message.success(t('message.downloadSuccess'))
 }
+
+// 通知歷史相關
+const notifyHistoryVisible = ref<boolean>(false)
+const notifyHistoryData = ref<NotifyHistoryRecord[]>([])
+
+const notifyHistoryColumns = computed(() => [
+  {
+    title: t('field.notifyReason'),
+    dataIndex: 'reason',
+    key: 'reason',
+    width: 200,
+  },
+  {
+    title: t('field.notifyTime'),
+    dataIndex: 'notifyTime',
+    key: 'notifyTime',
+    width: 180,
+  },
+  {
+    title: t('field.notifyResult'),
+    dataIndex: 'result',
+    key: 'result',
+    width: 120,
+  }
+])
+
+const handleNotifyHistory = (record: DepositRecord) => {
+  currentRecord.value = record
+  notifyHistoryVisible.value = true
+  // 使用模擬的通知歷史資料
+  notifyHistoryData.value = [
+    {
+      reason: '首次通知',
+      notifyTime: '2024-03-15 10:00:00',
+      result: '成功'
+    },
+    {
+      reason: '重試通知',
+      notifyTime: '2024-03-15 10:05:00',
+      result: '失敗'
+    },
+    {
+      reason: '最終通知',
+      notifyTime: '2024-03-15 10:10:00',
+      result: '成功'
+    }
+  ]
+}
 </script>
 
 <style scoped>
@@ -487,80 +596,42 @@ const handleDownload = () => {
 
 .filter-card {
   margin-bottom: 24px;
-  background: #141414;
 }
 
-.list-card {
+.table-card {
   margin-bottom: 24px;
-  background: #141414;
 }
 
-:deep(.ant-card) {
+.deposit-order :deep(.ant-card) {
   border-radius: 8px;
   border: 1px solid #303030;
 }
 
-:deep(.ant-card-head) {
+.deposit-order :deep(.ant-card-head) {
   background-color: #1f1f1f;
   border-bottom: 1px solid #303030;
   min-height: 48px;
 }
 
-:deep(.ant-card-head-title) {
+.deposit-order :deep(.ant-card-head-title) {
   font-size: 16px;
   font-weight: 500;
   padding: 12px 0;
 }
 
-:deep(.ant-card-body) {
+.deposit-order :deep(.ant-card-body) {
   background-color: #141414;
   padding: 20px 24px;
 }
 
 .query-form {
-  width: 100%;
-}
-
-.form-row {
   display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
-  width: 100%;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.form-row:last-child {
-  margin-bottom: 0;
-}
-
-:deep(.ant-form-item) {
-  margin-bottom: 0;
-  width: 100%;
-}
-
-.form-item-xl {
-  flex: 3;
-  min-width: 0;
-}
-
-.form-item-lg {
-  flex: 2;
-  min-width: 0;
-}
-
-.form-item-md {
-  flex: 1.5;
-  min-width: 0;
-}
-
-.form-item-sm {
-  flex: 1;
-  min-width: 0;
-}
-
-.button-group {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+.form-item {
+  margin: 0;
 }
 
 .table-container {
@@ -569,6 +640,105 @@ const handleDownload = () => {
   border-radius: 8px;
 }
 
+/* 表格內的按鈕樣式 */
+:deep(.ant-btn-link) {
+  padding: 0 8px;
+  height: 24px;
+  line-height: 24px;
+}
+
+/* 地址欄位的省略樣式 */
+:deep(.ant-table-cell-ellipsis) {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.copy-icon {
+  margin-left: 8px;
+  color: var(--ant-primary-color);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.copy-icon:hover {
+  opacity: 0.8;
+}
+
+/* 深色模式表格樣式 */
+:deep(.ant-table) {
+  background: transparent;
+}
+
+:deep(.ant-table-thead > tr > th) {
+  background: #1f1f1f;
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-tbody > tr > td) {
+  border-bottom: 1px solid #303030;
+}
+
+:deep(.ant-table-tbody > tr:hover > td) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* 分頁器樣式 */
+:deep(.ant-pagination-item),
+:deep(.ant-pagination-prev),
+:deep(.ant-pagination-next),
+:deep(.ant-pagination-jump-prev),
+:deep(.ant-pagination-jump-next) {
+  background: transparent;
+  border-color: #303030;
+}
+
+:deep(.ant-pagination-item-active) {
+  background: var(--ant-primary-color);
+  border-color: var(--ant-primary-color);
+}
+
+:deep(.ant-pagination-item-active a) {
+  color: #fff;
+}
+
+/* 表單元素深色模式樣式 */
+:deep(.ant-input),
+:deep(.ant-select-selector) {
+  background-color: #1f1f1f !important;
+  border-color: #434343 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:deep(.ant-input:hover),
+:deep(.ant-input:focus),
+:deep(.ant-select-selector:hover),
+:deep(.ant-select-selector:focus) {
+  border-color: var(--ant-primary-color) !important;
+}
+
+:deep(.ant-select-arrow) {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+:deep(.ant-select-dropdown) {
+  background-color: #1f1f1f;
+  border: 1px solid #303030;
+}
+
+:deep(.ant-select-item) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-select-item-option-active) {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+:deep(.ant-select-item-option-selected) {
+  background-color: var(--ant-primary-1);
+}
+
+/* 訂單資訊樣式 */
 .order-info {
   display: flex;
   flex-direction: column;
@@ -596,31 +766,13 @@ const handleDownload = () => {
   text-decoration: underline;
 }
 
-.address-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.copy-icon {
-  cursor: pointer;
-  color: #177ddc;
-  transition: all 0.3s;
-}
-
-.copy-icon:hover {
-  opacity: 0.8;
-}
-
-.time-info {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
+/* 狀態標籤樣式 */
 .status-tag {
   min-width: 90px;
   text-align: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
 }
 
 .status-confirming {
@@ -659,6 +811,7 @@ const handleDownload = () => {
   border: 1px solid #177ddc;
 }
 
+/* 通知狀態容器樣式 */
 .notify-status-container {
   display: flex;
   flex-direction: column;
@@ -672,53 +825,29 @@ const handleDownload = () => {
   line-height: 20px;
 }
 
-:deep(.ant-table) {
-  background: transparent;
+/* 彈窗樣式 */
+:deep(.ant-modal-content),
+:deep(.ant-modal-header) {
+  background-color: #1f1f1f;
 }
 
-:deep(.ant-table-thead > tr > th) {
-  background: #1f1f1f;
-  border-bottom: 1px solid #303030;
+:deep(.ant-modal-title) {
+  color: rgba(255, 255, 255, 0.85);
 }
 
-:deep(.ant-table-tbody > tr > td) {
-  border-bottom: 1px solid #303030;
+:deep(.ant-modal-close) {
+  color: rgba(255, 255, 255, 0.45);
 }
 
-:deep(.ant-pagination-item-link) {
-  background: transparent !important;
-  border-color: #303030 !important;
+:deep(.ant-modal-close:hover) {
+  color: rgba(255, 255, 255, 0.75);
 }
 
-:deep(.ant-pagination-item) {
-  background: transparent !important;
-  border-color: #303030 !important;
+:deep(.ant-form-item-label > label) {
+  color: rgba(255, 255, 255, 0.85);
 }
 
-:deep(.ant-pagination-item-active) {
-  border-color: #177ddc !important;
-}
-
-:deep(.ant-table-tbody > tr.ant-table-row:hover > td) {
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.txhash-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.action-icon {
-  cursor: pointer;
-  color: #177ddc;
-  transition: all 0.3s;
-}
-
-.action-icon:hover {
-  opacity: 0.8;
-}
-
+/* 通知詳情樣式 */
 .notify-detail {
   display: flex;
   flex-direction: column;
@@ -735,10 +864,6 @@ const handleDownload = () => {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
-}
-
-.notify-url-input {
-  width: 100%;
 }
 
 .code-block-wrapper {
@@ -778,23 +903,9 @@ const handleDownload = () => {
   word-break: break-all;
 }
 
-.json-string {
-  color: #6a8759;
-}
-
-.json-number {
-  color: #6897bb;
-}
-
-.json-boolean {
-  color: #cc7832;
-}
-
-.json-null {
-  color: #cc7832;
-}
-
-.json-key {
-  color: #9876aa;
-}
+.json-string { color: #6a8759; }
+.json-number { color: #6897bb; }
+.json-boolean { color: #cc7832; }
+.json-null { color: #cc7832; }
+.json-key { color: #9876aa; }
 </style> 

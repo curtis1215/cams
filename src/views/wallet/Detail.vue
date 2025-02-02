@@ -173,12 +173,10 @@
             >
               <div class="stacked-values" :class="{ 'exceeded-balance': record.isExceeded }">
                 <div>{{ formatNumber(record.currentBalance) }}</div>
-                <div class="secondary-value">{{ formatNumber(record.availableBalance) }}</div>
               </div>
             </a-tooltip>
             <div v-else class="stacked-values">
               <div>{{ formatNumber(record.currentBalance) }}</div>
-              <div class="secondary-value">{{ formatNumber(record.availableBalance) }}</div>
             </div>
           </template>
           
@@ -318,6 +316,7 @@
           >
             <a-select-option value="enabled">{{ t('status.enabled') }}</a-select-option>
             <a-select-option value="disabled">{{ t('status.disabled') }}</a-select-option>
+            <a-select-option value="deprecated">{{ t('status.deprecated') }}</a-select-option>
           </a-select>
         </a-form-item>
         <a-form-item :label="t('history.changeReason')" required>
@@ -350,11 +349,12 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, computed, onBeforeUnmount, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
+import type { TablePaginationConfig } from 'ant-design-vue'
 import {
   SearchOutlined,
   ReloadOutlined,
@@ -369,7 +369,9 @@ import {
   KeyOutlined,
   EditOutlined,
   CheckCircleOutlined,
-  LoadingOutlined
+  LoadingOutlined,
+  SwapOutlined,
+  FileSearchOutlined
 } from '@ant-design/icons-vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
@@ -391,8 +393,66 @@ const { t } = useI18n({
 const route = useRoute()
 const router = useRouter()
 
+// 添加必要的介面定義
+interface TokenData {
+  key: string
+  coin: string
+  currentBalance: string
+  holdingCostPrice: string
+  holdingCost: string
+  assetValue: string
+  currentInflow: string
+  availableInflow: string
+  currentOutflow: string
+  availableOutflow: string
+  lastTransactionTime: string
+  isExceeded: boolean
+  storageLimit: string
+  isRefreshing: boolean
+}
+
+interface TableSorter {
+  field?: string
+  order?: 'ascend' | 'descend' | null
+}
+
+interface QueryParams {
+  merchant?: string
+  chainType?: string
+  currency?: string
+  address: string
+}
+
+interface WalletInfo {
+  walletId: string
+  address: string
+  chainType: string
+  merchant: string
+  userId: string
+  walletType: string
+  isDisabled: boolean
+}
+
+// 添加更多介面定義
+interface TransferRecord {
+  transferId: string
+  fromWallet: string
+  toWallet: string
+  amount: string
+  price: string
+  cost: string
+  status: 'submitted' | 'onChain' | 'confirming' | 'completed' | 'failed'
+  confirmations?: number
+  requiredConfirmations?: number
+  createTime: string
+  submitTime: string
+  onChainTime: string
+  completeTime: string
+  updateTime: string
+}
+
 // 查詢參數
-const queryParams = reactive({
+const queryParams = reactive<QueryParams>({
   merchant: undefined,
   chainType: undefined,
   currency: undefined,
@@ -400,7 +460,7 @@ const queryParams = reactive({
 })
 
 // 錢包信息
-const walletInfo = reactive({ ...mockData.walletInfo })
+const walletInfo = reactive<WalletInfo>({ ...mockData.walletInfo })
 
 // 查詢方法
 const handleQuery = () => {
@@ -414,7 +474,7 @@ const handleReset = () => {
 }
 
 // 複製地址
-const copyAddress = async (address) => {
+const copyAddress = async (address: string) => {
   try {
     await navigator.clipboard.writeText(address)
     message.success(t('message.copySuccess'))
@@ -477,16 +537,20 @@ const showPrivateKeyHistory = () => {
 }
 
 // 添加數字格式化函數
-const formatNumber = (value) => {
+const formatNumber = (value: string | number): string => {
   if (!value) return '0.00000000'
-  const [intPart, decimalPart] = value.split('.')
+  const numStr = value.toString()
+  const [intPart, decimalPart] = numStr.split('.')
   const formattedInt = intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   return decimalPart ? `${formattedInt}.${decimalPart}` : formattedInt
 }
 
 // 添加搜索和排序相關的狀態
 const searchText = ref('')
-const sortState = reactive({
+const sortState = reactive<{
+  sortField: string
+  sortOrder: 'ascend' | 'descend' | null
+}>({
   sortField: '',
   sortOrder: null
 })
@@ -501,12 +565,29 @@ const tokenColumns = computed(() => [
     sorter: true,
   },
   {
-    title: `${t('balance.current')} / ${t('balance.available')}`,
+    title: t('balance.current'),
     key: 'balance',
     width: 200,
     align: 'right',
     sorter: true,
     sortDirections: ['ascend', 'descend'],
+    customRender: ({ record }: { record: TokenData }) => {
+      return h('div', {
+        style: {
+          textAlign: 'right'
+        }
+      }, formatNumber(record.currentBalance))
+    }
+  },
+  {
+    title: t('token.holdingCostPrice'),
+    key: 'holdingCostPrice',
+    width: 150,
+    align: 'right',
+    sorter: true,
+    customRender: ({ record }: { record: TokenData }) => {
+      return formatNumber(record.holdingCostPrice)
+    }
   },
   {
     title: t('token.holdingCost'),
@@ -525,14 +606,14 @@ const tokenColumns = computed(() => [
     sorter: true,
   },
   {
-    title: `${t('balance.availableInflow')} / ${t('balance.availableOutflow')}`,
+    title: `${t('balance.currentInflow')} / ${t('balance.availableInflow')}`,
     key: 'inflow',
     width: 200,
     align: 'right',
     sorter: true,
   },
   {
-    title: `${t('balance.availableInflow')} / ${t('balance.availableOutflow')}`,
+    title: `${t('balance.currentOutflow')} / ${t('balance.availableOutflow')}`,
     key: 'outflow',
     width: 200,
     align: 'right',
@@ -549,25 +630,53 @@ const tokenColumns = computed(() => [
     title: t('action.action'),
     key: 'action',
     fixed: 'right',
-    width: 240,
-    customRender: ({ record }) => {
-      return h('div', { class: 'action-buttons' }, [
+    width: 100,
+    customRender: ({ record }: { record: TokenData }) => {
+      return h('div', { 
+        class: 'action-buttons',
+        style: {
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          width: '100px',
+          minWidth: '100px',
+          maxWidth: '100px'
+        }
+      }, [
         h('a', {
           onClick: () => showTransferHistory(record),
           style: {
             color: '#1890ff',
-            marginRight: '16px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center'
           }
-        }, t('action.transferHistory')),
+        }, [
+          h(SwapOutlined, {
+            style: {
+              marginRight: '4px',
+              fontSize: '14px'
+            }
+          }),
+          t('action.transferHistory')
+        ]),
         h('a', {
           onClick: () => showTransactionDetail(record),
           style: {
             color: '#1890ff',
-            marginRight: '16px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center'
           }
-        }, t('action.transactionDetail')),
+        }, [
+          h(FileSearchOutlined, {
+            style: {
+              marginRight: '4px',
+              fontSize: '14px'
+            }
+          }),
+          t('action.transactionDetail')
+        ]),
         h('a', {
           onClick: () => !record.isRefreshing && handleRefreshBalance(record),
           style: {
@@ -598,9 +707,13 @@ const tokenColumns = computed(() => [
 ])
 
 // 處理表格排序變化
-const handleTableChange = (pagination, filters, sorter) => {
-  sortState.sortField = sorter.field
-  sortState.sortOrder = sorter.order
+const handleTableChange = (
+  pagination: TablePaginationConfig,
+  filters: Record<string, string[]>,
+  sorter: { field?: string; order?: 'ascend' | 'descend' | null }
+) => {
+  sortState.sortField = sorter.field || ''
+  sortState.sortOrder = sorter.order || null
 }
 
 // 搜索功能
@@ -622,29 +735,37 @@ const filteredData = computed(() => {
   
   // 應用排序
   if (sortState.sortField && sortState.sortOrder) {
-    result.sort((a, b) => {
-      let compareA = a[sortState.sortField]
-      let compareB = b[sortState.sortField]
+    result.sort((a: TokenData, b: TokenData) => {
+      let compareA: number
+      let compareB: number
       
-      // 處理複合欄位的排序（如 balance、inflow、outflow）
-      if (sortState.sortField === 'balance') {
-        compareA = parseFloat(a.currentBalance)
-        compareB = parseFloat(b.currentBalance)
-      } else if (sortState.sortField === 'inflow') {
-        compareA = parseFloat(a.currentInflow)
-        compareB = parseFloat(b.currentInflow)
-      } else if (sortState.sortField === 'outflow') {
-        compareA = parseFloat(a.currentOutflow)
-        compareB = parseFloat(b.currentOutflow)
-      } else if (['holdingCost', 'assetValue'].includes(sortState.sortField)) {
-        compareA = parseFloat(compareA)
-        compareB = parseFloat(compareB)
+      // 處理複合欄位的排序
+      switch (sortState.sortField) {
+        case 'balance':
+          compareA = parseFloat(a.currentBalance)
+          compareB = parseFloat(b.currentBalance)
+          break
+        case 'inflow':
+          compareA = parseFloat(a.currentInflow)
+          compareB = parseFloat(b.currentInflow)
+          break
+        case 'outflow':
+          compareA = parseFloat(a.currentOutflow)
+          compareB = parseFloat(b.currentOutflow)
+          break
+        case 'holdingCost':
+        case 'assetValue':
+          compareA = parseFloat(a[sortState.sortField])
+          compareB = parseFloat(b[sortState.sortField])
+          break
+        default:
+          compareA = 0
+          compareB = 0
       }
       
-      if (sortState.sortOrder === 'ascend') {
-        return compareA > compareB ? 1 : -1
-      }
-      return compareA < compareB ? 1 : -1
+      return sortState.sortOrder === 'ascend' 
+        ? compareA - compareB 
+        : compareB - compareA
     })
   }
   
@@ -657,24 +778,24 @@ const tokenData = ref([
     key: '1',
     coin: 'USDT',
     currentBalance: '10000.00000000',
-    availableBalance: '9800.00000000',
-    holdingCost: '1.00000000',
+    holdingCostPrice: '1.00000000',
+    holdingCost: '10000.00000000',
     assetValue: '10000.00000000',
     currentInflow: '0.00000000',
     availableInflow: '14800.00000000',
     currentOutflow: '0.00000000',
     availableOutflow: '4800.00000000',
     lastTransactionTime: '2024-03-15 14:30:25',
-    isExceeded: true,
-    storageLimit: '8000.00000000',
+    isExceeded: false,
+    storageLimit: '500.00000000',
     isRefreshing: false
   },
   {
     key: '2',
     coin: 'USDC',
     currentBalance: '8000.00000000',
-    availableBalance: '7800.00000000',
-    holdingCost: '1.00000000',
+    holdingCostPrice: '1.00000000',
+    holdingCost: '8000.00000000',
     assetValue: '8000.00000000',
     currentInflow: '1500.00000000',
     availableInflow: '9800.00000000',
@@ -689,8 +810,8 @@ const tokenData = ref([
     key: '3',
     coin: 'BUSD',
     currentBalance: '15000.00000000',
-    availableBalance: '14500.00000000',
-    holdingCost: '1.00000000',
+    holdingCostPrice: '1.00000000',
+    holdingCost: '15000.00000000',
     assetValue: '15000.00000000',
     currentInflow: '0.00000000',
     availableInflow: '19500.00000000',
@@ -705,8 +826,8 @@ const tokenData = ref([
     key: '4',
     coin: 'BNB',
     currentBalance: '50.00000000',
-    availableBalance: '48.50000000',
-    holdingCost: '220.00000000',
+    holdingCostPrice: '220.00000000',
+    holdingCost: '11000.00000000',
     assetValue: '11000.00000000',
     currentInflow: '25.00000000',
     availableInflow: '73.50000000',
@@ -721,8 +842,8 @@ const tokenData = ref([
     key: '5',
     coin: 'CAKE',
     currentBalance: '1000.00000000',
-    availableBalance: '950.00000000',
-    holdingCost: '2.50000000',
+    holdingCostPrice: '2.50000000',
+    holdingCost: '2500.00000000',
     assetValue: '2500.00000000',
     currentInflow: '1500.00000000',
     availableInflow: '1450.00000000',
@@ -737,8 +858,8 @@ const tokenData = ref([
     key: '6',
     coin: 'DAI',
     currentBalance: '5000.00000000',
-    availableBalance: '4800.00000000',
-    holdingCost: '1.00000000',
+    holdingCostPrice: '1.00000000',
+    holdingCost: '5000.00000000',
     assetValue: '5000.00000000',
     currentInflow: '7000.00000000',
     availableInflow: '6800.00000000',
@@ -753,8 +874,8 @@ const tokenData = ref([
     key: '7',
     coin: 'LINK',
     currentBalance: '200.00000000',
-    availableBalance: '190.00000000',
-    holdingCost: '15.00000000',
+    holdingCostPrice: '15.00000000',
+    holdingCost: '3000.00000000',
     assetValue: '3000.00000000',
     currentInflow: '300.00000000',
     availableInflow: '290.00000000',
@@ -769,8 +890,8 @@ const tokenData = ref([
     key: '8',
     coin: 'UNI',
     currentBalance: '300.00000000',
-    availableBalance: '285.00000000',
-    holdingCost: '8.00000000',
+    holdingCostPrice: '8.00000000',
+    holdingCost: '2400.00000000',
     assetValue: '2400.00000000',
     currentInflow: '400.00000000',
     availableInflow: '385.00000000',
@@ -785,8 +906,8 @@ const tokenData = ref([
     key: '9',
     coin: 'AAVE',
     currentBalance: '50.00000000',
-    availableBalance: '47.50000000',
-    holdingCost: '80.00000000',
+    holdingCostPrice: '80.00000000',
+    holdingCost: '4000.00000000',
     assetValue: '4000.00000000',
     currentInflow: '75.00000000',
     availableInflow: '72.50000000',
@@ -801,8 +922,8 @@ const tokenData = ref([
     key: '10',
     coin: 'DOGE',
     currentBalance: '50000.00000000',
-    availableBalance: '48000.00000000',
-    holdingCost: '0.10000000',
+    holdingCostPrice: '0.10000000',
+    holdingCost: '5000.00000000',
     assetValue: '5000.00000000',
     currentInflow: '70000.00000000',
     availableInflow: '68000.00000000',
@@ -812,28 +933,26 @@ const tokenData = ref([
     isExceeded: false,
     storageLimit: '100000.00000000',
     isRefreshing: false
-  },
-].map(token => ({ ...token, isRefreshing: false })))
+  }
+])
 
 // 處理轉帳記錄按鈕點擊
-function showTransferHistory(record) {
+function showTransferHistory(record: TokenData) {
   console.log('查看轉帳記錄:', record)
-  // 這裡可以根據 record 的幣種來過濾或獲取對應的轉帳記錄
   transferHistoryModalVisible.value = true
 }
 
 // 處理交易明細按鈕點擊
-const showTransactionDetail = () => {
+const showTransactionDetail = (record: TokenData) => {
   router.push('/order/transaction')
 }
 
 // 頁面加載時從路由獲取參數
 onMounted(() => {
   const { address, chainType } = route.query
-  if (address) queryParams.address = address
-  if (chainType) queryParams.chainType = chainType
+  if (typeof address === 'string') queryParams.address = address
+  if (typeof chainType === 'string') queryParams.chainType = chainType
   
-  // 這裡可以添加獲取錢包詳情的API調用
   handleQuery()
 })
 
@@ -950,8 +1069,8 @@ const transferHistoryColumns = [
     dataIndex: 'status',
     key: 'status',
     width: 150,
-    customRender: ({ text, record }) => {
-      const statusMap = {
+    customRender: ({ text, record }: { text: TransferRecord['status']; record: TransferRecord }) => {
+      const statusMap: Record<TransferRecord['status'], string> = {
         submitted: t('transfer.status.submitted'),
         onChain: t('transfer.status.onChain'),
         confirming: t('transfer.status.confirming'),
@@ -959,15 +1078,15 @@ const transferHistoryColumns = [
         failed: t('transfer.status.failed')
       }
 
-      const statusStyles = {
-        submitted: { background: '#303030' },  // 灰底
-        onChain: { background: 'rgba(24, 144, 255, 0.2)' },  // 藍底
-        confirming: { background: 'rgba(24, 144, 255, 0.2)' },  // 藍底
-        completed: { background: 'rgba(82, 196, 26, 0.2)' },  // 綠底
-        failed: { background: 'rgba(255, 77, 79, 0.2)' }  // 紅底
+      const statusStyles: Record<TransferRecord['status'], { background: string }> = {
+        submitted: { background: '#303030' },
+        onChain: { background: 'rgba(24, 144, 255, 0.2)' },
+        confirming: { background: 'rgba(24, 144, 255, 0.2)' },
+        completed: { background: 'rgba(82, 196, 26, 0.2)' },
+        failed: { background: 'rgba(255, 77, 79, 0.2)' }
       }
       
-      let statusText = statusMap[text] || text
+      let statusText = statusMap[text]
       if (text === 'confirming') {
         statusText = `${t('transfer.status.confirming')} (${record.confirmations}/${record.requiredConfirmations})`
       } else if (text === 'completed') {
@@ -1017,19 +1136,13 @@ const transferHistoryColumns = [
 
 const transferHistoryData = mockData.transferHistory
 
-// 修改刷新餘額的處理方法
-const handleRefreshBalance = async (record) => {
-  // 設置loading狀態
+// 處理刷新餘額
+const handleRefreshBalance = async (record: TokenData) => {
   record.isRefreshing = true
   
   try {
-    // 模擬API調用
     await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    // 更新餘額（這裡只是示例，實際應該調用API）
     record.currentBalance = (parseFloat(record.currentBalance) + Math.random()).toFixed(8)
-    record.availableBalance = (parseFloat(record.availableBalance) + Math.random()).toFixed(8)
-    
     message.success(t('message.refreshSuccess'))
   } catch (error) {
     message.error(t('message.refreshFailed'))
@@ -1170,10 +1283,12 @@ const statusHistoryData = [
   display: flex;
   align-items: flex-start;
   gap: 16px;
+  min-width: 0;
 }
 
 .info-label {
   min-width: 120px;
+  flex-shrink: 0;
   color: rgba(255, 255, 255, 0.45);
   display: flex;
   align-items: center;
@@ -1182,14 +1297,23 @@ const statusHistoryData = [
 
 .info-value {
   flex: 1;
+  min-width: 0;
   color: rgba(255, 255, 255, 0.85);
   word-break: break-all;
+  overflow: hidden;
 }
 
 .address-container {
   display: flex;
   align-items: center;
   gap: 8px;
+  overflow: hidden;
+}
+
+.address-container span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .copy-icon {
@@ -1221,6 +1345,8 @@ const statusHistoryData = [
 
 :deep(.ant-card-body) {
   background-color: #141414;
+  padding: 24px;
+  overflow: hidden;
 }
 
 /* 深色模式適配 */
@@ -1430,38 +1556,18 @@ const statusHistoryData = [
   color: #177ddc;
 }
 
-.wallet-type-container {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* 修改表格標題的多語系顯示 */
-:deep(.ant-table-column-title) {
-  display: inline-block;
-  text-align: right;
-  width: 100%;
-}
-
-/* 操作列標題保持左對齊 */
-:deep(.ant-table-column-action .ant-table-column-title) {
-  text-align: left;
-}
-
-/* 幣種列標題保持左對齊 */
-:deep(.ant-table-column-coin .ant-table-column-title) {
-  text-align: left;
-}
-
-/* 添加轉帳記錄表格的樣式 */
-:deep(.ant-table-thead > tr > th) {
-  white-space: nowrap;
-}
-
+.wallet-type-container,
 .wallet-status-container {
   display: flex;
   align-items: center;
   gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* 調整按鈕組的樣式 */
+:deep(.ant-space) {
+  flex-wrap: wrap;
+  row-gap: 8px;
 }
 
 .status-tag {

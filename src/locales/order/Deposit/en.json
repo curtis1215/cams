@@ -2,7 +2,8 @@
   "title": {
     "depositOrderQuery": "Deposit Order Query",
     "orderList": "Deposit Order List",
-    "notifyDetail": "Notification Details"
+    "notifyDetail": "Notification Details",
+    "notifyHistory": "Notification History"
   },
   "field": {
     "dateRange": "Date Range",
@@ -19,7 +20,9 @@
     "errorContent": "Error Content",
     "platformOrderId": "Platform Order ID",
     "merchantOrderId": "Merchant Order ID",
-    "transferId": "Transfer ID"
+    "transferId": "Transfer ID",
+    "notifyReason": "Notification Reason",
+    "notifyResult": "Notification Result"
   },
   "prompt": {
     "pleaseSelect": "Please select",

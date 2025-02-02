@@ -43,9 +43,10 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { DefineLocaleMessage } from 'vue-i18n'
 import { Line } from '@antv/g2plot'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
@@ -58,8 +59,20 @@ import dateRangeZhLocale from '@/locales/components/DateRangeSelect/zh.json'
 import dateRangeEnLocale from '@/locales/components/DateRangeSelect/en.json'
 import { message } from 'ant-design-vue'
 
+// 定義必要的介面
+interface ChartData {
+  time: string
+  value: number
+  label: string
+}
+
+interface SearchForm {
+  dateRange: [string, string]
+  chainType: string
+}
+
 // 統一的消息格式
-const messages = {
+const messages: { [key: string]: DefineLocaleMessage } = {
   zh: {
     ...zhLocale,
     ...commonZhLocale,
@@ -77,13 +90,13 @@ const { t } = useI18n({
   legacy: false
 })
 
-const searchForm = ref({
-  dateRange: [dayjs().subtract(7, 'day'), dayjs()],
+const searchForm = ref<SearchForm>({
+  dateRange: [dayjs().subtract(7, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
   chainType: 'BTC'
 })
 
-const chartContainer = ref(null)
-let chart = null
+const chartContainer = ref<HTMLElement | null>(null)
+let chart: Line | null = null
 
 // 計算日期區間天數
 const daysDifference = computed(() => {
@@ -96,9 +109,9 @@ const daysDifference = computed(() => {
 })
 
 // 生成模擬數據
-const generateMockData = () => {
+const generateMockData = (): ChartData[] => {
   const days = daysDifference.value
-  const data = []
+  const data: ChartData[] = []
   let interval = '1h'
   let labelInterval = 1
   
@@ -113,14 +126,14 @@ const generateMockData = () => {
     labelInterval = 1  // 每24小時顯示一個標籤
   }
 
-  const start = dayjs(searchForm.value.dateRange[0])
-  const end = dayjs(searchForm.value.dateRange[1])
+  const start = new Date(searchForm.value.dateRange[0])
+  const end = new Date(searchForm.value.dateRange[1])
   let current = start
   let count = 0
 
-  while (current.isBefore(end) || current.isSame(end)) {
-    const time = current.format('YYYY-MM-DD HH:mm')
-    const showLabel = current.hour() === 0 && current.minute() === 0
+  while (current <= end) {
+    const time = current.toISOString().slice(0, 16).replace('T', ' ')
+    const showLabel = current.getUTCHours() === 0 && current.getUTCMinutes() === 0
     
     data.push({
       time,
@@ -130,13 +143,13 @@ const generateMockData = () => {
 
     switch (interval) {
       case '1h':
-        current = current.add(1, 'hour')
+        current.setUTCHours(current.getUTCHours() + 1)
         break
       case '6h':
-        current = current.add(6, 'hours')
+        current.setUTCHours(current.getUTCHours() + 6)
         break
       case '1d':
-        current = current.add(1, 'day')
+        current.setUTCDate(current.getUTCDate() + 1)
         break
     }
     count++
@@ -149,7 +162,7 @@ const updateChart = () => {
   const data = generateMockData()
   const chainName = searchForm.value.chainType || 'All'
 
-  const config = {
+  const config: any = {
     data,
     autoFit: true,
     height: 400,
@@ -159,10 +172,7 @@ const updateChart = () => {
         passive: true
       }
     },
-    defaultInteractions: [
-      { type: 'tooltip', cfg: { start: [{ trigger: 'plot:mousemove' }] } },
-      { type: 'element-active' }
-    ],
+    interactions: ['tooltip', 'element-active'],
     theme: {
       defaultColor: '#1890ff'
     },
@@ -179,7 +189,7 @@ const updateChart = () => {
       type: 'time',
       animate: false,
       label: {
-        formatter: (v) => dayjs(v).format('MM-DD'),
+        formatter: (v: string) => dayjs(v).format('MM-DD'),
         style: {
           fill: '#fff',
           fontSize: 12
@@ -229,16 +239,11 @@ const updateChart = () => {
   if (chart) {
     chart.destroy()
   }
-  Line.defaultOptions = {
-    ...Line.defaultOptions,
-    canvas: {
-      eventOptions: {
-        passive: true
-      }
-    }
+
+  if (chartContainer.value) {
+    chart = new Line(chartContainer.value, config)
+    chart.render()
   }
-  chart = new Line(chartContainer.value, config)
-  chart.render()
 }
 
 // 事件處理
@@ -264,7 +269,7 @@ const handleSearch = () => {
 
 const handleReset = () => {
   searchForm.value = {
-    dateRange: [dayjs().subtract(7, 'day'), dayjs()],
+    dateRange: [dayjs().subtract(7, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
     chainType: 'BTC'
   }
   updateChart()

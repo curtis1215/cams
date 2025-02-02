@@ -230,7 +230,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import { CopyOutlined, LinkOutlined, DownloadOutlined } from '@ant-design/icons-vue'
@@ -241,19 +241,12 @@ import WithdrawStatusSelect from '@/components/selectors/WithdrawStatusSelect.vu
 import '@/styles/common.css'
 import zhLocale from '@/locales/order/Withdraw/zh.json'
 import enLocale from '@/locales/order/Withdraw/en.json'
-import zhCommon from '@/locales/common/zh.json'
-import enCommon from '@/locales/common/en.json'
 import mockData from '@/mock/order/Withdraw/withdraw.mock.json'
+import type { TablePaginationConfig } from 'ant-design-vue'
 
 const messages = {
-  zh: {
-    ...zhCommon,
-    ...zhLocale
-  },
-  en: {
-    ...enCommon,
-    ...enLocale
-  }
+  zh: zhLocale,
+  en: enLocale
 }
 
 const { t } = useI18n({
@@ -261,7 +254,44 @@ const { t } = useI18n({
   legacy: false
 })
 
-const queryParams = ref({
+// 定義介面
+interface QueryParams {
+  dateRange: string[]
+  merchant: string | undefined
+  status: string | undefined
+  orderId: string
+  address: string
+  txHash: string
+  userId: string
+}
+
+interface WithdrawRecord {
+  platformOrderId: string
+  merchantOrderId: string
+  transferId: string
+  txHash: string
+  merchant: string
+  amount: string
+  usdtValue: string
+  address: string
+  orderStatus: 'confirming' | 'success' | 'failed' | 'timeout'
+  notifyStatus: 'retrying' | 'success' | 'timeout'
+  confirmations?: number
+  requiredConfirmations?: number
+  createTime: string
+  successTime?: string
+  notifyTime?: string
+  showTransferDetail?: boolean
+}
+
+interface NotifyHistoryRecord {
+  reason: string
+  notifyTime: string
+  result: string
+}
+
+// 查詢參數
+const queryParams = ref<QueryParams>({
   dateRange: [],
   merchant: undefined,
   status: undefined,
@@ -349,18 +379,22 @@ const pagination = ref({
   showQuickJumper: true,
 })
 
-const handleTableChange = (pag, filters, sorter) => {
-  pagination.value.current = pag.current
-  pagination.value.pageSize = pag.pageSize
+const handleTableChange = (
+  pag: TablePaginationConfig,
+  filters: Record<string, string[]>,
+  sorter: { field?: string; order?: 'ascend' | 'descend' | null }
+) => {
+  if (pag.current) pagination.value.current = pag.current
+  if (pag.pageSize) pagination.value.pageSize = pag.pageSize
   // 這裡可以添加獲取數據的邏輯
 }
 
-const formatAddress = (address) => {
+const formatAddress = (address: string): string => {
   if (!address) return ''
   return `${address.slice(0, 4)}****${address.slice(-4)}`
 }
 
-const copyAddress = async (address) => {
+const copyAddress = async (address: string): Promise<void> => {
   try {
     await navigator.clipboard.writeText(address)
     message.success(t('message.copySuccess'))
@@ -369,7 +403,7 @@ const copyAddress = async (address) => {
   }
 }
 
-const getOrderStatusText = (status) => {
+const getOrderStatusText = (status: WithdrawRecord['orderStatus']): string => {
   if (status === 'timeout') {
     return t('status.notifyTimeout')
   }
@@ -379,7 +413,7 @@ const getOrderStatusText = (status) => {
   return t(`status.${status}`)
 }
 
-const getNotifyStatusText = (status) => {
+const getNotifyStatusText = (status: WithdrawRecord['notifyStatus']): string => {
   if (status === 'timeout') {
     return t('status.notifyTimeout')
   }
@@ -389,8 +423,7 @@ const getNotifyStatusText = (status) => {
   return t(`status.${status}`)
 }
 
-const handleTransferIdClick = (transferId) => {
-  // 跳轉到轉帳訂單查詢頁面
+const handleTransferIdClick = (transferId: string): void => {
   const route = {
     path: '/wallet/transfer',
     query: {
@@ -400,8 +433,17 @@ const handleTransferIdClick = (transferId) => {
   window.open(`#${route.path}?transferId=${route.query.transferId}`, '_blank')
 }
 
-const handleTxHashDetailClick = (txHash) => {
-  // 跳轉到交易詳情查詢頁面
+const handleTransferDetail = (transferId: string): void => {
+  const route = {
+    path: '/wallet/transfer',
+    query: {
+      transferId
+    }
+  }
+  window.open(`#${route.path}?transferId=${route.query.transferId}`, '_blank')
+}
+
+const handleTxHashDetailClick = (txHash: string): void => {
   const route = {
     path: '/order/transaction',
     query: {
@@ -411,13 +453,12 @@ const handleTxHashDetailClick = (txHash) => {
   window.open(`#${route.path}?txHash=${route.query.txHash}`, '_blank')
 }
 
-const handleTxHashExplorerClick = (txHash) => {
-  // 跳轉到區塊鏈瀏覽器查看交易詳情
+const handleTxHashExplorerClick = (txHash: string): void => {
   const explorerUrl = import.meta.env.VITE_EXPLORER_URL || 'https://etherscan.io/tx/'
   window.open(`${explorerUrl}${txHash}`, '_blank')
 }
 
-const handleRetryNotify = (record) => {
+const handleRetryNotify = (record: WithdrawRecord) => {
   currentRecord.value = record
   notifyUrl.value = 'https://api.example.com/callback' // 預設的通知 URL
   notifyContent.value = {
@@ -426,13 +467,11 @@ const handleRetryNotify = (record) => {
     status: record.orderStatus,
     amount: record.amount,
     txHash: record.txHash,
-    // ... 其他通知內容
   }
   errorContent.value = {
     code: 500,
     message: 'Internal Server Error',
     timestamp: '2024-01-15 10:05:00',
-    // ... 其他錯誤內容
   }
   notifyDetailVisible.value = true
 }
@@ -450,7 +489,7 @@ const handleNotifyRetry = () => {
   currentRecord.value = null
 }
 
-const highlightJson = (json) => {
+const highlightJson = (json: Record<string, unknown>): string => {
   const jsonString = JSON.stringify(json, null, 2)
   return jsonString
     .replace(/&/g, '&amp;')
@@ -473,7 +512,7 @@ const highlightJson = (json) => {
     })
 }
 
-const copyContent = async (content) => {
+const copyContent = async (content: Record<string, unknown>): Promise<void> => {
   try {
     await navigator.clipboard.writeText(JSON.stringify(content, null, 2))
     message.success(t('message.copySuccess'))
@@ -482,9 +521,9 @@ const copyContent = async (content) => {
   }
 }
 
-const notifyHistoryVisible = ref(false)
-const currentRecord = ref(null)
-const notifyHistoryData = ref([])
+const notifyHistoryVisible = ref<boolean>(false)
+const currentRecord = ref<WithdrawRecord | null>(null)
+const notifyHistoryData = ref<NotifyHistoryRecord[]>([])
 
 const notifyHistoryColumns = computed(() => [
   {
@@ -507,26 +546,26 @@ const notifyHistoryColumns = computed(() => [
   }
 ])
 
-const handleNotifyHistory = (record) => {
+const handleNotifyHistory = (record: WithdrawRecord) => {
   currentRecord.value = record
   notifyHistoryVisible.value = true
-  notifyHistoryData.value = mockData.notifyHistoryData
+  notifyHistoryData.value = mockData.notifyHistoryData as NotifyHistoryRecord[]
 }
 
-const tableData = ref(mockData.tableData)
+const tableData = ref<WithdrawRecord[]>(mockData.tableData as unknown as WithdrawRecord[])
 
 // 通知詳情相關
-const notifyDetailVisible = ref(false)
-const notifyUrl = ref('')
-const notifyContent = ref({})
-const errorContent = ref({})
+const notifyDetailVisible = ref<boolean>(false)
+const notifyUrl = ref<string>('')
+const notifyContent = ref<Record<string, unknown>>({})
+const errorContent = ref<Record<string, unknown>>({})
 
-const formatTxHash = (hash) => {
+const formatTxHash = (hash: string): string => {
   if (!hash) return ''
   return `${hash.slice(0, 6)}***${hash.slice(-6)}`
 }
 
-const copyTxHash = async (hash) => {
+const copyTxHash = async (hash: string): Promise<void> => {
   try {
     await navigator.clipboard.writeText(hash)
     message.success(t('message.copySuccess'))
@@ -536,11 +575,11 @@ const copyTxHash = async (hash) => {
 }
 
 const handleDownload = () => {
-  // 將表格數據轉換為CSV格式
-  const headers = columns.map(col => col.title).join(',')
+  const columnsArray = columns.value
+  const headers = columnsArray.map(col => col.title).join(',')
   const rows = tableData.value.map(row => {
-    return columns.map(col => {
-      const value = row[col.dataIndex] || ''
+    return columnsArray.map(col => {
+      const value = row[col.dataIndex as keyof WithdrawRecord] || ''
       return `"${value}"`
     }).join(',')
   })

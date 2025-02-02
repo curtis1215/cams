@@ -1,6 +1,13 @@
 <template>
   <div class="prd-doc-container">
     <div class="toc-container">
+      <div class="toc-header">
+        <h3>目錄</h3>
+        <a-button type="primary" size="small" @click="handleRefresh">
+          <template #icon><ReloadOutlined /></template>
+          刷新
+        </a-button>
+      </div>
       <div class="toc-content" v-html="tocContent"></div>
     </div>
     <a-card :bordered="false" class="prd-card">
@@ -18,6 +25,11 @@ import container from 'markdown-it-container'
 import mermaid from 'mermaid'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
+import { ReloadOutlined } from '@ant-design/icons-vue'
+import katex from 'katex'
+import 'katex/dist/katex.min.css'
+// @ts-ignore
+import mdKatex from 'markdown-it-katex'
 
 // 初始化 markdown-it
 const md: MarkdownIt = new MarkdownIt({
@@ -37,6 +49,42 @@ const md: MarkdownIt = new MarkdownIt({
     }
     return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>'
   }
+})
+
+// 添加 KaTeX 支援
+md.use(mdKatex)
+
+// 配置 inline math
+md.inline.ruler.after('escape', 'math_inline', (state: any, silent: boolean) => {
+  const start = state.pos
+  const max = state.posMax
+
+  if (state.src[start] !== '$') return false
+  if (start + 2 >= max) return false
+  if (state.src[start + 1] === '$') return false // 避免與 display math 衝突
+
+  let end = start + 1
+  while (end < max && state.src[end] !== '$') {
+    end++
+  }
+
+  if (end === max || state.src[end] !== '$') return false
+
+  if (!silent) {
+    const content = state.src.slice(start + 1, end)
+    try {
+      const rendered = katex.renderToString(content, {
+        throwOnError: false,
+        displayMode: false
+      })
+      state.push('html_inline', '', 0).content = rendered
+    } catch (error) {
+      state.push('text', '', 0).content = content
+    }
+  }
+
+  state.pos = end + 1
+  return true
 })
 
 // 配置 mermaid
@@ -86,6 +134,7 @@ md.use(container, 'mermaid', {
 
 const markdownContent = ref('')
 const tocContent = ref('')
+const lastContent = ref('')
 
 interface Heading {
   level: number
@@ -218,26 +267,45 @@ const renderMermaidDiagrams = async () => {
   })
 }
 
+// 更新目錄和內容
+const updateContent = async (content: string) => {
+  // 生成標題映射
+  const headingMap = generateHeadingMap(content)
+
+  // 生成目錄
+  tocContent.value = DOMPurify.sanitize(generateToc(content, headingMap))
+  
+  // 添加標題 id 並轉換 markdown
+  const contentWithIds = addHeadingIds(content, headingMap)
+  const rawHtml = md.render(contentWithIds)
+  markdownContent.value = DOMPurify.sanitize(rawHtml)
+
+  // 等待 DOM 更新後渲染 Mermaid 圖表
+  await nextTick()
+  await renderMermaidDiagrams()
+}
+
+// 添加手動刷新功能
+const handleRefresh = async () => {
+  try {
+    const response = await axios.get('/src/docs/prd.md')
+    const content = response.data as string
+    if (content !== lastContent.value) {
+      lastContent.value = content
+      await updateContent(content)
+    }
+  } catch (error) {
+    console.error('刷新 PRD 文檔失敗:', error)
+  }
+}
+
 onMounted(async () => {
   try {
     // 從外部文件加載 Markdown 內容
     const response = await axios.get('/src/docs/prd.md')
     const content = response.data as string
-
-    // 生成標題映射
-    const headingMap = generateHeadingMap(content)
-
-    // 生成目錄
-    tocContent.value = DOMPurify.sanitize(generateToc(content, headingMap))
-    
-    // 添加標題 id 並轉換 markdown
-    const contentWithIds = addHeadingIds(content, headingMap)
-    const rawHtml = md.render(contentWithIds)
-    markdownContent.value = DOMPurify.sanitize(rawHtml)
-
-    // 等待 DOM 更新後渲染 Mermaid 圖表
-    await nextTick()
-    await renderMermaidDiagrams()
+    lastContent.value = content
+    await updateContent(content)
   } catch (error) {
     console.error('加載 PRD 文檔失敗:', error)
   }
@@ -481,5 +549,50 @@ onMounted(async () => {
 :deep([data-theme='dark']) .markdown-content :not(pre) > code {
   background: #1a1d23;
   border-color: #2a2e37;
+}
+
+.toc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--ant-border-color-split);
+}
+
+.toc-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: var(--ant-heading-color);
+}
+
+/* 添加 KaTeX 相關樣式 */
+:deep(.katex) {
+  font-size: 1.1em;
+}
+
+:deep(.katex-display) {
+  margin: 1em 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+:deep(.katex-display > .katex) {
+  white-space: normal;
+}
+
+:deep(.katex-display > .katex > .katex-html) {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+/* 深色模式支援 */
+:deep([data-theme='dark']) .katex {
+  color: var(--ant-text-color);
+}
+
+:deep([data-theme='dark']) .katex .mord {
+  color: var(--ant-text-color);
 }
 </style> 

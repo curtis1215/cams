@@ -19,11 +19,14 @@
     "current": "當前餘額",
     "available": "可用餘額",
     "availableInflow": "可用轉入量",
-    "availableOutflow": "可用轉出量"
+    "availableOutflow": "可用轉出量",
+    "currentInflow": "當前轉入量",
+    "currentOutflow": "當前轉出量"
   },
   "token": {
     "coin": "幣種",
     "holdingCost": "持有成本",
+    "holdingCostPrice": "持有成本單價",
     "assetValue": "資產價值",
     "lastTransactionTime": "最後交易時間",
     "storageLimit": "儲存限額"
@@ -98,6 +101,7 @@
   },
   "status": {
     "enabled": "已啟用",
-    "disabled": "已禁用"
+    "disabled": "已禁用",
+    "deprecated": "已棄用"
   }
 } 

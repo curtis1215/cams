@@ -19,11 +19,14 @@
     "current": "Current Balance",
     "available": "Available Balance",
     "availableInflow": "Available Inflow",
-    "availableOutflow": "Available Outflow"
+    "availableOutflow": "Available Outflow",
+    "currentInflow": "Current Inflow",
+    "currentOutflow": "Current Outflow"
   },
   "token": {
     "coin": "Coin",
     "holdingCost": "Holding Cost",
+    "holdingCostPrice": "Holding Cost Price",
     "assetValue": "Asset Value",
     "lastTransactionTime": "Last Transaction Time",
     "storageLimit": "Storage Limit"
@@ -98,6 +101,7 @@
   },
   "status": {
     "enabled": "Enabled",
-    "disabled": "Disabled"
+    "disabled": "Disabled",
+    "deprecated": "Deprecated"
   }
 } 

@@ -20,13 +20,6 @@
             :style="{ width: '180px' }" 
           />
         </a-form-item>
-        <a-form-item :label="t('field.currency')" class="form-item">
-          <currency-select 
-            v-model="queryParams.currency" 
-            :placeholder="t('prompt.selectCurrency')"
-            :style="{ width: '180px' }" 
-          />
-        </a-form-item>
         <a-form-item :label="t('field.walletType')" class="form-item">
           <wallet-type-select 
             v-model="queryParams.walletType" 
@@ -131,19 +124,17 @@
           <chain-type-select v-model="addWalletForm.chainType" />
         </a-form-item>
 
-        <!-- 幣種 -->
-        <a-form-item :label="t('field.currency')" name="currency">
-          <currency-select v-model="addWalletForm.currency" />
-        </a-form-item>
-
         <!-- 錢包類型 -->
         <a-form-item :label="t('field.walletType')" name="walletType">
-          <wallet-type-select v-model="addWalletForm.walletType" @change="handleWalletTypeChange" />
+          <wallet-type-select 
+            v-model="addWalletForm.walletType" 
+            :style="{ width: '100%' }"
+            disabled
+          />
         </a-form-item>
 
-        <!-- 錢包地址（僅當選擇外轉錢包時顯示） -->
+        <!-- 錢包地址 -->
         <a-form-item
-          v-if="addWalletForm.walletType === 'transfer'"
           :label="t('field.address')"
           name="address"
         >
@@ -200,7 +191,6 @@ const router = useRouter()
 const queryParams = ref<QueryParams>({
   merchant: undefined,
   chainType: undefined,
-  currency: undefined,
   walletType: undefined,
   address: ''
 })
@@ -245,12 +235,6 @@ const columns: TableColumnType<WalletRecord>[] = [
     width: 150
   },
   {
-    title: t('field.currency'),
-    dataIndex: 'currency',
-    key: 'currency',
-    width: 150
-  },
-  {
     title: t('field.address'),
     dataIndex: 'address',
     key: 'address',
@@ -287,7 +271,6 @@ const handleQuery = () => {
   const filteredData = mockData.walletList.filter((item: WalletRecord) => {
     if (queryParams.value.merchant && item.merchant !== queryParams.value.merchant) return false
     if (queryParams.value.chainType && item.chainType !== queryParams.value.chainType) return false
-    if (queryParams.value.currency && item.currency !== queryParams.value.currency) return false
     if (queryParams.value.walletType && item.walletType !== queryParams.value.walletType) return false
     if (queryParams.value.address && !item.address.toLowerCase().includes(queryParams.value.address.toLowerCase())) return false
     return true
@@ -360,24 +343,14 @@ const addWalletFormRef = ref<FormInstance>()
 // 新增錢包表單數據
 const addWalletForm = reactive<AddWalletForm>({
   chainType: undefined,
-  currency: undefined,
-  walletType: undefined,
+  walletType: 'transfer',  // 預設為外轉錢包
   address: '',
 })
 
 // 表單驗證規則
 const addWalletRules = {
   chainType: [{ required: true, message: t('prompt.selectChainType') }],
-  currency: [{ required: true, message: t('prompt.selectCurrency') }],
-  walletType: [{ required: true, message: t('prompt.selectWalletType') }],
   address: [{ required: true, message: t('prompt.inputAddress'), trigger: 'blur' }],
-}
-
-// 處理錢包類型變更
-const handleWalletTypeChange = (value: string | undefined): void => {
-  if (value !== 'transfer') {
-    addWalletForm.address = ''
-  }
 }
 
 // 處理新增錢包
