@@ -64,6 +64,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/params/ContractCoin.vue')
       },
       {
+        path: '/params/risk-address',
+        component: () => import('@/views/params/RiskAddress.vue')
+      },
+      {
         path: 'system/users',
         name: 'UserManagement',
         component: () => import('../views/system/Users.vue'),

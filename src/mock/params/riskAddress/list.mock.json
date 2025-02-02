@@ -1,0 +1,44 @@
+{
+  "code": 0,
+  "message": "success",
+  "data": {
+    "total": 100,
+    "list": [
+      {
+        "id": 1,
+        "chainType": "ETH",
+        "address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e",
+        "reason": "詐騙地址",
+        "updateTime": "2024-03-20 10:30:00"
+      },
+      {
+        "id": 2,
+        "chainType": "BTC",
+        "address": "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+        "reason": "黑客攻擊",
+        "updateTime": "2024-03-20 11:15:00"
+      },
+      {
+        "id": 3,
+        "chainType": "TRX",
+        "address": "TJYeasTPa6gpEEfYqH5zKS5ZKA4Tpkj5Ch",
+        "reason": "資金盜竊",
+        "updateTime": "2024-03-20 12:00:00"
+      },
+      {
+        "id": 4,
+        "chainType": "ETH",
+        "address": "0x8C8D7C46219D9205f056f28fee5950aD564d7465",
+        "reason": "洗錢活動",
+        "updateTime": "2024-03-20 13:45:00"
+      },
+      {
+        "id": 5,
+        "chainType": "BTC",
+        "address": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+        "reason": "非法交易",
+        "updateTime": "2024-03-20 14:30:00"
+      }
+    ]
+  }
+} 

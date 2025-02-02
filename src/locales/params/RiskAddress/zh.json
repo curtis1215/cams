@@ -1,0 +1,39 @@
+{
+  "common": {
+    "action": "操作"
+  },
+  "params": {
+    "riskAddress": {
+      "title": "風險地址管理",
+      "search": {
+        "title": "風險地址查詢",
+        "address": "地址",
+        "placeholder": {
+          "address": "請輸入地址"
+        }
+      },
+      "list": {
+        "title": "風險地址列表",
+        "chainType": "鏈類型",
+        "address": "地址",
+        "reason": "事由",
+        "updateTime": "更新時間"
+      },
+      "modal": {
+        "add": "新增風險地址",
+        "edit": "編輯風險地址",
+        "placeholder": {
+          "chainType": "請選擇鏈類型",
+          "address": "請輸入地址",
+          "reason": "請輸入事由"
+        }
+      },
+      "button": {
+        "add": "新增",
+        "edit": "編輯",
+        "delete": "刪除",
+        "search": "查詢"
+      }
+    }
+  }
+} 

@@ -170,6 +170,10 @@
               <CodeOutlined />
               {{ t('nav.contractCoinManagement') }}
             </a-menu-item>
+            <a-menu-item key="riskAddress" @click="router.push('/params/risk-address')">
+              <WarningOutlined />
+              {{ t('nav.riskAddressManagement') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="system">
             <template #title>
@@ -230,7 +234,8 @@ import {
   LineChartOutlined,
   BarChartOutlined,
   ClockCircleOutlined,
-  NodeIndexOutlined
+  NodeIndexOutlined,
+  WarningOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'

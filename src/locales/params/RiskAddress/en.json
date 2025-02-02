@@ -1,0 +1,39 @@
+{
+  "common": {
+    "action": "Action"
+  },
+  "params": {
+    "riskAddress": {
+      "title": "Risk Address Management",
+      "search": {
+        "title": "Risk Address Search",
+        "address": "Address",
+        "placeholder": {
+          "address": "Please enter address"
+        }
+      },
+      "list": {
+        "title": "Risk Address List",
+        "chainType": "Chain Type",
+        "address": "Address",
+        "reason": "Reason",
+        "updateTime": "Update Time"
+      },
+      "modal": {
+        "add": "Add Risk Address",
+        "edit": "Edit Risk Address",
+        "placeholder": {
+          "chainType": "Please select chain type",
+          "address": "Please enter address",
+          "reason": "Please enter reason"
+        }
+      },
+      "button": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "search": "Search"
+      }
+    }
+  }
+} 

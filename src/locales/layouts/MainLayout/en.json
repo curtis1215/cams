@@ -4,7 +4,8 @@
     "lightMode": "Light Mode",
     "appName": "CryptoPool",
     "demoMode": "DEMO Page",
-    "prdMode": "PRD Doc"
+    "prdMode": "PRD Doc",
+    "action": "Action"
   },
   "user": {
     "logout": "Logout",
@@ -32,9 +33,10 @@
     "depositWithdrawDurationReport": "Deposit/Withdraw Duration Report",
     "walletProfitLossQuery": "Wallet Profit/Loss Query",
     "nodeHeightAnalysis": "Node Height Analysis",
-    "paramsManagement": "Parameters Management",
+    "paramsManagement": "Parameter Management",
     "blockchainManagement": "Blockchain Management",
     "contractCoinManagement": "Contract Coin Management",
+    "riskAddressManagement": "Risk Address Management",
     "system": "System",
     "userManagement": "User Management",
     "roleManagement": "Role Management",

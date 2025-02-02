@@ -1,64 +1,66 @@
 <template>
   <a-select
-    :value="modelValue"
-    :placeholder="t('chainTypeSelect.placeholder')"
+    v-model:value="selectedValue"
+    :placeholder="placeholder"
     show-search
     :filter-option="filterOption"
-    allow-clear
-    @update:value="handleChange"
+    @change="handleChange"
   >
-    <a-select-option v-for="item in chainTypes" :key="item.value" :value="item.value">
-      {{ t(`chainTypeSelect.options.${item.value}`) }}
+    <a-select-option v-for="option in options" :key="option.value" :value="option.value">
+      {{ option.label }}
     </a-select-option>
   </a-select>
 </template>
 
-<script setup>
-import { useI18n } from 'vue-i18n'
-import zhLocale from '@/locales/components/ChainTypeSelect/zh.json'
-import enLocale from '@/locales/components/ChainTypeSelect/en.json'
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 
-const messages = {
-  zh: zhLocale,
-  en: enLocale
+interface Props {
+  value?: string
+  placeholder?: string
 }
 
-const { t } = useI18n({
-  messages,
-  legacy: false
+interface Option {
+  value: string
+  label: string
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  value: undefined,
+  placeholder: '請選擇'
 })
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: undefined
-  },
-  style: {
-    type: Object,
-    default: () => ({})
-  }
+const emit = defineEmits<{
+  (e: 'update:value', value: string | undefined): void
+  (e: 'change', value: string): void
+}>()
+
+const selectedValue = ref<string | undefined>(props.value)
+
+// 監聽外部值的變化
+watch(() => props.value, (newValue) => {
+  selectedValue.value = newValue
 })
 
-const emit = defineEmits(['update:modelValue'])
+// 監聽內部值的變化
+watch(selectedValue, (newValue) => {
+  emit('update:value', newValue)
+})
 
-// 鏈類型選項
-const chainTypes = [
-  { value: 'evm', label: 'EVM' },
-  { value: 'btc', label: 'BTC' },
-  { value: 'tron', label: 'TRON' },
-  { value: 'eos', label: 'EOS' }
+const options: Option[] = [
+  { value: 'BTC', label: 'Bitcoin (BTC)' },
+  { value: 'ETH', label: 'Ethereum (ETH)' },
+  { value: 'TRX', label: 'TRON (TRX)' },
+  { value: 'BSC', label: 'BNB Smart Chain (BSC)' }
 ]
 
-// 處理選擇變更
-const handleChange = (value) => {
-  emit('update:modelValue', value)
+const filterOption = (input: string, option: any) => {
+  return option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
+         option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
 }
 
-const filterOption = (input, option) => {
-  return (
-    option.value.toLowerCase().indexOf(input.toLowerCase()) >= 0 ||
-    option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0
-  )
+const handleChange = (value: string) => {
+  emit('change', value)
 }
 </script>
 
