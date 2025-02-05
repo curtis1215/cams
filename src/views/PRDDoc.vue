@@ -3,10 +3,6 @@
     <div class="toc-container">
       <div class="toc-header">
         <h3>目錄</h3>
-        <a-button type="primary" size="small" @click="handleRefresh">
-          <template #icon><ReloadOutlined /></template>
-          刷新
-        </a-button>
       </div>
       <div class="toc-content" v-html="tocContent"></div>
     </div>
@@ -25,7 +21,6 @@ import container from 'markdown-it-container'
 import mermaid from 'mermaid'
 import hljs from 'highlight.js'
 import 'highlight.js/styles/atom-one-dark.css'
-import { ReloadOutlined } from '@ant-design/icons-vue'
 import katex from 'katex'
 import 'katex/dist/katex.min.css'
 // @ts-ignore
@@ -287,23 +282,8 @@ const updateContent = async (content: string) => {
   await renderMermaidDiagrams()
 }
 
-// 修改 handleRefresh 函數
-const handleRefresh = async () => {
-  try {
-    // 在生產環境中，直接使用導入的內容
-    const content = prdContent
-    if (content !== lastContent.value) {
-      lastContent.value = content
-      await updateContent(content)
-    }
-  } catch (error) {
-    console.error('刷新 PRD 文檔失敗:', error)
-  }
-}
-
 onMounted(async () => {
   try {
-    // 在生產環境中，直接使用導入的內容
     const content = prdContent
     lastContent.value = content
     await updateContent(content)
@@ -325,21 +305,39 @@ onMounted(async () => {
 .toc-container {
   width: 280px;
   flex-shrink: 0;
-  background: var(--ant-background-color);
+  background: #141414;
   border-radius: 8px;
-  border: 1px solid var(--ant-border-color-split);
+  border: 1px solid #303030;
   overflow-y: auto;
   position: fixed;
-  top: 88px; /* 64px header + 24px padding */
+  top: 88px;
   left: 24px;
   bottom: 24px;
-  max-height: calc(100vh - 112px); /* 100vh - 64px header - 48px padding */
+  max-height: calc(100vh - 112px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .prd-card {
   flex: 1;
   margin-left: 304px; /* 280px + 24px gap */
   overflow: auto;
+}
+
+.toc-header {
+  padding: 16px;
+  border-bottom: 1px solid #303030;
+  background: #1f1f1f;
+}
+
+.toc-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 500;
+}
+
+.toc-content {
+  padding: 12px 8px;
 }
 
 :deep(.toc-list) {
@@ -351,27 +349,67 @@ onMounted(async () => {
 :deep(.toc-sublist) {
   list-style: none;
   padding-left: 16px;
-  margin: 0;
+  margin: 4px 0;
+  position: relative;
+}
+
+:deep(.toc-sublist::before) {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #303030;
 }
 
 :deep(.toc-item) {
   margin: 4px 0;
+  position: relative;
 }
 
 :deep(.toc-link) {
-  color: var(--ant-text-color);
+  color: rgba(255, 255, 255, 0.65);
   text-decoration: none;
   font-size: 14px;
   line-height: 1.5;
   display: block;
-  padding: 4px 8px;
+  padding: 6px 12px;
   border-radius: 4px;
   transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 :deep(.toc-link:hover) {
   color: var(--ant-primary-color);
-  background: var(--ant-primary-1);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+:deep(.toc-item.active .toc-link) {
+  color: var(--ant-primary-color);
+  background: rgba(var(--ant-primary-color-rgb), 0.1);
+  font-weight: 500;
+}
+
+/* 滾動條樣式 */
+.toc-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.toc-container::-webkit-scrollbar-thumb {
+  background: #434343;
+  border-radius: 3px;
+}
+
+.toc-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.toc-container:hover::-webkit-scrollbar-thumb {
+  background: #525252;
 }
 
 .markdown-content {
@@ -466,29 +504,103 @@ onMounted(async () => {
 }
 
 .markdown-content :deep(table) {
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0;
   width: 100%;
-  margin: 1em 0;
+  margin: 1.5em 0;
   color: var(--ant-text-color);
+  background: transparent;
+  border: 1px solid #303030;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.markdown-content :deep(th),
+.markdown-content :deep(th) {
+  background: #1f1f1f;
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid #303030;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+}
+
 .markdown-content :deep(td) {
-  padding: 6px 13px;
-  border: 1px solid var(--ant-border-color-split);
+  padding: 12px 16px;
+  border-bottom: 1px solid #303030;
+  font-size: 14px;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.markdown-content :deep(tr:last-child) td {
+  border-bottom: none;
 }
 
 .markdown-content :deep(tr) {
-  background-color: var(--ant-background-color);
-  border-top: 1px solid var(--ant-border-color-split);
+  background-color: #141414;
+  transition: background-color 0.3s ease;
 }
 
 .markdown-content :deep(tr:nth-child(2n)) {
-  background-color: var(--ant-background-color-base);
+  background-color: #1f1f1f;
 }
 
-:deep(.ant-card) {
-  background: var(--ant-background-color);
+.markdown-content :deep(tr:hover) {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 深色模式特定樣式 */
+:deep([data-theme='dark']) .markdown-content table {
+  background: transparent;
+  border-color: #303030;
+}
+
+:deep([data-theme='dark']) .markdown-content th {
+  background: #1f1f1f;
+  border-bottom-color: #303030;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep([data-theme='dark']) .markdown-content td {
+  border-bottom-color: #303030;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep([data-theme='dark']) .markdown-content tr {
+  background-color: #141414;
+}
+
+:deep([data-theme='dark']) .markdown-content tr:nth-child(2n) {
+  background-color: #1f1f1f;
+}
+
+:deep([data-theme='dark']) .markdown-content tr:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* 表格容器樣式 */
+.markdown-content :deep(.table-container) {
+  padding: 12px;
+  background: #141414;
+  border-radius: 8px;
+  margin: 1.5em 0;
+}
+
+/* 單元格內容樣式 */
+.markdown-content :deep(td > code) {
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid #303030;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* 數字對齊 */
+.markdown-content :deep(td[align="right"]) {
+  text-align: right;
+}
+
+.markdown-content :deep(td[align="center"]) {
+  text-align: center;
 }
 
 .markdown-content :deep(.mermaid) {
@@ -550,20 +662,6 @@ onMounted(async () => {
 :deep([data-theme='dark']) .markdown-content :not(pre) > code {
   background: #1a1d23;
   border-color: #2a2e37;
-}
-
-.toc-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--ant-border-color-split);
-}
-
-.toc-header h3 {
-  margin: 0;
-  font-size: 16px;
-  color: var(--ant-heading-color);
 }
 
 /* 添加 KaTeX 相關樣式 */

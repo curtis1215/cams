@@ -5,10 +5,24 @@
     <!-- 查询卡片 -->
     <a-card :title="t('search.title')" class="search-card">
       <div class="search-form">
-        <currency-select v-model="searchForm.coinCode" style="width: 200px" />
-        <a-button type="primary" @click="handleSearch">
-          {{ t('search.searchButton') }}
-        </a-button>
+        <a-form layout="inline">
+          <a-form-item :label="t('search.chainType')">
+            <chain-type-select v-model="searchForm.chainType" />
+          </a-form-item>
+          <a-form-item :label="t('search.coinCode')">
+            <currency-select v-model="searchForm.coinCode" />
+          </a-form-item>
+          <a-form-item>
+            <a-space>
+              <a-button type="primary" @click="handleSearch">
+                {{ t('search.searchButton') }}
+              </a-button>
+              <a-button @click="handleReset">
+                {{ t('search.resetButton') }}
+              </a-button>
+            </a-space>
+          </a-form-item>
+        </a-form>
       </div>
     </a-card>
 
@@ -24,7 +38,7 @@
       <a-table
         :columns="columns"
         :data-source="tableData"
-        :row-key="record => record.id"
+        :row-key="(record: ContractCoin) => record.id"
         :pagination="{ pageSize: 10 }"
         :scroll="{ x: 1500 }"
       >
@@ -131,14 +145,21 @@
               <a-form-item :label="t(`modal.form.${wallet.key}StorageLimit`)">
                 <a-row :gutter="16">
                   <a-col :span="8">
-                    <a-input-group compact>
-                      <a-input-number
-                        v-model:value="formData[`${wallet.key}StorageLimit`]"
-                        style="width: 100%"
-                        :precision="2"
-                        :placeholder="t('modal.placeholder.enterAmount')"
-                      />
-                    </a-input-group>
+                    <a-input-number
+                      :value="formData.walletLimits[wallet.key]?.storageLimit"
+                      @update:value="(value: number | null) => {
+                        if (!formData.walletLimits[wallet.key]) {
+                          formData.walletLimits[wallet.key] = {
+                            storageLimit: 0,
+                            transferLimit: 0
+                          }
+                        }
+                        formData.walletLimits[wallet.key].storageLimit = value ?? 0
+                      }"
+                      @change="(value: number | null) => handleLimitChange('storageLimit', wallet.key, value ?? 0)"
+                      :precision="2"
+                      style="width: 100%"
+                    />
                   </a-col>
                   <a-col :span="8">
                     <a-input
@@ -150,49 +171,10 @@
                   <a-col :span="8">
                     <a-input-group compact>
                       <a-input-number
-                        :value="calculateTokenAmount(formData[`${wallet.key}StorageLimit`])"
+                        :value="calculateTokenAmount(formData.walletLimits[wallet.key]?.storageLimit)"
                         style="width: calc(100% - 60px)"
                         disabled
-                      />
-                      <a-input
-                        style="width: 60px; text-align: center"
-                        :value="'USDT'"
-                        disabled
-                      />
-                    </a-input-group>
-                  </a-col>
-                </a-row>
-              </a-form-item>
-            </template>
-
-            <!-- 錢包保留數量 -->
-            <a-divider>{{ t('modal.form.reserveAmount') }}</a-divider>
-            <template v-for="wallet in walletTypes" :key="wallet.key">
-              <a-form-item :label="t(`modal.form.${wallet.key}ReserveAmount`)">
-                <a-row :gutter="16">
-                  <a-col :span="8">
-                    <a-input-group compact>
-                      <a-input-number
-                        v-model:value="formData[`${wallet.key}ReserveAmount`]"
-                        style="width: 100%"
-                        :precision="2"
-                        :placeholder="t('modal.placeholder.enterAmount')"
-                      />
-                    </a-input-group>
-                  </a-col>
-                  <a-col :span="8">
-                    <a-input
-                      :value="formatPrice(formData.price)"
-                      style="text-align: center"
-                      disabled
-                    />
-                  </a-col>
-                  <a-col :span="8">
-                    <a-input-group compact>
-                      <a-input-number
-                        :value="calculateTokenAmount(formData[`${wallet.key}ReserveAmount`])"
-                        style="width: calc(100% - 60px)"
-                        disabled
+                        :value-type="'number'"
                       />
                       <a-input
                         style="width: 60px; text-align: center"
@@ -211,14 +193,23 @@
               <a-form-item :label="t(`modal.form.${wallet.key}TransferLimit`)">
                 <a-row :gutter="16">
                   <a-col :span="8">
-                    <a-input-group compact>
-                      <a-input-number
-                        v-model:value="formData[`${wallet.key}TransferLimit`]"
-                        style="width: 100%"
-                        :precision="2"
-                        :placeholder="t('modal.placeholder.enterAmount')"
-                      />
-                    </a-input-group>
+                    <a-input-number
+                      :value="formData.walletLimits[wallet.key]?.transferLimit"
+                      @update:value="(value: number | null) => {
+                        if (!formData.walletLimits[wallet.key]) {
+                          formData.walletLimits[wallet.key] = {
+                            storageLimit: 0,
+                            transferLimit: 0
+                          }
+                        }
+                        formData.walletLimits[wallet.key].transferLimit = value ?? 0
+                      }"
+                      @change="(value: number | null) => handleLimitChange('transferLimit', wallet.key, value ?? 0)"
+                      :precision="2"
+                      :placeholder="t('modal.placeholder.enterAmount')"
+                      :value-type="'number'"
+                      style="width: 100%"
+                    />
                   </a-col>
                   <a-col :span="8">
                     <a-input
@@ -230,9 +221,10 @@
                   <a-col :span="8">
                     <a-input-group compact>
                       <a-input-number
-                        :value="calculateTokenAmount(formData[`${wallet.key}TransferLimit`])"
+                        :value="calculateTokenAmount(formData.walletLimits[wallet.key]?.transferLimit)"
                         style="width: calc(100% - 60px)"
                         disabled
+                        :value-type="'number'"
                       />
                       <a-input
                         style="width: 60px; text-align: center"
@@ -251,15 +243,63 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons-vue'
+import { message } from 'ant-design-vue'
 import CurrencySelect from '@/components/selectors/CurrencySelect.vue'
+import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import mockData from '@/mock/params/ContractCoin/list.json'
 import zhLocale from '@/locales/params/ContractCoin/zh.json'
 import enLocale from '@/locales/params/ContractCoin/en.json'
-import { message } from 'ant-design-vue'
+
+type WalletType = 'storageLimit' | 'transferLimit'
+
+interface WalletLimits {
+  [key: string]: {
+    [K in WalletType]: number
+  }
+}
+
+interface FormData {
+  id?: string
+  contractAddress: string
+  coinName: string
+  coinCode: string
+  decimals: string
+  gasLimitMax: string
+  gasLimitMin: string
+  gasPrice: string
+  transferFee: string
+  priceSource?: string
+  sourcePair?: string
+  price: string
+  walletLimits: WalletLimits
+}
+
+interface ContractCoin {
+  id: string
+  recordType: string
+  coinName: string
+  coinCode: string
+  contractAddress: string
+  decimals: number
+  price: string
+  priceSource: string
+  sourcePair: string
+  updateTime: string
+  chainType?: string
+  gasLimitMax?: string
+  gasLimitMin?: string
+  gasPrice?: string
+  transferFee?: string
+}
+
+interface SearchForm {
+  chainType?: string
+  coinCode?: string
+}
 
 const messages = {
   zh: zhLocale,
@@ -272,12 +312,13 @@ const { t } = useI18n({
 })
 
 // 搜索表单数据
-const searchForm = ref({
+const searchForm = ref<SearchForm>({
+  chainType: undefined,
   coinCode: undefined
 })
 
 // 表格数据
-const tableData = ref([])
+const tableData = ref<ContractCoin[]>([])
 
 // 表格列定义
 const columns = [
@@ -333,15 +374,28 @@ const columns = [
     fixed: 'right',
     align: 'center'
   }
-]
+] as const
+
+// 重置處理
+const handleReset = () => {
+  searchForm.value = {
+    chainType: undefined,
+    coinCode: undefined
+  }
+  handleSearch()
+}
 
 // 搜索处理
 const handleSearch = () => {
   // TODO: 实现实际的搜索逻辑
-  if (searchForm.value.coinCode) {
-    tableData.value = mockData.data.filter(item => 
-      item.coinCode.toLowerCase().includes(searchForm.value.coinCode.toLowerCase())
-    )
+  if (searchForm.value.coinCode || searchForm.value.chainType) {
+    tableData.value = mockData.data.filter((item: ContractCoin) => {
+      const matchCoin = !searchForm.value.coinCode || 
+        item.coinCode.toLowerCase().includes(searchForm.value.coinCode!.toLowerCase())
+      const matchChain = !searchForm.value.chainType || 
+        item.chainType === searchForm.value.chainType
+      return matchCoin && matchChain
+    })
   } else {
     tableData.value = mockData.data
   }
@@ -359,7 +413,7 @@ const walletTypes = [
 ]
 
 // 表單數據
-const formData = ref({
+const formData = ref<FormData>({
   id: undefined,
   contractAddress: '',
   coinName: '',
@@ -371,16 +425,8 @@ const formData = ref({
   transferFee: '',
   priceSource: undefined,
   sourcePair: undefined,
-  // 錢包參數
-  userStorageLimit: undefined,
-  collectionStorageLimit: undefined,
-  withdrawalStorageLimit: undefined,
-  userReserveAmount: undefined,
-  collectionReserveAmount: undefined,
-  withdrawalReserveAmount: undefined,
-  userTransferLimit: undefined,
-  collectionTransferLimit: undefined,
-  withdrawalTransferLimit: undefined
+  price: '0',
+  walletLimits: {}
 })
 
 // 在 script setup 部分添加
@@ -414,7 +460,9 @@ const handleQueryContract = async () => {
     
     Object.assign(formData.value, mockResponse)
     // 計算轉帳提交手續費 (Gwei to ETH)
-    formData.value.transferFee = (mockResponse.gasLimitMax * mockResponse.gasPrice / 1e9).toString()
+    const gasLimitMax = parseFloat(mockResponse.gasLimitMax)
+    const gasPrice = parseFloat(mockResponse.gasPrice)
+    formData.value.transferFee = ((gasLimitMax * gasPrice) / 1e9).toString()
     
     message.success(t('modal.message.querySuccess'))
   } catch (error) {
@@ -422,25 +470,43 @@ const handleQueryContract = async () => {
   }
 }
 
-// 格式化幣價顯示
-const formatPrice = (price) => {
-  if (!price) return '1 USDT = 125 ' + (formData.value.coinCode || '')
-  return `1 USDT = ${price} ${formData.value.coinCode || ''}`
+// 計算代幣數量
+const calculateTokenAmount = (amount: number): number => {
+  if (!amount || !formData.value.price) return 0
+  const price = parseFloat(formData.value.price)
+  if (isNaN(price)) return 0
+  return Number((amount * price).toFixed(8))
 }
 
-// 計算代幣數量
-const calculateTokenAmount = (usdtAmount) => {
-  if (!usdtAmount) return 0
-  const price = 125 // 固定幣價為 125
-  return Number((usdtAmount * price).toFixed(formData.value.decimals || 8))
+// 格式化幣價顯示
+const formatPrice = (price: string): string => {
+  const priceValue = parseFloat(price || '0')
+  if (isNaN(priceValue)) return `1 USDT = 0 ${formData.value.coinCode || ''}`
+  return `1 USDT = ${priceValue} ${formData.value.coinCode || ''}`
+}
+
+// 獲取錢包限額
+const getWalletLimit = (wallet: string, type: WalletType): number => {
+  return formData.value.walletLimits[wallet]?.[type] || 0
+}
+
+// 處理錢包限額變更
+const handleLimitChange = (type: WalletType, wallet: string, value: number) => {
+  if (!formData.value.walletLimits[wallet]) {
+    formData.value.walletLimits[wallet] = {
+      storageLimit: 0,
+      transferLimit: 0
+    }
+  }
+  formData.value.walletLimits[wallet][type] = value
 }
 
 // 處理提交
 const handleSubmit = async () => {
   try {
     // TODO: 實現提交邏輯
-    const message = isEditing.value ? t('modal.message.editSuccess') : t('modal.message.addSuccess')
-    message.success(message)
+    const successMessage = isEditing.value ? t('modal.message.editSuccess') : t('modal.message.addSuccess')
+    message.success(successMessage)
     addModalVisible.value = false
   } catch (error) {
     const errorMessage = isEditing.value ? t('modal.message.editFailed') : t('modal.message.addFailed')
@@ -464,52 +530,36 @@ const handleCancel = () => {
     transferFee: '',
     priceSource: undefined,
     sourcePair: undefined,
-    userStorageLimit: undefined,
-    collectionStorageLimit: undefined,
-    withdrawalStorageLimit: undefined,
-    userReserveAmount: undefined,
-    collectionReserveAmount: undefined,
-    withdrawalReserveAmount: undefined,
-    userTransferLimit: undefined,
-    collectionTransferLimit: undefined,
-    withdrawalTransferLimit: undefined
+    price: '0',
+    walletLimits: {}
   }
 }
 
-// 添加處理函數
-const handleEdit = (record) => {
+// 處理編輯
+const handleEdit = (record: ContractCoin) => {
   isEditing.value = true
-  // 填充表單數據
   formData.value = {
     id: record.id,
     contractAddress: record.contractAddress,
     coinName: record.coinName,
     coinCode: record.coinCode,
-    decimals: record.decimals,
-    gasLimitMax: record.gasLimitMax,
-    gasLimitMin: record.gasLimitMin,
-    gasPrice: record.gasPrice,
-    transferFee: record.transferFee,
+    decimals: String(record.decimals),
+    gasLimitMax: record.gasLimitMax || '',
+    gasLimitMin: record.gasLimitMin || '',
+    gasPrice: record.gasPrice || '',
+    transferFee: record.transferFee || '',
     priceSource: record.priceSource,
     sourcePair: record.sourcePair,
-    userStorageLimit: record.userStorageLimit,
-    collectionStorageLimit: record.collectionStorageLimit,
-    withdrawalStorageLimit: record.withdrawalStorageLimit,
-    userReserveAmount: record.userReserveAmount,
-    collectionReserveAmount: record.collectionReserveAmount,
-    withdrawalReserveAmount: record.withdrawalReserveAmount,
-    userTransferLimit: record.userTransferLimit,
-    collectionTransferLimit: record.collectionTransferLimit,
-    withdrawalTransferLimit: record.withdrawalTransferLimit
+    price: record.price,
+    walletLimits: {}
   }
   
-  // 打開彈窗
   addModalVisible.value = true
-  // 設置為第一個標籤頁
   activeTabKey.value = 1
 }
 
-const handleDelete = (record) => {
+// 處理刪除
+const handleDelete = (record: ContractCoin) => {
   // TODO: 實現刪除邏輯
   console.log('Delete record:', record)
 }
@@ -526,14 +576,13 @@ onMounted(() => {
   overflow-x: hidden;
 }
 
-.filter-card {
+.search-card {
   margin-bottom: 24px;
   background: #141414;
 }
 
 .list-card {
-  width: 100%;
-  overflow-x: auto;
+  background: #141414;
 }
 
 .contract-coin-management :deep(.ant-card) {
@@ -558,9 +607,18 @@ onMounted(() => {
 }
 
 .search-form {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+  :deep(.ant-form-item) {
+    margin-bottom: 0;
+    margin-right: 16px;
+  }
+
+  :deep(.ant-form-item:last-child) {
+    margin-right: 0;
+  }
+
+  :deep(.ant-select) {
+    width: 160px;
+  }
 }
 
 /* 表格样式 */
@@ -673,5 +731,33 @@ onMounted(() => {
 
 :deep(.ant-tabs-ink-bar) {
   background: var(--ant-primary-color);
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-item-sm { 
+  width: 200px;
+}
+
+.form-item-auto {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.button-group {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 </style> 

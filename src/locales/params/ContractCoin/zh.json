@@ -2,7 +2,10 @@
   "contractCoinManagement": "合約幣管理",
   "search": {
     "title": "幣種查詢",
-    "searchButton": "查詢"
+    "searchButton": "查詢",
+    "resetButton": "重置",
+    "chainType": "鏈類型",
+    "coinCode": "幣種"
   },
   "list": {
     "title": "幣種列表",

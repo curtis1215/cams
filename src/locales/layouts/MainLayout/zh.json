@@ -28,7 +28,7 @@
     "exchangeOrderQuery": "兌換訂單查詢",
     "transactionDetailQuery": "交易明細查詢",
     "reconciliation": "對賬管理",
-    "walletBalanceQuery": "錢包餘額查詢",
+    "walletBalanceQuery": "錢包對帳查詢",
     "dataReport": "數據報表",
     "depositWithdrawDurationReport": "充提時長報表",
     "walletProfitLossQuery": "錢包盈虧查詢",

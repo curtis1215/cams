@@ -2,7 +2,10 @@
   "contractCoinManagement": "Contract Coin Management",
   "search": {
     "title": "Coin Search",
-    "searchButton": "Search"
+    "searchButton": "Search",
+    "resetButton": "Reset",
+    "chainType": "Chain Type",
+    "coinCode": "Coin"
   },
   "list": {
     "title": "Coin List",

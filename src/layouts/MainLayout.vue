@@ -205,7 +205,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, watch, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDark, useToggle } from '@vueuse/core'
 import {
@@ -345,11 +345,69 @@ const localeOptions = [
   { value: 'en-US', label: 'English' }
 ]
 
+// 定義映射的類型
+type MenuAnchorMap = {
+  [key: string]: string;
+}
+
+// 使用計算屬性動態生成錨點映射
+const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
+  dashboard: t('nav.dataMonitoring'),
+  alert: t('nav.alertMonitoring'),
+  nodeHeight: t('nav.nodeHeightMonitoring'),
+  walletQuery: t('nav.walletQuery'),
+  walletDetail: t('nav.walletDetail'),
+  walletTransfer: t('nav.walletTransfer'),
+  tokenExchange: t('nav.tokenExchangeManagement'),
+  depositOrder: t('nav.depositOrderQuery'),
+  withdrawOrder: t('nav.withdrawOrderQuery'),
+  transferOrder: t('nav.transferOrderQuery'),
+  exchangeOrder: t('nav.exchangeOrderQuery'),
+  transactionDetail: t('nav.transactionDetailQuery'),
+  walletBalance: t('nav.walletBalanceQuery'),
+  depositWithdrawDuration: t('nav.depositWithdrawDurationReport'),
+  walletProfitLoss: t('nav.walletProfitLossQuery'),
+  nodeHeightAnalysis: t('nav.nodeHeightAnalysis'),
+  blockchain: t('nav.blockchainManagement'),
+  contractCoin: t('nav.contractCoinManagement'),
+  riskAddress: t('nav.riskAddressManagement'),
+  users: t('nav.userManagement'),
+  roles: t('nav.roleManagement'),
+  merchants: t('nav.merchantManagement')
+}))
+
+// 添加一個變量來記錄上一個路徑
+const lastDemoPath = ref('/monitor/dashboard')
+
 const handleModeChange = (checked: boolean) => {
   if (checked) {
-    router.push('/monitor/dashboard')
+    // 從 PRD 文檔切回 Demo 頁面時，使用記錄的路徑
+    router.push(lastDemoPath.value)
   } else {
-    router.push('/prd-doc')
+    // 記錄當前路徑，以便切回時使用
+    lastDemoPath.value = route.path
+    
+    // 獲取當前選中的選單項目
+    const currentKey = selectedKeys.value[0]
+    const anchor = menuToAnchorMap.value[currentKey]
+    if (anchor) {
+      // 將中文轉換為 URL 安全的格式
+      const encodedAnchor = anchor.split('').join('-')
+      router.push(`/prd-doc#${encodedAnchor}`).then(() => {
+        // 給予足夠的時間讓 DOM 完全加載
+        setTimeout(() => {
+          const element = document.getElementById(encodedAnchor)
+          if (element) {
+            // 使用更可靠的滾動方法
+            const yOffset = -100 // 頂部導航欄的高度
+            const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset
+            window.scrollTo({ top: y, behavior: 'smooth' })
+          }
+        }, 500) // 等待 500ms 確保內容已加載
+      })
+    } else {
+      router.push('/prd-doc')
+    }
   }
 }
 </script>
