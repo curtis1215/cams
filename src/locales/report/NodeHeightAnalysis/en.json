@@ -1,0 +1,9 @@
+{
+  "nodeHeight": {
+    "title": "Node Height Analysis",
+    "chart": {
+      "title": "Node Height Difference ({days} Days)",
+      "yAxisName": "Difference"
+    }
+  }
+} 

@@ -1,0 +1,9 @@
+{
+  "nodeHeight": {
+    "title": "節點高度分析",
+    "chart": {
+      "title": "{days}日節點差異數",
+      "yAxisName": "差異數"
+    }
+  }
+} 

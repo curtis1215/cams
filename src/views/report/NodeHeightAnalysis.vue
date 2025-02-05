@@ -3,31 +3,25 @@
     <!-- 查詢條件卡片 -->
     <a-card :bordered="false" class="filter-card">
       <template #title>
-        <span class="card-title">{{ t('nodeHeightAnalysis.dataQuery') }}</span>
+        <span class="card-title">{{ t('nodeHeight.title') }}</span>
       </template>
       <a-form :model="searchForm" class="query-form">
         <div class="form-row">
           <div class="form-item-lg">
-            <date-range-select
-              v-model="searchForm.dateRange"
-              :style="{ width: '100%' }"
-            />
+            <date-range-select v-model="searchForm.dateRange" />
           </div>
           <div class="form-item-md">
-            <chain-type-select
-              v-model="searchForm.chainType"
-              @change="handleChainTypeChange"
-            />
+            <chain-type-select v-model="searchForm.chainType" />
           </div>
-          <div class="form-item-sm">
-            <div class="button-group">
+          <div class="form-item-sm button-group">
+            <a-space>
               <a-button type="primary" @click="handleSearch">
-                {{ t('common.search') }}
+                {{ t('common.action.search') }}
               </a-button>
-              <a-button style="margin-left: 8px" @click="handleReset">
-                {{ t('common.reset') }}
+              <a-button @click="handleReset">
+                {{ t('common.action.reset') }}
               </a-button>
-            </div>
+            </a-space>
           </div>
         </div>
       </a-form>
@@ -36,309 +30,151 @@
     <!-- 圖表卡片 -->
     <a-card :bordered="false" class="chart-card">
       <template #title>
-        <span class="card-title">{{ t('nodeHeightAnalysis.heightDifferenceAnalysis') }}</span>
+        <span class="card-title">{{ t('nodeHeight.chart.title', { days: 7 }) }}</span>
       </template>
-      <div class="chart-container" ref="chartContainer"></div>
+      <div class="chart-container">
+        <a-spin :spinning="loading">
+          <div ref="chartRef" style="width: 100%; height: 400px"></div>
+        </a-spin>
+      </div>
     </a-card>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, onMounted, reactive } from 'vue'
 import { useI18n } from 'vue-i18n'
-import type { DefineLocaleMessage } from 'vue-i18n'
-import { Line } from '@antv/g2plot'
+import * as echarts from 'echarts'
 import DateRangeSelect from '@/components/selectors/DateRangeSelect.vue'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
-import dayjs from 'dayjs'
-import zhLocale from '@/locales/views/report/NodeHeightAnalysis/zh.json'
-import enLocale from '@/locales/views/report/NodeHeightAnalysis/en.json'
+import zhLocale from '@/locales/report/NodeHeightAnalysis/zh.json'
+import enLocale from '@/locales/report/NodeHeightAnalysis/en.json'
 import commonZhLocale from '@/locales/common/zh.json'
 import commonEnLocale from '@/locales/common/en.json'
-import dateRangeZhLocale from '@/locales/components/DateRangeSelect/zh.json'
-import dateRangeEnLocale from '@/locales/components/DateRangeSelect/en.json'
-import { message } from 'ant-design-vue'
 
-// 定義必要的介面
-interface ChartData {
-  time: string
-  value: number
-  label: string
-}
-
-interface SearchForm {
-  dateRange: [string, string]
-  chainType: string
-}
-
-// 統一的消息格式
-const messages: { [key: string]: DefineLocaleMessage } = {
+const messages = {
   zh: {
-    ...zhLocale,
-    ...commonZhLocale,
-    ...dateRangeZhLocale
+    nodeHeight: zhLocale.nodeHeight,
+    common: {
+      action: {
+        search: '搜索',
+        reset: '重置'
+      }
+    }
   },
   en: {
-    ...enLocale,
-    ...commonEnLocale,
-    ...dateRangeEnLocale
+    nodeHeight: enLocale.nodeHeight,
+    common: {
+      action: {
+        search: 'Search',
+        reset: 'Reset'
+      }
+    }
   }
 }
 
 const { t } = useI18n({
   messages,
-  legacy: false
+  legacy: false,
+  useScope: 'local'
 })
 
-const searchForm = ref<SearchForm>({
-  dateRange: [dayjs().subtract(7, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
-  chainType: 'BTC'
+const searchForm = reactive({
+  dateRange: [],
+  chainType: undefined
 })
 
-const chartContainer = ref<HTMLElement | null>(null)
-let chart: Line | null = null
+const loading = ref(false)
+const chartRef = ref<HTMLElement | null>(null)
+let chart: echarts.ECharts | null = null
 
-// 計算日期區間天數
-const daysDifference = computed(() => {
-  if (!searchForm.value.dateRange || searchForm.value.dateRange.length !== 2) {
-    return 0
-  }
-  const start = dayjs(searchForm.value.dateRange[0])
-  const end = dayjs(searchForm.value.dateRange[1])
-  return end.diff(start, 'day')
-})
-
-// 生成模擬數據
-const generateMockData = (): ChartData[] => {
-  const days = daysDifference.value
-  const data: ChartData[] = []
-  let interval = '1h'
-  let labelInterval = 1
-  
-  if (days <= 2) {
-    interval = '1h'
-    labelInterval = 24  // 每24小時顯示一個標籤
-  } else if (days <= 7) {
-    interval = '6h'
-    labelInterval = 4  // 每24小時顯示一個標籤
-  } else {
-    interval = '1d'
-    labelInterval = 1  // 每24小時顯示一個標籤
-  }
-
-  const start = new Date(searchForm.value.dateRange[0])
-  const end = new Date(searchForm.value.dateRange[1])
-  let current = start
-  let count = 0
-
-  while (current <= end) {
-    const time = current.toISOString().slice(0, 16).replace('T', ' ')
-    const showLabel = current.getUTCHours() === 0 && current.getUTCMinutes() === 0
-    
+// Mock 數據生成函數
+const generateMockData = () => {
+  const now = new Date()
+  const data = []
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(now)
+    date.setDate(date.getDate() - i)
     data.push({
-      time,
-      value: Math.floor(Math.random() * 100),
-      label: showLabel ? time : ''
+      date: date.toISOString().split('T')[0],
+      value: Math.floor(Math.random() * 100) + 50
     })
-
-    switch (interval) {
-      case '1h':
-        current.setUTCHours(current.getUTCHours() + 1)
-        break
-      case '6h':
-        current.setUTCHours(current.getUTCHours() + 6)
-        break
-      case '1d':
-        current.setUTCDate(current.getUTCDate() + 1)
-        break
-    }
-    count++
   }
-
   return data
 }
 
-const updateChart = () => {
-  const data = generateMockData()
-  const chainName = searchForm.value.chainType || 'All'
-
-  const config: any = {
-    data,
-    autoFit: true,
-    height: 400,
-    canvas: {
-      supportCSSTransform: true,
-      eventOptions: {
-        passive: true
-      }
-    },
-    interactions: ['tooltip', 'element-active'],
-    theme: {
-      defaultColor: '#1890ff'
-    },
-    padding: [20, 30, 80, 50],
-    xField: 'time',
-    yField: 'value',
-    smooth: true,
-    appendPadding: [20, 0, 0, 0],
-    lineStyle: {
-      lineWidth: 2
+const initChart = () => {
+  if (!chartRef.value) return
+  
+  chart = echarts.init(chartRef.value)
+  const mockData = generateMockData()
+  
+  const option = {
+    tooltip: {
+      trigger: 'axis'
     },
     xAxis: {
-      tickCount: 5,
-      type: 'time',
-      animate: false,
-      label: {
-        formatter: (v: string) => dayjs(v).format('MM-DD'),
-        style: {
-          fill: '#fff',
-          fontSize: 12
-        },
-        autoRotate: true
+      type: 'category',
+      data: mockData.map(item => item.date),
+      axisLabel: {
+        rotate: 45
       }
     },
     yAxis: {
-      title: {
-        text: '差異值',
-        style: {
-          fill: '#fff'
-        }
-      },
-      animate: false,
-      grid: {
-        line: {
-          style: {
-            stroke: '#303030',
-            lineWidth: 1,
-            lineDash: [4, 4]
-          }
-        }
-      }
+      type: 'value',
+      name: t('nodeHeight.chart.yAxisName')
     },
-    tooltip: {
-      shared: true,
-      showNow: false,
-      crosshairs: {
-        line: {
-          style: {
-            stroke: '#303030'
-          }
-        }
+    series: [{
+      data: mockData.map(item => item.value),
+      type: 'line',
+      smooth: true,
+      areaStyle: {
+        opacity: 0.3
       }
-    },
-    meta: {
-      time: {
-        type: 'time',
-        mask: 'MM-DD',
-        tickCount: 5
-      }
-    },
-    animation: false
+    }],
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '15%',
+      containLabel: true
+    }
   }
-
-  if (chart) {
-    chart.destroy()
-  }
-
-  if (chartContainer.value) {
-    chart = new Line(chartContainer.value, config)
-    chart.render()
-  }
-}
-
-// 事件處理
-const handleDateRangeChange = () => {
-  updateChart()
-}
-
-const handleChainTypeChange = () => {
-  updateChart()
+  
+  chart.setOption(option)
 }
 
 const handleSearch = () => {
-  if (!searchForm.value.dateRange || searchForm.value.dateRange.length !== 2) {
-    message.warning(t('nodeHeightAnalysis.pleaseSelectDateRange'))
-    return
-  }
-  if (!searchForm.value.chainType) {
-    message.warning(t('nodeHeightAnalysis.pleaseSelectChainType'))
-    return
-  }
-  updateChart()
+  loading.value = true
+  setTimeout(() => {
+    initChart()
+    loading.value = false
+  }, 500)
 }
 
 const handleReset = () => {
-  searchForm.value = {
-    dateRange: [dayjs().subtract(7, 'day').format('YYYY-MM-DD'), dayjs().format('YYYY-MM-DD')],
-    chainType: 'BTC'
-  }
-  updateChart()
+  searchForm.dateRange = []
+  searchForm.chainType = undefined
 }
 
 onMounted(() => {
-  handleSearch()
+  initChart()
+  window.addEventListener('resize', () => chart?.resize())
 })
 
-// 監聽表單變化
-watch([() => searchForm.value.dateRange, () => searchForm.value.chainType], () => {
-  updateChart()
-})
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .node-height-analysis {
   padding: 24px;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
 }
 
 .filter-card {
   margin-bottom: 24px;
   background: #141414;
-  flex-shrink: 0;
 }
 
 .chart-card {
   background: #141414;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-:deep(.ant-card-body) {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-row {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 16px;
-  width: 100%;
-}
-
-:deep(.ant-form-item) {
-  margin-bottom: 0;
-  width: 100%;
-}
-
-.form-item-lg { flex: 2; min-width: 0; }
-.form-item-md { flex: 1.5; min-width: 0; }
-.form-item-sm { flex: 1; min-width: 0; }
-
-.button-group {
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
-}
-
-.chart-container {
-  flex: 1;
-  min-height: 400px;
-  touch-action: pan-y pinch-zoom;
-  -webkit-overflow-scrolling: touch;
 }
 
 :deep(.ant-card) {
@@ -358,15 +194,34 @@ watch([() => searchForm.value.dateRange, () => searchForm.value.chainType], () =
   padding: 12px 0;
 }
 
-:deep(.g2-tooltip) {
-  touch-action: pan-y pinch-zoom;
+:deep(.ant-card-body) {
+  background-color: #141414;
+  padding: 20px 24px;
 }
 
-:deep(.g2) {
-  touch-action: pan-y pinch-zoom;
+.chart-container {
+  width: 100%;
+  min-height: 400px;
 }
 
-:deep(canvas) {
-  touch-action: pan-y pinch-zoom;
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  width: 100%;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.form-item-lg { flex: 2; min-width: 0; }
+.form-item-md { flex: 1.5; min-width: 0; }
+.form-item-sm { flex: 1; min-width: 0; }
+
+.button-group {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
 }
 </style> 
