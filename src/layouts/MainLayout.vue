@@ -194,6 +194,10 @@
               <ShopOutlined />
               {{ t('nav.merchantManagement') }}
             </a-menu-item>
+            <a-menu-item key="systemParams" @click="router.push('/system/params')">
+              <SettingOutlined />
+              {{ t('nav.systemParams') }}
+            </a-menu-item>
           </a-sub-menu>
         </a-menu>
       </a-layout-sider>
@@ -255,6 +259,8 @@ const pathMap: PathMap = {
   '/wallet/token-exchange': 'tokenExchange',
   '/system/users': 'users',
   '/system/roles': 'roles',
+  '/system/merchants': 'merchants',
+  '/system/params': 'systemParams',
   '/order/deposit': 'depositOrder',
   '/order/withdraw': 'withdrawOrder',
   '/order/transfer': 'transferOrder',
@@ -373,7 +379,8 @@ const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
   riskAddress: t('nav.riskAddressManagement'),
   users: t('nav.userManagement'),
   roles: t('nav.roleManagement'),
-  merchants: t('nav.merchantManagement')
+  merchants: t('nav.merchantManagement'),
+  systemParams: t('nav.systemParams')
 }))
 
 // 添加一個變量來記錄上一個路徑

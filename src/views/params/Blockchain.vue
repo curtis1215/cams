@@ -93,7 +93,6 @@
                 v-model:value="formData.servicePath"
                 :placeholder="t('prompt.inputServicePath')"
                 :disabled="true"
-                :value="'cryp-' + formData.chainCode"
               />
             </a-form-item>
 
@@ -205,14 +204,17 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, onMounted, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { PlusOutlined, EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
+import type { TablePaginationConfig } from 'ant-design-vue'
+import type { FormInstance } from 'ant-design-vue/es/form'
 import ChainTypeSelect from '@/components/selectors/ChainTypeSelect.vue'
 import zhLocale from '@/locales/params/Blockchain/zh.json'
 import enLocale from '@/locales/params/Blockchain/en.json'
+import type { BlockchainRecord, BlockchainFormData, BlockchainNode, TableChangeParams } from '@/types/blockchain'
 
 const messages = {
   zh: zhLocale,
@@ -226,7 +228,7 @@ const { t } = useI18n({
 
 // 查詢參數
 const queryParams = ref({
-  chainType: undefined
+  chainType: undefined as string | undefined
 })
 
 // 表格列配置
@@ -248,6 +250,15 @@ const columns = [
     dataIndex: 'servicePath',
     key: 'servicePath',
     width: 200
+  },
+  {
+    title: t('field.isEvm'),
+    dataIndex: 'isEvm',
+    key: 'isEvm',
+    width: 100,
+    customRender: ({ text }: { text: boolean }) => {
+      return text ? '✓' : ''
+    }
   },
   {
     title: t('field.confirmBlocks'),
@@ -300,7 +311,7 @@ const nodeColumns = [
     dataIndex: 'isCurrentUsing',
     key: 'isCurrentUsing',
     width: 100,
-    customRender: ({ text }) => {
+    customRender: ({ text }: { text: boolean }) => {
       return text ? '✓' : ''
     }
   },
@@ -312,26 +323,28 @@ const nodeColumns = [
 ]
 
 // 表格數據
-const tableData = ref([])
-const pagination = reactive({
+const tableData = ref<BlockchainRecord[]>([])
+
+// 分頁配置
+const pagination = reactive<TablePaginationConfig>({
   current: 1,
   pageSize: 10,
   total: 0,
   showSizeChanger: true,
   showQuickJumper: true,
-  showTotal: (total) => t('common.pagination.total', { total })
+  showTotal: (total: number) => t('common.pagination.total', { total })
 })
 
 // 彈窗相關
 const modalVisible = ref(false)
 const modalTitle = ref('')
 const confirmLoading = ref(false)
-const formRef = ref(null)
+const formRef = ref<FormInstance | null>(null)
 const isEdit = ref(false)
 const activeTabKey = ref(1)
 
 // 表單數據
-const formData = reactive({
+const formData = reactive<BlockchainFormData>({
   chainName: '',
   chainCode: '',
   servicePath: '',
@@ -354,7 +367,7 @@ const formRules = {
   expectedTime: [{ required: true, message: t('prompt.inputExpectedTime') }],
   nodes: [{ 
     required: true, 
-    validator: (_, value) => {
+    validator: (_: any, value: BlockchainNode[]) => {
       if (!value || value.length === 0) {
         return Promise.reject(new Error(t('prompt.inputNodeUrl')))
       }
@@ -372,7 +385,10 @@ const formRules = {
 const loadData = async () => {
   try {
     const mockData = (await import('@/mock/params/Blockchain/list.mock.json')).default
-    tableData.value = mockData.list
+    tableData.value = mockData.list.map((item: any) => ({
+      ...item,
+      isEvm: item.isEvm || false // 確保有 isEvm 欄位
+    }))
     pagination.total = mockData.total
   } catch (error) {
     console.error('Load data failed:', error)
@@ -387,9 +403,13 @@ const handleSearch = () => {
 }
 
 // 處理表格變更
-const handleTableChange = (pag, filters, sorter) => {
-  pagination.current = pag.current
-  pagination.pageSize = pag.pageSize
+const handleTableChange = (
+  pag: TablePaginationConfig,
+  filters: Record<string, (string | number)[] | null>,
+  sorter: any
+) => {
+  pagination.current = pag.current || 1
+  pagination.pageSize = pag.pageSize || 10
   loadData()
 }
 
@@ -397,46 +417,51 @@ const handleTableChange = (pag, filters, sorter) => {
 const handleAdd = () => {
   isEdit.value = false
   modalTitle.value = t('title.addBlockchain')
-  Object.keys(formData).forEach(key => {
-    formData[key] = key === 'nodes' ? [] : undefined
+  Object.assign(formData, {
+    chainName: '',
+    chainCode: '',
+    servicePath: '',
+    confirmBlocks: undefined,
+    unlockBlocks: undefined,
+    explorer: '',
+    isEvm: false,
+    expectedTime: undefined,
+    addressRegex: '',
+    nodes: []
   })
   modalVisible.value = true
-  activeTabKey.value = 1 // 重置為第一個分頁
+  activeTabKey.value = 1
 }
 
 // 處理編輯
-const handleEdit = (record) => {
+const handleEdit = (record: BlockchainRecord) => {
   isEdit.value = true
   modalTitle.value = t('title.editBlockchain')
-  Object.keys(formData).forEach(key => {
-    formData[key] = record[key]
-  })
-  // 確保節點數據是數組
-  if (!formData.nodes) {
-    formData.nodes = []
-  }
+  Object.assign(formData, record)
   modalVisible.value = true
-  activeTabKey.value = 1 // 重置為第一個分頁
+  activeTabKey.value = 1
 }
 
 // 處理刪除
-const handleDelete = (record) => {
+const handleDelete = (record: BlockchainRecord) => {
   console.log('Delete clicked:', record)
 }
 
 // 處理彈窗確認
 const handleModalConfirm = async () => {
   try {
-    await formRef.value.validate()
-    confirmLoading.value = true
-    // 這裡處理表單提交邏輯
-    console.log('Form data:', formData)
-    setTimeout(() => {
-      modalVisible.value = false
-      confirmLoading.value = false
-      message.success(isEdit.value ? t('message.editSuccess') : t('message.addSuccess'))
-      loadData()
-    }, 1000)
+    if (formRef.value) {
+      await formRef.value.validate()
+      confirmLoading.value = true
+      // 這裡處理表單提交邏輯
+      console.log('Form data:', formData)
+      setTimeout(() => {
+        modalVisible.value = false
+        confirmLoading.value = false
+        message.success(isEdit.value ? t('message.editSuccess') : t('message.addSuccess'))
+        loadData()
+      }, 1000)
+    }
   } catch (error) {
     console.error('Validation failed:', error)
   }
@@ -445,7 +470,9 @@ const handleModalConfirm = async () => {
 // 處理彈窗取消
 const handleModalCancel = () => {
   modalVisible.value = false
-  formRef.value?.resetFields()
+  if (formRef.value) {
+    formRef.value.resetFields()
+  }
 }
 
 // 監聽 chainCode 變化，自動更新 servicePath
@@ -470,38 +497,33 @@ const handleAddNode = () => {
 }
 
 // 處理刪除節點
-const handleDeleteNode = (index) => {
+const handleDeleteNode = (index: number) => {
   formData.nodes.splice(index, 1)
-  // 重新排序優先順序
-  formData.nodes.forEach((node, idx) => {
-    node.priority = idx + 1
-  })
-  // 如果刪除的是當前使用的節點，將第一個節點設為當前使用
-  if (!formData.nodes.some(node => node.isCurrentUsing) && formData.nodes.length > 0) {
-    formData.nodes[0].isCurrentUsing = true
-  }
 }
 
 // 處理當前使用節點變更
-const handleCurrentUsingChange = (record, index) => {
-  if (record.isCurrentUsing) {
-    // 將其他節點設為非當前使用
-    formData.nodes.forEach((node, idx) => {
-      if (idx !== index) {
-        node.isCurrentUsing = false
-      }
-    })
-  } else {
-    // 如果取消當前使用的節點，將第一個節點設為當前使用
-    if (!formData.nodes.some(node => node.isCurrentUsing)) {
-      formData.nodes[0].isCurrentUsing = true
+const handleCurrentUsingChange = (record: BlockchainNode, index: number) => {
+  formData.nodes.forEach((node, i) => {
+    if (i !== index) {
+      node.isCurrentUsing = false
     }
-  }
+  })
+}
+
+// 處理 ResizeObserver 錯誤
+const handleResizeObserverError = () => {
+  window.addEventListener('error', (e) => {
+    if (e.message === 'ResizeObserver loop completed with undelivered notifications.') {
+      const resizeObserverErr = e as ErrorEvent
+      resizeObserverErr.stopImmediatePropagation()
+    }
+  })
 }
 
 // 初始化加載數據
 onMounted(() => {
   loadData()
+  handleResizeObserverError()
 })
 </script>
 

@@ -4,6 +4,7 @@ import Login from '../views/Login.vue'
 import Dashboard from '../views/monitor/Dashboard.vue'
 import Alert from '../views/monitor/Alert.vue'
 import PRDDoc from '../views/PRDDoc.vue'
+import SystemParams from '@/views/system/SystemParams.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -148,6 +149,15 @@ const routes: RouteRecordRaw[] = [
         component: PRDDoc,
         meta: {
           requiresAuth: true
+        }
+      },
+      {
+        path: '/system/params',
+        name: 'SystemParams',
+        component: SystemParams,
+        meta: {
+          requiresAuth: true,
+          title: '系統參數'
         }
       }
     ]

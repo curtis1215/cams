@@ -5,6 +5,10 @@
     "addBlockchain": "Add Blockchain",
     "editBlockchain": "Edit Blockchain"
   },
+  "tabs": {
+    "blockchainInfo": "Blockchain Info",
+    "nodeManagement": "Node Management"
+  },
   "field": {
     "chainType": "Chain Type",
     "chainCode": "Chain Code",
@@ -16,7 +20,10 @@
     "lastUpdateTime": "Last Update Time",
     "expectedTime": "Expected Transfer Time",
     "isEvm": "Is EVM",
-    "addressRegex": "Address Regex"
+    "addressRegex": "Address Regex",
+    "nodeUrl": "Node URL",
+    "priority": "Priority",
+    "isCurrentUsing": "Current Using"
   },
   "action": {
     "add": "Add",
@@ -25,7 +32,8 @@
     "action": "Action",
     "search": "Search",
     "confirm": "Confirm",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "addNode": "Add Node"
   },
   "prompt": {
     "selectChainType": "Please select chain type",
@@ -37,12 +45,24 @@
     "inputExplorer": "Please input block explorer URL",
     "inputExpectedTime": "Please input expected transfer time",
     "inputAddressRegex": "Please input address regex",
+    "inputNodeUrl": "Please input node URL",
+    "inputPriority": "Please input priority",
     "minuteUnit": "minutes"
   },
   "description": {
-    "expectedTime": "An alert will be triggered if the transfer exceeds this time",
-    "addressRegex": "Withdrawal requests will be rejected if the address does not match the regex pattern",
-    "explorer": "Please add {hash} where the txhash value should be placed in the URL"
+    "expectedTime": "An alert will be triggered if the transfer time exceeds this value",
+    "addressRegex": "Withdrawal requests with addresses not matching the regex will be rejected",
+    "explorer": "Please add {hash} where the txhash value should be in the URL",
+    "nodeUrl": "Please input complete node URL including protocol and port",
+    "priority": "Lower number means higher priority"
+  },
+  "message": {
+    "addSuccess": "Added successfully",
+    "editSuccess": "Edited successfully",
+    "deleteSuccess": "Deleted successfully",
+    "deleteConfirm": "Are you sure you want to delete?",
+    "operationSuccess": "Operation successful",
+    "operationFailed": "Operation failed"
   },
   "common": {
     "pagination": {

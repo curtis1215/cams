@@ -56,6 +56,14 @@
     "nodeUrl": "請輸入完整的節點URL，包含協議和端口",
     "priority": "數字越小優先順序越高"
   },
+  "message": {
+    "addSuccess": "新增成功",
+    "editSuccess": "編輯成功",
+    "deleteSuccess": "刪除成功",
+    "deleteConfirm": "確定要刪除嗎？",
+    "operationSuccess": "操作成功",
+    "operationFailed": "操作失敗"
+  },
   "common": {
     "pagination": {
       "total": "共 {total} 條"
