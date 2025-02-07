@@ -18,7 +18,7 @@
     "transferId": "轉帳單號",
     "fromWallet": "來源錢包",
     "toWallet": "目標錢包",
-    "transferAmount": "轉帳金額",
+    "transferAmount": "轉帳數量",
     "timeInfo": "時間信息",
     "action": "操作"
   },

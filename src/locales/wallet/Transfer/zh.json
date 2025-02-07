@@ -18,8 +18,8 @@
     "toWalletId": "轉入錢包ID",
     "toChainType": "轉入鏈類型",
     "toCurrency": "轉入幣種",
-    "transferAmount": "轉帳金額",
-    "maxAmount": "最大金額",
+    "transferAmount": "轉帳數量",
+    "maxAmount": "最大數量",
     "auditOperation": "審核操作",
     "auditReason": "審核原因",
     "merchant": "商戶",
@@ -34,8 +34,8 @@
   },
   "balance": {
     "current": "當前餘額",
-    "availableOutflow": "可轉出餘額",
-    "availableInflow": "可轉入餘額"
+    "availableOutflow": "可轉出數量",
+    "availableInflow": "可轉入數量"
   },
   "transferStatus": {
     "label": "轉帳狀態",
@@ -47,7 +47,7 @@
   },
   "prompt": {
     "pleaseSelectFromAndToWallet": "請選擇轉出和轉入錢包",
-    "pleaseInputTransferAmount": "請輸入轉帳金額",
+    "pleaseInputTransferAmount": "請輸入轉帳數量",
     "confirmTransfer": "確認轉帳",
     "transferRequestSubmitted": "轉帳申請已提交",
     "transferFailed": "轉帳失敗",

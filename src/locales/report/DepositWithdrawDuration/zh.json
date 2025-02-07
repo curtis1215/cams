@@ -24,7 +24,7 @@
   "table": {
     "chainType": "鏈類型",
     "transactionCount": "交易筆數",
-    "transactionAmount": "交易數額",
+    "transactionAmount": "交易數量",
     "averageProcessTime": "平均處理時間",
     "currency": "幣種",
     "action": "操作"

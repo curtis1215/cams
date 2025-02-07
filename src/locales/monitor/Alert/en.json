@@ -21,7 +21,8 @@
     "walletAbnormal": "Wallet Abnormal Alert Settings",
     "riskAction": "Risk Address Action",
     "walletBalance": "Wallet Balance Alert Settings",
-    "dangerLevelMustBeLower": "Danger level must be lower than warning level"
+    "dangerLevelMustBeLower": "Danger level must be lower than warning level",
+    "operationRecord": "Operation Record"
   },
   "threshold": {
     "deposit": "Large Deposit Threshold",
@@ -60,7 +61,9 @@
     "action": "Action",
     "reason": "Reason",
     "fromAddress": "From Address",
-    "toAddress": "To Address"
+    "toAddress": "To Address",
+    "operator": "Operator",
+    "confirmReason": "Confirm Reason"
   },
   "reason": {
     "serviceHeightBehind": "Service Height Behind",
@@ -113,12 +116,19 @@
     "unlockWallet": "Unlock Wallet",
     "lockWallet": "Lock Wallet",
     "approve": "Approve",
-    "lock": "Lock"
+    "lock": "Lock",
+    "search": "Search",
+    "operationRecord": "Operation Record"
   },
   "field": {
-    "reason": "Reason"
+    "reason": "Reason",
+    "merchant": "Merchant",
+    "orderId": "Order ID",
+    "operator": "Operator"
   },
   "prompt": {
-    "pleaseInputConfirmReason": "Please input confirmation reason..."
+    "pleaseInputConfirmReason": "Please input confirmation reason...",
+    "inputOrderId": "Please input order ID",
+    "inputOperator": "Please input operator"
   }
 } 

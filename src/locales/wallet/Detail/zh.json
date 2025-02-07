@@ -27,7 +27,7 @@
     "coin": "幣種",
     "holdingCost": "持有成本",
     "holdingCostPrice": "持有成本單價",
-    "assetValue": "資產價值",
+    "assetValue": "資產價值(USDT)",
     "lastTransactionTime": "最後交易時間",
     "storageLimit": "儲存限額"
   },

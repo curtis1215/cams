@@ -14,7 +14,7 @@
     "status": "狀態",
     "detailId": "詳情 ID",
     "feeCurrency": "手續費幣種",
-    "feeAmount": "手續費金額",
+    "feeAmount": "手續費數量",
     "onChainTime": "上鏈時間",
     "confirmTime": "確認時間"
   },

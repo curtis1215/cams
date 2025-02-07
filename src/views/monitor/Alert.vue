@@ -104,10 +104,16 @@
       <template #title>
         <div class="card-header">
           <span class="card-title">{{ t('card.largeAmount') }}</span>
-          <a-button type="primary" size="small" @click="showSettingModal">
-            <template #icon><SettingOutlined /></template>
-            {{ t('settings') }}
-          </a-button>
+          <div class="header-actions">
+            <a-button type="primary" size="small" @click="showOperationRecordModal">
+              <template #icon><HistoryOutlined /></template>
+              {{ t('action.operationRecord') }}
+            </a-button>
+            <a-button type="primary" size="small" @click="showSettingModal">
+              <template #icon><SettingOutlined /></template>
+              {{ t('settings') }}
+            </a-button>
+          </div>
         </div>
       </template>
 
@@ -508,6 +514,54 @@
         </a-form-item>
       </a-form>
     </a-modal>
+
+    <!-- 操作記錄彈窗 -->
+    <a-modal
+      v-model:open="operationRecordModalVisible"
+      :title="t('modal.operationRecord')"
+      :width="1000"
+      :footer="null"
+    >
+      <!-- 查詢表單 -->
+      <a-form layout="inline" :model="operationRecordQuery" class="search-form">
+        <a-form-item :label="t('field.merchant')">
+          <merchant-select
+            v-model="operationRecordQuery.merchant"
+            :style="{ width: '200px' }"
+          />
+        </a-form-item>
+        <a-form-item :label="t('field.orderId')">
+          <a-input
+            v-model:value="operationRecordQuery.orderId"
+            :placeholder="t('prompt.inputOrderId')"
+            :style="{ width: '200px' }"
+          />
+        </a-form-item>
+        <a-form-item :label="t('field.operator')">
+          <a-input
+            v-model:value="operationRecordQuery.operator"
+            :placeholder="t('prompt.inputOperator')"
+            :style="{ width: '200px' }"
+          />
+        </a-form-item>
+        <a-form-item>
+          <a-button type="primary" @click="handleOperationRecordSearch">
+            <template #icon><SearchOutlined /></template>
+            {{ t('action.search') }}
+          </a-button>
+        </a-form-item>
+      </a-form>
+
+      <!-- 表格 -->
+      <a-table
+        :columns="operationRecordColumns"
+        :data-source="operationRecordData"
+        :pagination="operationRecordPagination"
+        :loading="operationRecordLoading"
+        @change="handleOperationRecordTableChange"
+        :scroll="{ x: 1200 }"
+      />
+    </a-modal>
   </div>
 </template>
 
@@ -518,13 +572,17 @@ import {
   SettingOutlined, 
   DeleteOutlined, 
   PlusOutlined,
-  CopyOutlined 
+  CopyOutlined,
+  HistoryOutlined,
+  SearchOutlined
 } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import mockData from '@/mock/monitor/Alert/alert.mock.json'
 import zhLocale from '@/locales/monitor/Alert/zh.json'
 import enLocale from '@/locales/monitor/Alert/en.json'
 import { useRouter } from 'vue-router'
+import MerchantSelect from '@/components/selectors/MerchantSelect.vue'
+import { TablePaginationConfig } from 'ant-design-vue'
 
 interface AlertRecord {
   id: string
@@ -537,6 +595,8 @@ interface AlertRecord {
   amount?: number
   duration?: number
   remainingLevel?: number
+  confirmReason?: string
+  operator?: string
   [key: string]: any
 }
 
@@ -548,6 +608,19 @@ interface WalletBalanceSettings {
 interface WalletAbnormalSettings {
   failureCount: number
   confirmationTimeout: number
+}
+
+// 定義操作記錄數據類型
+interface OperationRecord {
+  id: number
+  merchant: string
+  orderId: string
+  chain: string
+  coin: string
+  amount: string
+  confirmReason: string
+  operator: string
+  operateTime: string
 }
 
 const messages = {
@@ -1142,6 +1215,111 @@ const handleWalletBalanceSettingSave = () => {
   message.success(t('message.settingsSaved'))
   walletBalanceSettingModalVisible.value = false
 }
+
+// 操作記錄相關數據
+const operationRecordModalVisible = ref(false)
+const operationRecordQuery = ref({
+  merchant: undefined,
+  orderId: '',
+  operator: ''
+})
+
+const operationRecordData = ref<OperationRecord[]>([])
+const operationRecordLoading = ref(false)
+const operationRecordPagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0,
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total: number) => t('pagination.total', { total })
+})
+
+const operationRecordColumns = [
+  {
+    title: t('column.merchant'),
+    dataIndex: 'merchant',
+    key: 'merchant',
+    width: 120
+  },
+  {
+    title: t('column.orderId'),
+    dataIndex: 'orderId',
+    key: 'orderId',
+    width: 150
+  },
+  {
+    title: t('column.chain'),
+    dataIndex: 'chain',
+    key: 'chain',
+    width: 100
+  },
+  {
+    title: t('column.coin'),
+    dataIndex: 'coin',
+    key: 'coin',
+    width: 100
+  },
+  {
+    title: t('column.amount'),
+    dataIndex: 'amount',
+    key: 'amount',
+    width: 120
+  },
+  {
+    title: t('column.confirmReason'),
+    dataIndex: 'confirmReason',
+    key: 'confirmReason',
+    width: 200
+  },
+  {
+    title: t('column.operator'),
+    dataIndex: 'operator',
+    key: 'operator',
+    width: 120
+  },
+  {
+    title: t('column.time'),
+    dataIndex: 'operateTime',
+    key: 'operateTime',
+    width: 180
+  }
+]
+
+// 加載操作記錄數據
+const loadOperationRecordData = async () => {
+  try {
+    operationRecordLoading.value = true
+    // 導入 mock 數據
+    const mockData = (await import('@/mock/monitor/Alert/operationRecord.mock.json')).default
+    operationRecordData.value = mockData.list
+    operationRecordPagination.total = mockData.total
+  } catch (error) {
+    console.error('Load operation record data failed:', error)
+  } finally {
+    operationRecordLoading.value = false
+  }
+}
+
+// 處理操作記錄查詢
+const handleOperationRecordSearch = () => {
+  operationRecordPagination.current = 1
+  loadOperationRecordData()
+}
+
+// 處理操作記錄表格變更
+const handleOperationRecordTableChange = (pag: TablePaginationConfig) => {
+  operationRecordPagination.current = pag.current || 1
+  operationRecordPagination.pageSize = pag.pageSize || 10
+  loadOperationRecordData()
+}
+
+// 顯示操作記錄彈窗
+const showOperationRecordModal = () => {
+  operationRecordModalVisible.value = true
+  loadOperationRecordData()
+}
+
 </script>
 
 <style scoped>
@@ -1352,5 +1530,18 @@ const handleWalletBalanceSettingSave = () => {
 
 :deep(.ant-pagination-total-text) {
   color: rgba(255, 255, 255, 0.45);
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.operation-record-filter {
+  margin-bottom: 16px;
+}
+
+.operation-record-table {
+  margin-top: 16px;
 }
 </style>

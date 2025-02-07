@@ -14,14 +14,15 @@
     "largeAmount": "大額交易告警設置",
     "withdrawDuration": "提幣時長設置",
     "nodeHeight": "節點高度告警設置",
-    "confirm": "確認原因",
+    "confirm": "確認",
     "walletAction": "錢包操作",
-    "actionReason": "操作事由",
-    "pleaseInputActionReason": "請輸入操作事由",
+    "actionReason": "操作原因",
+    "pleaseInputActionReason": "請輸入操作原因",
     "walletAbnormal": "錢包異常告警設置",
     "riskAction": "風險地址操作",
     "walletBalance": "錢包水位告警設置",
-    "dangerLevelMustBeLower": "危險水位必須低於警告水位"
+    "dangerLevelMustBeLower": "危險水位必須低於警告水位",
+    "operationRecord": "操作記錄"
   },
   "threshold": {
     "deposit": "大額存款閾值",
@@ -38,7 +39,7 @@
     "merchant": "商戶",
     "orderId": "訂單編號",
     "userId": "用戶ID",
-    "amount": "金額",
+    "amount": "數量",
     "usdtValue": "USDT價值",
     "coin": "幣種",
     "duration": "時長",
@@ -60,7 +61,9 @@
     "action": "操作",
     "reason": "異常原因",
     "fromAddress": "來源地址",
-    "toAddress": "充值地址"
+    "toAddress": "充值地址",
+    "operator": "操作人",
+    "confirmReason": "確認事由"
   },
   "reason": {
     "serviceHeightBehind": "服務高度落後",
@@ -109,16 +112,23 @@
     "total": "共 {total} 筆"
   },
   "action": {
-    "confirm": "已確認",
+    "confirm": "確認",
     "unlockWallet": "解鎖錢包",
     "lockWallet": "鎖定錢包",
-    "approve": "放行",
-    "lock": "鎖定"
+    "approve": "通過",
+    "lock": "鎖定",
+    "search": "查詢",
+    "operationRecord": "操作記錄"
   },
   "field": {
-    "reason": "確認事由"
+    "reason": "確認事由",
+    "merchant": "商戶",
+    "orderId": "訂單編號",
+    "operator": "操作人"
   },
   "prompt": {
-    "pleaseInputConfirmReason": "請輸入確認事由..."
+    "pleaseInputConfirmReason": "請輸入確認事由...",
+    "inputOrderId": "請輸入訂單編號",
+    "inputOperator": "請輸入操作人"
   }
 } 
