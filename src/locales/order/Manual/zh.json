@@ -1,0 +1,42 @@
+{
+  "title": "手動訂單查詢",
+  "blockchainInfo": "區塊鏈資訊",
+  "blockHeight": "區塊高度",
+  "chainType": "鏈類型",
+  "queryResult": "查詢結果",
+  "pleaseInputBlockHeight": "請輸入區塊高度",
+  "pleaseSearchFirst": "請先進行查詢",
+  "noDataFound": "未找到數據",
+  "total": "共",
+  "items": "條記錄",
+  "selectChainType": "請選擇鏈類型",
+  "field": {
+    "blockHeight": "區塊高度",
+    "txHash": "交易哈希",
+    "fromAddress": "來源地址",
+    "toAddress": "目標地址",
+    "amount": "數量",
+    "fee": "手續費",
+    "timestamp": "時間戳",
+    "confirmations": "確認數",
+    "orderId": "明細單號",
+    "merchant": "商戶",
+    "status": "狀態",
+    "coinType": "幣種",
+    "createTime": "創建時間"
+  },
+  "action": {
+    "query": "查詢",
+    "reset": "重置",
+    "export": "導出數據",
+    "detail": "詳情",
+    "action": "操作"
+  },
+  "message": {
+    "querySuccess": "查詢成功",
+    "queryFailed": "查詢失敗",
+    "invalidBlockHeight": "無效的區塊高度",
+    "exportSuccess": "導出成功",
+    "exportFailed": "導出失敗"
+  }
+}

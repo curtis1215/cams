@@ -39,6 +39,8 @@
     "lightMode": "Light Mode",
     "walletId": "Wallet ID",
     "assetValue": "Asset Value",
+    "total": "Total",
+    "items": "Items",
     "status": {
       "label": "Status",
       "processing": "Processing",
@@ -158,6 +160,7 @@
     "transferOrderQuery": "Transfer Orders",
     "exchangeOrderQuery": "Exchange Orders",
     "transactionDetailQuery": "Transaction Details",
+    "manualOrderQuery": "Manual Order Query",
     "paramsManagement": "Parameters",
     "blockchainManagement": "Blockchain Management",
     "contractCoinManagement": "Contract Coin Management",
@@ -437,6 +440,12 @@
     "exchangeQuery": "Exchange Order Query",
     "exchangeList": "Exchange List",
     "exchangeId": "Exchange Order ID",
+    "id": "Order ID",
+    "type": "Order Type",
+    "status": "Order Status",
+    "amount": "Order Amount",
+    "time": "Order Time",
+    "detail": "Order Detail",
     "list": "Order List"
   },
 

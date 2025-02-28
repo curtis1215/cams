@@ -1,0 +1,42 @@
+{
+  "title": "Manual Order Query",
+  "blockchainInfo": "Blockchain Information",
+  "blockHeight": "Block Height",
+  "chainType": "Chain Type",
+  "queryResult": "Query Result",
+  "pleaseInputBlockHeight": "Please input block height",
+  "pleaseSearchFirst": "Please search first",
+  "noDataFound": "No data found",
+  "total": "Total",
+  "items": "items",
+  "selectChainType": "Please select chain type",
+  "field": {
+    "blockHeight": "Block Height",
+    "txHash": "Transaction Hash",
+    "fromAddress": "From Address",
+    "toAddress": "To Address",
+    "amount": "Amount",
+    "fee": "Fee",
+    "timestamp": "Timestamp",
+    "confirmations": "Confirmations",
+    "orderId": "Order ID",
+    "merchant": "Merchant",
+    "status": "Status",
+    "coinType": "Coin Type",
+    "createTime": "Create Time"
+  },
+  "action": {
+    "query": "Query",
+    "reset": "Reset",
+    "export": "Export Data",
+    "detail": "Detail",
+    "action": "Action"
+  },
+  "message": {
+    "querySuccess": "Query successful",
+    "queryFailed": "Query failed",
+    "invalidBlockHeight": "Invalid block height",
+    "exportSuccess": "Export successful",
+    "exportFailed": "Export failed"
+  }
+} 

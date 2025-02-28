@@ -27,6 +27,7 @@
     "transferOrderQuery": "Transfer Order Query",
     "exchangeOrderQuery": "Exchange Order Query",
     "transactionDetailQuery": "Transaction Detail Query",
+    "manualOrderQuery": "Manual Order Query",
     "reconciliation": "Reconciliation",
     "walletBalanceQuery": "Wallet Balance Query",
     "dataReport": "Data Report",
@@ -40,7 +41,8 @@
     "system": "System",
     "userManagement": "User Management",
     "roleManagement": "Role Management",
-    "merchantManagement": "Merchant Management"
+    "merchantManagement": "Merchant Management",
+    "systemParams": "System Parameters"
   },
   "language": {
     "english": "English",

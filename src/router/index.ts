@@ -117,6 +117,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/order/Exchange.vue')
       },
       {
+        path: 'order/manual',
+        name: 'ManualOrder',
+        component: () => import('../views/order/ManualOrder.vue'),
+        meta: {
+          title: 'nav.manualOrderQuery',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'report/deposit-withdraw-duration',
         name: 'DepositWithdrawDuration',
         component: () => import('../views/report/DepositWithdrawDuration.vue'),

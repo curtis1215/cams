@@ -122,6 +122,10 @@
               <TransactionOutlined />
               {{ t('nav.transactionDetailQuery') }}
             </a-menu-item>
+            <a-menu-item key="manualOrder" @click="router.push('/order/manual')">
+              <SearchOutlined />
+              {{ t('nav.manualOrderQuery') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="reconciliation">
             <template #title>
@@ -266,6 +270,7 @@ const pathMap: PathMap = {
   '/order/transfer': 'transferOrder',
   '/order/exchange': 'exchangeOrder',
   '/order/transaction': 'transactionDetail',
+  '/order/manual': 'manualOrder',
   '/params/blockchain': 'blockchain',
   '/params/contract-coin': 'contractCoin',
   '/reconciliation/wallet-balance': 'walletBalance',
@@ -370,6 +375,7 @@ const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
   transferOrder: t('nav.transferOrderQuery'),
   exchangeOrder: t('nav.exchangeOrderQuery'),
   transactionDetail: t('nav.transactionDetailQuery'),
+  manualOrder: t('nav.manualOrderQuery'),
   walletBalance: t('nav.walletBalanceQuery'),
   depositWithdrawDuration: t('nav.depositWithdrawDurationReport'),
   walletProfitLoss: t('nav.walletProfitLossQuery'),

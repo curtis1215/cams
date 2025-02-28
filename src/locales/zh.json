@@ -39,6 +39,8 @@
     "lightMode": "亮色模式",
     "walletId": "錢包ID",
     "assetValue": "資產價值",
+    "total": "總計",
+    "items": "項目",
     "field": {
       "allMerchants": "所有商戶",
       "transferAmount": "轉帳金額",
@@ -195,6 +197,7 @@
     "transferOrderQuery": "轉賬訂單查詢",
     "exchangeOrderQuery": "兌換訂單查詢",
     "transactionDetailQuery": "交易明細查詢",
+    "manualOrderQuery": "手動訂單查詢",
     "paramsManagement": "參數管理",
     "blockchainManagement": "區塊鏈管理",
     "contractCoinManagement": "合約幣種管理",
@@ -507,9 +510,14 @@
     "transferQuery": "轉賬訂單查詢",
     "exchangeQuery": "兌換訂單查詢",
     "exchangeList": "兌換列表",
-    "exchangeId": "兌換訂單ID",
+    "id": "訂單ID",
+    "type": "訂單類型",
+    "status": "訂單狀態",
+    "amount": "訂單金額",
+    "time": "訂單時間",
+    "detail": "訂單詳情",
     "list": "訂單列表",
-    "status": "狀態"
+    "exchangeId": "兌換訂單ID"
   },
 
   "exchange": {

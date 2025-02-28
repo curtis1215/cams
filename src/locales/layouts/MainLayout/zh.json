@@ -27,6 +27,7 @@
     "transferOrderQuery": "轉帳訂單查詢",
     "exchangeOrderQuery": "兌換訂單查詢",
     "transactionDetailQuery": "交易明細查詢",
+    "manualOrderQuery": "手動交易查詢",
     "reconciliation": "對帳管理",
     "walletBalanceQuery": "錢包對帳查詢",
     "dataReport": "數據報表",

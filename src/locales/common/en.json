@@ -14,5 +14,40 @@
   "success": "Operation Successful",
   "error": "Operation Failed",
   "pleaseSelect": "Please Select",
-  "pleaseInput": "Please Input"
+  "pleaseInput": "Please Input",
+  "action": {
+    "search": "Search",
+    "reset": "Reset",
+    "query": "Query",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "back": "Back",
+    "submit": "Submit",
+    "download": "Download",
+    "upload": "Upload",
+    "import": "Import",
+    "export": "Export",
+    "view": "View",
+    "detail": "Detail",
+    "copy": "Copy",
+    "action": "Action"
+  },
+  "field": {
+    "orderId": "Order ID",
+    "merchant": "Merchant",
+    "status": "Status",
+    "createTime": "Create Time",
+    "amount": "Amount"
+  },
+  "prompt": {
+    "pleaseSelect": "Please select",
+    "pleaseInput": "Please input",
+    "selectChainType": "Please select chain type",
+    "querySuccess": "Query successful",
+    "queryFailed": "Query failed"
+  }
 } 
