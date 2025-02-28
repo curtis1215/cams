@@ -1,0 +1,59 @@
+{
+  "exchangePairManagement": "External Exchange Pair Management",
+  "search": {
+    "title": "Pair Search",
+    "searchButton": "Search",
+    "resetButton": "Reset",
+    "pairName": "Pair Name",
+    "quoteSource": "Quote Source",
+    "status": "Status",
+    "sourceOptions": {
+      "all": "All Sources",
+      "binance": "Binance",
+      "gateio": "Gate.io",
+      "mexc": "MEXC",
+      "fameex": "Fameex"
+    },
+    "statusOptions": {
+      "all": "All Status",
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    }
+  },
+  "list": {
+    "title": "Pair List",
+    "addButton": "Add Pair",
+    "columns": {
+      "pairName": "Pair Name",
+      "price": "Price",
+      "quoteSource": "Quote Source",
+      "status": "Status",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "modal": {
+    "addTitle": "Add Exchange Pair",
+    "editTitle": "Edit Exchange Pair",
+    "form": {
+      "pairName": "Pair Name",
+      "quoteSource": "Quote Source",
+      "sourceKey": "Source Key",
+      "status": "Status"
+    },
+    "placeholder": {
+      "pairName": "Please enter pair name",
+      "sourceKey": "Please enter source key"
+    },
+    "message": {
+      "addSuccess": "Added successfully",
+      "addFailed": "Add failed",
+      "editSuccess": "Edited successfully",
+      "editFailed": "Edit failed",
+      "deleteSuccess": "Deleted successfully",
+      "deleteFailed": "Delete failed",
+      "deleteConfirm": "Are you sure you want to delete this pair?"
+    }
+  }
+} 

@@ -81,9 +81,6 @@
                 <a-button type="link" size="small" @click="handleDetail(record)">
                   {{ t('action.details') }}
                 </a-button>
-                <a-button type="link" size="small" @click="handleTransfer(record)">
-                  {{ t('action.transfer') }}
-                </a-button>
               </a-space>
             </template>
             <template v-else-if="column.key === 'address'">
@@ -323,11 +320,6 @@ const formatNumberWithColor = (value: string | undefined) => {
 // 處理詳情按鈕點擊
 const handleDetail = (record: WalletRecord) => {
   router.push('/wallet/detail')
-}
-
-// 處理轉賬按鈕點擊
-const handleTransfer = (record: WalletRecord) => {
-  router.push('/wallet/transfer')
 }
 
 // 顯示添加錢包彈窗

@@ -644,7 +644,7 @@ const tokenColumns = computed(() => [
         }
       }, [
         h('a', {
-          onClick: () => showTransferHistory(record),
+          onClick: () => handleTransfer(record),
           style: {
             color: '#1890ff',
             cursor: 'pointer',
@@ -653,6 +653,23 @@ const tokenColumns = computed(() => [
           }
         }, [
           h(SwapOutlined, {
+            style: {
+              marginRight: '4px',
+              fontSize: '14px'
+            }
+          }),
+          t('action.transfer')
+        ]),
+        h('a', {
+          onClick: () => showTransferHistory(record),
+          style: {
+            color: '#1890ff',
+            cursor: 'pointer',
+            display: 'inline-flex',
+            alignItems: 'center'
+          }
+        }, [
+          h(HistoryOutlined, {
             style: {
               marginRight: '4px',
               fontSize: '14px'
@@ -935,6 +952,18 @@ const tokenData = ref([
     isRefreshing: false
   }
 ])
+
+// 處理轉帳按鈕點擊
+const handleTransfer = (record: TokenData) => {
+  router.push({
+    path: '/wallet/transfer',
+    query: {
+      walletId: walletInfo.walletId,
+      address: walletInfo.address,
+      coin: record.coin
+    }
+  })
+}
 
 // 處理轉帳記錄按鈕點擊
 function showTransferHistory(record: TokenData) {

@@ -41,7 +41,8 @@
     "transferHistory": "轉賬歷史",
     "transactionDetail": "交易明細",
     "action": "操作",
-    "refreshBalance": "刷新餘額"
+    "refreshBalance": "刷新餘額",
+    "transfer": "錢包轉賬"
   },
   "prompt": {
     "pleaseInputCoin": "請輸入幣種",

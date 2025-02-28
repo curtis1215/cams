@@ -2,7 +2,7 @@
   "common": {
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode",
-    "appName": "CryptoPool",
+    "appName": "Crypto Asset Pool",
     "demoMode": "DEMO Page",
     "prdMode": "PRD Doc",
     "action": "Action"
@@ -37,6 +37,7 @@
     "paramsManagement": "Parameter Management",
     "blockchainManagement": "Blockchain Management",
     "contractCoinManagement": "Contract Coin Management",
+    "exchangePairManagement": "Exchange Pair Management",
     "riskAddressManagement": "Risk Address Management",
     "system": "System",
     "userManagement": "User Management",

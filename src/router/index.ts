@@ -65,6 +65,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/params/ContractCoin.vue')
       },
       {
+        path: 'params/exchange-pair',
+        name: 'ExchangePairManagement',
+        component: () => import('../views/params/ExchangePair.vue')
+      },
+      {
         path: '/params/risk-address',
         component: () => import('@/views/params/RiskAddress.vue')
       },

@@ -9,6 +9,8 @@ import zhManualOrder from '../locales/order/Manual/zh.json'
 import enManualOrder from '../locales/order/Manual/en.json'
 import zhCommon from '../locales/common/zh.json'
 import enCommon from '../locales/common/en.json'
+import zhExchangePair from '../locales/params/ExchangePair/zh.json'
+import enExchangePair from '../locales/params/ExchangePair/en.json'
 
 const messages = {
   zh: {
@@ -22,6 +24,9 @@ const messages = {
     },
     order: {
       Manual: zhManualOrder
+    },
+    params: {
+      ExchangePair: zhExchangePair
     }
   },
   en: {
@@ -35,6 +40,9 @@ const messages = {
     },
     order: {
       Manual: enManualOrder
+    },
+    params: {
+      ExchangePair: enExchangePair
     }
   }
 }

@@ -37,6 +37,7 @@
     "paramsManagement": "參數管理",
     "blockchainManagement": "區塊鏈管理",
     "contractCoinManagement": "合約幣種管理",
+    "exchangePairManagement": "外部幣對管理",
     "riskAddressManagement": "風險地址管理",
     "system": "系統管理",
     "userManagement": "用戶管理",

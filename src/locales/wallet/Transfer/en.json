@@ -11,6 +11,7 @@
     "auditDetail": "Audit Detail"
   },
   "field": {
+    "transferOrderId": "Transfer Order ID",
     "fromWalletId": "From Wallet ID",
     "fromChainType": "From Chain Type",
     "fromCurrency": "From Currency",

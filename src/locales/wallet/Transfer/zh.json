@@ -11,6 +11,7 @@
     "auditDetail": "審核詳情"
   },
   "field": {
+    "transferOrderId": "錢包轉賬單號",
     "fromWalletId": "轉出錢包ID",
     "fromChainType": "轉出鏈類型",
     "fromCurrency": "轉出幣種",

@@ -1,0 +1,59 @@
+{
+  "exchangePairManagement": "外部幣對管理",
+  "search": {
+    "title": "幣對搜尋",
+    "searchButton": "搜尋",
+    "resetButton": "重置",
+    "pairName": "幣對名稱",
+    "quoteSource": "報價來源",
+    "status": "啟用狀態",
+    "sourceOptions": {
+      "all": "所有來源",
+      "binance": "幣安",
+      "gateio": "Gate.io",
+      "mexc": "MEXC",
+      "fameex": "Fameex"
+    },
+    "statusOptions": {
+      "all": "所有狀態",
+      "enabled": "啟用",
+      "disabled": "停用"
+    }
+  },
+  "list": {
+    "title": "幣對列表",
+    "addButton": "新增幣對",
+    "columns": {
+      "pairName": "幣對名稱",
+      "price": "價格",
+      "quoteSource": "報價來源",
+      "status": "狀態",
+      "actions": "操作",
+      "edit": "編輯",
+      "delete": "刪除"
+    }
+  },
+  "modal": {
+    "addTitle": "新增幣對",
+    "editTitle": "編輯幣對",
+    "form": {
+      "pairName": "幣對名稱",
+      "quoteSource": "報價來源",
+      "sourceKey": "來源鍵值",
+      "status": "啟用狀態"
+    },
+    "placeholder": {
+      "pairName": "請輸入幣對名稱",
+      "sourceKey": "請輸入來源鍵值"
+    },
+    "message": {
+      "addSuccess": "新增成功",
+      "addFailed": "新增失敗",
+      "editSuccess": "編輯成功",
+      "editFailed": "編輯失敗",
+      "deleteSuccess": "刪除成功",
+      "deleteFailed": "刪除失敗",
+      "deleteConfirm": "確定要刪除此幣對嗎？"
+    }
+  }
+} 

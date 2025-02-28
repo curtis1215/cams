@@ -41,7 +41,8 @@
     "transferHistory": "Transfer History",
     "transactionDetail": "Transaction Detail",
     "action": "Action",
-    "refreshBalance": "Refresh Balance"
+    "refreshBalance": "Refresh Balance",
+    "transfer": "Transfer"
   },
   "prompt": {
     "pleaseInputCoin": "Please Input Coin",

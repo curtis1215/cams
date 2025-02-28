@@ -174,6 +174,10 @@
               <CodeOutlined />
               {{ t('nav.contractCoinManagement') }}
             </a-menu-item>
+            <a-menu-item key="exchangePair" @click="router.push('/params/exchange-pair')">
+              <SwapOutlined />
+              {{ t('nav.exchangePairManagement') }}
+            </a-menu-item>
             <a-menu-item key="riskAddress" @click="router.push('/params/risk-address')">
               <WarningOutlined />
               {{ t('nav.riskAddressManagement') }}
@@ -273,6 +277,8 @@ const pathMap: PathMap = {
   '/order/manual': 'manualOrder',
   '/params/blockchain': 'blockchain',
   '/params/contract-coin': 'contractCoin',
+  '/params/exchange-pair': 'exchangePair',
+  '/params/risk-address': 'riskAddress',
   '/reconciliation/wallet-balance': 'walletBalance',
   '/report/deposit-withdraw-duration': 'depositWithdrawDuration',
   '/report/wallet-profit-loss': 'walletProfitLoss',
@@ -382,6 +388,7 @@ const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
   nodeHeightAnalysis: t('nav.nodeHeightAnalysis'),
   blockchain: t('nav.blockchainManagement'),
   contractCoin: t('nav.contractCoinManagement'),
+  exchangePair: t('nav.exchangePairManagement'),
   riskAddress: t('nav.riskAddressManagement'),
   users: t('nav.userManagement'),
   roles: t('nav.roleManagement'),

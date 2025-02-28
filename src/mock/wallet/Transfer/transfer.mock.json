@@ -12,6 +12,7 @@
   "transferList": [
     {
       "key": 1,
+      "transferOrderId": "TX00000001",
       "fromMerchant": "商戶A",
       "fromWalletId": "W000001",
       "fromChainType": "ETH",
@@ -29,6 +30,7 @@
     },
     {
       "key": 2,
+      "transferOrderId": "TX00000002",
       "fromMerchant": "商戶B",
       "fromWalletId": "W000003",
       "fromChainType": "BSC",
@@ -46,6 +48,7 @@
     },
     {
       "key": 3,
+      "transferOrderId": "TX00000003",
       "fromMerchant": "商戶C",
       "fromWalletId": "W000005",
       "fromChainType": "ETH",
@@ -63,6 +66,7 @@
     },
     {
       "key": 4,
+      "transferOrderId": "TX00000004",
       "fromMerchant": "商戶A",
       "fromWalletId": "W000007",
       "fromChainType": "BSC",
@@ -82,6 +86,7 @@
     },
     {
       "key": 5,
+      "transferOrderId": "TX00000005",
       "fromMerchant": "商戶B",
       "fromWalletId": "W000009",
       "fromChainType": "ETH",
@@ -99,6 +104,7 @@
     },
     {
       "key": 6,
+      "transferOrderId": "TX00000006",
       "fromMerchant": "商戶C",
       "fromWalletId": "W000011",
       "fromChainType": "BSC",

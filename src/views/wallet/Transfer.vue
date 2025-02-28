@@ -339,21 +339,21 @@
       @cancel="() => auditDetailModalVisible = false"
       :footer="null"
     >
-      <div class="audit-detail">
+      <div class="audit-detail" v-if="selectedRecord">
         <div class="audit-detail-item">
           <span class="audit-detail-label">{{ t('field.auditOperation') }}：</span>
-          <span class="audit-detail-value">{{ selectedRecord?.auditStatus === 'approved' ? t('auditStatus.approved') : t('auditStatus.rejected') }}</span>
+          <span class="audit-detail-value">{{ selectedRecord.auditStatus === 'approved' ? t('auditStatus.approved') : t('auditStatus.rejected') }}</span>
         </div>
         <div class="audit-detail-item">
           <span class="audit-detail-label">{{ t('field.auditReason') }}：</span>
-          <span class="audit-detail-value">{{ selectedRecord?.auditReason }}</span>
+          <span class="audit-detail-value">{{ selectedRecord.auditReason }}</span>
         </div>
       </div>
     </a-modal>
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
@@ -366,6 +366,29 @@ import zhLocale from '@/locales/wallet/Transfer/zh.json'
 import enLocale from '@/locales/wallet/Transfer/en.json'
 import mockData from '@/mock/wallet/Transfer/transfer.mock.json'
 
+// 在 script 標籤下方添加必要的介面定義
+interface TransferRecord {
+  key: string | number;
+  transferOrderId?: string;
+  fromWalletId: string;
+  fromChainType: string;
+  fromCurrency: string;
+  amount: string;
+  toMerchant: string;
+  toWalletId: string;
+  toChainType: string;
+  toCurrency: string;
+  createTime: string;
+  auditTime: string;
+  auditStatus: 'pending' | 'approved' | 'rejected';
+  auditReason?: string;
+  transferStatus?: 'submitted' | 'onchain' | 'confirming' | 'completed' | 'failed';
+  confirmations?: number;
+  requiredConfirmations?: number;
+  walletType?: string;
+  fromMerchant?: string;
+}
+
 const messages = {
   zh: zhLocale,
   en: enLocale
@@ -377,19 +400,30 @@ const { t } = useI18n({
 })
 
 // 轉出錢包表單
-const fromWalletForm = reactive({
+interface WalletForm {
+  merchant?: string;
+  chainType?: string;
+  currency?: string;
+  address: string;
+  walletType?: string;
+}
+
+// 轉出錢包表單
+const fromWalletForm = reactive<WalletForm>({
   merchant: undefined,
   chainType: undefined,
   currency: undefined,
-  address: ''
+  address: '',
+  walletType: undefined
 })
 
 // 轉入錢包表單
-const toWalletForm = reactive({
+const toWalletForm = reactive<WalletForm>({
   merchant: undefined,
   chainType: undefined,
   currency: undefined,
-  address: ''
+  address: '',
+  walletType: undefined
 })
 
 // 錢包詳情
@@ -407,14 +441,14 @@ const useMaxAmount = ref(false)
 const maxAmount = computed(() => Number(fromWalletDetail.availableOutflow))
 
 // 處理最大數量變更
-const handleMaxAmountChange = (checked) => {
+const handleMaxAmountChange = (checked: boolean) => {
   if (checked) {
     transferAmount.value = maxAmount.value
   }
 }
 
 // 格式化數字
-const formatNumber = (value) => {
+const formatNumber = (value: string | number) => {
   if (!value) return '0.00000000'
   return Number(value).toFixed(8)
 }
@@ -501,6 +535,12 @@ const loading = ref(false)
 // 表格列定義
 const columns = [
   {
+    title: t('field.transferOrderId'),
+    dataIndex: 'transferOrderId',
+    key: 'transferOrderId',
+    width: 180,
+  },
+  {
     title: t('field.fromWalletId'),
     dataIndex: 'fromWalletId',
     key: 'fromWalletId',
@@ -566,7 +606,7 @@ const columns = [
     dataIndex: 'auditStatus',
     key: 'auditStatus',
     width: 100,
-    customRender: ({ text }) => {
+    customRender: ({ text }: { text: 'pending' | 'approved' | 'rejected' }) => {
       const statusMap = {
         pending: t('auditStatus.pending'),
         approved: t('auditStatus.approved'),
@@ -580,18 +620,18 @@ const columns = [
     dataIndex: 'transferStatus',
     key: 'transferStatus',
     width: 120,
-    customRender: ({ text, record }) => {
+    customRender: ({ text, record }: { text?: 'submitted' | 'onchain' | 'confirming' | 'completed' | 'failed', record: TransferRecord }) => {
       if (['pending', 'rejected'].includes(record.auditStatus)) {
         return ''
       }
       const statusMap = {
         submitted: t('transferStatus.submitted'),
         onchain: t('transferStatus.onchain'),
-        confirming: (record) => `${t('transferStatus.confirming')}(${record.confirmations}/${record.requiredConfirmations})`,
+        confirming: (record: TransferRecord) => `${t('transferStatus.confirming')}(${record.confirmations}/${record.requiredConfirmations})`,
         completed: t('transferStatus.completed'),
         failed: t('transferStatus.failed')
       }
-      return typeof statusMap[text] === 'function' ? statusMap[text](record) : statusMap[text] || text
+      return text && typeof statusMap[text] === 'function' ? statusMap[text](record) : (text && statusMap[text]) || ''
     }
   },
   {
@@ -621,7 +661,8 @@ const handleQuery = () => {
       if (queryParams.merchant && item.fromMerchant !== queryParams.merchant) return false
       if (queryParams.chainType && item.fromChainType !== queryParams.chainType) return false
       if (queryParams.currency && item.fromCurrency !== queryParams.currency) return false
-      if (queryParams.walletType && item.walletType !== queryParams.walletType) return false
+      // 暫時移除 walletType 過濾條件，因為 mock 數據中沒有此字段
+      // if (queryParams.walletType && item.walletType !== queryParams.walletType) return false
       if (queryParams.address && !item.fromWalletId.toLowerCase().includes(queryParams.address.toLowerCase())) return false
       return true
     })
@@ -649,14 +690,14 @@ const handleReset = () => {
 const auditModalVisible = ref(false)
 const auditDetailModalVisible = ref(false)
 const auditLoading = ref(false)
-const selectedRecord = ref(null)
+const selectedRecord = ref<TransferRecord | null>(null)
 const auditForm = reactive({
-  status: undefined,
+  status: undefined as string | undefined,
   reason: ''
 })
 
 // 處理審核按鈕點擊
-const handleAudit = (record) => {
+const handleAudit = (record: TransferRecord) => {
   selectedRecord.value = record
   auditForm.status = undefined
   auditForm.reason = ''
@@ -680,21 +721,23 @@ const handleConfirmAudit = async () => {
     await new Promise(resolve => setTimeout(resolve, 1000)) // 模擬 API 調用
     
     // 更新本地數據
-    const index = transferList.value.findIndex(item => item.key === selectedRecord.value.key)
-    if (index !== -1) {
-      transferList.value[index] = {
-        ...transferList.value[index],
-        auditStatus: auditForm.status,
-        auditReason: auditForm.reason,
-        auditTime: new Date().toLocaleString('zh-TW', {
-          year: 'numeric',
-          month: '2-digit',
-          day: '2-digit',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false
-        })
+    if (selectedRecord.value) {
+      const index = transferList.value.findIndex(item => item.key === selectedRecord.value?.key)
+      if (index !== -1) {
+        transferList.value[index] = {
+          ...transferList.value[index],
+          auditStatus: auditForm.status,
+          auditReason: auditForm.reason,
+          auditTime: new Date().toLocaleString('zh-TW', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+          })
+        }
       }
     }
     
@@ -713,13 +756,13 @@ const handleCancelAudit = () => {
 }
 
 // 處理查看審核詳情
-const handleViewAuditDetail = (record) => {
+const handleViewAuditDetail = (record: TransferRecord) => {
   selectedRecord.value = record
   auditDetailModalVisible.value = true
 }
 
 // 處理表格變更
-const handleTableChange = (pag) => {
+const handleTableChange = (pag: { current: number; pageSize: number }) => {
   pagination.current = pag.current
   pagination.pageSize = pag.pageSize
   handleQuery()
