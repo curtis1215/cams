@@ -74,6 +74,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/views/params/RiskAddress.vue')
       },
       {
+        path: 'params/bankcode',
+        name: 'BankcodeManagement',
+        component: () => import('@/views/params/Bankcode.vue'),
+        meta: {
+          title: 'nav.bankcodeManagement',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'system/users',
         name: 'UserManagement',
         component: () => import('../views/system/Users.vue'),

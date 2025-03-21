@@ -1,0 +1,46 @@
+{
+  "search": {
+    "title": "Code Search"
+  },
+  "list": {
+    "title": "Code List"
+  },
+  "field": {
+    "bankcode": "Code",
+    "chainType": "Chain Type",
+    "currency": "Currency",
+    "action": "Action"
+  },
+  "placeholder": {
+    "enterBankcode": "Please enter code",
+    "selectChainType": "Please select chain type",
+    "selectCurrency": "Please select currency"
+  },
+  "action": {
+    "search": "Search",
+    "reset": "Reset",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "modal": {
+    "addTitle": "Add Code",
+    "editTitle": "Edit Code",
+    "deleteTitle": "Delete Code",
+    "deleteConfirm": "Are you sure you want to delete this code?"
+  },
+  "validation": {
+    "required": {
+      "bankcode": "Please enter code",
+      "chainType": "Please select chain type",
+      "currency": "Please select currency"
+    }
+  },
+  "common": {
+    "fetchFailed": "Failed to fetch data",
+    "addSuccess": "Added successfully",
+    "updateSuccess": "Updated successfully",
+    "deleteSuccess": "Deleted successfully",
+    "deleteFailed": "Failed to delete"
+  }
+} 

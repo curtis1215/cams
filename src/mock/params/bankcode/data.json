@@ -1,0 +1,24 @@
+{
+  "bankcodeList": [
+    { "bankcode": "BNBUSDT", "chainType": "BSC", "currency": "USDT" },
+    { "bankcode": "TRXUSDT", "chainType": "TRX", "currency": "USDT" },
+    { "bankcode": "ETHUSDT", "chainType": "ETH", "currency": "USDT" },
+    { "bankcode": "BTCUSDT", "chainType": "BTC", "currency": "USDT" },
+    { "bankcode": "BNBUSDC", "chainType": "BSC", "currency": "USDC" },
+    { "bankcode": "TRXUSDC", "chainType": "TRX", "currency": "USDC" },
+    { "bankcode": "ETHUSDC", "chainType": "ETH", "currency": "USDC" },
+    { "bankcode": "BTCUSDC", "chainType": "BTC", "currency": "USDC" },
+    { "bankcode": "BNBBUSD", "chainType": "BSC", "currency": "BUSD" },
+    { "bankcode": "TRXBUSD", "chainType": "TRX", "currency": "BUSD" },
+    { "bankcode": "ETHBUSD", "chainType": "ETH", "currency": "BUSD" },
+    { "bankcode": "BTCBUSD", "chainType": "BTC", "currency": "BUSD" },
+    { "bankcode": "BNBDAI", "chainType": "BSC", "currency": "DAI" },
+    { "bankcode": "TRXDAI", "chainType": "TRX", "currency": "DAI" },
+    { "bankcode": "ETHDAI", "chainType": "ETH", "currency": "DAI" },
+    { "bankcode": "BTCDAI", "chainType": "BTC", "currency": "DAI" },
+    { "bankcode": "BNBTUSD", "chainType": "BSC", "currency": "TUSD" },
+    { "bankcode": "TRXTUSD", "chainType": "TRX", "currency": "TUSD" },
+    { "bankcode": "ETHTUSD", "chainType": "ETH", "currency": "TUSD" },
+    { "bankcode": "BTCTUSD", "chainType": "BTC", "currency": "TUSD" }
+  ]
+} 

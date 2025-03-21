@@ -39,6 +39,7 @@
     "contractCoinManagement": "Contract Coin Management",
     "exchangePairManagement": "Exchange Pair Management",
     "riskAddressManagement": "Risk Address Management",
+    "bankcodeManagement": "Code Management",
     "system": "System",
     "userManagement": "User Management",
     "roleManagement": "Role Management",

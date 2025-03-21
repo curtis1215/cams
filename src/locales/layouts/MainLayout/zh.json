@@ -39,6 +39,7 @@
     "contractCoinManagement": "合約幣種管理",
     "exchangePairManagement": "外部幣對管理",
     "riskAddressManagement": "風險地址管理",
+    "bankcodeManagement": "代碼管理",
     "system": "系統管理",
     "userManagement": "用戶管理",
     "roleManagement": "角色管理",

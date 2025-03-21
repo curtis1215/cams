@@ -1,37 +1,5 @@
 <template>
   <div class="wallet-detail">
-    <!-- 查詢表單 -->
-    <a-card :bordered="false" class="filter-card">
-      <template #title>
-        <span class="card-title">{{ t('title.queryCondition') }}</span>
-      </template>
-      <a-form layout="inline" :model="queryParams">
-        <a-form-item :label="t('field.merchant')">
-          <merchant-select v-model="queryParams.merchant" :style="{ width: '180px' }" />
-        </a-form-item>
-        <a-form-item :label="t('field.chainType')">
-          <chain-type-select v-model="queryParams.chainType" :style="{ width: '180px' }" />
-        </a-form-item>
-        <a-form-item :label="t('field.currency')">
-          <currency-select v-model="queryParams.currency" :style="{ width: '180px' }" />
-        </a-form-item>
-        <a-form-item :label="t('field.address')">
-          <a-input
-            v-model:value="queryParams.address"
-            :placeholder="t('prompt.pleaseInputAddress')"
-            :style="{ width: '300px' }"
-            allow-clear
-          />
-        </a-form-item>
-        <a-form-item>
-          <a-button type="primary" @click="handleQuery">
-            <template #icon><SearchOutlined /></template>
-            {{ t('action.search') }}
-          </a-button>
-        </a-form-item>
-      </a-form>
-    </a-card>
-
     <!-- 錢包資訊卡片 -->
     <a-card :bordered="false" class="info-card">
       <template #title>
@@ -356,7 +324,6 @@ import { useRoute, useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import type { TablePaginationConfig } from 'ant-design-vue'
 import {
-  SearchOutlined,
   ReloadOutlined,
   CopyOutlined,
   DownloadOutlined,
@@ -416,13 +383,6 @@ interface TableSorter {
   order?: 'ascend' | 'descend' | null
 }
 
-interface QueryParams {
-  merchant?: string
-  chainType?: string
-  currency?: string
-  address: string
-}
-
 interface WalletInfo {
   walletId: string
   address: string
@@ -451,27 +411,8 @@ interface TransferRecord {
   updateTime: string
 }
 
-// 查詢參數
-const queryParams = reactive<QueryParams>({
-  merchant: undefined,
-  chainType: undefined,
-  currency: undefined,
-  address: ''
-})
-
 // 錢包信息
 const walletInfo = reactive<WalletInfo>({ ...mockData.walletInfo })
-
-// 查詢方法
-const handleQuery = () => {
-  console.log('查詢參數:', queryParams)
-}
-
-// 重置方法
-const handleReset = () => {
-  queryParams.address = ''
-  queryParams.chainType = undefined
-}
 
 // 複製地址
 const copyAddress = async (address: string) => {
@@ -978,11 +919,27 @@ const showTransactionDetail = (record: TokenData) => {
 
 // 頁面加載時從路由獲取參數
 onMounted(() => {
-  const { address, chainType } = route.query
-  if (typeof address === 'string') queryParams.address = address
-  if (typeof chainType === 'string') queryParams.chainType = chainType
+  // 不再需要處理查詢參數
+})
+
+// 添加清理函數
+onBeforeUnmount(() => {
+  // 清理所有的 ref 和 reactive 狀態
+  downloadModalVisible.value = false
+  historyModalVisible.value = false
+  changeTypeModalVisible.value = false
+  typeHistoryModalVisible.value = false
+  transferHistoryModalVisible.value = false
+  searchText.value = ''
   
-  handleQuery()
+  // 重置表單數據
+  downloadForm.reason = ''
+  changeTypeForm.type = ''
+  changeTypeForm.reason = ''
+  
+  // 重置排序狀態
+  sortState.sortField = ''
+  sortState.sortOrder = null
 })
 
 // 變更類型相關
@@ -1180,30 +1137,6 @@ const handleRefreshBalance = async (record: TokenData) => {
   }
 }
 
-// 添加清理函數
-onBeforeUnmount(() => {
-  // 清理所有的 ref 和 reactive 狀態
-  downloadModalVisible.value = false
-  historyModalVisible.value = false
-  changeTypeModalVisible.value = false
-  typeHistoryModalVisible.value = false
-  transferHistoryModalVisible.value = false
-  searchText.value = ''
-  
-  // 重置表單數據
-  downloadForm.reason = ''
-  changeTypeForm.type = ''
-  changeTypeForm.reason = ''
-  
-  // 重置查詢參數
-  queryParams.address = ''
-  queryParams.chainType = undefined
-  
-  // 重置排序狀態
-  sortState.sortField = ''
-  sortState.sortOrder = null
-})
-
 // 添加變更狀態相關方法
 const changeStatusModalVisible = ref(false)
 const changeStatusForm = reactive({
@@ -1291,10 +1224,6 @@ const statusHistoryData = [
 <style scoped>
 .wallet-detail {
   padding: 24px;
-}
-
-.filter-card {
-  margin-bottom: 24px;
 }
 
 .info-card {

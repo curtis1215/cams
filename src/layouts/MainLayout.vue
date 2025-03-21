@@ -82,10 +82,6 @@
               <SearchOutlined />
               {{ t('nav.walletQuery') }}
             </a-menu-item>
-            <a-menu-item key="walletDetail" @click="router.push('/wallet/detail')">
-              <FileSearchOutlined />
-              {{ t('nav.walletDetail') }}
-            </a-menu-item>
             <a-menu-item key="walletTransfer" @click="router.push('/wallet/transfer')">
               <SwapOutlined />
               {{ t('nav.walletTransfer') }}
@@ -182,6 +178,10 @@
               <WarningOutlined />
               {{ t('nav.riskAddressManagement') }}
             </a-menu-item>
+            <a-menu-item key="bankcode" @click="router.push('/params/bankcode')">
+              <CodeOutlined />
+              {{ t('nav.bankcodeManagement') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="system">
             <template #title>
@@ -229,7 +229,6 @@ import {
   FundOutlined,
   WalletOutlined,
   SearchOutlined,
-  FileSearchOutlined,
   SwapOutlined,
   OrderedListOutlined,
   TransactionOutlined,
@@ -262,7 +261,6 @@ const pathMap: PathMap = {
   '/monitor/alert': 'alert',
   '/monitor/node-height': 'nodeHeight',
   '/wallet/query': 'walletQuery',
-  '/wallet/detail': 'walletDetail',
   '/wallet/transfer': 'walletTransfer',
   '/wallet/token-exchange': 'tokenExchange',
   '/system/users': 'users',
@@ -279,6 +277,7 @@ const pathMap: PathMap = {
   '/params/contract-coin': 'contractCoin',
   '/params/exchange-pair': 'exchangePair',
   '/params/risk-address': 'riskAddress',
+  '/params/bankcode': 'bankcode',
   '/reconciliation/wallet-balance': 'walletBalance',
   '/report/deposit-withdraw-duration': 'depositWithdrawDuration',
   '/report/wallet-profit-loss': 'walletProfitLoss',
@@ -373,7 +372,6 @@ const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
   alert: t('nav.alertMonitoring'),
   nodeHeight: t('nav.nodeHeightMonitoring'),
   walletQuery: t('nav.walletQuery'),
-  walletDetail: t('nav.walletDetail'),
   walletTransfer: t('nav.walletTransfer'),
   tokenExchange: t('nav.tokenExchangeManagement'),
   depositOrder: t('nav.depositOrderQuery'),
@@ -390,6 +388,7 @@ const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
   contractCoin: t('nav.contractCoinManagement'),
   exchangePair: t('nav.exchangePairManagement'),
   riskAddress: t('nav.riskAddressManagement'),
+  bankcode: t('nav.bankcodeManagement'),
   users: t('nav.userManagement'),
   roles: t('nav.roleManagement'),
   merchants: t('nav.merchantManagement'),

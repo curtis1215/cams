@@ -1,0 +1,46 @@
+{
+  "search": {
+    "title": "代碼搜尋"
+  },
+  "list": {
+    "title": "代碼列表"
+  },
+  "field": {
+    "bankcode": "代碼",
+    "chainType": "鏈類型",
+    "currency": "幣種",
+    "action": "操作"
+  },
+  "placeholder": {
+    "enterBankcode": "請輸入代碼",
+    "selectChainType": "請選擇鏈類型",
+    "selectCurrency": "請選擇幣種"
+  },
+  "action": {
+    "search": "搜尋",
+    "reset": "重置",
+    "add": "新增",
+    "edit": "編輯",
+    "delete": "刪除"
+  },
+  "modal": {
+    "addTitle": "新增代碼",
+    "editTitle": "編輯代碼",
+    "deleteTitle": "刪除代碼",
+    "deleteConfirm": "確定要刪除此代碼嗎？"
+  },
+  "validation": {
+    "required": {
+      "bankcode": "請輸入代碼",
+      "chainType": "請選擇鏈類型",
+      "currency": "請選擇幣種"
+    }
+  },
+  "common": {
+    "fetchFailed": "獲取數據失敗",
+    "addSuccess": "新增成功",
+    "updateSuccess": "更新成功",
+    "deleteSuccess": "刪除成功",
+    "deleteFailed": "刪除失敗"
+  }
+} 
