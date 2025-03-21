@@ -1,30 +1,31 @@
 {
   "title": {
+    "queryCondition": "Query Condition",
     "merchantManagement": "Merchant Management",
     "addMerchant": "Add Merchant",
     "editMerchant": "Edit Merchant",
-    "queryCondition": "Merchant Query",
     "merchantInfo": "Merchant Information",
-    "merchantPermission": "Merchant Permissions"
+    "merchantPermission": "Merchant Permission"
   },
   "field": {
     "name": "Merchant Name",
     "code": "Merchant Code",
     "status": "Status",
-    "action": "Action",
     "updateTime": "Update Time",
+    "action": "Action",
     "privateKey": "Private Key",
-    "retryCount": "Withdrawal Retry Count",
+    "retryCount": "Retry Count",
     "depositStatus": "Deposit Status",
-    "withdrawStatus": "Withdrawal Status",
-    "availableCurrencies": "Available Currencies"
+    "withdrawStatus": "Withdraw Status",
+    "availableCurrencies": "Available Currencies",
+    "currencies": "Currency List"
   },
   "action": {
+    "search": "Search",
     "add": "Add",
     "edit": "Edit",
     "delete": "Delete",
-    "search": "Search",
-    "generateKey": "Generate Key",
+    "generateKey": "Generate",
     "selectAll": "Select All"
   },
   "status": {
@@ -34,21 +35,18 @@
   "prompt": {
     "inputName": "Please input merchant name",
     "inputCode": "Please input merchant code",
-    "selectStatus": "Please select status",
-    "inputRetryCount": "Please input withdrawal retry count",
-    "confirmDelete": "Are you sure to delete this merchant?"
+    "selectStatus": "Please select status"
   },
   "validation": {
     "nameRequired": "Please input merchant name",
     "codeRequired": "Please input merchant code",
-    "statusRequired": "Please select merchant status",
-    "retryCountRequired": "Please input withdrawal retry count"
+    "statusRequired": "Please select status",
+    "retryCountRequired": "Please input retry count"
   },
   "message": {
-    "fetchError": "Failed to fetch data",
-    "saveSuccess": "Save successful",
+    "generateKeySuccess": "Private key generated successfully",
     "deleteSuccess": "Delete successful",
-    "operationFailed": "Operation failed",
-    "generateKeySuccess": "Private key generated successfully"
+    "saveSuccess": "Save successful",
+    "fetchError": "Failed to fetch data"
   }
 } 

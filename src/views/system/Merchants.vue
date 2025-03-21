@@ -156,15 +156,37 @@
                     {{ t('action.selectAll') }}
                   </a-checkbox>
                 </div>
-                <a-checkbox-group v-model:value="formState.availableCurrencies">
-                  <a-row :gutter="[16, 16]">
-                    <a-col :span="4" v-for="currency in currencies" :key="currency.code">
-                      <a-checkbox :value="currency.code">
-                        {{ currency.code }}
-                      </a-checkbox>
-                    </a-col>
-                  </a-row>
-                </a-checkbox-group>
+                <div class="currency-columns">
+                  <!-- 左側鏈類型列表 -->
+                  <div class="chain-type-list">
+                    <div 
+                      v-for="chainType in chainTypes" 
+                      :key="chainType" 
+                      class="chain-type-item"
+                      :class="{ active: selectedChainType === chainType }"
+                      @click="handleChainTypeClick(chainType)"
+                    >
+                      <span class="chain-type-name">{{ chainType }}</span>
+                      <a-checkbox
+                        :checked="isChainTypeSelected(chainType)"
+                        :indeterminate="isChainTypeIndeterminate(chainType)"
+                        @click.stop="(e: Event) => handleChainTypeSelect(e as unknown as CheckboxEvent, chainType)"
+                      />
+                    </div>
+                  </div>
+                  <!-- 右側幣種列表 -->
+                  <div class="currency-list">
+                    <div class="currency-list-header">
+                      {{ selectedChainType }} {{ t('field.currencies') }}
+                    </div>
+                    <div class="currency-list-content">
+                      <a-checkbox-group 
+                        v-model:value="formState.availableCurrencies"
+                        :options="getCurrenciesByChainType(selectedChainType)"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </a-form-item>
           </a-form>
@@ -339,7 +361,7 @@ const handleEdit = (record: MerchantRecord) => {
     ...record,
     depositStatus: true,
     withdrawStatus: true,
-    availableCurrencies: ['BTC', 'ETH', 'USDT'], // 模擬數據
+    availableCurrencies: ['BSC_USDT', 'ETH_USDT', 'TRX_USDT'], // 模擬數據，使用新的格式
   })
   modalOpen.value = true
   activeTabKey.value = 1
@@ -384,20 +406,99 @@ const fetchData = async () => {
   }
 }
 
+// 定義幣種和鏈類型的關係
+const chainTypes = ['BSC', 'ETH', 'TRX', 'BTC']
+const currencyMap = {
+  BSC: ['USDT', 'USDC', 'BUSD', 'DAI'],
+  ETH: ['USDT', 'USDC', 'DAI'],
+  TRX: ['USDT', 'USDC'],
+  BTC: ['BTC']
+}
+
+// 獲取特定鏈類型的幣種
+const getCurrenciesByChainType = (chainType: string) => {
+  return currencyMap[chainType as keyof typeof currencyMap].map(currency => ({
+    label: currency,
+    value: `${chainType}_${currency}`
+  }))
+}
+
+// 檢查鏈類型是否被全選
+const isChainTypeSelected = (chainType: string) => {
+  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
+    currency => `${chainType}_${currency}`
+  )
+  return chainCurrencies.every(currency => 
+    formState.availableCurrencies.includes(currency)
+  )
+}
+
+// 檢查鏈類型是否部分選中
+const isChainTypeIndeterminate = (chainType: string) => {
+  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
+    currency => `${chainType}_${currency}`
+  )
+  const selectedCount = chainCurrencies.filter(currency => 
+    formState.availableCurrencies.includes(currency)
+  ).length
+  return selectedCount > 0 && selectedCount < chainCurrencies.length
+}
+
+// 處理鏈類型的選擇
+const handleChainTypeSelect = (e: CheckboxEvent, chainType: string) => {
+  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
+    currency => `${chainType}_${currency}`
+  )
+  
+  if (e.target.checked) {
+    // 添加該鏈類型的所有幣種
+    const newCurrencies = [...new Set([...formState.availableCurrencies, ...chainCurrencies])]
+    formState.availableCurrencies = newCurrencies
+  } else {
+    // 移除該鏈類型的所有幣種
+    formState.availableCurrencies = formState.availableCurrencies.filter(
+      currency => !chainCurrencies.includes(currency)
+    )
+  }
+}
+
+// 更新全選邏輯
 const isAllSelected = computed(() => {
-  return currencies.value.length > 0 && 
-         formState.availableCurrencies.length === currencies.value.length
+  const allCurrencies = Object.values(currencyMap).flat().map(
+    (currency, chainType) => `${chainType}_${currency}`
+  )
+  return allCurrencies.every(currency => formState.availableCurrencies.includes(currency))
 })
 
 const isIndeterminate = computed(() => {
-  return formState.availableCurrencies.length > 0 && 
-         formState.availableCurrencies.length < currencies.value.length
+  const allCurrencies = Object.values(currencyMap).flat().map(
+    (currency, chainType) => `${chainType}_${currency}`
+  )
+  const selectedCount = allCurrencies.filter(currency => 
+    formState.availableCurrencies.includes(currency)
+  ).length
+  return selectedCount > 0 && selectedCount < allCurrencies.length
 })
 
 const handleSelectAll = (e: CheckboxEvent) => {
-  formState.availableCurrencies = e.target.checked 
-    ? currencies.value.map(currency => currency.code)
-    : []
+  if (e.target.checked) {
+    // 全選所有幣種
+    const allCurrencies = Object.entries(currencyMap).flatMap(([chainType, currencies]) =>
+      currencies.map(currency => `${chainType}_${currency}`)
+    )
+    formState.availableCurrencies = allCurrencies
+  } else {
+    // 取消全選
+    formState.availableCurrencies = []
+  }
+}
+
+// 新增選中的鏈類型狀態
+const selectedChainType = ref(chainTypes[0])
+
+// 處理鏈類型點擊
+const handleChainTypeClick = (chainType: string) => {
+  selectedChainType.value = chainType
 }
 
 onMounted(() => {
@@ -598,13 +699,73 @@ onMounted(() => {
   color: rgba(255, 255, 255, 0.85);
 }
 
-.currency-grid {
-  max-height: 300px;
+.currency-columns {
+  display: flex;
+  gap: 24px;
+  height: 300px;
+}
+
+.chain-type-list {
+  flex: 0 0 200px;
+  border-right: 1px solid #303030;
   overflow-y: auto;
-  padding: 12px;
+}
+
+.chain-type-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chain-type-item:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.chain-type-item.active {
+  background-color: var(--ant-primary-1);
+}
+
+.chain-type-name {
+  margin-right: 8px;
+}
+
+.currency-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.currency-list-header {
+  padding: 12px 16px;
+  font-weight: 500;
+  border-bottom: 1px solid #303030;
+}
+
+.currency-list-content {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.currency-list-content :deep(.ant-checkbox-group) {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.currency-grid {
   background: #141414;
   border: 1px solid #303030;
   border-radius: 4px;
+}
+
+.select-all-wrapper {
+  padding: 12px 16px;
+  border-bottom: 1px solid #303030;
 }
 
 /* Switch 樣式 */
@@ -614,11 +775,5 @@ onMounted(() => {
 
 :deep(.ant-switch-checked) {
   background-color: var(--ant-primary-color);
-}
-
-.select-all-wrapper {
-  margin-bottom: 12px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #303030;
 }
 </style> 

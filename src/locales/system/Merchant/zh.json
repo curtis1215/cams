@@ -1,9 +1,9 @@
 {
   "title": {
+    "queryCondition": "查詢條件",
     "merchantManagement": "商戶管理",
     "addMerchant": "新增商戶",
     "editMerchant": "編輯商戶",
-    "queryCondition": "商戶查詢",
     "merchantInfo": "商戶資訊",
     "merchantPermission": "商戶權限"
   },
@@ -11,20 +11,21 @@
     "name": "商戶名稱",
     "code": "商戶代碼",
     "status": "狀態",
-    "action": "操作",
     "updateTime": "更新時間",
-    "privateKey": "商戶私鑰",
-    "retryCount": "提幣重試次數",
+    "action": "操作",
+    "privateKey": "私鑰",
+    "retryCount": "重試次數",
     "depositStatus": "充值狀態",
-    "withdrawStatus": "提幣狀態",
-    "availableCurrencies": "可用幣種"
+    "withdrawStatus": "提現狀態",
+    "availableCurrencies": "可用幣種",
+    "currencies": "幣種列表"
   },
   "action": {
+    "search": "搜尋",
     "add": "新增",
     "edit": "編輯",
     "delete": "刪除",
-    "search": "查詢",
-    "generateKey": "生成私鑰",
+    "generateKey": "生成",
     "selectAll": "全選"
   },
   "status": {
@@ -34,21 +35,18 @@
   "prompt": {
     "inputName": "請輸入商戶名稱",
     "inputCode": "請輸入商戶代碼",
-    "selectStatus": "請選擇狀態",
-    "inputRetryCount": "請輸入提幣重試次數",
-    "confirmDelete": "確認要刪除此商戶嗎？"
+    "selectStatus": "請選擇狀態"
   },
   "validation": {
     "nameRequired": "請輸入商戶名稱",
     "codeRequired": "請輸入商戶代碼",
-    "statusRequired": "請選擇商戶狀態",
-    "retryCountRequired": "請輸入提幣重試次數"
+    "statusRequired": "請選擇狀態",
+    "retryCountRequired": "請輸入重試次數"
   },
   "message": {
-    "fetchError": "獲取數據失敗",
-    "saveSuccess": "保存成功",
+    "generateKeySuccess": "私鑰生成成功",
     "deleteSuccess": "刪除成功",
-    "operationFailed": "操作失敗",
-    "generateKeySuccess": "私鑰生成成功"
+    "saveSuccess": "儲存成功",
+    "fetchError": "獲取資料失敗"
   }
 } 
