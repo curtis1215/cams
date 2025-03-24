@@ -116,6 +116,14 @@
         ref="addWalletFormRef"
         layout="vertical"
       >
+        <!-- 商戶選擇 -->
+        <a-form-item :label="t('field.merchant')" name="merchant">
+          <merchant-select 
+            v-model="addWalletForm.merchant"
+            :style="{ width: '100%' }"
+          />
+        </a-form-item>
+
         <!-- 鏈類型 -->
         <a-form-item :label="t('field.chainType')" name="chainType">
           <chain-type-select v-model="addWalletForm.chainType" />
@@ -151,7 +159,7 @@ import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { SearchOutlined, ReloadOutlined, CopyOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
-import type { FormInstance } from 'ant-design-vue'
+import type { FormInstance } from 'ant-design-vue/es/form'
 import { useRouter } from 'vue-router'
 import type { WalletRecord, TablePagination, TableSorter, QueryParams, AddWalletForm } from '@/types/wallet'
 import type { TableColumnType } from 'ant-design-vue'
@@ -334,15 +342,27 @@ const addWalletFormRef = ref<FormInstance>()
 
 // 新增錢包表單數據
 const addWalletForm = reactive<AddWalletForm>({
+  merchant: undefined,
   chainType: undefined,
   walletType: 'transfer',  // 預設為外轉錢包
-  address: '',
+  address: ''
 })
+
+// 重置表單
+const resetForm = () => {
+  Object.assign(addWalletForm, {
+    merchant: undefined,
+    chainType: undefined,
+    walletType: 'transfer',
+    address: ''
+  })
+}
 
 // 表單驗證規則
 const addWalletRules = {
-  chainType: [{ required: true, message: t('prompt.selectChainType') }],
-  address: [{ required: true, message: t('prompt.inputAddress'), trigger: 'blur' }],
+  merchant: [{ required: true, message: t('validation.merchantRequired') }],
+  chainType: [{ required: true, message: t('validation.chainTypeRequired') }],
+  address: [{ required: true, message: t('validation.addressRequired'), trigger: 'blur' }],
 }
 
 // 處理新增錢包
@@ -361,6 +381,7 @@ const handleAddWallet = async () => {
         addWalletModalVisible.value = false
         confirmLoading.value = false
         // 重置表單
+        resetForm()
         addWalletFormRef.value?.resetFields()
       }, 1000)
     }
@@ -372,6 +393,7 @@ const handleAddWallet = async () => {
 // 取消新增
 const handleCancelAdd = () => {
   addWalletModalVisible.value = false
+  resetForm()
   addWalletFormRef.value?.resetFields()
 }
 </script>

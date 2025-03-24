@@ -30,6 +30,7 @@ export interface QueryParams {
 }
 
 export interface AddWalletForm {
+  merchant?: string;
   chainType?: string;
   walletType?: string;
   address?: string;
