@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import MainLayout from '../layouts/MainLayout.vue'
 import Login from '../views/Login.vue'
 import Dashboard from '../views/monitor/Dashboard.vue'
 import Alert from '../views/monitor/Alert.vue'
@@ -14,7 +13,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/',
-    component: MainLayout,
+    component: () => import('../layouts/MainLayout.vue'),
     children: [
       {
         path: '',

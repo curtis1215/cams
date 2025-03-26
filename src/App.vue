@@ -11,7 +11,7 @@
   </a-config-provider>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useDark } from '@vueuse/core'
 import { watch } from 'vue'

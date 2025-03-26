@@ -6,10 +6,10 @@
         <span class="card-title">{{ t('title.queryCondition') }}</span>
       </template>
       <a-form layout="inline" :model="queryParams" class="query-form">
-        <a-form-item :label="t('field.username')" class="form-item">
+        <a-form-item :label="t('field.email')" class="form-item">
           <a-input
-            v-model:value="queryParams.username"
-            :placeholder="t('prompt.pleaseInputUsername')"
+            v-model:value="queryParams.email"
+            :placeholder="t('prompt.pleaseInputEmail')"
             allow-clear
           />
         </a-form-item>
@@ -203,7 +203,7 @@ const { t } = useI18n({
 
 // 查詢參數
 const queryParams = ref({
-  username: '',
+  email: '',
   name: '',
   role: undefined as string | undefined,
   status: undefined as string | undefined
@@ -287,11 +287,11 @@ const handleQuery = () => {
   loading.value = true
   // 模擬 API 請求
   setTimeout(() => {
-    const { username, name, role, status } = queryParams.value
+    const { email, name, role, status } = queryParams.value
     
     // 過濾數據
     let filteredData = mockData.data.filter(item => {
-      if (username && !item.username.toLowerCase().includes(username.toLowerCase())) return false
+      if (email && !item.email.toLowerCase().includes(email.toLowerCase())) return false
       if (name && !item.name.includes(name)) return false
       if (role && item.role !== role) return false
       if (status && item.status !== status) return false
@@ -313,7 +313,7 @@ const handleQuery = () => {
 // 重置查詢
 const resetQuery = () => {
   queryParams.value = {
-    username: '',
+    email: '',
     name: '',
     role: undefined,
     status: undefined

@@ -54,6 +54,7 @@ export default defineConfig({
         drop_debugger: true
       }
     },
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         chunkFileNames: 'assets/js/[name]-[hash].js',
@@ -61,6 +62,15 @@ export default defineConfig({
         assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
         manualChunks(id) {
           if (id.includes('node_modules')) {
+            if (id.includes('ant-design-vue') || id.includes('@ant-design')) {
+              return 'ant-design'
+            }
+            if (id.includes('lodash')) {
+              return 'lodash'
+            }
+            if (id.includes('@vue')) {
+              return 'vue-vendor'
+            }
             return 'vendor'
           }
         }
