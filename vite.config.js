@@ -1,15 +1,47 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import { resolve } from 'path'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import vueJsx from '@vitejs/plugin-vue-jsx'
+import { viteMockServe } from 'vite-plugin-mock'
+import { visualizer } from 'rollup-plugin-visualizer'
+import { createHtmlPlugin } from 'vite-plugin-html'
 
-// https://vite.dev/config/
+// https://vitejs.dev/config/
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/' : './',
-  plugins: [vue()],
+  base: '/',
+  plugins: [
+    vue(),
+    vueJsx(),
+    viteMockServe({
+      mockPath: 'mock',
+      enable: true,
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [resolve(process.cwd(), 'src/icons')],
+      // 指定symbolId格式
+      symbolId: 'icon-[dir]-[name]',
+    }),
+    visualizer({
+      filename: './node_modules/.cache/visualizer/stats.html',
+      open: true,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+    createHtmlPlugin({
+      minify: true,
+      inject: {
+        data: {
+          title: 'CAMS',
+        },
+      },
+    }),
+  ],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src')
-    }
+      '@': resolve(__dirname, './src'),
+    },
   },
   assetsInclude: ['**/*.md'],
   build: {

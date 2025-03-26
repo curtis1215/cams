@@ -49,10 +49,6 @@
       <template #title>
         <div class="table-title">
           <span>{{ t('title.userList') }}</span>
-          <a-button type="primary" @click="showAddUserModal">
-            <template #icon><PlusOutlined /></template>
-            {{ t('action.add') }}
-          </a-button>
         </div>
       </template>
       
@@ -164,9 +160,11 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive, computed, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import type { FormInstance, TablePaginationConfig } from 'ant-design-vue'
+import type { FilterValue, SorterResult } from 'ant-design-vue/es/table/interface'
 import {
   SearchOutlined,
   ReloadOutlined,
@@ -180,6 +178,18 @@ import RoleSelect from '@/components/selectors/RoleSelect.vue'
 import zhLocale from '@/locales/system/Users/zh.json'
 import enLocale from '@/locales/system/Users/en.json'
 import mockData from '@/mock/system/users/list.mock.json'
+
+// 定義用戶介面
+interface User {
+  id: number
+  username: string
+  name: string
+  email: string
+  role: string
+  status: string
+  lastLoginTime: string
+  createTime: string
+}
 
 const messages = {
   zh: zhLocale,
@@ -195,8 +205,8 @@ const { t } = useI18n({
 const queryParams = ref({
   username: '',
   name: '',
-  role: undefined,
-  status: undefined
+  role: undefined as string | undefined,
+  status: undefined as string | undefined
 })
 
 // 表格列配置
@@ -252,7 +262,7 @@ const columns = [
 ]
 
 // 表格數據
-const tableData = ref([])
+const tableData = ref<User[]>([])
 const loading = ref(false)
 const pagination = reactive({
   current: 1,
@@ -267,7 +277,7 @@ const initData = () => {
   loading.value = true
   // 模擬 API 請求
   setTimeout(() => {
-    tableData.value = mockData.data
+    tableData.value = mockData.data as User[]
     loading.value = false
   }, 300)
 }
@@ -313,9 +323,13 @@ const resetQuery = () => {
 }
 
 // 表格變更處理
-const handleTableChange = (pag, filters, sorter) => {
-  pagination.current = pag.current
-  pagination.pageSize = pag.pageSize
+const handleTableChange = (
+  pag: TablePaginationConfig,
+  filters: Record<string, FilterValue | null>,
+  sorter: SorterResult<User> | SorterResult<User>[]
+) => {
+  pagination.current = pag.current || 1
+  pagination.pageSize = pag.pageSize || 10
   handleQuery()
 }
 
@@ -323,15 +337,15 @@ const handleTableChange = (pag, filters, sorter) => {
 const userModalVisible = ref(false)
 const modalLoading = ref(false)
 const isEdit = ref(false)
-const userFormRef = ref(null)
+const userFormRef = ref<FormInstance>()
 const userForm = reactive({
   username: '',
   password: '',
   confirmPassword: '',
   name: '',
   email: '',
-  role: undefined,
-  status: 'enabled'
+  role: undefined as string | undefined,
+  status: 'enabled' as string
 })
 
 // 表單驗證規則
@@ -341,7 +355,7 @@ const userFormRules = {
   confirmPassword: [
     { required: true, message: t('prompt.pleaseConfirmPassword') },
     {
-      validator: async (rule, value) => {
+      validator: async (_rule: any, value: string) => {
         if (value && value !== userForm.password) {
           throw new Error(t('message.passwordNotMatch'))
         }
@@ -364,7 +378,7 @@ const showAddUserModal = () => {
 }
 
 // 顯示編輯用戶彈窗
-const handleEdit = (record) => {
+const handleEdit = (record: User) => {
   isEdit.value = true
   Object.assign(userForm, record)
   userModalVisible.value = true
@@ -372,6 +386,8 @@ const handleEdit = (record) => {
 
 // 處理用戶彈窗確認
 const handleUserModalOk = async () => {
+  if (!userFormRef.value) return
+  
   try {
     await userFormRef.value.validate()
     modalLoading.value = true
@@ -394,7 +410,7 @@ const handleUserModalCancel = () => {
 }
 
 // 處理刪除用戶
-const handleDelete = (record) => {
+const handleDelete = (record: User) => {
   // 模擬 API 請求
   setTimeout(() => {
     message.success(t('message.deleteSuccess'))
@@ -403,7 +419,7 @@ const handleDelete = (record) => {
 }
 
 // 查看用戶歷程
-const handleViewHistory = (record) => {
+const handleViewHistory = (record: User) => {
   // TODO: 實現查看歷程功能
 }
 
