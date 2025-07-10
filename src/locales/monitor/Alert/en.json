@@ -14,6 +14,7 @@
     "largeAmount": "Large Transaction Alert Settings",
     "withdrawDuration": "Withdrawal Duration Settings",
     "nodeHeight": "Node Height Alert Settings",
+    "alertSettings": "Alert Settings",
     "confirm": "Confirmation Reason",
     "walletAction": "Wallet Action",
     "actionReason": "Action Reason",
@@ -63,7 +64,14 @@
     "fromAddress": "From Address",
     "toAddress": "To Address",
     "operator": "Operator",
-    "confirmReason": "Confirm Reason"
+    "confirmReason": "Confirm Reason",
+    "chainName": "Chain Name",
+    "alertItem": "Alert Item",
+    "alertThreshold": "Alert Threshold",
+    "alertDuration": "Alert Duration",
+    "lastEditTime": "Last Edit Time",
+    "edit": "Edit",
+    "delete": "Delete"
   },
   "reason": {
     "serviceHeightBehind": "Service Height Behind",
@@ -91,10 +99,13 @@
     "pleaseInputReason": "Please input confirmation reason",
     "confirmSuccess": "Confirmed successfully",
     "actionSuccess": "Action successful",
-    "copySuccess": "Copied successfully"
+    "copySuccess": "Copied successfully",
+    "deleteSuccess": "Deleted successfully",
+    "editSuccess": "Edited successfully"
   },
   "button": {
-    "addRule": "Add Rule"
+    "addRule": "Add Rule",
+    "addAlertRule": "Add"
   },
   "statistics": {
     "nodeHeight": "Node Height Alert",
@@ -124,11 +135,18 @@
     "reason": "Reason",
     "merchant": "Merchant",
     "orderId": "Order ID",
-    "operator": "Operator"
+    "operator": "Operator",
+    "chain": "Chain"
   },
   "prompt": {
     "pleaseInputConfirmReason": "Please input confirmation reason...",
     "inputOrderId": "Please input order ID",
-    "inputOperator": "Please input operator"
+    "inputOperator": "Please input operator",
+    "selectChain": "Please select chain",
+    "selectAlertItem": "Please select alert item"
+  },
+  "alertItem": {
+    "serviceHeight": "Service Height",
+    "nodeHeight": "Node Height"
   }
 } 

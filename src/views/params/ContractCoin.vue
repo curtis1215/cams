@@ -91,6 +91,12 @@
             <a-form-item :label="t('modal.form.coinCode')">
               <a-input v-model:value="formData.coinCode" disabled />
             </a-form-item>
+
+            <a-form-item :label="t('modal.form.isMainCoin')">
+              <a-checkbox v-model:checked="formData.isMainCoin">
+                {{ t('modal.form.isMainCoinLabel') }}
+              </a-checkbox>
+            </a-form-item>
             
             <a-form-item :label="t('modal.form.decimals')">
               <a-input v-model:value="formData.decimals" disabled />
@@ -276,6 +282,7 @@ interface FormData {
   sourcePair?: string
   price: string
   walletLimits: WalletLimits
+  isMainCoin: boolean
 }
 
 interface ContractCoin {
@@ -426,7 +433,8 @@ const formData = ref<FormData>({
   priceSource: undefined,
   sourcePair: undefined,
   price: '0',
-  walletLimits: {}
+  walletLimits: {},
+  isMainCoin: false
 })
 
 // 在 script setup 部分添加
@@ -531,7 +539,8 @@ const handleCancel = () => {
     priceSource: undefined,
     sourcePair: undefined,
     price: '0',
-    walletLimits: {}
+    walletLimits: {},
+    isMainCoin: false
   }
 }
 
@@ -551,7 +560,8 @@ const handleEdit = (record: ContractCoin) => {
     priceSource: record.priceSource,
     sourcePair: record.sourcePair,
     price: record.price,
-    walletLimits: {}
+    walletLimits: {},
+    isMainCoin: false
   }
   
   addModalVisible.value = true

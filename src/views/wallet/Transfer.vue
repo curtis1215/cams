@@ -354,9 +354,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, computed, onMounted } from 'vue'
+import { ref, reactive, computed, onMounted, h } from 'vue'
 import { message } from 'ant-design-vue'
-import { SearchOutlined } from '@ant-design/icons-vue'
+import { SearchOutlined, CopyOutlined } from '@ant-design/icons-vue'
 import { useI18n } from 'vue-i18n'
 import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
@@ -532,6 +532,22 @@ const queryParams = reactive({
 const transferList = ref(mockData.transferList)
 const loading = ref(false)
 
+// 格式化地址顯示
+const formatAddress = (address: string): string => {
+  if (!address) return '-'
+  return `${address.slice(0, 4)}***${address.slice(-4)}`
+}
+
+// 複製地址
+const copyAddress = async (address: string): Promise<void> => {
+  try {
+    await navigator.clipboard.writeText(address)
+    message.success(t('message.copySuccess'))
+  } catch (err) {
+    message.error(t('message.copyFailed'))
+  }
+}
+
 // 表格列定義
 const columns = [
   {
@@ -541,10 +557,19 @@ const columns = [
     width: 180,
   },
   {
-    title: t('field.fromWalletId'),
+    title: t('field.fromAddress'),
     dataIndex: 'fromWalletId',
     key: 'fromWalletId',
-    width: 180,
+    width: 200,
+    customRender: ({ text }: { text: string }) => {
+      return h('div', { class: 'address-container' }, [
+        h('span', {}, formatAddress(text)),
+        h(CopyOutlined, {
+          class: 'copy-icon',
+          onClick: () => copyAddress(text)
+        })
+      ])
+    }
   },
   {
     title: t('field.fromChainType'),
@@ -572,10 +597,19 @@ const columns = [
     width: 120
   },
   {
-    title: t('field.toWalletId'),
+    title: t('field.toAddress'),
     dataIndex: 'toWalletId',
     key: 'toWalletId',
-    width: 140
+    width: 200,
+    customRender: ({ text }: { text: string }) => {
+      return h('div', { class: 'address-container' }, [
+        h('span', {}, formatAddress(text)),
+        h(CopyOutlined, {
+          class: 'copy-icon',
+          onClick: () => copyAddress(text)
+        })
+      ])
+    }
   },
   {
     title: t('field.toChainType'),
@@ -953,6 +987,23 @@ const handleTableChange = (pag: { current: number; pageSize: number }) => {
         flex: 1;
         overflow: auto;
       }
+    }
+  }
+
+  .address-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .copy-icon {
+    cursor: pointer;
+    color: #1890ff;
+    font-size: 16px;
+    transition: color 0.3s;
+
+    &:hover {
+      color: #40a9ff;
     }
   }
 }

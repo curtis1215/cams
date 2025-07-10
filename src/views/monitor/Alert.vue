@@ -24,7 +24,7 @@
       <template #title>
         <div class="card-header">
           <span class="card-title">{{ t('card.nodeHeight') }}</span>
-          <a-button type="primary" size="small" @click="showHeightSettingModal">
+          <a-button type="primary" size="small" @click="showAlertSettingsModal">
             <template #icon><SettingOutlined /></template>
             {{ t('settings') }}
           </a-button>
@@ -349,51 +349,115 @@
       </a-form>
     </a-modal>
 
-    <!-- 節點高度告警設置彈窗 -->
+    <!-- 告警設置彈窗 -->
     <a-modal
-      v-model:open="heightSettingModalVisible"
-      :title="t('modal.nodeHeight')"
-      @ok="handleHeightSettingSave"
-      width="800px"
+      v-model:open="alertSettingsModalVisible"
+      :title="t('modal.alertSettings')"
+      :width="1000"
+      :footer="null"
     >
-      <div class="height-alert-settings">
-        <div v-for="(rule, index) in heightAlertRules" :key="index" class="height-alert-rule">
-          <div class="rule-content">
-            <span>{{ t('text.when') }}</span>
+      <!-- 篩選區域 -->
+      <div class="filter-section">
+        <a-form layout="inline" :model="alertSettingsQuery">
+          <a-form-item :label="t('field.chain')">
             <a-select
-              v-model:value="rule.type"
-              style="width: 120px"
-              :options="[
-                { value: 'service', label: t('text.serviceHeight') },
-                { value: 'node', label: t('text.nodeHeight') }
-              ]"
+              v-model:value="alertSettingsQuery.chain"
+              :placeholder="t('prompt.selectChain')"
+              :style="{ width: '200px' }"
+              :options="chainOptions"
+              allowClear
             />
-            <span>{{ t('text.lagsBehind') }}</span>
-            <a-input-number
-              v-model:value="rule.threshold"
-              :min="1"
-              style="width: 100px"
-              :step="100"
-            />
-            <span>{{ t('text.reaches') }}</span>
-            <a-input-number
-              v-model:value="rule.duration"
-              :min="1"
-              style="width: 80px"
-            />
-            <span>{{ t('unit.minutes') }}</span>
-          </div>
-          <a-button type="text" danger @click="removeHeightRule(index)">
-            <template #icon><DeleteOutlined /></template>
-          </a-button>
-        </div>
-        <div class="add-rule">
-          <a-button type="dashed" block @click="addHeightRule">
-            <template #icon><PlusOutlined /></template>
-            {{ t('button.addRule') }}
-          </a-button>
-        </div>
+          </a-form-item>
+          <a-form-item>
+            <a-button type="primary" @click="handleAlertSettingsSearch">
+              <template #icon><SearchOutlined /></template>
+              {{ t('action.search') }}
+            </a-button>
+          </a-form-item>
+        </a-form>
       </div>
+
+      <!-- 表格區域 -->
+      <div class="table-section">
+        <div class="table-header">
+          <a-button type="primary" @click="showAddAlertRuleModal">
+            <template #icon><PlusOutlined /></template>
+            {{ t('button.addAlertRule') }}
+          </a-button>
+        </div>
+        <a-table
+          :columns="alertSettingsColumns"
+          :data-source="alertSettingsData"
+          :pagination="alertSettingsPagination"
+          :loading="alertSettingsLoading"
+          @change="handleAlertSettingsTableChange"
+          :scroll="{ x: 1000 }"
+          :bordered="true"
+        >
+          <template #bodyCell="{ column, record }">
+            <template v-if="column.key === 'alertItem'">
+              <span>{{ t(`alertItem.${record.alertItem}`) }}</span>
+            </template>
+            <template v-else-if="column.key === 'action'">
+              <a-space>
+                <a-button type="primary" size="small" @click="handleEditAlertRule(record)">
+                  {{ t('column.edit') }}
+                </a-button>
+                <a-button danger size="small" @click="handleDeleteAlertRule(record)">
+                  {{ t('column.delete') }}
+                </a-button>
+              </a-space>
+            </template>
+          </template>
+        </a-table>
+      </div>
+    </a-modal>
+
+    <!-- 新增/編輯告警規則彈窗 -->
+    <a-modal
+      v-model:open="alertRuleModalVisible"
+      :title="alertRuleForm.id ? t('column.edit') : t('button.addAlertRule')"
+      @ok="handleAlertRuleSubmit"
+    >
+      <a-form :model="alertRuleForm" :label-col="{ span: 8 }" :wrapper-col="{ span: 16 }">
+        <a-form-item :label="t('field.chain')" required>
+          <a-select
+            v-model:value="alertRuleForm.chainName"
+            :placeholder="t('prompt.selectChain')"
+            :options="chainOptions"
+            style="width: 100%"
+          />
+        </a-form-item>
+        <a-form-item :label="t('column.alertItem')" required>
+          <a-select
+            v-model:value="alertRuleForm.alertItem"
+            :placeholder="t('prompt.selectAlertItem')"
+            :options="[
+              { value: 'serviceHeight', label: t('alertItem.serviceHeight') },
+              { value: 'nodeHeight', label: t('alertItem.nodeHeight') }
+            ]"
+            style="width: 100%"
+          />
+        </a-form-item>
+        <a-form-item :label="t('column.alertThreshold')" required>
+          <a-input-number
+            v-model:value="alertRuleForm.alertThreshold"
+            :min="1"
+            :step="100"
+            style="width: 100%"
+          />
+        </a-form-item>
+        <a-form-item :label="t('column.alertDuration')" required>
+          <a-input-number
+            v-model:value="alertRuleForm.alertDuration"
+            :min="1"
+            :step="1"
+            style="width: 100%"
+          >
+            <template #addonAfter>{{ t('unit.minutes') }}</template>
+          </a-input-number>
+        </a-form-item>
+      </a-form>
     </a-modal>
 
     <!-- 確認彈窗 -->
@@ -578,6 +642,7 @@ import {
 } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import mockData from '@/mock/monitor/Alert/alert.mock.json'
+import alertSettingsMockData from '@/mock/monitor/Alert/alertSettings.mock.json'
 import zhLocale from '@/locales/monitor/Alert/zh.json'
 import enLocale from '@/locales/monitor/Alert/en.json'
 import { useRouter } from 'vue-router'
@@ -1320,6 +1385,164 @@ const showOperationRecordModal = () => {
   loadOperationRecordData()
 }
 
+// 告警設置相關數據
+interface AlertSettingRecord {
+  id: string
+  chainName: string
+  alertItem: string
+  alertThreshold: number
+  alertDuration: number
+  lastEditTime: string
+}
+
+const alertSettingsModalVisible = ref(false)
+const alertSettingsQuery = ref({
+  chain: undefined
+})
+
+const alertSettingsData = ref<AlertSettingRecord[]>([])
+const alertSettingsLoading = ref(false)
+const alertSettingsPagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 0,
+  showSizeChanger: true,
+  showQuickJumper: true,
+  showTotal: (total: number) => t('pagination.total', { total })
+})
+
+const chainOptions = computed(() => alertSettingsMockData.chainOptions)
+
+const alertSettingsColumns = computed(() => [
+  {
+    title: t('column.chainName'),
+    dataIndex: 'chainName',
+    key: 'chainName',
+    width: 120
+  },
+  {
+    title: t('column.alertItem'),
+    dataIndex: 'alertItem',
+    key: 'alertItem',
+    width: 120
+  },
+  {
+    title: t('column.alertThreshold'),
+    dataIndex: 'alertThreshold',
+    key: 'alertThreshold',
+    width: 120
+  },
+  {
+    title: t('column.alertDuration'),
+    dataIndex: 'alertDuration',
+    key: 'alertDuration',
+    width: 120
+  },
+  {
+    title: t('column.lastEditTime'),
+    dataIndex: 'lastEditTime',
+    key: 'lastEditTime',
+    width: 180
+  },
+  {
+    title: t('column.action'),
+    key: 'action',
+    width: 150,
+    fixed: 'right'
+  }
+])
+
+// 告警規則表單
+const alertRuleModalVisible = ref(false)
+const alertRuleForm = reactive({
+  id: '',
+  chainName: '',
+  alertItem: '',
+  alertThreshold: 300,
+  alertDuration: 7
+})
+
+// 加載告警設置數據
+const loadAlertSettingsData = async () => {
+  try {
+    alertSettingsLoading.value = true
+    // 模擬API調用
+    const filteredData = alertSettingsMockData.alertSettingsData.filter(item => {
+      if (alertSettingsQuery.value.chain && item.chainName !== alertSettingsQuery.value.chain) {
+        return false
+      }
+      return true
+    })
+    alertSettingsData.value = filteredData
+    alertSettingsPagination.total = filteredData.length
+  } catch (error) {
+    console.error('Load alert settings data failed:', error)
+  } finally {
+    alertSettingsLoading.value = false
+  }
+}
+
+// 處理告警設置查詢
+const handleAlertSettingsSearch = () => {
+  alertSettingsPagination.current = 1
+  loadAlertSettingsData()
+}
+
+// 處理告警設置表格變更
+const handleAlertSettingsTableChange = (pag: TablePaginationConfig) => {
+  alertSettingsPagination.current = pag.current || 1
+  alertSettingsPagination.pageSize = pag.pageSize || 10
+  loadAlertSettingsData()
+}
+
+// 顯示告警設置彈窗
+const showAlertSettingsModal = () => {
+  alertSettingsModalVisible.value = true
+  loadAlertSettingsData()
+}
+
+// 顯示新增告警規則彈窗
+const showAddAlertRuleModal = () => {
+  alertRuleForm.id = ''
+  alertRuleForm.chainName = ''
+  alertRuleForm.alertItem = ''
+  alertRuleForm.alertThreshold = 300
+  alertRuleForm.alertDuration = 7
+  alertRuleModalVisible.value = true
+}
+
+// 處理編輯告警規則
+const handleEditAlertRule = (record: AlertSettingRecord) => {
+  alertRuleForm.id = record.id
+  alertRuleForm.chainName = record.chainName
+  alertRuleForm.alertItem = record.alertItem
+  alertRuleForm.alertThreshold = record.alertThreshold
+  alertRuleForm.alertDuration = record.alertDuration
+  alertRuleModalVisible.value = true
+}
+
+// 處理刪除告警規則
+const handleDeleteAlertRule = (record: AlertSettingRecord) => {
+  // TODO: 調用API刪除告警規則
+  console.log('Delete alert rule:', record)
+  message.success(t('message.deleteSuccess'))
+  loadAlertSettingsData()
+}
+
+// 處理告警規則提交
+const handleAlertRuleSubmit = () => {
+  if (!alertRuleForm.chainName || !alertRuleForm.alertItem) {
+    message.error(t('message.pleaseInputReason'))
+    return
+  }
+  
+  // TODO: 調用API保存告警規則
+  console.log('Save alert rule:', alertRuleForm)
+  message.success(alertRuleForm.id ? t('message.editSuccess') : t('message.settingsSaved'))
+  alertRuleModalVisible.value = false
+  loadAlertSettingsData()
+}
+
 </script>
 
 <style scoped>
@@ -1543,5 +1766,49 @@ const showOperationRecordModal = () => {
 
 .operation-record-table {
   margin-top: 16px;
+}
+
+/* 告警設置彈窗樣式 */
+.filter-section {
+  margin-bottom: 16px;
+  padding: 16px;
+  background: #1f1f1f;
+  border-radius: 6px;
+  border: 1px solid #303030;
+}
+
+.table-section {
+  margin-top: 16px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+/* 深色模式表格樣式 */
+:deep(.ant-table) {
+  background-color: #141414;
+}
+
+:deep(.ant-table-thead > tr > th) {
+  background-color: #1f1f1f;
+  border-color: #303030;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-table-tbody > tr > td) {
+  background-color: #141414;
+  border-color: #303030;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-table-tbody > tr:hover > td) {
+  background-color: #1f1f1f;
+}
+
+:deep(.ant-form-item-label > label) {
+  color: rgba(255, 255, 255, 0.85);
 }
 </style>

@@ -23,7 +23,8 @@
       "updateTime": "更新時間",
       "actions": "操作",
       "edit": "編輯",
-      "delete": "刪除"
+      "delete": "刪除",
+      "isMainCoin": "主幣"
     }
   },
   "modal": {
@@ -35,6 +36,8 @@
       "contractAddress": "合約地址",
       "coinName": "幣種名稱",
       "coinCode": "幣種代碼",
+      "isMainCoin": "主幣設置",
+      "isMainCoinLabel": "設為主幣",
       "decimals": "精度",
       "gasLimitMax": "燃料上限",
       "gasLimitMin": "燃料下限",

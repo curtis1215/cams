@@ -12,11 +12,11 @@
   },
   "field": {
     "transferOrderId": "錢包轉賬單號",
-    "fromWalletId": "轉出錢包ID",
+    "fromAddress": "來源地址",
     "fromChainType": "轉出鏈類型",
     "fromCurrency": "轉出幣種",
     "toWallet": "轉入錢包",
-    "toWalletId": "轉入錢包ID",
+    "toAddress": "目標地址",
     "toChainType": "轉入鏈類型",
     "toCurrency": "轉入幣種",
     "transferAmount": "轉帳數量",

@@ -1,0 +1,59 @@
+{
+  "alertSettingsData": [
+    {
+      "id": "1",
+      "chainName": "Bitcoin",
+      "alertItem": "serviceHeight",
+      "alertThreshold": 300,
+      "alertDuration": 7,
+      "lastEditTime": "2024-01-15 10:30:00"
+    },
+    {
+      "id": "2",
+      "chainName": "Bitcoin",
+      "alertItem": "nodeHeight",
+      "alertThreshold": 300,
+      "alertDuration": 240,
+      "lastEditTime": "2024-01-15 10:30:00"
+    },
+    {
+      "id": "3",
+      "chainName": "Ethereum",
+      "alertItem": "serviceHeight",
+      "alertThreshold": 200,
+      "alertDuration": 5,
+      "lastEditTime": "2024-01-14 15:20:00"
+    },
+    {
+      "id": "4",
+      "chainName": "Ethereum",
+      "alertItem": "nodeHeight",
+      "alertThreshold": 200,
+      "alertDuration": 180,
+      "lastEditTime": "2024-01-14 15:20:00"
+    },
+    {
+      "id": "5",
+      "chainName": "Tron",
+      "alertItem": "serviceHeight",
+      "alertThreshold": 500,
+      "alertDuration": 10,
+      "lastEditTime": "2024-01-13 09:45:00"
+    },
+    {
+      "id": "6",
+      "chainName": "Tron",
+      "alertItem": "nodeHeight",
+      "alertThreshold": 500,
+      "alertDuration": 300,
+      "lastEditTime": "2024-01-13 09:45:00"
+    }
+  ],
+  "chainOptions": [
+    { "value": "Bitcoin", "label": "Bitcoin" },
+    { "value": "Ethereum", "label": "Ethereum" },
+    { "value": "Tron", "label": "Tron" },
+    { "value": "BSC", "label": "BSC" },
+    { "value": "Polygon", "label": "Polygon" }
+  ]
+} 

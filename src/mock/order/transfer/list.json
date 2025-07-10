@@ -1,0 +1,39 @@
+{
+  "total": 100,
+  "data": [
+    {
+      "id": "TR001",
+      "transferId": "TF20240315001",
+      "fromAddress": "0x1234567890abcdef1234567890abcdef12345678",
+      "toAddress": "0xabcdef1234567890abcdef1234567890abcdef12",
+      "amount": "1.5",
+      "coinCode": "ETH",
+      "txHash": "0x9876543210fedcba9876543210fedcba98765432",
+      "status": "success",
+      "createTime": "2024-03-15 10:00:00",
+      "onChainTime": "2024-03-15 10:01:00",
+      "successTime": "2024-03-15 10:02:00",
+      "transferType": {
+        "type": "deposit",
+        "orderId": "DEP20240315001"
+      }
+    },
+    {
+      "id": "TR002",
+      "transferId": "TF20240315002",
+      "fromAddress": "0x2345678901abcdef2345678901abcdef23456789",
+      "toAddress": "0xbcdef1234567890abcdef1234567890abcdef123",
+      "amount": "2.0",
+      "coinCode": "BTC",
+      "txHash": "0x8765432109fedcba8765432109fedcba87654321",
+      "status": "pending",
+      "createTime": "2024-03-15 11:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transferType": {
+        "type": "withdraw",
+        "orderId": "WD20240315001"
+      }
+    }
+  ]
+} 

@@ -70,7 +70,7 @@
         </a-button>
       </template>
       <a-table
-        :columns="columns"
+        :columns="tableColumns"
         :data-source="tableData"
         :pagination="pagination"
         :bordered="true"
@@ -189,18 +189,82 @@
   </div>
 </template>
 
-<script setup>
-import { ref, computed } from 'vue'
+<script setup lang="ts">
+import { ref, computed, onMounted, h } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
+import type { TablePaginationConfig } from 'ant-design-vue'
+import type { FilterValue } from 'ant-design-vue/es/table/interface'
 import { CopyOutlined, LinkOutlined, DownloadOutlined } from '@ant-design/icons-vue'
 import TransferStatusSelect from '@/components/selectors/TransferStatusSelect.vue'
 import TransferTypeSelect from '@/components/selectors/TransferTypeSelect.vue'
 import zhLocale from '@/locales/order/TransferRecord/zh.json'
 import enLocale from '@/locales/order/TransferRecord/en.json'
-import mockData from '@/mock/order/TransferRecord/transferRecord.mock.json'
+import mockData from '@/mock/order/transfer/list.json'
 import '@/styles/common.css'
 import { useRouter } from 'vue-router'
+
+interface TransferType {
+  type: string
+  orderId?: string
+}
+
+interface TransferRecord {
+  id: string
+  transferId: string
+  fromAddress: string
+  toAddress: string
+  amount: string
+  coinCode: string
+  txHash: string
+  status: string
+  createTime: string
+  onChainTime: string | null
+  successTime: string | null
+  transferType: TransferType
+}
+
+interface QueryParams {
+  orderId: string
+  walletId: string
+  address: string
+  fromAddress: string
+  toAddress: string
+  txHash: string
+  relatedOrderId: string
+  status: string | undefined
+  transferType: string | undefined
+}
+
+interface TableColumn {
+  title: string
+  dataIndex: string | string[]
+  key: string
+  width?: number
+  align?: 'left' | 'right' | 'center'
+  fixed?: 'left' | 'right'
+  customRender?: (params: { text: any; record: TransferRecord }) => any
+}
+
+interface TypeChangeRecord {
+  key: string
+  transferType: {
+    type: string
+  }
+}
+
+interface TypeChangeFormData {
+  type: string | undefined
+  reason: string
+  recordId: string | null
+}
+
+interface ReasonRecord {
+  transferType: {
+    type: string
+    reason?: string
+  }
+}
 
 const messages = {
   zh: zhLocale,
@@ -212,10 +276,12 @@ const { t } = useI18n({
   legacy: false
 })
 
-const queryParams = ref({
+const queryParams = ref<QueryParams>({
   orderId: '',
   walletId: '',
   address: '',
+  fromAddress: '',
+  toAddress: '',
   txHash: '',
   relatedOrderId: '',
   status: undefined,
@@ -229,16 +295,63 @@ const handleReset = () => {
     orderId: '',
     walletId: '',
     address: '',
+    fromAddress: '',
+    toAddress: '',
     txHash: '',
     relatedOrderId: '',
     status: undefined,
     transferType: undefined
   }
+  handleQuery()
 }
 
 const handleQuery = () => {
-  // 實現查詢邏輯
-  console.log('Query with params:', queryParams.value)
+  // 模擬 API 請求
+  tableData.value = mockData.data as TransferRecord[]
+  pagination.value.total = mockData.total
+}
+
+// 定義狀態和類型的枚舉
+enum TransferStatus {
+  PENDING = 'pending',
+  PROCESSING = 'processing',
+  MANUAL_CONFIRM = 'manualConfirm',
+  SUCCESS = 'success',
+  FAILED = 'failed'
+}
+
+enum TransferTypeEnum {
+  DEPOSIT = 'deposit',
+  WITHDRAW = 'withdraw',
+  COLLECTION = 'collection',
+  EXCHANGE = 'exchange',
+  REPLENISH = 'replenish',
+  MANUAL = 'manual'
+}
+
+// 格式化狀態
+const formatStatus = (status: TransferStatus): string => {
+  const statusMap: Record<TransferStatus, string> = {
+    [TransferStatus.PENDING]: t('status.pending'),
+    [TransferStatus.PROCESSING]: t('status.processing'),
+    [TransferStatus.MANUAL_CONFIRM]: t('status.manualConfirm'),
+    [TransferStatus.SUCCESS]: t('status.success'),
+    [TransferStatus.FAILED]: t('status.failed')
+  }
+  return statusMap[status]
+}
+
+// 格式化轉賬類型
+const formatTransferType = (type: TransferTypeEnum): string => {
+  const typeMap: Record<TransferTypeEnum, string> = {
+    [TransferTypeEnum.DEPOSIT]: t('transferType.deposit'),
+    [TransferTypeEnum.WITHDRAW]: t('transferType.withdraw'),
+    [TransferTypeEnum.COLLECTION]: t('transferType.collection'),
+    [TransferTypeEnum.EXCHANGE]: t('transferType.exchange'),
+    [TransferTypeEnum.REPLENISH]: t('transferType.replenish'),
+    [TransferTypeEnum.MANUAL]: t('transferType.manual')
+  }
+  return typeMap[type]
 }
 
 const columns = computed(() => [
@@ -299,39 +412,43 @@ const columns = computed(() => [
   }
 ])
 
-const tableData = ref(mockData.records)
+const tableData = ref<TransferRecord[]>([])
 
-const pagination = ref({
-  total: mockData.total,
-  current: mockData.current,
-  pageSize: mockData.pageSize,
+const pagination = ref<TablePaginationConfig>({
+  current: 1,
+  pageSize: 10,
+  total: 0,
   showSizeChanger: true,
-  showQuickJumper: true,
+  showQuickJumper: true
 })
 
-const handleTableChange = (pag, filters, sorter) => {
-  pagination.value.current = pag.current
-  pagination.value.pageSize = pag.pageSize
-  // 這裡可以添加獲取數據的邏輯
+const handleTableChange = (
+  pag: TablePaginationConfig,
+  filters: Record<string, FilterValue | null>,
+  sorter: { field: string; order: string }
+) => {
+  pagination.value.current = pag.current || 1
+  pagination.value.pageSize = pag.pageSize || 10
+  handleQuery()
 }
 
-const getStatusText = (status) => {
-  const statusMap = {
-    pending: t('status.pending'),
-    processing: t('status.processing'),
-    manualConfirm: t('status.manualConfirm'),
-    success: t('status.success'),
-    failed: t('status.failed')
+const getStatusText = (status: TransferStatus): string => {
+  const statusMap: Record<TransferStatus, string> = {
+    [TransferStatus.PENDING]: t('status.pending'),
+    [TransferStatus.PROCESSING]: t('status.processing'),
+    [TransferStatus.MANUAL_CONFIRM]: t('status.manualConfirm'),
+    [TransferStatus.SUCCESS]: t('status.success'),
+    [TransferStatus.FAILED]: t('status.failed')
   }
   return statusMap[status] || status
 }
 
-const formatTxHash = (hash) => {
-  if (!hash) return ''
-  return `${hash.slice(0, 6)}****${hash.slice(-6)}`
+const formatTxHash = (hash: string): string => {
+  if (!hash) return '-'
+  return `${hash.slice(0, 8)}...${hash.slice(-8)}`
 }
 
-const copyTxHash = async (txHash) => {
+const copyTxHash = async (txHash: string): Promise<void> => {
   try {
     await navigator.clipboard.writeText(txHash)
     message.success(t('message.copySuccess'))
@@ -340,25 +457,25 @@ const copyTxHash = async (txHash) => {
   }
 }
 
-const openTxHashLink = (txHash) => {
+const openTxHashLink = (txHash: string): void => {
   // 實現打開區塊鏈瀏覽器的邏輯
   window.open(`https://example.com/tx/${txHash}`, '_blank')
 }
 
-const handleStatusSetting = (record) => {
+const handleStatusSetting = (record: TransferRecord): void => {
   // 實現狀態設定的邏輯
   console.log('Status setting for record:', record)
 }
 
-const handleOrderClick = (orderId, type) => {
+const handleOrderClick = (orderId: string, type: TransferTypeEnum): void => {
   // 根據不同的轉帳類型跳轉到不同的訂單詳情頁
-  const typeToPath = {
-    deposit: '/order/deposit',
-    withdraw: '/order/withdraw',
-    collection: '/wallet/collection',
-    exchange: '/wallet/exchange',
-    replenish: '/wallet/replenish',
-    manual: '/order/manual'
+  const typeToPath: Record<TransferTypeEnum, string> = {
+    [TransferTypeEnum.DEPOSIT]: '/order/deposit',
+    [TransferTypeEnum.WITHDRAW]: '/order/withdraw',
+    [TransferTypeEnum.COLLECTION]: '/wallet/collection',
+    [TransferTypeEnum.EXCHANGE]: '/wallet/exchange',
+    [TransferTypeEnum.REPLENISH]: '/wallet/replenish',
+    [TransferTypeEnum.MANUAL]: '/order/manual'
   }
   
   const path = typeToPath[type]
@@ -372,13 +489,13 @@ const handleOrderClick = (orderId, type) => {
 
 // 類型變更相關
 const typeChangeModalVisible = ref(false)
-const typeChangeForm = ref({
+const typeChangeForm = ref<TypeChangeFormData>({
   type: undefined,
   reason: '',
   recordId: null
 })
 
-const handleTypeChange = (record) => {
+const handleTypeChange = (record: TypeChangeRecord): void => {
   typeChangeForm.value.recordId = record.key
   typeChangeForm.value.type = undefined
   typeChangeForm.value.reason = ''
@@ -410,19 +527,41 @@ const handleTypeChangeCancel = () => {
 const reasonModalVisible = ref(false)
 const currentReason = ref('')
 
-const showReason = (record) => {
+const showReason = (record: ReasonRecord): void => {
   if (['manualOut', 'manualIn', 'systemError'].includes(record.transferType.type)) {
     currentReason.value = record.transferType.reason || t('noReasonProvided')
     reasonModalVisible.value = true
   }
 }
 
-const handleDownload = () => {
+// 處理轉賬類型變更
+const handleTransferTypeChange = (record: TransferRecord, type: TransferTypeEnum, orderId: string): void => {
+  console.log('Change transfer type:', { record, type, orderId })
+}
+
+// 處理查看詳情
+const handleViewDetail = (record: TransferRecord): void => {
+  console.log('View detail:', record)
+}
+
+// 處理下載
+const handleDownload = (): void => {
   // 將表格數據轉換為CSV格式
-  const headers = columns.map(col => col.title).join(',')
+  const columnsValue = tableColumns.value
+  const headers = columnsValue.map(col => col.title).join(',')
   const rows = tableData.value.map(row => {
-    return columns.map(col => {
-      const value = row[col.dataIndex] || ''
+    return columnsValue.map(col => {
+      let value = ''
+      if (typeof col.dataIndex === 'string') {
+        value = (row as Record<string, any>)[col.dataIndex] || ''
+      } else if (Array.isArray(col.dataIndex)) {
+        // 處理嵌套屬性，例如 ['transferType', 'type']
+        let current: any = row
+        for (const key of col.dataIndex) {
+          current = current?.[key]
+        }
+        value = current || ''
+      }
       return `"${value}"`
     }).join(',')
   })
@@ -440,6 +579,99 @@ const handleDownload = () => {
   document.body.removeChild(link)
   message.success(t('message.downloadSuccess'))
 }
+
+// 格式化地址顯示
+const formatAddress = (address: string): string => {
+  if (!address) return '-'
+  return `${address.slice(0, 4)}***${address.slice(-4)}`
+}
+
+// 複製地址
+const copyAddress = async (address: string): Promise<void> => {
+  try {
+    await navigator.clipboard.writeText(address)
+    message.success(t('message.copySuccess'))
+  } catch (err) {
+    message.error(t('message.copyFailed'))
+  }
+}
+
+// 表格列定義
+const tableColumns = computed(() => {
+  const columns: TableColumn[] = [
+    {
+      title: t('field.transferId'),
+      dataIndex: 'transferId',
+      key: 'transferId',
+      width: 150
+    },
+    {
+      title: t('field.fromAddress'),
+      dataIndex: 'fromAddress',
+      key: 'fromAddress',
+      width: 200,
+      customRender: ({ text, record }: { text: string; record: TransferRecord }) => {
+        return h('div', { class: 'address-container' }, [
+          h('span', {}, formatAddress(text)),
+          h(CopyOutlined, {
+            class: 'copy-icon',
+            onClick: () => copyAddress(text)
+          })
+        ])
+      }
+    },
+    {
+      title: t('field.toAddress'),
+      dataIndex: 'toAddress',
+      key: 'toAddress',
+      width: 200,
+      customRender: ({ text, record }: { text: string; record: TransferRecord }) => {
+        return h('div', { class: 'address-container' }, [
+          h('span', {}, formatAddress(text)),
+          h(CopyOutlined, {
+            class: 'copy-icon',
+            onClick: () => copyAddress(text)
+          })
+        ])
+      }
+    },
+    {
+      title: t('field.txHash'),
+      dataIndex: 'txHash',
+      key: 'txHash',
+      width: 200,
+      customRender: ({ text, record }: { text: string; record: TransferRecord }) => {
+        return h('div', { class: 'hash-container' }, [
+          h('span', {}, formatTxHash(text)),
+          h(CopyOutlined, {
+            class: 'copy-icon',
+            onClick: () => copyTxHash(text)
+          })
+        ])
+      }
+    },
+    {
+      title: t('field.status'),
+      dataIndex: 'status',
+      key: 'status',
+      width: 120,
+      customRender: ({ text }: { text: TransferStatus }) => formatStatus(text)
+    },
+    {
+      title: t('field.transferType'),
+      dataIndex: ['transferType', 'type'],
+      key: 'transferType',
+      width: 120,
+      customRender: ({ text }: { text: TransferTypeEnum }) => formatTransferType(text)
+    }
+  ]
+  return columns
+})
+
+// 組件掛載時加載數據
+onMounted(() => {
+  handleQuery()
+})
 </script>
 
 <style scoped>
@@ -650,5 +882,22 @@ const handleDownload = () => {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+
+.address-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.copy-icon {
+  cursor: pointer;
+  color: #1890ff;
+  font-size: 16px;
+  transition: color 0.3s;
+}
+
+.copy-icon:hover {
+  color: #40a9ff;
 }
 </style>

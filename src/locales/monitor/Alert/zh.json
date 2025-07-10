@@ -14,6 +14,7 @@
     "largeAmount": "大額交易告警設置",
     "withdrawDuration": "提幣時長設置",
     "nodeHeight": "節點高度告警設置",
+    "alertSettings": "告警設置",
     "confirm": "確認",
     "walletAction": "錢包操作",
     "actionReason": "操作原因",
@@ -63,7 +64,14 @@
     "fromAddress": "來源地址",
     "toAddress": "充值地址",
     "operator": "操作人",
-    "confirmReason": "確認事由"
+    "confirmReason": "確認事由",
+    "chainName": "鏈路名稱",
+    "alertItem": "告警項目",
+    "alertThreshold": "告警落差值",
+    "alertDuration": "告警時長",
+    "lastEditTime": "最後編輯時間",
+    "edit": "編輯",
+    "delete": "刪除"
   },
   "reason": {
     "serviceHeightBehind": "服務高度落後",
@@ -91,10 +99,13 @@
     "pleaseInputReason": "請輸入確認事由",
     "confirmSuccess": "確認成功",
     "actionSuccess": "操作成功",
-    "copySuccess": "複製成功"
+    "copySuccess": "複製成功",
+    "deleteSuccess": "刪除成功",
+    "editSuccess": "編輯成功"
   },
   "button": {
-    "addRule": "添加規則"
+    "addRule": "添加規則",
+    "addAlertRule": "新增"
   },
   "statistics": {
     "nodeHeight": "節點高度告警",
@@ -124,11 +135,18 @@
     "reason": "確認事由",
     "merchant": "商戶",
     "orderId": "訂單編號",
-    "operator": "操作人"
+    "operator": "操作人",
+    "chain": "鏈路"
   },
   "prompt": {
     "pleaseInputConfirmReason": "請輸入確認事由...",
     "inputOrderId": "請輸入訂單編號",
-    "inputOperator": "請輸入操作人"
+    "inputOperator": "請輸入操作人",
+    "selectChain": "請選擇鏈路",
+    "selectAlertItem": "請選擇告警項目"
+  },
+  "alertItem": {
+    "serviceHeight": "服務高度",
+    "nodeHeight": "節點高度"
   }
 } 

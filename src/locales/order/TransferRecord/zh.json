@@ -20,7 +20,10 @@
     "toWallet": "目標錢包",
     "transferAmount": "轉帳數量",
     "timeInfo": "時間信息",
-    "action": "操作"
+    "action": "操作",
+    "txHash": "交易哈希",
+    "fromAddress": "來源地址",
+    "toAddress": "目標地址"
   },
   "prompt": {
     "pleaseInputOrderId": "請輸入訂單編號",
