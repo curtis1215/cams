@@ -1,0 +1,79 @@
+{
+  "title": {
+    "swapOrderQuery": "SWAP訂單查詢",
+    "orderList": "訂單列表",
+    "notifyHistory": "通知歷史",
+    "notifyDetail": "通知詳情"
+  },
+  "field": {
+    "orderId": "訂單編號",
+    "orderStatus": "訂單狀態",
+    "merchant": "商戶",
+    "userId": "用戶ID",
+    "txHash": "TxHash",
+    "dateRange": "時間範圍",
+    "startDate": "開始日期",
+    "endDate": "結束日期",
+    "serialNumber": "序號",
+    "transactionDocument": "交易單據",
+    "platformOrderId": "平台訂單號",
+    "merchantOrderId": "商戶訂單號",
+    "transferId": "轉帳單號",
+    "chainType": "鏈類型",
+    "transactionCurrency": "交易幣種",
+    "transactionAmount": "交易數量",
+    "orderTransactionAmount": "訂單交易數量",
+    "actualTransactionAmount": "實際交易數量",
+    "exchangeCurrency": "兌換幣種",
+    "exchangeAmount": "兌換數量",
+    "orderExchangeAmount": "訂單兌換數量",
+    "actualExchangeAmount": "實際兌換數量",
+    "unitPrice": "單價",
+    "orderUnitPrice": "訂單單價",
+    "actualUnitPrice": "實際單價",
+    "notifyStatus": "通知狀態",
+    "timeInfo": "時間訊息",
+    "createTime": "創建時間",
+    "successTime": "成功時間",
+    "notifyTime": "通知時間",
+    "notifyUrl": "通知URL",
+    "notifyContent": "通知內容",
+    "errorContent": "錯誤內容",
+    "notifyReason": "通知原因",
+    "notifyResult": "通知結果"
+  },
+  "prompt": {
+    "selectMerchant": "請選擇商戶",
+    "selectOrderStatus": "請選擇訂單狀態",
+    "pleaseInputOrderId": "請輸入訂單編號",
+    "pleaseInputUserId": "請輸入用戶ID",
+    "pleaseInputTxHash": "請輸入TxHash"
+  },
+  "status": {
+    "pending": "待處理",
+    "processing": "處理中",
+    "swapSuccess": "SWAP成功",
+    "swapFailed": "SWAP失敗",
+    "manualConfirm": "待人工確認",
+    "notifyPending": "待處理",
+    "notifyRetrying": "重試中",
+    "notifySuccess": "通知成功",
+    "notifyFailed": "通知失敗",
+    "successful": "成功",
+    "failed": "失敗",
+    "timeout": "超時"
+  },
+  "action": {
+    "query": "查詢",
+    "reset": "重置",
+    "download": "下載",
+    "details": "詳情",
+    "retry": "重試",
+    "cancel": "取消"
+  },
+  "message": {
+    "copySuccess": "複製成功",
+    "copyFailed": "複製失敗",
+    "downloadSuccess": "下載成功"
+  }
+} 

@@ -1,0 +1,79 @@
+{
+  "title": {
+    "swapOrderQuery": "SWAP Order Query",
+    "orderList": "Order List",
+    "notifyHistory": "Notification History",
+    "notifyDetail": "Notification Detail"
+  },
+  "field": {
+    "orderId": "Order ID",
+    "orderStatus": "Order Status",
+    "merchant": "Merchant",
+    "userId": "User ID",
+    "txHash": "TxHash",
+    "dateRange": "Date Range",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "serialNumber": "Serial Number",
+    "transactionDocument": "Transaction Document",
+    "platformOrderId": "Platform Order ID",
+    "merchantOrderId": "Merchant Order ID",
+    "transferId": "Transfer ID",
+    "chainType": "Chain Type",
+    "transactionCurrency": "Transaction Currency",
+    "transactionAmount": "Transaction Amount",
+    "orderTransactionAmount": "Order Transaction Amount",
+    "actualTransactionAmount": "Actual Transaction Amount",
+    "exchangeCurrency": "Exchange Currency",
+    "exchangeAmount": "Exchange Amount",
+    "orderExchangeAmount": "Order Exchange Amount",
+    "actualExchangeAmount": "Actual Exchange Amount",
+    "unitPrice": "Unit Price",
+    "orderUnitPrice": "Order Unit Price",
+    "actualUnitPrice": "Actual Unit Price",
+    "notifyStatus": "Notification Status",
+    "timeInfo": "Time Information",
+    "createTime": "Create Time",
+    "successTime": "Success Time",
+    "notifyTime": "Notification Time",
+    "notifyUrl": "Notification URL",
+    "notifyContent": "Notification Content",
+    "errorContent": "Error Content",
+    "notifyReason": "Notification Reason",
+    "notifyResult": "Notification Result"
+  },
+  "prompt": {
+    "selectMerchant": "Please select merchant",
+    "selectOrderStatus": "Please select order status",
+    "pleaseInputOrderId": "Please input order ID",
+    "pleaseInputUserId": "Please input user ID",
+    "pleaseInputTxHash": "Please input TxHash"
+  },
+  "status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "swapSuccess": "SWAP Success",
+    "swapFailed": "SWAP Failed",
+    "manualConfirm": "Manual Confirm",
+    "notifyPending": "Pending",
+    "notifyRetrying": "Retrying",
+    "notifySuccess": "Success",
+    "notifyFailed": "Failed",
+    "successful": "Successful",
+    "failed": "Failed",
+    "timeout": "Timeout"
+  },
+  "action": {
+    "query": "Query",
+    "reset": "Reset",
+    "download": "Download",
+    "details": "Details",
+    "retry": "Retry",
+    "cancel": "Cancel"
+  },
+  "message": {
+    "copySuccess": "Copy successful",
+    "copyFailed": "Copy failed",
+    "downloadSuccess": "Download successful"
+  }
+} 

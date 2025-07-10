@@ -197,6 +197,7 @@
     "transferOrderQuery": "轉賬訂單查詢",
     "exchangeOrderQuery": "兌換訂單查詢",
     "transactionDetailQuery": "交易明細查詢",
+    "swapOrderQuery": "SWAP訂單查詢",
     "manualOrderQuery": "手動訂單查詢",
     "paramsManagement": "參數管理",
     "blockchainManagement": "區塊鏈管理",

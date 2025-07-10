@@ -1,0 +1,12 @@
+{
+  "prompt": {
+    "selectOrderStatus": "請選擇訂單狀態"
+  },
+  "status": {
+    "pending": "待處理",
+    "processing": "處理中",
+    "swapSuccess": "SWAP成功",
+    "swapFailed": "SWAP失敗",
+    "manualConfirm": "待人工確認"
+  }
+} 

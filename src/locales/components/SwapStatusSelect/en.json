@@ -1,0 +1,12 @@
+{
+  "prompt": {
+    "selectOrderStatus": "Please select order status"
+  },
+  "status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "swapSuccess": "SWAP Success",
+    "swapFailed": "SWAP Failed",
+    "manualConfirm": "Manual Confirm"
+  }
+} 

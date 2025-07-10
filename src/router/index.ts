@@ -139,6 +139,15 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'order/swap',
+        name: 'SwapOrder',
+        component: () => import('../views/order/Swap.vue'),
+        meta: {
+          title: 'nav.swapOrderQuery',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'report/deposit-withdraw-duration',
         name: 'DepositWithdrawDuration',
         component: () => import('../views/report/DepositWithdrawDuration.vue'),

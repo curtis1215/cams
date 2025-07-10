@@ -160,6 +160,7 @@
     "transferOrderQuery": "Transfer Orders",
     "exchangeOrderQuery": "Exchange Orders",
     "transactionDetailQuery": "Transaction Details",
+    "swapOrderQuery": "SWAP Order Query",
     "manualOrderQuery": "Manual Order Query",
     "paramsManagement": "Parameters",
     "blockchainManagement": "Blockchain Management",
