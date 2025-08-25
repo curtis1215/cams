@@ -49,7 +49,7 @@ npm run docker:logs
 
 啟動後，可通過以下地址訪問：
 
-- **主頁**: http://localhost:3000
+- **主頁**: http://localhost:3001
 
 ## 項目結構
 
@@ -69,7 +69,7 @@ npm run docker:logs
 ### 架構
 - **基礎鏡像**: node:18-alpine
 - **Web 服務器**: serve (Node.js 靜態檔案服務)
-- **端口映射**: 3000:3000
+- **端口映射**: 3001:3001
 - **靜態文件**: Vue.js SPA
 
 ### 功能特性
@@ -88,7 +88,7 @@ npm run docker:logs
 
 #### docker-compose.yml
 - 服務定義和網絡配置
-- 端口映射 3000:3000
+- 端口映射 3001:3001
 - 重啟策略設置
 
 ## 故障排除
@@ -98,7 +98,7 @@ npm run docker:logs
 1. **端口被占用**
    ```bash
    # 檢查端口使用情況
-   lsof -i :3000
+   lsof -i :3001
    
    # 修改 docker-compose.yml 中的端口映射
    ports:

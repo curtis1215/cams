@@ -59,13 +59,13 @@ RUN echo '#!/usr/bin/env node' > server.js && \
     echo '  });' >> server.js && \
     echo '});' >> server.js && \
     echo '' >> server.js && \
-    echo 'const PORT = process.env.PORT || 3000;' >> server.js && \
+    echo 'const PORT = process.env.PORT || 3001;' >> server.js && \
     echo 'server.listen(PORT);' >> server.js && \
     echo 'console.log(`Server running at http://localhost:${PORT}/`);' >> server.js && \
     chmod +x server.js
 
 # 暴露端口
-EXPOSE 3000
+EXPOSE 3001
 
 # 啟動自訂的靜態檔案服務
 CMD ["node", "server.js"]

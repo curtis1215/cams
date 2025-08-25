@@ -14,7 +14,7 @@ WORKDIR /app
 COPY dist/ .
 
 # 暴露端口
-EXPOSE 3000
+EXPOSE 3001
 
 # 啟動靜態檔案服務
-CMD ["serve", "-s", ".", "-l", "3000"]
+CMD ["serve", "-s", ".", "-l", "3001"]

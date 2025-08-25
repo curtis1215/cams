@@ -27,4 +27,4 @@ docker images cams-web:latest
 
 echo "🎉 構建完成！"
 echo "💡 運行應用: docker-compose up -d"
-echo "💡 訪問地址: http://localhost:3000"
+echo "💡 訪問地址: http://localhost:3001"

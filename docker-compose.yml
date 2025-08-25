@@ -2,7 +2,7 @@ services:
   cams-web:
     build: .
     ports:
-      - "3000:3000"
+      - "3001:3001"
     restart: unless-stopped
     container_name: cams-web
     environment:
