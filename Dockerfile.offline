@@ -1,0 +1,71 @@
+# 使用 Node.js 基礎映像檔
+FROM node:18-alpine
+
+# 設置工作目錄
+WORKDIR /app
+
+# 複製構建的靜態文件
+COPY dist/ .
+
+# 創建簡單的靜態檔案伺服器腳本
+RUN echo '#!/usr/bin/env node' > server.js && \
+    echo 'const http = require("http");' >> server.js && \
+    echo 'const fs = require("fs");' >> server.js && \
+    echo 'const path = require("path");' >> server.js && \
+    echo '' >> server.js && \
+    echo 'const mimeTypes = {' >> server.js && \
+    echo '  ".html": "text/html",' >> server.js && \
+    echo '  ".js": "text/javascript",' >> server.js && \
+    echo '  ".css": "text/css",' >> server.js && \
+    echo '  ".json": "application/json",' >> server.js && \
+    echo '  ".png": "image/png",' >> server.js && \
+    echo '  ".jpg": "image/jpg",' >> server.js && \
+    echo '  ".gif": "image/gif",' >> server.js && \
+    echo '  ".ico": "image/x-icon",' >> server.js && \
+    echo '  ".svg": "image/svg+xml",' >> server.js && \
+    echo '  ".ttf": "font/ttf",' >> server.js && \
+    echo '  ".woff": "font/woff",' >> server.js && \
+    echo '  ".woff2": "font/woff2"' >> server.js && \
+    echo '};' >> server.js && \
+    echo '' >> server.js && \
+    echo 'const server = http.createServer((req, res) => {' >> server.js && \
+    echo '  let filePath = "." + req.url;' >> server.js && \
+    echo '  if (filePath === "./") filePath = "./index.html";' >> server.js && \
+    echo '' >> server.js && \
+    echo '  const extname = String(path.extname(filePath)).toLowerCase();' >> server.js && \
+    echo '  const contentType = mimeTypes[extname] || "application/octet-stream";' >> server.js && \
+    echo '' >> server.js && \
+    echo '  fs.readFile(filePath, (error, content) => {' >> server.js && \
+    echo '    if (error) {' >> server.js && \
+    echo '      if (error.code === "ENOENT") {' >> server.js && \
+    echo '        // SPA fallback to index.html' >> server.js && \
+    echo '        fs.readFile("./index.html", (err, indexContent) => {' >> server.js && \
+    echo '          if (err) {' >> server.js && \
+    echo '            res.writeHead(500);' >> server.js && \
+    echo '            res.end("Server Error");' >> server.js && \
+    echo '          } else {' >> server.js && \
+    echo '            res.writeHead(200, { "Content-Type": "text/html" });' >> server.js && \
+    echo '            res.end(indexContent, "utf-8");' >> server.js && \
+    echo '          }' >> server.js && \
+    echo '        });' >> server.js && \
+    echo '      } else {' >> server.js && \
+    echo '        res.writeHead(500);' >> server.js && \
+    echo '        res.end("Server Error: " + error.code + " ..\n");' >> server.js && \
+    echo '      }' >> server.js && \
+    echo '    } else {' >> server.js && \
+    echo '      res.writeHead(200, { "Content-Type": contentType });' >> server.js && \
+    echo '      res.end(content, "utf-8");' >> server.js && \
+    echo '    }' >> server.js && \
+    echo '  });' >> server.js && \
+    echo '});' >> server.js && \
+    echo '' >> server.js && \
+    echo 'const PORT = process.env.PORT || 3000;' >> server.js && \
+    echo 'server.listen(PORT);' >> server.js && \
+    echo 'console.log(`Server running at http://localhost:${PORT}/`);' >> server.js && \
+    chmod +x server.js
+
+# 暴露端口
+EXPOSE 3000
+
+# 啟動自訂的靜態檔案服務
+CMD ["node", "server.js"]

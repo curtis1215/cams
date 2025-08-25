@@ -1,6 +1,9 @@
 # 使用 Node.js 基礎映像檔
 FROM node:18-alpine
 
+# 設置 npm registry 為淘寶鏡像（適合台灣使用）
+RUN npm config set registry https://registry.npmmirror.com
+
 # 安裝 serve 套件用於靜態檔案服務
 RUN npm install -g serve
 
