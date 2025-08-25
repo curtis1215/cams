@@ -33,6 +33,8 @@ export interface BlockchainFormData {
   isEvm: boolean;
   expectedTime?: number;
   addressRegex: string;
+  enableSmallTransactionFilter: boolean;
+  smallTransactionThreshold?: number;
   nodes: BlockchainNode[];
 }
 

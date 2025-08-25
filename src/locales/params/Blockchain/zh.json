@@ -23,7 +23,11 @@
     "addressRegex": "地址正則表達式",
     "nodeUrl": "節點URL",
     "priority": "優先順序",
-    "isCurrentUsing": "當前使用"
+    "isCurrentUsing": "當前使用",
+    "smallTransactionFilter": "小額交易過濾",
+    "enableSmallTransactionFilter": "啟用小額交易過濾",
+    "smallTransactionThreshold": "小額交易閾值",
+    "amountUnit": "數量"
   },
   "action": {
     "add": "新增",
@@ -47,6 +51,7 @@
     "inputAddressRegex": "請輸入地址正則表達式",
     "inputNodeUrl": "請輸入節點URL",
     "inputPriority": "請輸入優先順序",
+    "inputSmallTransactionThreshold": "請輸入小額交易閾值",
     "minuteUnit": "分鐘"
   },
   "description": {
@@ -54,7 +59,8 @@
     "addressRegex": "未符合正則表達式地址，在提幣請求時將會直接拒絕",
     "explorer": "請添加{hash}於url中需帶入txhash值的位置",
     "nodeUrl": "請輸入完整的節點URL，包含協議和端口",
-    "priority": "數字越小優先順序越高"
+    "priority": "數字越小優先順序越高",
+    "smallTransactionFilter": "啟用後將過濾小於設定閾值的交易，避免處理微小金額的交易"
   },
   "message": {
     "addSuccess": "新增成功",

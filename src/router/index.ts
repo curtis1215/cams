@@ -148,6 +148,15 @@ const routes: RouteRecordRaw[] = [
         }
       },
       {
+        path: 'order/lp',
+        name: 'LpOrder',
+        component: () => import('../views/order/LP.vue'),
+        meta: {
+          title: 'nav.lpOrderQuery',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'report/deposit-withdraw-duration',
         name: 'DepositWithdrawDuration',
         component: () => import('../views/report/DepositWithdrawDuration.vue'),

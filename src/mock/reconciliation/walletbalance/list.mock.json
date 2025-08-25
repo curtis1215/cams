@@ -48,7 +48,13 @@
       "chainType": "BTC",
       "currency": "BTC",
       "balance": "3.45678900",
-      "reconciliationStatus": "failed"
+      "reconciliationStatus": "failed",
+      "manualProcessed": true,
+      "manualDetails": {
+        "operator": "系統管理員",
+        "processTime": "2024-01-22 20:30:00",
+        "reason": "經檢查發現該筆對帳失敗是由於網路延遲導致的交易確認時間差，實際餘額正確，已進行人工確認處理。"
+      }
     },
     {
       "id": "WB20240122006",
@@ -199,6 +205,90 @@
           "amount": "-0.00050000",
           "txHash": "0x9012...3456",
           "createTime": "2024-01-22 19:30:00"
+        }
+      ]
+    },
+    "WB20240122002": {
+      "openingBalance": "150.00000000",
+      "outAmount": "5.00000000",
+      "inAmount": "11.78900000",
+      "theoreticalBalance": "156.78900000",
+      "closingBalance": "156.78800000",
+      "difference": "-0.00100000",
+      "transferOrders": [
+        {
+          "id": "TR20240122011",
+          "fromWallet": "WALLET002",
+          "toWallet": "WALLET012",
+          "type": "withdrawal",
+          "amount": "-5.00000000",
+          "txHash": "0xabcd...ef12",
+          "createTime": "2024-01-22 12:00:00"
+        },
+        {
+          "id": "TR20240122012",
+          "fromWallet": "WALLET013",
+          "toWallet": "WALLET002",
+          "type": "deposit",
+          "amount": "11.78900000",
+          "txHash": "0xbcde...f123",
+          "createTime": "2024-01-22 13:30:00"
+        }
+      ]
+    },
+    "WB20240122005": {
+      "openingBalance": "2.00000000",
+      "outAmount": "1.00000000",
+      "inAmount": "2.45678900",
+      "theoreticalBalance": "3.45678900",
+      "closingBalance": "3.45678900",
+      "difference": "0.00000000",
+      "transferOrders": [
+        {
+          "id": "TR20240122013",
+          "fromWallet": "WALLET005",
+          "toWallet": "WALLET014",
+          "type": "withdrawal",
+          "amount": "-1.00000000",
+          "txHash": "0xcdef...1234",
+          "createTime": "2024-01-22 09:30:00"
+        },
+        {
+          "id": "TR20240122014",
+          "fromWallet": "WALLET015",
+          "toWallet": "WALLET005",
+          "type": "deposit",
+          "amount": "2.45678900",
+          "txHash": "0xdef1...2345",
+          "createTime": "2024-01-22 11:00:00"
+        }
+      ]
+    },
+    "WB20240122008": {
+      "openingBalance": "90000.00000000",
+      "outAmount": "2000.00000000",
+      "inAmount": "7000.00000000",
+      "theoreticalBalance": "95000.00000000",
+      "closingBalance": "95000.15000000",
+      "difference": "0.15000000",
+      "transferOrders": [
+        {
+          "id": "TR20240122015",
+          "fromWallet": "WALLET008",
+          "toWallet": "WALLET016",
+          "type": "withdrawal",
+          "amount": "-2000.00000000",
+          "txHash": "0xef12...3456",
+          "createTime": "2024-01-22 10:15:00"
+        },
+        {
+          "id": "TR20240122016",
+          "fromWallet": "WALLET017",
+          "toWallet": "WALLET008",
+          "type": "deposit",
+          "amount": "7000.00000000",
+          "txHash": "0xf123...4567",
+          "createTime": "2024-01-22 14:45:00"
         }
       ]
     }

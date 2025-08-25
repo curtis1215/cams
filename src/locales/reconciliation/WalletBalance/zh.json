@@ -4,7 +4,9 @@
       "title": {
         "walletBalanceQuery": "對帳明細查詢",
         "reconciliationDetails": "對帳明細",
-        "transferOrders": "轉帳訂單"
+        "transferOrders": "轉帳訂單",
+        "manualProcess": "人工處理",
+        "manualProcessDetails": "人工處理詳情"
       },
       "form": {
         "walletId": "錢包ID",
@@ -13,7 +15,9 @@
         "pleaseEnterWalletAddress": "請輸入錢包地址",
         "walletType": "錢包類型",
         "chainType": "鏈類型",
-        "currency": "幣種"
+        "currency": "幣種",
+        "processReason": "處理事由",
+        "pleaseEnterProcessReason": "請輸入處理事由，限制500個字元"
       },
       "table": {
         "date": "日期",
@@ -38,7 +42,10 @@
         "transferType": "轉帳類型",
         "amount": "轉帳數量",
         "txHash": "交易哈希",
-        "createTime": "創建時間"
+        "createTime": "創建時間",
+        "operator": "操作人",
+        "processTime": "操作時間",
+        "processReason": "操作事由"
       },
       "transferType": {
         "pending": "待確認",
@@ -56,13 +63,20 @@
         "failed": "對帳失敗"
       },
       "action": {
-        "viewDetails": "對帳明細"
+        "viewDetails": "對帳明細",
+        "manualProcess": "人工處理",
+        "manualProcessDetails": "人工處理詳情"
       },
       "common": {
         "search": "搜索",
         "reset": "重置",
         "searchError": "搜索失敗，請稍後重試",
         "close": "關閉"
+      },
+      "message": {
+        "reasonRequired": "請輸入處理事由",
+        "processSuccess": "人工處理成功",
+        "processFailed": "人工處理失敗"
       }
     }
   }

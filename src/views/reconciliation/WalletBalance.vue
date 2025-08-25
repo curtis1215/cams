@@ -86,9 +86,27 @@
             </template>
             <!-- 操作列自定義渲染 -->
             <template v-if="column.key === 'action'">
-              <a-button type="link" @click="handleViewDetails(record)">
-                {{ t('reconciliation.WalletBalance.action.viewDetails') }}
-              </a-button>
+              <a-space>
+                <a-button type="link" @click="handleViewDetails(record)">
+                  {{ t('reconciliation.WalletBalance.action.viewDetails') }}
+                </a-button>
+                <!-- 對帳失敗時顯示人工處理按鈕 -->
+                <a-button 
+                  v-if="record.reconciliationStatus === 'failed'"
+                  type="link" 
+                  @click="handleManualProcess(record)"
+                >
+                  {{ t('reconciliation.WalletBalance.action.manualProcess') }}
+                </a-button>
+                <!-- 已人工處理時顯示人工處理詳情按鈕 -->
+                <a-button 
+                  v-if="record.manualProcessed"
+                  type="link" 
+                  @click="handleViewManualDetails(record)"
+                >
+                  {{ t('reconciliation.WalletBalance.action.manualProcessDetails') }}
+                </a-button>
+              </a-space>
             </template>
           </template>
         </a-table>
@@ -170,6 +188,52 @@
           {{ t('reconciliation.WalletBalance.common.close') }}
         </a-button>
       </template>
+    </a-modal>
+
+    <!-- 人工處理彈窗 -->
+    <a-modal
+      v-model:open="manualProcessModalVisible"
+      :title="t('reconciliation.WalletBalance.title.manualProcess')"
+      :width="600"
+      @ok="handleManualProcessConfirm"
+      @cancel="handleManualProcessCancel"
+      :confirmLoading="manualProcessLoading"
+    >
+      <a-form :model="manualProcessForm" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
+        <a-form-item :label="t('reconciliation.WalletBalance.form.processReason')">
+          <a-textarea
+            v-model:value="manualProcessForm.reason"
+            :rows="6"
+            :maxlength="500"
+            :placeholder="t('reconciliation.WalletBalance.form.pleaseEnterProcessReason')"
+            show-count
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 人工處理詳情彈窗 -->
+    <a-modal
+      v-model:open="manualDetailsModalVisible"
+      :title="t('reconciliation.WalletBalance.title.manualProcessDetails')"
+      :width="600"
+      @cancel="handleManualDetailsCancel"
+      :footer="null"
+    >
+      <div v-if="currentManualDetails" class="manual-details">
+        <div class="detail-item">
+          <span class="detail-label">{{ t('reconciliation.WalletBalance.details.operator') }}:</span>
+          <span class="detail-value">{{ currentManualDetails.operator }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">{{ t('reconciliation.WalletBalance.details.processTime') }}:</span>
+          <span class="detail-value">{{ currentManualDetails.processTime }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="detail-label">{{ t('reconciliation.WalletBalance.details.processReason') }}:</span>
+          <div class="detail-value reason-text">{{ currentManualDetails.reason }}</div>
+        </div>
+      </div>
     </a-modal>
   </div>
 </template>
@@ -283,6 +347,18 @@ const pagination = reactive({
 const detailsModalVisible = ref(false)
 const currentDetails = ref(null)
 
+// 人工處理相關
+const manualProcessModalVisible = ref(false)
+const manualProcessLoading = ref(false)
+const manualProcessForm = reactive({
+  reason: ''
+})
+const currentProcessRecord = ref(null)
+
+// 人工處理詳情相關
+const manualDetailsModalVisible = ref(false)
+const currentManualDetails = ref(null)
+
 // 轉帳訂單表格列定義
 const transferColumns = [
   {
@@ -387,6 +463,62 @@ const hasDifference = computed(() => {
   if (!currentDetails.value) return false
   return parseFloat(currentDetails.value.difference) !== 0
 })
+
+// 處理人工處理
+const handleManualProcess = (record) => {
+  currentProcessRecord.value = record
+  manualProcessForm.reason = ''
+  manualProcessModalVisible.value = true
+}
+
+// 確認人工處理
+const handleManualProcessConfirm = async () => {
+  if (!manualProcessForm.reason.trim()) {
+    message.error(t('reconciliation.WalletBalance.message.reasonRequired'))
+    return
+  }
+
+  manualProcessLoading.value = true
+  
+  try {
+    // 模擬 API 調用
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    // 更新記錄狀態
+    const record = currentProcessRecord.value
+    record.manualProcessed = true
+    record.manualDetails = {
+      operator: '系統管理員', // 實際應該從當前登入用戶獲取
+      processTime: new Date().toLocaleString(),
+      reason: manualProcessForm.reason
+    }
+
+    message.success(t('reconciliation.WalletBalance.message.processSuccess'))
+    manualProcessModalVisible.value = false
+  } catch (error) {
+    message.error(t('reconciliation.WalletBalance.message.processFailed'))
+  } finally {
+    manualProcessLoading.value = false
+  }
+}
+
+// 取消人工處理
+const handleManualProcessCancel = () => {
+  manualProcessModalVisible.value = false
+  manualProcessForm.reason = ''
+}
+
+// 查看人工處理詳情
+const handleViewManualDetails = (record) => {
+  currentManualDetails.value = record.manualDetails
+  manualDetailsModalVisible.value = true
+}
+
+// 關閉人工處理詳情
+const handleManualDetailsCancel = () => {
+  manualDetailsModalVisible.value = false
+  currentManualDetails.value = null
+}
 </script>
 
 <style lang="scss" scoped>
@@ -567,6 +699,40 @@ const hasDifference = computed(() => {
   .hash-text {
     font-family: monospace;
     color: var(--ant-primary-color);
+  }
+
+  // 人工處理詳情樣式
+  .manual-details {
+    .detail-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 16px;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      .detail-label {
+        color: rgba(255, 255, 255, 0.45);
+        width: 80px;
+        flex-shrink: 0;
+        margin-right: 8px;
+      }
+
+      .detail-value {
+        color: rgba(255, 255, 255, 0.85);
+        flex: 1;
+
+        &.reason-text {
+          white-space: pre-wrap;
+          word-break: break-word;
+          line-height: 1.5;
+          background: #1f1f1f;
+          padding: 8px;
+          border-radius: 4px;
+        }
+      }
+    }
   }
 }
 </style> 

@@ -1,12 +1,17 @@
 {
   "name": "cams",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.12",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:prod": "npm run build && npm run docker:build",
+    "docker:build": "./build-docker.sh",
+    "docker:start": "./start.sh",
+    "docker:stop": "docker-compose down",
+    "docker:logs": "docker-compose logs -f cams-web"
   },
   "dependencies": {
     "@ant-design/icons-vue": "^7.0.1",
@@ -40,6 +45,7 @@
     "@vitejs/plugin-vue": "^5.2.1",
     "@vitejs/plugin-vue-jsx": "^4.1.2",
     "less": "^4.2.1",
+    "playwright": "^1.54.2",
     "rollup-plugin-visualizer": "^5.14.0",
     "sass": "^1.83.4",
     "terser": "^5.37.0",

@@ -1,0 +1,82 @@
+{
+  "title": {
+    "lpOrderQuery": "LP Order Query",
+    "orderList": "Order List",
+    "notifyHistory": "Notify History",
+    "notifyDetail": "Notify Detail"
+  },
+  "field": {
+    "orderId": "Order ID",
+    "orderStatus": "Order Status",
+    "orderType": "Order Type",
+    "merchant": "Merchant",
+    "userId": "User ID",
+    "txHash": "TxHash",
+    "dateRange": "Date Range",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "serialNumber": "Serial Number",
+    "transactionDocument": "Transaction Document",
+    "platformOrderId": "Platform Order ID",
+    "merchantOrderId": "Merchant Order ID",
+    "transferId": "Transfer ID",
+    "chainType": "Chain Type",
+    "transactionCurrency1": "Transaction Currency 1",
+    "transactionAmount1": "Transaction Amount 1",
+    "orderTransactionAmount1": "Order Transaction Amount",
+    "actualTransactionAmount1": "Actual Transaction Amount",
+    "transactionCurrency2": "Transaction Currency 2",
+    "transactionAmount2": "Transaction Amount 2",
+    "orderTransactionAmount2": "Order Transaction Amount",
+    "actualTransactionAmount2": "Actual Transaction Amount",
+    "notifyStatus": "Notify Status",
+    "timeInfo": "Time Info",
+    "createTime": "Create Time",
+    "successTime": "Success Time",
+    "notifyTime": "Notify Time",
+    "notifyUrl": "Notify URL",
+    "notifyContent": "Notify Content",
+    "errorContent": "Error Content",
+    "notifyReason": "Notify Reason",
+    "notifyResult": "Notify Result"
+  },
+  "prompt": {
+    "selectMerchant": "Please select merchant",
+    "selectOrderStatus": "Please select order status",
+    "selectOrderType": "Please select order type",
+    "pleaseInputOrderId": "Please input order ID",
+    "pleaseInputUserId": "Please input user ID",
+    "pleaseInputTxHash": "Please input TxHash"
+  },
+  "status": {
+    "pending": "Pending",
+    "processing": "Processing",
+    "lpSuccess": "LP Success",
+    "lpFailed": "LP Failed",
+    "manualConfirm": "Manual Confirm",
+    "notifyPending": "Notify Pending",
+    "notifyRetrying": "Notify Retrying",
+    "notifySuccess": "Notify Success",
+    "notifyFailed": "Notify Failed",
+    "successful": "Successful",
+    "failed": "Failed",
+    "timeout": "Timeout"
+  },
+  "orderType": {
+    "add": "Add",
+    "remove": "Remove"
+  },
+  "action": {
+    "query": "Query",
+    "reset": "Reset",
+    "download": "Download",
+    "details": "Details",
+    "retry": "Retry",
+    "cancel": "Cancel"
+  },
+  "message": {
+    "copySuccess": "Copy Success",
+    "copyFailed": "Copy Failed",
+    "downloadSuccess": "Download Success"
+  }
+}

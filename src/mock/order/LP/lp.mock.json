@@ -1,0 +1,82 @@
+{
+  "tableData": [
+    {
+      "serialNumber": 1,
+      "merchant": "商戶A",
+      "platformOrderId": "LP001234567890",
+      "merchantOrderId": "M001234567890",
+      "transferId": "T001234567890",
+      "txHash": "0x1234567890abcdef1234567890abcdef12345678",
+      "orderType": "add",
+      "chainType": "ETH",
+      "transactionCurrency1": "USDT",
+      "orderTransactionAmount1": "1000.00",
+      "actualTransactionAmount1": "999.50",
+      "transactionCurrency2": "ETH",
+      "orderTransactionAmount2": "0.5",
+      "actualTransactionAmount2": "0.499",
+      "orderStatus": "lpSuccess",
+      "notifyStatus": "notifySuccess",
+      "createTime": "2024-01-15 09:30:00",
+      "successTime": "2024-01-15 09:35:00",
+      "notifyTime": "2024-01-15 09:36:00",
+      "userId": "user123"
+    },
+    {
+      "serialNumber": 2,
+      "merchant": "商戶B",
+      "platformOrderId": "LP001234567891",
+      "merchantOrderId": "M001234567891",
+      "transferId": "T001234567891",
+      "txHash": "0x1234567890abcdef1234567890abcdef12345679",
+      "orderType": "remove",
+      "chainType": "BSC",
+      "transactionCurrency1": "BNB",
+      "orderTransactionAmount1": "2.0",
+      "actualTransactionAmount1": "1.99",
+      "transactionCurrency2": "BUSD",
+      "orderTransactionAmount2": "600.00",
+      "actualTransactionAmount2": "598.50",
+      "orderStatus": "processing",
+      "notifyStatus": "notifyPending",
+      "createTime": "2024-01-15 10:00:00",
+      "successTime": null,
+      "notifyTime": null,
+      "userId": "user456"
+    },
+    {
+      "serialNumber": 3,
+      "merchant": "商戶C",
+      "platformOrderId": "LP001234567892",
+      "merchantOrderId": "M001234567892",
+      "transferId": "T001234567892",
+      "txHash": "0x1234567890abcdef1234567890abcdef12345680",
+      "orderType": "add",
+      "chainType": "POLYGON",
+      "transactionCurrency1": "MATIC",
+      "orderTransactionAmount1": "1000.0",
+      "actualTransactionAmount1": "998.0",
+      "transactionCurrency2": "USDC",
+      "orderTransactionAmount2": "500.00",
+      "actualTransactionAmount2": "499.00",
+      "orderStatus": "lpFailed",
+      "notifyStatus": "notifyFailed",
+      "createTime": "2024-01-15 10:30:00",
+      "successTime": null,
+      "notifyTime": "2024-01-15 10:45:00",
+      "userId": "user789"
+    }
+  ],
+  "notifyHistoryData": [
+    {
+      "reason": "第一次通知",
+      "notifyTime": "2024-01-15 09:36:00",
+      "result": "成功"
+    },
+    {
+      "reason": "重試通知",
+      "notifyTime": "2024-01-15 09:38:00",
+      "result": "成功"
+    }
+  ]
+}

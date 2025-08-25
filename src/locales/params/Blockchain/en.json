@@ -23,7 +23,11 @@
     "addressRegex": "Address Regex",
     "nodeUrl": "Node URL",
     "priority": "Priority",
-    "isCurrentUsing": "Current Using"
+    "isCurrentUsing": "Current Using",
+    "smallTransactionFilter": "Small Transaction Filter",
+    "enableSmallTransactionFilter": "Enable Small Transaction Filter",
+    "smallTransactionThreshold": "Small Transaction Threshold",
+    "amountUnit": "Amount"
   },
   "action": {
     "add": "Add",
@@ -47,6 +51,7 @@
     "inputAddressRegex": "Please input address regex",
     "inputNodeUrl": "Please input node URL",
     "inputPriority": "Please input priority",
+    "inputSmallTransactionThreshold": "Please input small transaction threshold",
     "minuteUnit": "minutes"
   },
   "description": {
@@ -54,7 +59,8 @@
     "addressRegex": "Withdrawal requests with addresses not matching the regex will be rejected",
     "explorer": "Please add {hash} where the txhash value should be in the URL",
     "nodeUrl": "Please input complete node URL including protocol and port",
-    "priority": "Lower number means higher priority"
+    "priority": "Lower number means higher priority",
+    "smallTransactionFilter": "When enabled, transactions below the threshold will be filtered to avoid processing micro transactions"
   },
   "message": {
     "addSuccess": "Added successfully",

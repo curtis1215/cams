@@ -2,7 +2,7 @@
   <a-layout class="layout">
     <a-layout-header class="header">
       <div class="logo-section">
-        <div class="logo">CAMS</div>
+        <div class="logo">CAMS<VersionDisplay /></div>
         <a-switch
           v-model:checked="isDemoMode"
           class="mode-switch"
@@ -122,6 +122,10 @@
               <SwapOutlined />
               {{ t('nav.swapOrderQuery') }}
             </a-menu-item>
+            <a-menu-item key="lpOrder" @click="router.push('/order/lp')">
+              <SwapOutlined />
+              {{ t('nav.lpOrderQuery') }}
+            </a-menu-item>
             <a-menu-item key="manualOrder" @click="router.push('/order/manual')">
               <SearchOutlined />
               {{ t('nav.manualOrderQuery') }}
@@ -224,6 +228,7 @@
 import { ref, onMounted, watch, computed, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDark, useToggle } from '@vueuse/core'
+import VersionDisplay from '../components/VersionDisplay.vue'
 import {
   UserOutlined,
   SettingOutlined,
@@ -277,6 +282,7 @@ const pathMap: PathMap = {
   '/order/exchange': 'exchangeOrder',
   '/order/transaction': 'transactionDetail',
   '/order/swap': 'swapOrder',
+  '/order/lp': 'lpOrder',
   '/order/manual': 'manualOrder',
   '/params/blockchain': 'blockchain',
   '/params/contract-coin': 'contractCoin',
@@ -385,6 +391,7 @@ const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
   exchangeOrder: t('nav.exchangeOrderQuery'),
   transactionDetail: t('nav.transactionDetailQuery'),
   swapOrder: t('nav.swapOrderQuery'),
+  lpOrder: t('nav.lpOrderQuery'),
   manualOrder: t('nav.manualOrderQuery'),
   walletBalance: t('nav.walletBalanceQuery'),
   depositWithdrawDuration: t('nav.depositWithdrawDurationReport'),

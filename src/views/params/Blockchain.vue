@@ -150,6 +150,29 @@
                 :auto-size="{ minRows: 2, maxRows: 6 }"
               />
             </a-form-item>
+
+            <a-form-item 
+              :label="t('field.smallTransactionFilter')" 
+              name="enableSmallTransactionFilter"
+              :extra="t('description.smallTransactionFilter')"
+            >
+              <a-checkbox 
+                v-model:checked="formData.enableSmallTransactionFilter"
+                @change="handleSmallTransactionFilterChange"
+              >
+                {{ t('field.enableSmallTransactionFilter') }}
+              </a-checkbox>
+              <a-input-number
+                v-if="formData.enableSmallTransactionFilter"
+                v-model:value="formData.smallTransactionThreshold"
+                :placeholder="t('prompt.inputSmallTransactionThreshold')"
+                :min="0"
+                :step="0.000001"
+                :precision="6"
+                style="width: 100%; margin-top: 8px"
+                :addonAfter="t('field.amountUnit')"
+              />
+            </a-form-item>
           </a-form>
         </a-tab-pane>
 
@@ -354,6 +377,8 @@ const formData = reactive<BlockchainFormData>({
   isEvm: false,
   expectedTime: undefined,
   addressRegex: '',
+  enableSmallTransactionFilter: false,
+  smallTransactionThreshold: undefined,
   nodes: []
 })
 
@@ -427,6 +452,8 @@ const handleAdd = () => {
     isEvm: false,
     expectedTime: undefined,
     addressRegex: '',
+    enableSmallTransactionFilter: false,
+    smallTransactionThreshold: undefined,
     nodes: []
   })
   modalVisible.value = true
@@ -508,6 +535,13 @@ const handleCurrentUsingChange = (record: BlockchainNode, index: number) => {
       node.isCurrentUsing = false
     }
   })
+}
+
+// 處理小額交易過濾器變更
+const handleSmallTransactionFilterChange = (checked: boolean) => {
+  if (!checked) {
+    formData.smallTransactionThreshold = undefined
+  }
 }
 
 // 處理 ResizeObserver 錯誤

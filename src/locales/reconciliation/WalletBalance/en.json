@@ -4,7 +4,9 @@
       "title": {
         "walletBalanceQuery": "Wallet Balance Query",
         "reconciliationDetails": "Reconciliation Details",
-        "transferOrders": "Transfer Orders"
+        "transferOrders": "Transfer Orders",
+        "manualProcess": "Manual Process",
+        "manualProcessDetails": "Manual Process Details"
       },
       "form": {
         "walletId": "Wallet ID",
@@ -13,7 +15,9 @@
         "pleaseEnterWalletAddress": "Please enter wallet address",
         "walletType": "Wallet Type",
         "chainType": "Chain Type",
-        "currency": "Currency"
+        "currency": "Currency",
+        "processReason": "Process Reason",
+        "pleaseEnterProcessReason": "Please enter process reason, limit 500 characters"
       },
       "table": {
         "date": "Date",
@@ -38,7 +42,10 @@
         "transferType": "Transfer Type",
         "amount": "Amount",
         "txHash": "Transaction Hash",
-        "createTime": "Create Time"
+        "createTime": "Create Time",
+        "operator": "Operator",
+        "processTime": "Process Time",
+        "processReason": "Process Reason"
       },
       "transferType": {
         "pending": "Pending",
@@ -56,13 +63,20 @@
         "failed": "Failed"
       },
       "action": {
-        "viewDetails": "View Details"
+        "viewDetails": "View Details",
+        "manualProcess": "Manual Process",
+        "manualProcessDetails": "Manual Process Details"
       },
       "common": {
         "search": "Search",
         "reset": "Reset",
         "searchError": "Search failed, please try again later",
         "close": "Close"
+      },
+      "message": {
+        "reasonRequired": "Please enter process reason",
+        "processSuccess": "Manual process successful",
+        "processFailed": "Manual process failed"
       }
     }
   }

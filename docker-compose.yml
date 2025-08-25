@@ -1,0 +1,15 @@
+services:
+  cams-web:
+    build: .
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    container_name: cams-web
+    environment:
+      - NODE_ENV=production
+    networks:
+      - cams-network
+
+networks:
+  cams-network:
+    driver: bridge

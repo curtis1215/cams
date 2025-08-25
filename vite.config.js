@@ -9,9 +9,11 @@ import { createHtmlPlugin } from 'vite-plugin-html'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/',
+  base: './',
   server: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    host: '0.0.0.0',
+    port: 3000
   },
   plugins: [
     vue(),
@@ -78,6 +80,14 @@ export default defineConfig({
           }
         }
       }
-    }
+    },
+    // 確保生成完整的靜態網站
+    emptyOutDir: true,
+    sourcemap: false
+  },
+  // 確保可以正確處理 SPA 路由
+  preview: {
+    host: '0.0.0.0',
+    port: 3000
   }
 })
