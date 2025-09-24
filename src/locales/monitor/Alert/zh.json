@@ -23,7 +23,12 @@
     "riskAction": "風險地址操作",
     "walletBalance": "錢包水位告警設置",
     "dangerLevelMustBeLower": "危險水位必須低於警告水位",
-    "operationRecord": "操作記錄"
+    "operationRecord": "操作記錄",
+    "returnConfirm": "退回確認",
+    "returnOptions": "請選擇退回方式",
+    "originalRoute": "原路退回",
+    "customAddress": "自行輸入地址",
+    "inputAddress": "請輸入地址"
   },
   "threshold": {
     "deposit": "大額存款閾值",
@@ -128,6 +133,7 @@
     "lockWallet": "鎖定錢包",
     "approve": "通過",
     "lock": "鎖定",
+    "return": "退回",
     "search": "查詢",
     "operationRecord": "操作記錄"
   },

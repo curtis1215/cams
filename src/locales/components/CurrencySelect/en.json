@@ -2,10 +2,13 @@
   "currencySelect": {
     "placeholder": "Please select currency",
     "options": {
-      "BTC": "Bitcoin (BTC)",
-      "ETH": "Ethereum (ETH)",
-      "USDT": "Tether (USDT)",
-      "USDC": "USD Coin (USDC)"
+      "BTC": "BTC",
+      "ETH": "ETH",
+      "USDT": "USDT",
+      "USDC": "USDC",
+      "BNB": "BNB",
+      "BUSD": "BUSD",
+      "TRX": "TRX"
     }
   }
 } 

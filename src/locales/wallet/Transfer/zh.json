@@ -4,6 +4,12 @@
     "toWalletInfo": "轉入錢包資訊",
     "fromWalletDetail": "轉出錢包詳情",
     "toWalletDetail": "轉入錢包詳情",
+    "fromWalletList": "轉出錢包列表",
+    "toWalletList": "轉入錢包列表",
+    "fromCoinList": "轉出幣種列表",
+    "toCoinList": "轉入幣種列表",
+    "fromWalletSelection": "轉出錢包選擇",
+    "toWalletSelection": "轉入錢包選擇",
     "transferInfo": "轉帳資訊",
     "transferQueryTitle": "轉帳申請查詢",
     "transferList": "轉帳列表",
@@ -25,6 +31,7 @@
     "auditReason": "審核原因",
     "merchant": "商戶",
     "chainType": "鏈類型",
+    "walletType": "錢包類型",
     "currency": "幣種",
     "address": "地址",
     "createTime": "創建時間",
@@ -48,6 +55,8 @@
   },
   "prompt": {
     "pleaseSelectFromAndToWallet": "請選擇轉出和轉入錢包",
+    "pleaseSelectWallet": "請先選擇錢包",
+    "pleaseSelectCoin": "請先選擇幣種",
     "pleaseInputTransferAmount": "請輸入轉帳數量",
     "confirmTransfer": "確認轉帳",
     "transferRequestSubmitted": "轉帳申請已提交",
@@ -59,7 +68,8 @@
     "pleaseInputAddress": "請輸入地址",
     "selectMerchant": "請選擇商戶",
     "selectChainType": "請選擇鏈類型",
-    "selectCurrency": "請選擇幣種"
+    "selectCurrency": "請選擇幣種",
+    "clickSearchToLoadWallets": "請點擊搜尋按鈕載入錢包列表"
   },
   "action": {
     "search": "搜索",

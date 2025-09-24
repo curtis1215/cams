@@ -35,6 +35,23 @@
             allow-clear
           />
         </a-form-item>
+        <a-form-item :label="t('field.currency')" class="form-item">
+          <a-select
+            v-model:value="queryParams.currency"
+            :placeholder="t('prompt.selectCurrency')"
+            :style="{ width: '180px' }"
+            allow-clear
+          >
+            <a-select-option v-for="currency in mockData.currencies" :key="currency.value" :value="currency.value">
+              {{ currency.label }}
+            </a-select-option>
+          </a-select>
+        </a-form-item>
+        <a-form-item class="form-item checkbox-item">
+          <a-checkbox v-model:checked="queryParams.sortByAmount">
+            {{ t('field.sortByAmount') }}
+          </a-checkbox>
+        </a-form-item>
         <a-form-item class="form-item">
           <a-button type="primary" @click="handleQuery">
             <template #icon><SearchOutlined /></template>
@@ -70,10 +87,13 @@
           :scroll="{ x: 1400 }"
           @change="handleTableChange"
         >
-          <!-- 資產價值列自定義渲染 -->
+          <!-- 餘額和USDT價值列自定義渲染 -->
           <template #bodyCell="{ column, record }">
-            <template v-if="column.key === 'assetValue'">
-              <span class="asset-value" v-html="formatNumberWithColor(record.assetValue)"></span>
+            <template v-if="column.key === 'balance'">
+              <span class="balance-value" v-html="formatNumberWithColor(record.balance)"></span>
+            </template>
+            <template v-else-if="column.key === 'usdtValue'">
+              <span class="usdt-value" v-html="formatNumberWithColor(record.usdtValue)"></span>
             </template>
             <!-- 操作列自定義渲染 -->
             <template v-else-if="column.key === 'action'">
@@ -167,7 +187,7 @@ import MerchantSelect from '../../components/selectors/MerchantSelect.vue'
 import WalletTypeSelect from '../../components/selectors/WalletTypeSelect.vue'
 import ChainTypeSelect from '../../components/selectors/ChainTypeSelect.vue'
 import CurrencySelect from '../../components/selectors/CurrencySelect.vue'
-import mockData from '@/mock/wallet/Query/query.mock.json'
+import mockData from '@/mock/wallet/Query/enhanced-query.mock.json'
 import zhLocale from '@/locales/wallet/Query/zh.json'
 import enLocale from '@/locales/wallet/Query/en.json'
 import zhCommon from '@/locales/order/common/zh.json'
@@ -197,7 +217,9 @@ const queryParams = ref<QueryParams>({
   merchant: undefined,
   chainType: undefined,
   walletType: undefined,
-  address: ''
+  address: '',
+  currency: 'all',
+  sortByAmount: true
 })
 
 // 狀態選項
@@ -246,9 +268,17 @@ const columns: TableColumnType<WalletRecord>[] = [
     width: 300
   },
   {
-    title: t('field.assetValue'),
-    dataIndex: 'assetValue',
-    key: 'assetValue',
+    title: t('field.balance'),
+    dataIndex: 'balance',
+    key: 'balance',
+    width: 200,
+    align: 'right',
+    customRender: ({ text }: { text: string }) => formatNumberWithColor(text)
+  },
+  {
+    title: t('field.usdtValue'),
+    dataIndex: 'usdtValue',
+    key: 'usdtValue',
     width: 280,
     align: 'right',
     customRender: ({ text }: { text: string }) => formatNumberWithColor(text)
@@ -273,13 +303,41 @@ const tableData = ref<WalletRecord[]>(mockData.walletList)
 // 處理查詢
 const handleQuery = () => {
   console.log('Query with params:', queryParams.value)
-  const filteredData = mockData.walletList.filter((item: WalletRecord) => {
+  let filteredData = mockData.walletList.filter((item: any) => {
     if (queryParams.value.merchant && item.merchant !== queryParams.value.merchant) return false
     if (queryParams.value.chainType && item.chainType !== queryParams.value.chainType) return false
     if (queryParams.value.walletType && item.walletType !== queryParams.value.walletType) return false
     if (queryParams.value.address && !item.address.toLowerCase().includes(queryParams.value.address.toLowerCase())) return false
+
+    // 幣種過濾邏輯
+    if (queryParams.value.currency && queryParams.value.currency !== 'all') {
+      // 如果指定了特定幣種，檢查錢包是否有該幣種餘額
+      const hasCurrency = item.balances && item.balances[queryParams.value.currency]
+      if (!hasCurrency) return false
+
+      // 設置當前幣種的餘額為顯示的餘額
+      item.balance = item.balances[queryParams.value.currency]
+    } else {
+      // 如果選擇「全部」，使用USDT價值作為餘額
+      item.balance = ''
+    }
+
     return true
   })
+
+  // 排序邏輯
+  if (queryParams.value.sortByAmount) {
+    filteredData.sort((a: any, b: any) => {
+      if (queryParams.value.currency === 'all') {
+        // 按USDT價值排序
+        return parseFloat(b.usdtValue) - parseFloat(a.usdtValue)
+      } else {
+        // 按指定幣種餘額排序
+        return parseFloat(b.balance || '0') - parseFloat(a.balance || '0')
+      }
+    })
+  }
+
   tableData.value = filteredData
 }
 
@@ -474,11 +532,17 @@ const handleCancelAdd = () => {
   opacity: 0.8;
 }
 
-/* 資產價值的顏色樣式 */
-.asset-value {
+/* 餘額和USDT價值的顏色樣式 */
+.balance-value, .usdt-value {
   font-family: monospace;
   white-space: nowrap;
   font-size: 14px;
+}
+
+/* 核取方塊項目樣式 */
+.checkbox-item {
+  display: flex;
+  align-items: center;
 }
 
 :deep(.digit-12) {

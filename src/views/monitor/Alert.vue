@@ -269,8 +269,8 @@
                 <a-button type="primary" size="small" @click="handleRiskAction(record, 'approve')">
                   {{ t('action.approve') }}
                 </a-button>
-                <a-button danger size="small" @click="handleRiskAction(record, 'lock')">
-                  {{ t('action.lock') }}
+                <a-button type="default" size="small" @click="handleReturnAction(record)">
+                  {{ t('action.return') }}
                 </a-button>
               </a-space>
             </template>
@@ -540,6 +540,39 @@
         <a-form-item :label="t('modal.actionReason')" required>
           <a-textarea
             v-model:value="riskActionForm.reason"
+            :placeholder="t('modal.pleaseInputActionReason')"
+            :rows="4"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 退回操作彈窗 -->
+    <a-modal
+      v-model:open="returnActionModalVisible"
+      :title="t('modal.returnConfirm')"
+      @ok="handleReturnActionSubmit"
+    >
+      <a-form :model="returnActionForm" layout="vertical">
+        <a-form-item :label="t('modal.returnOptions')" required>
+          <a-radio-group v-model:value="returnActionForm.returnType">
+            <a-radio value="original">{{ t('modal.originalRoute') }}</a-radio>
+            <a-radio value="custom">{{ t('modal.customAddress') }}</a-radio>
+          </a-radio-group>
+        </a-form-item>
+        <a-form-item
+          v-if="returnActionForm.returnType === 'custom'"
+          :label="t('modal.inputAddress')"
+          required
+        >
+          <a-input
+            v-model:value="returnActionForm.customAddress"
+            :placeholder="t('modal.inputAddress')"
+          />
+        </a-form-item>
+        <a-form-item :label="t('modal.actionReason')" required>
+          <a-textarea
+            v-model:value="returnActionForm.reason"
             :placeholder="t('modal.pleaseInputActionReason')"
             :rows="4"
           />
@@ -1182,12 +1215,47 @@ const handleRiskActionSubmit = () => {
     message.error(t('modal.pleaseInputActionReason'))
     return
   }
-  
+
   // TODO: 調用API處理風險地址操作邏輯
   console.log('Risk address action:', riskActionForm)
-  
+
   message.success(t('message.actionSuccess'))
   riskActionModalVisible.value = false
+}
+
+// 退回操作相關
+const returnActionModalVisible = ref(false)
+const returnActionForm = reactive({
+  id: '',
+  returnType: 'original',
+  customAddress: '',
+  reason: ''
+})
+
+const handleReturnAction = (record: AlertRecord) => {
+  returnActionForm.id = record.id
+  returnActionForm.returnType = 'original'
+  returnActionForm.customAddress = ''
+  returnActionForm.reason = ''
+  returnActionModalVisible.value = true
+}
+
+const handleReturnActionSubmit = () => {
+  if (!returnActionForm.reason.trim()) {
+    message.error(t('modal.pleaseInputActionReason'))
+    return
+  }
+
+  if (returnActionForm.returnType === 'custom' && !returnActionForm.customAddress.trim()) {
+    message.error(t('modal.inputAddress'))
+    return
+  }
+
+  // TODO: 調用API處理退回操作邏輯
+  console.log('Return action:', returnActionForm)
+
+  message.success(t('message.actionSuccess'))
+  returnActionModalVisible.value = false
 }
 
 const alertStatistics = computed(() => [

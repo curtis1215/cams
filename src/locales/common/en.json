@@ -15,6 +15,10 @@
   "error": "Operation Failed",
   "pleaseSelect": "Please Select",
   "pleaseInput": "Please Input",
+  "demoMode": "DEMO Mode",
+  "prdMode": "PRD Mode",
+  "darkMode": "Dark Mode",
+  "lightMode": "Light Mode",
   "action": {
     "search": "Search",
     "reset": "Reset",
@@ -49,5 +53,17 @@
     "selectChainType": "Please select chain type",
     "querySuccess": "Query successful",
     "queryFailed": "Query failed"
+  },
+  "validation": {
+    "merchantRequired": "Please select merchant",
+    "chainTypeRequired": "Please select chain type",
+    "addressRequired": "Please enter wallet address",
+    "walletTypeRequired": "Please select wallet type",
+    "currencyRequired": "Please select currency",
+    "amountRequired": "Please enter amount",
+    "amountMin": "Amount cannot be less than {min}",
+    "amountMax": "Amount cannot be greater than {max}",
+    "invalidAddress": "Please enter a valid wallet address",
+    "invalidAmount": "Please enter a valid amount"
   }
 } 

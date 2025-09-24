@@ -4,6 +4,12 @@
     "toWalletInfo": "To Wallet Info",
     "fromWalletDetail": "From Wallet Detail",
     "toWalletDetail": "To Wallet Detail",
+    "fromWalletList": "From Wallet List",
+    "toWalletList": "To Wallet List",
+    "fromCoinList": "From Coin List",
+    "toCoinList": "To Coin List",
+    "fromWalletSelection": "From Wallet Selection",
+    "toWalletSelection": "To Wallet Selection",
     "transferInfo": "Transfer Info",
     "transferQueryTitle": "Transfer Request Query",
     "transferList": "Transfer List",
@@ -25,6 +31,7 @@
     "auditReason": "Audit Reason",
     "merchant": "Merchant",
     "chainType": "Chain Type",
+    "walletType": "Wallet Type",
     "currency": "Currency",
     "address": "Address",
     "createTime": "Create Time",
@@ -48,6 +55,8 @@
   },
   "prompt": {
     "pleaseSelectFromAndToWallet": "Please select from and to wallet",
+    "pleaseSelectWallet": "Please select a wallet first",
+    "pleaseSelectCoin": "Please select a coin first",
     "pleaseInputTransferAmount": "Please input transfer amount",
     "confirmTransfer": "Confirm Transfer",
     "transferRequestSubmitted": "Transfer request submitted",
@@ -59,7 +68,8 @@
     "pleaseInputAddress": "Please input address",
     "selectMerchant": "Please select merchant",
     "selectChainType": "Please select chain type",
-    "selectCurrency": "Please select currency"
+    "selectCurrency": "Please select currency",
+    "clickSearchToLoadWallets": "Please click search button to load wallets"
   },
   "action": {
     "search": "Search",

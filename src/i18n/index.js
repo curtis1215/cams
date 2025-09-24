@@ -11,6 +11,8 @@ import zhCommon from '../locales/common/zh.json'
 import enCommon from '../locales/common/en.json'
 import zhExchangePair from '../locales/params/ExchangePair/zh.json'
 import enExchangePair from '../locales/params/ExchangePair/en.json'
+import zhWalletQuery from '../locales/wallet/Query/zh.json'
+import enWalletQuery from '../locales/wallet/Query/en.json'
 
 const messages = {
   zh: {
@@ -27,6 +29,9 @@ const messages = {
     },
     params: {
       ExchangePair: zhExchangePair
+    },
+    wallet: {
+      Query: zhWalletQuery
     }
   },
   en: {
@@ -43,6 +48,9 @@ const messages = {
     },
     params: {
       ExchangePair: enExchangePair
+    },
+    wallet: {
+      Query: enWalletQuery
     }
   }
 }

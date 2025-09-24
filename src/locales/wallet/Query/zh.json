@@ -11,8 +11,11 @@
     "walletId": "錢包 ID",
     "userId": "用戶ID",
     "walletType": "錢包類型",
+    "balance": "餘額",
+    "usdtValue": "USDT價值",
     "assetValue": "資產價值(USDT)",
-    "status": "狀態"
+    "status": "狀態",
+    "sortByAmount": "按數量排序"
   },
   "walletType": {
     "user": "用戶錢包",

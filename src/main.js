@@ -1,32 +1,15 @@
 import { createApp } from 'vue'
-import { createI18n } from 'vue-i18n'
-import Antd from 'ant-design-vue'
 import App from './App.vue'
+import VueApexCharts from 'vue3-apexcharts'
+import { i18n } from './i18n'
 import { router } from './router'
-import zhCN from './locales/zh.json'
-import enUS from './locales/en.json'
-import zhMainLayout from './locales/layouts/MainLayout/zh.json'
-import enMainLayout from './locales/layouts/MainLayout/en.json'
+import Antd from 'ant-design-vue'
 import 'ant-design-vue/dist/reset.css'
 
-const i18n = createI18n({
-  legacy: false,
-  locale: 'zh',
-  messages: {
-    'zh': {
-      ...zhCN,
-      ...zhMainLayout
-    },
-    'en': {
-      ...enUS,
-      ...enMainLayout
-    }
-  }
-})
-
 const app = createApp(App)
-app.use(router)
+app.use(VueApexCharts)
 app.use(i18n)
+app.use(router)
 app.use(Antd)
 
 app.mount('#app')

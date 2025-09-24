@@ -1,0 +1,156 @@
+{
+  "walletList": [
+    {
+      "id": "W001",
+      "code": "COLD-001",
+      "address": "0x1234567890abcdef1234567890abcdef12345678",
+      "walletType": "Collection",
+      "chainType": "ETH",
+      "merchant": "merchant_a",
+      "coins": [
+        {
+          "currency": "ETH",
+          "balance": "50.12345678"
+        },
+        {
+          "currency": "USDT",
+          "balance": "100000.00000000"
+        },
+        {
+          "currency": "USDC",
+          "balance": "50000.00000000"
+        }
+      ]
+    },
+    {
+      "id": "W002",
+      "code": "HOT-002",
+      "address": "0x9876543210fedcba0987654321fedcba09876543",
+      "walletType": "User",
+      "chainType": "ETH",
+      "merchant": "merchant_a",
+      "coins": [
+        {
+          "currency": "ETH",
+          "balance": "25.87654321"
+        },
+        {
+          "currency": "USDT",
+          "balance": "75000.00000000"
+        }
+      ]
+    },
+    {
+      "id": "W003",
+      "code": "WITHDRAW-003",
+      "address": "0xabcdef1234567890abcdef1234567890abcdef12",
+      "walletType": "Withdraw",
+      "chainType": "BSC",
+      "merchant": "merchant_b",
+      "coins": [
+        {
+          "currency": "BNB",
+          "balance": "200.50000000"
+        },
+        {
+          "currency": "USDT",
+          "balance": "80000.00000000"
+        },
+        {
+          "currency": "BUSD",
+          "balance": "60000.00000000"
+        }
+      ]
+    },
+    {
+      "id": "W004",
+      "code": "HOT-004",
+      "address": "0xfedcba0987654321fedcba0987654321fedcba09",
+      "walletType": "User",
+      "chainType": "BSC",
+      "merchant": "merchant_b",
+      "coins": [
+        {
+          "currency": "BNB",
+          "balance": "150.25000000"
+        },
+        {
+          "currency": "USDT",
+          "balance": "120000.00000000"
+        }
+      ]
+    },
+    {
+      "id": "W005",
+      "code": "EXTERNAL-005",
+      "address": "0x5678901234abcdef5678901234abcdef56789012",
+      "walletType": "External",
+      "chainType": "TRC20",
+      "merchant": "merchant_c",
+      "coins": [
+        {
+          "currency": "TRX",
+          "balance": "10000.000000"
+        },
+        {
+          "currency": "USDT",
+          "balance": "90000.00000000"
+        }
+      ]
+    },
+    {
+      "id": "W006",
+      "code": "HOT-006",
+      "address": "0x234567890abcdef1234567890abcdef1234567890",
+      "walletType": "User",
+      "chainType": "TRC20",
+      "merchant": "merchant_c",
+      "coins": [
+        {
+          "currency": "TRX",
+          "balance": "5000.000000"
+        },
+        {
+          "currency": "USDT",
+          "balance": "65000.00000000"
+        }
+      ]
+    },
+    {
+      "id": "W007",
+      "code": "COLLECT-007",
+      "address": "0x987654321abcdef987654321abcdef9876543210",
+      "walletType": "Collection",
+      "chainType": "BSC",
+      "merchant": "merchant_a",
+      "coins": [
+        {
+          "currency": "BNB",
+          "balance": "300.50000000"
+        },
+        {
+          "currency": "USDT",
+          "balance": "150000.00000000"
+        }
+      ]
+    },
+    {
+      "id": "W008",
+      "code": "WITHDRAW-008",
+      "address": "0x123abc456def789abc123def456abc789def123a",
+      "walletType": "Withdraw",
+      "chainType": "ETH",
+      "merchant": "merchant_c",
+      "coins": [
+        {
+          "currency": "ETH",
+          "balance": "80.25000000"
+        },
+        {
+          "currency": "USDT",
+          "balance": "200000.00000000"
+        }
+      ]
+    }
+  ]
+}

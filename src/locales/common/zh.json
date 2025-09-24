@@ -15,6 +15,10 @@
   "error": "操作失敗",
   "pleaseSelect": "請選擇",
   "pleaseInput": "請輸入",
+  "demoMode": "DEMO模式",
+  "prdMode": "PRD模式",
+  "darkMode": "暗色模式",
+  "lightMode": "亮色模式",
   "action": {
     "search": "搜索",
     "reset": "重置",
@@ -47,5 +51,17 @@
     "pleaseSelect": "請選擇",
     "pleaseInput": "請輸入",
     "selectChainType": "請選擇鏈類型"
+  },
+  "validation": {
+    "merchantRequired": "請選擇商戶",
+    "chainTypeRequired": "請選擇鏈類型",
+    "addressRequired": "請輸入錢包地址",
+    "walletTypeRequired": "請選擇錢包類型",
+    "currencyRequired": "請選擇幣種",
+    "amountRequired": "請輸入金額",
+    "amountMin": "金額不能小於 {min}",
+    "amountMax": "金額不能大於 {max}",
+    "invalidAddress": "請輸入有效的錢包地址",
+    "invalidAmount": "請輸入有效的金額"
   }
 } 

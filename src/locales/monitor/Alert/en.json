@@ -23,7 +23,12 @@
     "riskAction": "Risk Address Action",
     "walletBalance": "Wallet Balance Alert Settings",
     "dangerLevelMustBeLower": "Danger level must be lower than warning level",
-    "operationRecord": "Operation Record"
+    "operationRecord": "Operation Record",
+    "returnConfirm": "Return Confirmation",
+    "returnOptions": "Please select return method",
+    "originalRoute": "Return to original route",
+    "customAddress": "Enter custom address",
+    "inputAddress": "Please enter address"
   },
   "threshold": {
     "deposit": "Large Deposit Threshold",
@@ -128,6 +133,7 @@
     "lockWallet": "Lock Wallet",
     "approve": "Approve",
     "lock": "Lock",
+    "return": "Return",
     "search": "Search",
     "operationRecord": "Operation Record"
   },

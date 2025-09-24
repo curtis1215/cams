@@ -37,6 +37,8 @@
     "remark": "備註",
     "darkMode": "暗色模式",
     "lightMode": "亮色模式",
+    "demoMode": "DEMO模式",
+    "prdMode": "PRD模式",
     "walletId": "錢包ID",
     "assetValue": "資產價值",
     "total": "總計",

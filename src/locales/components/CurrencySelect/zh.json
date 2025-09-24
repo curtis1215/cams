@@ -2,10 +2,13 @@
   "currencySelect": {
     "placeholder": "請選擇幣種",
     "options": {
-      "BTC": "比特幣 (BTC)",
-      "ETH": "以太幣 (ETH)",
-      "USDT": "泰達幣 (USDT)",
-      "USDC": "美元幣 (USDC)"
+      "BTC": "BTC",
+      "ETH": "ETH",
+      "USDT": "USDT",
+      "USDC": "USDC",
+      "BNB": "BNB",
+      "BUSD": "BUSD",
+      "TRX": "TRX"
     }
   }
 } 

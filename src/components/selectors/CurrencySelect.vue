@@ -47,7 +47,10 @@ const currencies = [
   { value: 'BTC', label: 'BTC' },
   { value: 'ETH', label: 'ETH' },
   { value: 'USDT', label: 'USDT' },
-  { value: 'USDC', label: 'USDC' }
+  { value: 'USDC', label: 'USDC' },
+  { value: 'BNB', label: 'BNB' },
+  { value: 'BUSD', label: 'BUSD' },
+  { value: 'TRX', label: 'TRX' }
 ]
 
 // 處理選擇變更

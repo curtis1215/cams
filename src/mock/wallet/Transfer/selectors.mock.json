@@ -1,0 +1,78 @@
+{
+  "merchants": [
+    {
+      "value": "merchant_a",
+      "label": "商戶A"
+    },
+    {
+      "value": "merchant_b",
+      "label": "商戶B"
+    },
+    {
+      "value": "merchant_c",
+      "label": "商戶C"
+    }
+  ],
+  "chainTypes": [
+    {
+      "value": "ETH",
+      "label": "ETH"
+    },
+    {
+      "value": "BSC",
+      "label": "BSC"
+    },
+    {
+      "value": "TRC20",
+      "label": "TRON"
+    },
+    {
+      "value": "BTC",
+      "label": "BTC"
+    }
+  ],
+  "walletTypes": [
+    {
+      "value": "User",
+      "label": "用戶錢包"
+    },
+    {
+      "value": "Collection",
+      "label": "歸集錢包"
+    },
+    {
+      "value": "Withdraw",
+      "label": "出款錢包"
+    },
+    {
+      "value": "External",
+      "label": "外轉錢包"
+    }
+  ],
+  "currencies": [
+    {
+      "value": "ETH",
+      "label": "ETH"
+    },
+    {
+      "value": "USDT",
+      "label": "USDT"
+    },
+    {
+      "value": "USDC",
+      "label": "USDC"
+    },
+    {
+      "value": "BNB",
+      "label": "BNB"
+    },
+    {
+      "value": "BUSD",
+      "label": "BUSD"
+    },
+    {
+      "value": "TRX",
+      "label": "TRX"
+    }
+  ]
+}

@@ -11,8 +11,11 @@
     "walletId": "Wallet ID",
     "userId": "User ID",
     "walletType": "Wallet Type",
+    "balance": "Balance",
+    "usdtValue": "USDT Value",
     "assetValue": "Asset Value",
-    "status": "Status"
+    "status": "Status",
+    "sortByAmount": "Sort by Amount"
   },
   "walletType": {
     "user": "User Wallet",
