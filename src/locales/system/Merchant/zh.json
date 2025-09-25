@@ -5,7 +5,8 @@
     "addMerchant": "新增商戶",
     "editMerchant": "編輯商戶",
     "merchantInfo": "商戶資訊",
-    "merchantPermission": "商戶權限"
+    "merchantPermission": "商戶權限",
+    "currencyManagement": "幣種管理"
   },
   "field": {
     "name": "商戶名稱",
@@ -15,10 +16,24 @@
     "action": "操作",
     "privateKey": "私鑰",
     "retryCount": "重試次數",
-    "depositStatus": "充值狀態",
-    "withdrawStatus": "提現狀態",
+    "depositStatus": "充幣狀態",
+    "withdrawStatus": "提幣狀態",
+    "swapStatus": "Swap狀態",
+    "lpStatus": "LP狀態",
+    "depositNotifyUrl": "充幣通知地址",
+    "withdrawNotifyUrl": "提幣通知地址",
+    "swapNotifyUrl": "Swap通知地址",
+    "lpNotifyUrl": "LP通知地址",
+    "swapSlippage": "Swap滑點",
+    "lpSlippage": "LP滑點",
+    "txHashNotifyUrl": "txHash通知地址",
     "availableCurrencies": "可用幣種",
-    "currencies": "幣種列表"
+    "currencies": "幣種列表",
+    "chainType": "鏈類型",
+    "currency": "幣種",
+    "enabled": "啟用狀態",
+    "collectionWalletLimit": "歸集錢包儲存上限",
+    "withdrawWalletLimit": "出款錢包儲存上限"
   },
   "action": {
     "search": "搜尋",
@@ -26,7 +41,8 @@
     "edit": "編輯",
     "delete": "刪除",
     "generateKey": "生成",
-    "selectAll": "全選"
+    "selectAll": "全選",
+    "currencyManagement": "幣種管理"
   },
   "status": {
     "active": "啟用",
@@ -35,7 +51,16 @@
   "prompt": {
     "inputName": "請輸入商戶名稱",
     "inputCode": "請輸入商戶代碼",
-    "selectStatus": "請選擇狀態"
+    "selectStatus": "請選擇狀態",
+    "inputDepositNotifyUrl": "請輸入充幣通知地址",
+    "inputWithdrawNotifyUrl": "請輸入提幣通知地址",
+    "inputSwapNotifyUrl": "請輸入Swap通知地址",
+    "inputLpNotifyUrl": "請輸入LP通知地址",
+    "inputSwapSlippage": "請輸入Swap滑點",
+    "inputLpSlippage": "請輸入LP滑點",
+    "inputTxHashNotifyUrl": "請輸入txHash通知地址",
+    "inputCollectionWalletLimit": "請輸入歸集錢包儲存上限",
+    "inputWithdrawWalletLimit": "請輸入出款錢包儲存上限"
   },
   "validation": {
     "nameRequired": "請輸入商戶名稱",
@@ -47,6 +72,7 @@
     "generateKeySuccess": "私鑰生成成功",
     "deleteSuccess": "刪除成功",
     "saveSuccess": "儲存成功",
-    "fetchError": "獲取資料失敗"
+    "fetchError": "獲取資料失敗",
+    "currencyConfigSaved": "幣種配置儲存成功"
   }
 } 

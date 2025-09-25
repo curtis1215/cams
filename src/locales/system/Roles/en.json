@@ -26,7 +26,8 @@
     "read": "Read",
     "create": "Create",
     "update": "Update",
-    "delete": "Delete"
+    "delete": "Delete",
+    "largeAmountTransfer": "Large Amount Transfer"
   },
   "module": {
     "monitor": {
@@ -63,7 +64,8 @@
       "title": "System",
       "users": "Users",
       "roles": "Roles",
-      "merchants": "Merchants"
+      "merchants": "Merchants",
+      "systemParams": "System Parameters Management"
     }
   },
   "message": {

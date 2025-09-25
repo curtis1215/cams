@@ -5,7 +5,8 @@
     "addMerchant": "Add Merchant",
     "editMerchant": "Edit Merchant",
     "merchantInfo": "Merchant Information",
-    "merchantPermission": "Merchant Permission"
+    "merchantPermission": "Merchant Permission",
+    "currencyManagement": "Currency Management"
   },
   "field": {
     "name": "Merchant Name",
@@ -17,8 +18,22 @@
     "retryCount": "Retry Count",
     "depositStatus": "Deposit Status",
     "withdrawStatus": "Withdraw Status",
+    "swapStatus": "Swap Status",
+    "lpStatus": "LP Status",
+    "depositNotifyUrl": "Deposit Notify URL",
+    "withdrawNotifyUrl": "Withdraw Notify URL",
+    "swapNotifyUrl": "Swap Notify URL",
+    "lpNotifyUrl": "LP Notify URL",
+    "swapSlippage": "Swap Slippage",
+    "lpSlippage": "LP Slippage",
+    "txHashNotifyUrl": "TxHash Notify URL",
     "availableCurrencies": "Available Currencies",
-    "currencies": "Currency List"
+    "currencies": "Currency List",
+    "chainType": "Chain Type",
+    "currency": "Currency",
+    "enabled": "Enabled",
+    "collectionWalletLimit": "Collection Wallet Storage Limit",
+    "withdrawWalletLimit": "Withdraw Wallet Storage Limit"
   },
   "action": {
     "search": "Search",
@@ -26,7 +41,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "generateKey": "Generate",
-    "selectAll": "Select All"
+    "selectAll": "Select All",
+    "currencyManagement": "Currency Management"
   },
   "status": {
     "active": "Active",
@@ -35,7 +51,16 @@
   "prompt": {
     "inputName": "Please input merchant name",
     "inputCode": "Please input merchant code",
-    "selectStatus": "Please select status"
+    "selectStatus": "Please select status",
+    "inputDepositNotifyUrl": "Please input deposit notify URL",
+    "inputWithdrawNotifyUrl": "Please input withdraw notify URL",
+    "inputSwapNotifyUrl": "Please input swap notify URL",
+    "inputLpNotifyUrl": "Please input LP notify URL",
+    "inputSwapSlippage": "Please input swap slippage",
+    "inputLpSlippage": "Please input LP slippage",
+    "inputTxHashNotifyUrl": "Please input txHash notify URL",
+    "inputCollectionWalletLimit": "Please input collection wallet storage limit",
+    "inputWithdrawWalletLimit": "Please input withdraw wallet storage limit"
   },
   "validation": {
     "nameRequired": "Please input merchant name",
@@ -47,6 +72,7 @@
     "generateKeySuccess": "Private key generated successfully",
     "deleteSuccess": "Delete successful",
     "saveSuccess": "Save successful",
-    "fetchError": "Failed to fetch data"
+    "fetchError": "Failed to fetch data",
+    "currencyConfigSaved": "Currency configuration saved successfully"
   }
 } 

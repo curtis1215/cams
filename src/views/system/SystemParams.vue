@@ -1,35 +1,134 @@
 <template>
   <div class="system-params">
+    <!-- 域名配置 -->
     <a-card :bordered="false" class="params-card">
       <template #title>
-        <span class="card-title">{{ t('title.googleLoginDomains') }}</span>
+        <div class="card-title-wrapper">
+          <span class="card-title">{{ t('title.domainConfiguration') }}</span>
+          <a-button
+            type="primary"
+            @click="showAddDomainModal"
+          >
+            {{ t('action.add') }}
+          </a-button>
+        </div>
       </template>
-      <div class="domain-input-section">
-        <a-input
-          v-model:value="domainInput"
-          :placeholder="t('prompt.inputDomain')"
-          @keydown.enter="handleAddDomain"
-          @blur="handleAddDomain"
-          style="width: 300px"
+
+      <!-- 域名列表表格 -->
+      <a-table
+        :columns="domainColumns"
+        :data-source="paginatedDomains"
+        :pagination="false"
+        row-key="id"
+        size="middle"
+        class="domain-table"
+      >
+        <template #bodyCell="{ column, record, index }">
+          <template v-if="column.key === 'index'">
+            {{ (currentPage - 1) * pageSize + index + 1 }}
+          </template>
+          <template v-else-if="column.key === 'domainName'">
+            {{ record.domainName }}
+          </template>
+          <template v-else-if="column.key === 'createTime'">
+            {{ formatDateTime(record.createTime) }}
+          </template>
+          <template v-else-if="column.key === 'updateTime'">
+            {{ formatDateTime(record.updateTime) }}
+          </template>
+          <template v-else-if="column.key === 'operation'">
+            <a-popconfirm
+              :title="t('message.deleteConfirm')"
+              @confirm="handleDeleteDomain(record.id)"
+              :ok-text="t('action.confirm')"
+              :cancel-text="t('action.cancel')"
+            >
+              <a-button
+                type="link"
+                danger
+                size="small"
+              >
+                {{ t('action.delete') }}
+              </a-button>
+            </a-popconfirm>
+          </template>
+        </template>
+      </a-table>
+
+      <!-- 分頁 -->
+      <div class="pagination-wrapper">
+        <a-pagination
+          v-model:current="currentPage"
+          v-model:page-size="pageSize"
+          :total="domains.length"
+          :show-size-changer="false"
+          :show-quick-jumper="false"
+          :show-total="(total, range) => t('message.pagination', { start: range[0], end: range[1], total })"
+          size="small"
         />
       </div>
-      <div class="domain-tags">
-        <a-tag
-          v-for="domain in domains"
-          :key="domain"
-          :closable="true"
-          @close="handleRemoveDomain(domain)"
-          class="domain-tag"
-          :style="{ backgroundColor: getTagColor(domain) }"
+    </a-card>
+
+    <!-- 新增域名彈窗 -->
+    <a-modal
+      v-model:open="addDomainModalOpen"
+      :title="t('title.addDomain')"
+      width="500px"
+      @ok="handleConfirmAddDomain"
+      :ok-text="t('action.confirm')"
+      :cancel-text="t('action.cancel')"
+      :confirm-loading="addingDomain"
+    >
+      <a-form
+        ref="addDomainFormRef"
+        :model="addDomainForm"
+        :rules="addDomainRules"
+        :label-col="{ span: 6 }"
+        :wrapper-col="{ span: 16 }"
+      >
+        <a-form-item
+          :label="t('field.domainName')"
+          name="domainName"
         >
-          {{ domain }}
-        </a-tag>
+          <a-input
+            v-model:value="addDomainForm.domainName"
+            :placeholder="t('prompt.inputDomain')"
+            @keydown.enter="handleConfirmAddDomain"
+          />
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 錢包轉帳限額配置 -->
+    <a-card :bordered="false" class="params-card">
+      <template #title>
+        <span class="card-title">{{ t('title.walletTransferLimits') }}</span>
+      </template>
+      <div class="limit-config-section">
+        <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
+          <a-form-item :label="t('field.generalTransferLimit')" name="generalTransferLimit">
+            <a-input-number
+              v-model:value="generalTransferLimit"
+              :min="0"
+              :max="999999999"
+              :precision="2"
+              :placeholder="t('prompt.inputTransferLimit')"
+              addon-after="USDT"
+              style="width: 300px"
+            />
+          </a-form-item>
+          <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
+            <div class="note-text">
+              {{ t('note.largeAmountTransferNote') }}
+            </div>
+          </a-form-item>
+        </a-form>
       </div>
       <div class="card-footer">
-        <a-button 
-          type="primary" 
-          :loading="saving" 
-          @click="handleSave"
+        <a-button
+          type="primary"
+          :loading="savingLimit"
+          @click="handleSaveLimit"
         >
           {{ t('action.save') }}
         </a-button>
@@ -39,44 +138,99 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { message } from 'ant-design-vue'
+import type { FormInstance, Rule } from 'ant-design-vue/es/form'
 
 // i18n 配置
 const messages = {
   zh: {
     title: {
-      googleLoginDomains: 'Google登入可接受域名'
+      domainConfiguration: '域名配置',
+      addDomain: '新增域名',
+      walletTransferLimits: '錢包轉帳配置'
+    },
+    field: {
+      index: '序號',
+      domainName: '域名名稱',
+      createTime: '創建時間',
+      updateTime: '更新時間',
+      operation: '操作',
+      generalTransferLimit: '一般錢包轉帳限額'
     },
     prompt: {
-      inputDomain: '請輸入域名，按 Enter 或失去焦點時添加'
+      inputDomain: '請輸入域名',
+      inputTransferLimit: '請輸入轉帳限額'
+    },
+    note: {
+      largeAmountTransferNote: '備註說明：具備大額轉帳權限使用者不受此限制'
     },
     message: {
       invalidDomain: '請輸入有效的域名',
       duplicateDomain: '該域名已存在',
+      invalidLimit: '請輸入有效的限額',
       saveSuccess: '儲存成功',
-      saveFailed: '儲存失敗'
+      saveFailed: '儲存失敗',
+      limitSaveSuccess: '轉帳限額配置儲存成功',
+      limitSaveFailed: '轉帳限額配置儲存失敗',
+      deleteConfirm: '確定要刪除此域名嗎？',
+      deleteSuccess: '刪除成功',
+      deleteFailed: '刪除失敗',
+      addSuccess: '新增成功',
+      addFailed: '新增失敗',
+      pagination: '顯示第 {start} 到第 {end} 項，共 {total} 項'
     },
     action: {
-      save: '儲存'
+      save: '儲存',
+      add: '新增',
+      delete: '刪除',
+      confirm: '確定',
+      cancel: '取消'
     }
   },
   en: {
     title: {
-      googleLoginDomains: 'Accepted Domains for Google Login'
+      domainConfiguration: 'Domain Configuration',
+      addDomain: 'Add Domain',
+      walletTransferLimits: 'Wallet Transfer Configuration'
+    },
+    field: {
+      index: 'Index',
+      domainName: 'Domain Name',
+      createTime: 'Create Time',
+      updateTime: 'Update Time',
+      operation: 'Operation',
+      generalTransferLimit: 'General Wallet Transfer Limit'
     },
     prompt: {
-      inputDomain: 'Enter domain and press Enter or blur to add'
+      inputDomain: 'Please enter domain name',
+      inputTransferLimit: 'Please input transfer limit'
+    },
+    note: {
+      largeAmountTransferNote: 'Note: Users with large amount transfer permission are not subject to this limit'
     },
     message: {
       invalidDomain: 'Please enter a valid domain',
       duplicateDomain: 'This domain already exists',
+      invalidLimit: 'Please enter a valid limit',
       saveSuccess: 'Saved successfully',
-      saveFailed: 'Save failed'
+      saveFailed: 'Save failed',
+      limitSaveSuccess: 'Transfer limit configuration saved successfully',
+      limitSaveFailed: 'Transfer limit configuration save failed',
+      deleteConfirm: 'Are you sure you want to delete this domain?',
+      deleteSuccess: 'Delete successfully',
+      deleteFailed: 'Delete failed',
+      addSuccess: 'Add successfully',
+      addFailed: 'Add failed',
+      pagination: 'Showing {start} to {end} of {total} items'
     },
     action: {
-      save: 'Save'
+      save: 'Save',
+      add: 'Add',
+      delete: 'Delete',
+      confirm: 'Confirm',
+      cancel: 'Cancel'
     }
   }
 }
@@ -86,10 +240,102 @@ const { t } = useI18n({
   legacy: false
 })
 
-// 數據
-const domainInput = ref('')
-const domains = ref<string[]>([])
-const saving = ref(false)
+// 域名相關數據
+interface DomainItem {
+  id: number
+  domainName: string
+  createTime: string
+  updateTime: string
+}
+
+const domains = ref<DomainItem[]>([
+  {
+    id: 1,
+    domainName: 'example.com',
+    createTime: '2024-01-15 10:30:00',
+    updateTime: '2024-01-15 10:30:00'
+  },
+  {
+    id: 2,
+    domainName: 'test.example.com',
+    createTime: '2024-02-20 14:20:00',
+    updateTime: '2024-02-20 14:20:00'
+  }
+])
+
+// 分頁數據
+const currentPage = ref(1)
+const pageSize = ref(5)
+
+// 表格列配置
+const domainColumns = [
+  {
+    title: t('field.index'),
+    key: 'index',
+    width: 80,
+    align: 'center' as const
+  },
+  {
+    title: t('field.domainName'),
+    key: 'domainName',
+    align: 'left' as const
+  },
+  {
+    title: t('field.createTime'),
+    key: 'createTime',
+    width: 180,
+    align: 'center' as const
+  },
+  {
+    title: t('field.updateTime'),
+    key: 'updateTime',
+    width: 180,
+    align: 'center' as const
+  },
+  {
+    title: t('field.operation'),
+    key: 'operation',
+    width: 120,
+    align: 'center' as const
+  }
+]
+
+// 分頁數據計算
+const paginatedDomains = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  return domains.value.slice(start, end)
+})
+
+// 新增域名彈窗
+const addDomainModalOpen = ref(false)
+const addingDomain = ref(false)
+const addDomainFormRef = ref<FormInstance>()
+const addDomainForm = reactive({
+  domainName: ''
+})
+
+// 表單驗證規則
+const addDomainRules: Record<string, Rule[]> = {
+  domainName: [
+    { required: true, message: t('message.invalidDomain'), trigger: 'blur' },
+    {
+      validator: (_, value) => {
+        if (!value) return Promise.reject(t('message.invalidDomain'))
+        if (!isValidDomain(value)) return Promise.reject(t('message.invalidDomain'))
+        if (domains.value.some(item => item.domainName === value)) {
+          return Promise.reject(t('message.duplicateDomain'))
+        }
+        return Promise.resolve()
+      },
+      trigger: 'blur'
+    }
+  ]
+}
+
+// 錢包轉帳限額相關數據
+const generalTransferLimit = ref<number>(10000) // 預設限額 10,000 USDT
+const savingLimit = ref(false)
 
 // 驗證域名格式的函數
 const isValidDomain = (domain: string): boolean => {
@@ -97,67 +343,99 @@ const isValidDomain = (domain: string): boolean => {
   return pattern.test(domain)
 }
 
-// 在 script setup 部分添加計算標籤顏色的函數
-const getTagColor = (domain: string): string => {
-  // 使用域名的哈希值來決定顏色
-  const colors = [
-    'rgba(22, 119, 255, 0.15)',    // 藍色
-    'rgba(82, 196, 26, 0.15)',     // 綠色
-    'rgba(250, 173, 20, 0.15)',    // 黃色
-    'rgba(255, 77, 79, 0.15)',     // 紅色
-    'rgba(114, 46, 209, 0.15)',    // 紫色
-    'rgba(19, 194, 194, 0.15)',    // 青色
-    'rgba(245, 34, 45, 0.15)',     // 火紅色
-    'rgba(250, 84, 28, 0.15)'      // 橙色
-  ]
-  
-  let hash = 0
-  for (let i = 0; i < domain.length; i++) {
-    hash = domain.charCodeAt(i) + ((hash << 5) - hash)
-  }
-  
-  return colors[Math.abs(hash) % colors.length]
+// 格式化日期時間
+const formatDateTime = (dateTime: string): string => {
+  return dateTime
 }
 
-// 處理添加域名
-const handleAddDomain = () => {
-  const domain = domainInput.value.trim()
-  if (!domain) return
-
-  if (!isValidDomain(domain)) {
-    message.error(t('message.invalidDomain'))
-    return
-  }
-
-  if (domains.value.includes(domain)) {
-    message.error(t('message.duplicateDomain'))
-    return
-  }
-
-  domains.value.push(domain)
-  domainInput.value = ''
-}
-
-// 處理移除域名
-const handleRemoveDomain = (domain: string) => {
-  const index = domains.value.indexOf(domain)
-  if (index !== -1) {
-    domains.value.splice(index, 1)
+// 顯示新增域名彈窗
+const showAddDomainModal = () => {
+  addDomainModalOpen.value = true
+  addDomainForm.domainName = ''
+  if (addDomainFormRef.value) {
+    addDomainFormRef.value.resetFields()
   }
 }
 
-// 處理儲存
-const handleSave = async () => {
+// 確定新增域名
+const handleConfirmAddDomain = async () => {
   try {
-    saving.value = true
+    await addDomainFormRef.value?.validate()
+    addingDomain.value = true
+
+    const newId = Math.max(...domains.value.map(d => d.id), 0) + 1
+    const now = new Date().toLocaleString('zh-TW', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    }).replace(/\//g, '-').replace(',', '')
+
+    const newDomain: DomainItem = {
+      id: newId,
+      domainName: addDomainForm.domainName.trim(),
+      createTime: now,
+      updateTime: now
+    }
+
     // TODO: 這裡添加實際的 API 調用
-    await new Promise(resolve => setTimeout(resolve, 1000)) // 模擬 API 調用
-    message.success(t('message.saveSuccess'))
+    await new Promise(resolve => setTimeout(resolve, 500))
+
+    domains.value.push(newDomain)
+    message.success(t('message.addSuccess'))
+    addDomainModalOpen.value = false
   } catch (error) {
-    message.error(t('message.saveFailed'))
-    console.error('Save failed:', error)
+    console.error('Add domain failed:', error)
+    if (error !== 'validation failed') {
+      message.error(t('message.addFailed'))
+    }
   } finally {
-    saving.value = false
+    addingDomain.value = false
+  }
+}
+
+// 刪除域名
+const handleDeleteDomain = async (id: number) => {
+  try {
+    // TODO: 這裡添加實際的 API 調用
+    await new Promise(resolve => setTimeout(resolve, 300))
+
+    const index = domains.value.findIndex(item => item.id === id)
+    if (index !== -1) {
+      domains.value.splice(index, 1)
+      message.success(t('message.deleteSuccess'))
+
+      // 如果當前頁沒有數據且不是第一頁，則回到上一頁
+      const totalPages = Math.ceil(domains.value.length / pageSize.value)
+      if (currentPage.value > totalPages && currentPage.value > 1) {
+        currentPage.value = totalPages || 1
+      }
+    }
+  } catch (error) {
+    message.error(t('message.deleteFailed'))
+    console.error('Delete domain failed:', error)
+  }
+}
+
+// 處理儲存轉帳限額配置
+const handleSaveLimit = async () => {
+  try {
+    if (!generalTransferLimit.value || generalTransferLimit.value <= 0) {
+      message.error(t('message.invalidLimit'))
+      return
+    }
+
+    savingLimit.value = true
+    // TODO: 這裡添加實際的 API 調用來儲存轉帳限額
+    await new Promise(resolve => setTimeout(resolve, 1000)) // 模擬 API 調用
+    message.success(t('message.limitSaveSuccess'))
+  } catch (error) {
+    message.error(t('message.limitSaveFailed'))
+    console.error('Save limit failed:', error)
+  } finally {
+    savingLimit.value = false
   }
 }
 </script>
@@ -165,6 +443,9 @@ const handleSave = async () => {
 <style scoped>
 .system-params {
   padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
 
 .params-card {
@@ -189,44 +470,72 @@ const handleSave = async () => {
   background-color: #141414;
 }
 
-.domain-input-section {
+.card-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.domain-table {
   margin-bottom: 16px;
 }
 
-.domain-input-section :deep(.ant-input) {
-  height: 32px;
+.domain-table :deep(.ant-table) {
+  background-color: transparent;
 }
 
-.domain-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.domain-tag {
-  margin: 0;
-  height: 32px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+.domain-table :deep(.ant-table-thead > tr > th) {
+  background-color: #1f1f1f;
+  border-bottom: 1px solid #303030;
   color: rgba(255, 255, 255, 0.85);
-  padding: 0 4px 0 8px;
-  border-radius: 4px;
-  font-size: 14px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
+  font-weight: 500;
 }
 
-.domain-tag:hover {
-  border-color: rgba(255, 255, 255, 0.3);
-  backdrop-filter: brightness(1.1);
+.domain-table :deep(.ant-table-tbody > tr) {
+  background-color: transparent;
 }
 
-.card-footer {
+.domain-table :deep(.ant-table-tbody > tr > td) {
+  border-bottom: 1px solid #303030;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.domain-table :deep(.ant-table-tbody > tr:hover > td) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.pagination-wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   padding-top: 16px;
   border-top: 1px solid #303030;
+}
+
+.pagination-wrapper :deep(.ant-pagination) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pagination-wrapper :deep(.ant-pagination-item) {
+  background-color: #1f1f1f;
+  border-color: #434343;
+}
+
+.pagination-wrapper :deep(.ant-pagination-item a) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.pagination-wrapper :deep(.ant-pagination-item:hover) {
+  border-color: var(--ant-primary-color);
+}
+
+.pagination-wrapper :deep(.ant-pagination-item-active) {
+  background-color: var(--ant-primary-color);
+  border-color: var(--ant-primary-color);
+}
+
+.pagination-wrapper :deep(.ant-pagination-item-active a) {
+  color: white;
 }
 
 /* 深色模式輸入框樣式 */
@@ -241,32 +550,48 @@ const handleSave = async () => {
   border-color: var(--ant-primary-color) !important;
 }
 
-:deep(.ant-tag) {
-  background: transparent;
-  border: none;
-  margin: 0;
-  padding: 4px;
-  height: 100%;
-  display: flex;
-  align-items: center;
+/* 彈窗樣式 */
+:deep(.ant-modal) {
+  .ant-modal-content {
+    background-color: #141414;
+    border: 1px solid #303030;
+  }
+
+  .ant-modal-header {
+    background-color: #1f1f1f;
+    border-bottom: 1px solid #303030;
+  }
+
+  .ant-modal-title {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .ant-modal-body {
+    background-color: #141414;
+  }
+
+  .ant-modal-footer {
+    background-color: #141414;
+    border-top: 1px solid #303030;
+  }
 }
 
-:deep(.ant-tag .anticon-close) {
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 12px;
-  width: 16px;
-  height: 16px;
-  margin-left: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  border-radius: 3px;
-}
+/* 確認彈窗樣式 */
+:deep(.ant-popconfirm) {
+  .ant-popover-inner {
+    background-color: #141414;
+    border: 1px solid #303030;
+  }
 
-:deep(.ant-tag .anticon-close:hover) {
-  color: rgba(255, 255, 255, 0.85);
-  background: rgba(255, 255, 255, 0.1);
+  .ant-popover-inner-content {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .ant-popover-arrow::before,
+  .ant-popover-arrow::after {
+    background-color: #141414;
+    border-color: #303030;
+  }
 }
 
 :deep(.ant-btn) {
@@ -276,5 +601,44 @@ const handleSave = async () => {
 
 :deep(.ant-btn:hover) {
   opacity: 0.9;
+}
+
+/* 錢包轉帳限額配置樣式 */
+.limit-config-section {
+  margin-bottom: 16px;
+}
+
+.note-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+/* 深色模式 Form 樣式 */
+:deep(.ant-form-item-label > label) {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+:deep(.ant-input-number) {
+  background-color: #1f1f1f !important;
+  border-color: #434343 !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:deep(.ant-input-number:hover),
+:deep(.ant-input-number:focus) {
+  border-color: var(--ant-primary-color) !important;
+}
+
+:deep(.ant-input-number .ant-input-number-input) {
+  background-color: transparent !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+:deep(.ant-input-number-group-addon) {
+  background-color: #1f1f1f;
+  border-color: #434343;
+  color: rgba(255, 255, 255, 0.65);
 }
 </style> 

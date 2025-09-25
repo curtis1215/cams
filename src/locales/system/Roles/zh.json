@@ -26,7 +26,8 @@
     "read": "讀取",
     "create": "新增",
     "update": "編輯",
-    "delete": "刪除"
+    "delete": "刪除",
+    "largeAmountTransfer": "大額轉帳"
   },
   "module": {
     "monitor": {
@@ -63,7 +64,8 @@
       "title": "系統管理",
       "users": "用戶管理",
       "roles": "角色管理",
-      "merchants": "商戶管理"
+      "merchants": "商戶管理",
+      "systemParams": "系統參數管理"
     }
   },
   "message": {

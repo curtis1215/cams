@@ -56,8 +56,8 @@
                 <a-button type="link" @click="handleEdit(record)">
                   {{ t('action.edit') }}
                 </a-button>
-                <a-button type="link" danger @click="handleDelete(record)">
-                  {{ t('action.delete') }}
+                <a-button type="link" @click="handleCurrencyManagement(record)">
+                  {{ t('action.currencyManagement') }}
                 </a-button>
               </a-space>
             </template>
@@ -131,67 +131,191 @@
             :label-col="{ span: 6 }"
             :wrapper-col="{ span: 16 }"
           >
+            <!-- 充幣設置 -->
             <a-form-item :label="t('field.depositStatus')" name="depositStatus">
-              <a-switch
-                v-model:checked="formState.depositStatus"
-                :checked-children="t('status.active')"
-                :un-checked-children="t('status.inactive')"
+              <a-select v-model:value="formState.depositStatus" :placeholder="t('prompt.selectStatus')">
+                <a-select-option :value="true">{{ t('status.active') }}</a-select-option>
+                <a-select-option :value="false">{{ t('status.inactive') }}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="t('field.depositNotifyUrl')" name="depositNotifyUrl">
+              <a-input
+                v-model:value="formState.depositNotifyUrl"
+                :placeholder="t('prompt.inputDepositNotifyUrl')"
               />
             </a-form-item>
+
+            <!-- 提幣設置 -->
             <a-form-item :label="t('field.withdrawStatus')" name="withdrawStatus">
-              <a-switch
-                v-model:checked="formState.withdrawStatus"
-                :checked-children="t('status.active')"
-                :un-checked-children="t('status.inactive')"
+              <a-select v-model:value="formState.withdrawStatus" :placeholder="t('prompt.selectStatus')">
+                <a-select-option :value="true">{{ t('status.active') }}</a-select-option>
+                <a-select-option :value="false">{{ t('status.inactive') }}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="t('field.withdrawNotifyUrl')" name="withdrawNotifyUrl">
+              <a-input
+                v-model:value="formState.withdrawNotifyUrl"
+                :placeholder="t('prompt.inputWithdrawNotifyUrl')"
               />
             </a-form-item>
-            <a-form-item :label="t('field.availableCurrencies')" name="availableCurrencies">
-              <div class="currency-grid">
-                <div class="select-all-wrapper">
-                  <a-checkbox
-                    :checked="isAllSelected"
-                    :indeterminate="isIndeterminate"
-                    @change="handleSelectAll"
-                  >
-                    {{ t('action.selectAll') }}
-                  </a-checkbox>
-                </div>
-                <div class="currency-columns">
-                  <!-- 左側鏈類型列表 -->
-                  <div class="chain-type-list">
-                    <div 
-                      v-for="chainType in chainTypes" 
-                      :key="chainType" 
-                      class="chain-type-item"
-                      :class="{ active: selectedChainType === chainType }"
-                      @click="handleChainTypeClick(chainType)"
-                    >
-                      <span class="chain-type-name">{{ chainType }}</span>
-                      <a-checkbox
-                        :checked="isChainTypeSelected(chainType)"
-                        :indeterminate="isChainTypeIndeterminate(chainType)"
-                        @click.stop="(e: Event) => handleChainTypeSelect(e as unknown as CheckboxEvent, chainType)"
-                      />
-                    </div>
-                  </div>
-                  <!-- 右側幣種列表 -->
-                  <div class="currency-list">
-                    <div class="currency-list-header">
-                      {{ selectedChainType }} {{ t('field.currencies') }}
-                    </div>
-                    <div class="currency-list-content">
-                      <a-checkbox-group 
-                        v-model:value="formState.availableCurrencies"
-                        :options="getCurrenciesByChainType(selectedChainType)"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+            <!-- Swap設置 -->
+            <a-form-item :label="t('field.swapStatus')" name="swapStatus">
+              <a-select v-model:value="formState.swapStatus" :placeholder="t('prompt.selectStatus')">
+                <a-select-option :value="true">{{ t('status.active') }}</a-select-option>
+                <a-select-option :value="false">{{ t('status.inactive') }}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="t('field.swapNotifyUrl')" name="swapNotifyUrl">
+              <a-input
+                v-model:value="formState.swapNotifyUrl"
+                :placeholder="t('prompt.inputSwapNotifyUrl')"
+              />
+            </a-form-item>
+            <a-form-item :label="t('field.swapSlippage')" name="swapSlippage">
+              <a-input-number
+                v-model:value="formState.swapSlippage"
+                :min="0"
+                :max="100"
+                :step="0.1"
+                :precision="1"
+                style="width: 100%"
+                :placeholder="t('prompt.inputSwapSlippage')"
+                addon-after="%"
+              />
+            </a-form-item>
+
+            <!-- LP設置 -->
+            <a-form-item :label="t('field.lpStatus')" name="lpStatus">
+              <a-select v-model:value="formState.lpStatus" :placeholder="t('prompt.selectStatus')">
+                <a-select-option :value="true">{{ t('status.active') }}</a-select-option>
+                <a-select-option :value="false">{{ t('status.inactive') }}</a-select-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item :label="t('field.lpNotifyUrl')" name="lpNotifyUrl">
+              <a-input
+                v-model:value="formState.lpNotifyUrl"
+                :placeholder="t('prompt.inputLpNotifyUrl')"
+              />
+            </a-form-item>
+            <a-form-item :label="t('field.lpSlippage')" name="lpSlippage">
+              <a-input-number
+                v-model:value="formState.lpSlippage"
+                :min="0"
+                :max="100"
+                :step="0.1"
+                :precision="1"
+                style="width: 100%"
+                :placeholder="t('prompt.inputLpSlippage')"
+                addon-after="%"
+              />
+            </a-form-item>
+
+            <!-- 通知txHash網址 -->
+            <a-form-item :label="t('field.txHashNotifyUrl')" name="txHashNotifyUrl">
+              <a-input
+                v-model:value="formState.txHashNotifyUrl"
+                :placeholder="t('prompt.inputTxHashNotifyUrl')"
+              />
             </a-form-item>
           </a-form>
         </a-tab-pane>
       </a-tabs>
+    </a-modal>
+
+    <!-- 幣種管理彈窗 -->
+    <a-modal
+      v-model:open="currencyModalOpen"
+      :title="currencyModalTitle"
+      @ok="handleCurrencyModalOk"
+      @cancel="handleCurrencyModalCancel"
+      width="1000px"
+      :bodyStyle="{ maxHeight: '700px', overflow: 'auto' }"
+    >
+      <div class="currency-management-container">
+        <div class="currency-grid">
+          <div class="select-all-wrapper">
+            <a-checkbox
+              :checked="isCurrencyAllSelected"
+              :indeterminate="isCurrencyIndeterminate"
+              @change="handleCurrencySelectAll"
+            >
+              {{ t('action.selectAll') }}
+            </a-checkbox>
+          </div>
+          <div class="currency-columns">
+            <!-- 左側鏈類型列表 -->
+            <div class="chain-type-list">
+              <div
+                v-for="chainType in chainTypes"
+                :key="chainType"
+                class="chain-type-item"
+                :class="{ active: selectedCurrencyChainType === chainType }"
+                @click="handleCurrencyChainTypeClick(chainType)"
+              >
+                <span class="chain-type-name">{{ chainType }}</span>
+                <a-checkbox
+                  :checked="isCurrencyChainTypeSelected(chainType)"
+                  :indeterminate="isCurrencyChainTypeIndeterminate(chainType)"
+                  @click.stop="(e: Event) => handleCurrencyChainTypeSelect(e as unknown as CheckboxEvent, chainType)"
+                />
+              </div>
+            </div>
+            <!-- 右側幣種列表 -->
+            <div class="currency-list">
+              <div class="currency-list-header">
+                {{ selectedCurrencyChainType }} {{ t('field.currencies') }}
+              </div>
+              <div class="currency-list-content">
+                <div class="currency-config-list">
+                  <div
+                    v-for="currency in getCurrenciesByChainType(selectedCurrencyChainType)"
+                    :key="currency.value"
+                    class="currency-config-item"
+                  >
+                    <div class="currency-header">
+                      <a-checkbox
+                        :checked="merchantCurrencyConfig[currency.value]?.enabled || false"
+                        @change="(e) => handleCurrencyToggle(currency.value, e.target.checked)"
+                      >
+                        {{ currency.label }}
+                      </a-checkbox>
+                    </div>
+                    <div class="currency-settings" v-if="merchantCurrencyConfig[currency.value]?.enabled">
+                      <div class="setting-row-inline">
+                        <div class="setting-field">
+                          <label class="setting-label">{{ t('field.collectionWalletLimit') }}</label>
+                          <a-input-number
+                            :value="merchantCurrencyConfig[currency.value]?.collectionWalletLimit || 0"
+                            @update:value="(value) => updateCurrencyConfig(currency.value, 'collectionWalletLimit', value)"
+                            :min="0"
+                            :precision="4"
+                            size="small"
+                            :placeholder="t('prompt.inputCollectionWalletLimit')"
+                            style="width: 100%"
+                          />
+                        </div>
+                        <div class="setting-field">
+                          <label class="setting-label">{{ t('field.withdrawWalletLimit') }}</label>
+                          <a-input-number
+                            :value="merchantCurrencyConfig[currency.value]?.withdrawWalletLimit || 0"
+                            @update:value="(value) => updateCurrencyConfig(currency.value, 'withdrawWalletLimit', value)"
+                            :min="0"
+                            :precision="4"
+                            size="small"
+                            :placeholder="t('prompt.inputWithdrawWalletLimit')"
+                            style="width: 100%"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </a-modal>
   </div>
 </template>
@@ -216,6 +340,15 @@ interface MerchantRecord {
   retryCount: number
   depositStatus: boolean
   withdrawStatus: boolean
+  swapStatus: boolean
+  lpStatus: boolean
+  depositNotifyUrl: string
+  withdrawNotifyUrl: string
+  swapNotifyUrl: string
+  lpNotifyUrl: string
+  swapSlippage: number
+  lpSlippage: number
+  txHashNotifyUrl: string
   availableCurrencies: string[]
 }
 
@@ -265,9 +398,22 @@ const columns = [
     title: t('field.action'),
     key: 'action',
     fixed: 'right',
-    width: 150,
+    width: 200,
   },
 ]
+
+// 定義幣種和鏈類型的關係（共用）
+const chainTypes = ['BSC', 'ETH', 'TRX', 'BTC']
+const currencyMap = {
+  BSC: ['USDT', 'USDC', 'BUSD', 'DAI'],
+  ETH: ['USDT', 'USDC', 'DAI'],
+  TRX: ['USDT', 'USDC'],
+  BTC: ['BTC']
+}
+
+// 幣種管理相關變數
+const selectedCurrencyChainType = ref(chainTypes[0])
+const merchantCurrencyConfig = ref<Record<string, any>>({})
 
 // 查詢參數
 const queryParams = reactive({
@@ -283,6 +429,11 @@ const formRef = ref()
 const activeTabKey = ref(1)
 const currencies = ref(currencyData.currencies)
 
+// 幣種管理彈窗
+const currencyModalOpen = ref(false)
+const currencyModalTitle = ref('')
+const currentMerchantId = ref('')
+
 const formState = reactive<MerchantRecord>({
   id: '',
   name: '',
@@ -292,6 +443,15 @@ const formState = reactive<MerchantRecord>({
   retryCount: 3,
   depositStatus: true,
   withdrawStatus: true,
+  swapStatus: true,
+  lpStatus: true,
+  depositNotifyUrl: '',
+  withdrawNotifyUrl: '',
+  swapNotifyUrl: '',
+  lpNotifyUrl: '',
+  swapSlippage: 0.5,
+  lpSlippage: 0.5,
+  txHashNotifyUrl: '',
   availableCurrencies: []
 })
 
@@ -349,6 +509,15 @@ const handleAdd = () => {
     retryCount: 3,
     depositStatus: true,
     withdrawStatus: true,
+    swapStatus: true,
+    lpStatus: true,
+    depositNotifyUrl: '',
+    withdrawNotifyUrl: '',
+    swapNotifyUrl: '',
+    lpNotifyUrl: '',
+    swapSlippage: 0.5,
+    lpSlippage: 0.5,
+    txHashNotifyUrl: '',
     availableCurrencies: [],
   })
   modalOpen.value = true
@@ -359,17 +528,122 @@ const handleEdit = (record: MerchantRecord) => {
   modalTitle.value = t('title.editMerchant')
   Object.assign(formState, {
     ...record,
-    depositStatus: true,
-    withdrawStatus: true,
-    availableCurrencies: ['BSC_USDT', 'ETH_USDT', 'TRX_USDT'], // 模擬數據，使用新的格式
+    depositStatus: record.depositStatus ?? true,
+    withdrawStatus: record.withdrawStatus ?? true,
+    swapStatus: record.swapStatus ?? true,
+    lpStatus: record.lpStatus ?? true,
+    depositNotifyUrl: record.depositNotifyUrl ?? '',
+    withdrawNotifyUrl: record.withdrawNotifyUrl ?? '',
+    swapNotifyUrl: record.swapNotifyUrl ?? '',
+    lpNotifyUrl: record.lpNotifyUrl ?? '',
+    swapSlippage: record.swapSlippage ?? 0.5,
+    lpSlippage: record.lpSlippage ?? 0.5,
+    txHashNotifyUrl: record.txHashNotifyUrl ?? '',
+    availableCurrencies: record.availableCurrencies ?? ['BSC_USDT', 'ETH_USDT', 'TRX_USDT'], // 模擬數據，使用新的格式
   })
   modalOpen.value = true
   activeTabKey.value = 1
 }
 
-const handleDelete = async (record: MerchantRecord) => {
-  // TODO: Implement delete logic
-  message.success(t('message.deleteSuccess'))
+// 幣種管理功能
+const handleCurrencyManagement = (record: MerchantRecord) => {
+  currencyModalTitle.value = t('title.currencyManagement') + ` - ${record.name}`
+  currentMerchantId.value = record.id
+
+  // 初始化幣種配置數據（模擬數據）
+  const config: Record<string, any> = {}
+  Object.entries(currencyMap).forEach(([chainType, currencies]) => {
+    currencies.forEach(currency => {
+      const key = `${chainType}_${currency}`
+      config[key] = {
+        enabled: Math.random() > 0.3, // 模擬啟用狀態
+        collectionWalletLimit: Math.floor(Math.random() * 10000) + 1000, // 歸集錢包儲存上限
+        withdrawWalletLimit: Math.floor(Math.random() * 5000) + 500 // 出款錢包儲存上限
+      }
+    })
+  })
+  merchantCurrencyConfig.value = config
+
+  currencyModalOpen.value = true
+}
+
+const handleCurrencyModalOk = () => {
+  // TODO: 保存幣種管理配置
+  message.success(t('message.currencyConfigSaved'))
+  currencyModalOpen.value = false
+}
+
+const handleCurrencyModalCancel = () => {
+  currencyModalOpen.value = false
+}
+
+// 幣種管理的樹狀結構處理函數
+const handleCurrencyChainTypeClick = (chainType: string) => {
+  selectedCurrencyChainType.value = chainType
+}
+
+const handleCurrencyToggle = (currencyKey: string, checked: boolean) => {
+  if (merchantCurrencyConfig.value[currencyKey]) {
+    merchantCurrencyConfig.value[currencyKey].enabled = checked
+  }
+}
+
+const updateCurrencyConfig = (currencyKey: string, field: string, value: number) => {
+  if (merchantCurrencyConfig.value[currencyKey]) {
+    merchantCurrencyConfig.value[currencyKey][field] = value
+  }
+}
+
+const isCurrencyChainTypeSelected = (chainType: string) => {
+  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
+    currency => `${chainType}_${currency}`
+  )
+  return chainCurrencies.every(currency =>
+    merchantCurrencyConfig.value[currency]?.enabled
+  )
+}
+
+const isCurrencyChainTypeIndeterminate = (chainType: string) => {
+  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
+    currency => `${chainType}_${currency}`
+  )
+  const selectedCount = chainCurrencies.filter(currency =>
+    merchantCurrencyConfig.value[currency]?.enabled
+  ).length
+  return selectedCount > 0 && selectedCount < chainCurrencies.length
+}
+
+const handleCurrencyChainTypeSelect = (e: CheckboxEvent, chainType: string) => {
+  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
+    currency => `${chainType}_${currency}`
+  )
+
+  chainCurrencies.forEach(currency => {
+    if (merchantCurrencyConfig.value[currency]) {
+      merchantCurrencyConfig.value[currency].enabled = e.target.checked
+    }
+  })
+}
+
+const isCurrencyAllSelected = computed(() => {
+  const configs = Object.values(merchantCurrencyConfig.value)
+  if (configs.length === 0) return false
+  return configs.every(config => config?.enabled)
+})
+
+const isCurrencyIndeterminate = computed(() => {
+  const configs = Object.values(merchantCurrencyConfig.value)
+  if (configs.length === 0) return false
+  const enabledCount = configs.filter(config => config?.enabled).length
+  return enabledCount > 0 && enabledCount < configs.length
+})
+
+const handleCurrencySelectAll = (e: CheckboxEvent) => {
+  Object.keys(merchantCurrencyConfig.value).forEach(key => {
+    if (merchantCurrencyConfig.value[key]) {
+      merchantCurrencyConfig.value[key].enabled = e.target.checked
+    }
+  })
 }
 
 const handleModalOk = async () => {
@@ -406,99 +680,12 @@ const fetchData = async () => {
   }
 }
 
-// 定義幣種和鏈類型的關係
-const chainTypes = ['BSC', 'ETH', 'TRX', 'BTC']
-const currencyMap = {
-  BSC: ['USDT', 'USDC', 'BUSD', 'DAI'],
-  ETH: ['USDT', 'USDC', 'DAI'],
-  TRX: ['USDT', 'USDC'],
-  BTC: ['BTC']
-}
-
-// 獲取特定鏈類型的幣種
+// 獲取特定鏈類型的幣種（共用）
 const getCurrenciesByChainType = (chainType: string) => {
   return currencyMap[chainType as keyof typeof currencyMap].map(currency => ({
     label: currency,
     value: `${chainType}_${currency}`
   }))
-}
-
-// 檢查鏈類型是否被全選
-const isChainTypeSelected = (chainType: string) => {
-  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
-    currency => `${chainType}_${currency}`
-  )
-  return chainCurrencies.every(currency => 
-    formState.availableCurrencies.includes(currency)
-  )
-}
-
-// 檢查鏈類型是否部分選中
-const isChainTypeIndeterminate = (chainType: string) => {
-  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
-    currency => `${chainType}_${currency}`
-  )
-  const selectedCount = chainCurrencies.filter(currency => 
-    formState.availableCurrencies.includes(currency)
-  ).length
-  return selectedCount > 0 && selectedCount < chainCurrencies.length
-}
-
-// 處理鏈類型的選擇
-const handleChainTypeSelect = (e: CheckboxEvent, chainType: string) => {
-  const chainCurrencies = currencyMap[chainType as keyof typeof currencyMap].map(
-    currency => `${chainType}_${currency}`
-  )
-  
-  if (e.target.checked) {
-    // 添加該鏈類型的所有幣種
-    const newCurrencies = [...new Set([...formState.availableCurrencies, ...chainCurrencies])]
-    formState.availableCurrencies = newCurrencies
-  } else {
-    // 移除該鏈類型的所有幣種
-    formState.availableCurrencies = formState.availableCurrencies.filter(
-      currency => !chainCurrencies.includes(currency)
-    )
-  }
-}
-
-// 更新全選邏輯
-const isAllSelected = computed(() => {
-  const allCurrencies = Object.values(currencyMap).flat().map(
-    (currency, chainType) => `${chainType}_${currency}`
-  )
-  return allCurrencies.every(currency => formState.availableCurrencies.includes(currency))
-})
-
-const isIndeterminate = computed(() => {
-  const allCurrencies = Object.values(currencyMap).flat().map(
-    (currency, chainType) => `${chainType}_${currency}`
-  )
-  const selectedCount = allCurrencies.filter(currency => 
-    formState.availableCurrencies.includes(currency)
-  ).length
-  return selectedCount > 0 && selectedCount < allCurrencies.length
-})
-
-const handleSelectAll = (e: CheckboxEvent) => {
-  if (e.target.checked) {
-    // 全選所有幣種
-    const allCurrencies = Object.entries(currencyMap).flatMap(([chainType, currencies]) =>
-      currencies.map(currency => `${chainType}_${currency}`)
-    )
-    formState.availableCurrencies = allCurrencies
-  } else {
-    // 取消全選
-    formState.availableCurrencies = []
-  }
-}
-
-// 新增選中的鏈類型狀態
-const selectedChainType = ref(chainTypes[0])
-
-// 處理鏈類型點擊
-const handleChainTypeClick = (chainType: string) => {
-  selectedChainType.value = chainType
 }
 
 onMounted(() => {
@@ -775,5 +962,51 @@ onMounted(() => {
 
 :deep(.ant-switch-checked) {
   background-color: var(--ant-primary-color);
+}
+
+/* 幣種管理樣式 */
+.currency-management-container {
+  padding: 16px 0;
+}
+
+.currency-config-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.currency-config-item {
+  border: 1px solid #303030;
+  border-radius: 6px;
+  padding: 12px;
+  background: #1a1a1a;
+}
+
+.currency-header {
+  margin-bottom: 12px;
+}
+
+.currency-settings {
+  padding-left: 24px;
+  margin-top: 12px;
+}
+
+.setting-row-inline {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.setting-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setting-label {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  font-weight: 500;
 }
 </style> 

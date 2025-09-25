@@ -191,7 +191,7 @@ const modules = [
       { key: 'query', permissions: ['read', 'create', 'update'] },
       { key: 'detail', permissions: ['read', 'create', 'update'] },
       { key: 'privateKey', permissions: ['read'] },
-      { key: 'transfer', permissions: ['read', 'create', 'update'] },
+      { key: 'transfer', permissions: ['read', 'create', 'update', 'largeAmountTransfer'] },
       { key: 'tokenExchange', permissions: ['read', 'create', 'update'] }
     ]
   },
@@ -223,7 +223,8 @@ const modules = [
     pages: [
       { key: 'users', permissions: ['read', 'create', 'update', 'delete'] },
       { key: 'roles', permissions: ['read', 'create', 'update', 'delete'] },
-      { key: 'merchants', permissions: ['read', 'create', 'update', 'delete'] }
+      { key: 'merchants', permissions: ['read', 'create', 'update', 'delete'] },
+      { key: 'systemParams', permissions: ['read', 'update'] }
     ]
   }
 ]
