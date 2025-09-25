@@ -36,6 +36,18 @@
                 </a-select>
               </a-form-item>
             </div>
+            <!-- 條件式地址搜尋框 -->
+            <div class="form-row" v-if="fromWalletForm.walletType === 'User' || fromWalletForm.walletType === 'External'">
+              <a-form-item class="form-item address-search">
+                <div class="form-label">{{ t('field.walletAddress') }}</div>
+                <a-input
+                  v-model:value="fromWalletForm.address"
+                  :placeholder="t('prompt.pleaseInputWalletAddress')"
+                  class="full-width"
+                  allow-clear
+                />
+              </a-form-item>
+            </div>
             <div class="form-row">
               <a-form-item class="query-button">
                 <div class="form-label">&nbsp;</div>
@@ -149,6 +161,18 @@
                     {{ type.label }}
                   </a-select-option>
                 </a-select>
+              </a-form-item>
+            </div>
+            <!-- 條件式地址搜尋框 -->
+            <div class="form-row" v-if="toWalletForm.walletType === 'User' || toWalletForm.walletType === 'External'">
+              <a-form-item class="form-item address-search">
+                <div class="form-label">{{ t('field.walletAddress') }}</div>
+                <a-input
+                  v-model:value="toWalletForm.address"
+                  :placeholder="t('prompt.pleaseInputWalletAddress')"
+                  class="full-width"
+                  allow-clear
+                />
               </a-form-item>
             </div>
             <div class="form-row">
@@ -587,20 +611,23 @@ interface WalletForm {
   merchant?: string;
   chainType?: string;
   walletType?: string;
+  address?: string;
 }
 
 // 轉出錢包表單
 const fromWalletForm = reactive<WalletForm>({
   merchant: undefined,
   chainType: undefined,
-  walletType: undefined
+  walletType: undefined,
+  address: undefined
 })
 
 // 轉入錢包表單
 const toWalletForm = reactive<WalletForm>({
   merchant: undefined,
   chainType: undefined,
-  walletType: undefined
+  walletType: undefined,
+  address: undefined
 })
 
 // 錢包列表和選擇
@@ -730,9 +757,12 @@ const handleToWalletTypeChange = () => {
 const loadFromWalletList = () => {
   // 移除商戶限制，允許搜尋所有錢包
 
-  console.log('載入轉出錢包列表，條件：', {
+  console.log('🔍 載入轉出錢包列表，搜尋條件：', {
     chainType: fromWalletForm.chainType,
-    walletType: fromWalletForm.walletType
+    walletType: fromWalletForm.walletType,
+    address: fromWalletForm.address,
+    addressLength: fromWalletForm.address?.length,
+    willFilterByAddress: (fromWalletForm.walletType === 'User' || fromWalletForm.walletType === 'External') && fromWalletForm.address
   })
 
   fromWalletListLoading.value = true
@@ -741,14 +771,34 @@ const loadFromWalletList = () => {
       const chainMatch = !fromWalletForm.chainType || wallet.chainType === fromWalletForm.chainType
       const typeMatch = !fromWalletForm.walletType || wallet.walletType === fromWalletForm.walletType
 
-      console.log(`錢包 ${wallet.code}:`, {
+      // 地址搜尋：僅當錢包類型為用戶錢包或外轉錢包時生效
+      const needAddressFilter = fromWalletForm.walletType === 'User' || fromWalletForm.walletType === 'External'
+      let addressMatch = true
+
+      if (needAddressFilter && fromWalletForm.address) {
+        // 優先匹配真實地址
+        const realAddressMatch = wallet.address?.toLowerCase().includes(fromWalletForm.address.toLowerCase())
+        // 為了demo展示，如果沒有真實匹配，則進行模糊匹配（錢包代號、類型等）
+        const demoMatch = wallet.code?.toLowerCase().includes(fromWalletForm.address.toLowerCase()) ||
+                         wallet.walletType?.toLowerCase().includes(fromWalletForm.address.toLowerCase())
+
+        addressMatch = realAddressMatch || demoMatch
+      }
+
+      console.log(`錢包 ${wallet.code} 詳細檢查:`, {
         wallet: wallet,
+        fromWalletFormType: fromWalletForm.walletType,
+        walletType: wallet.walletType,
+        walletAddress: wallet.address,
+        searchAddress: fromWalletForm.address,
+        needAddressFilter,
         chainMatch,
         typeMatch,
-        passed: chainMatch && typeMatch
+        addressMatch,
+        passed: chainMatch && typeMatch && addressMatch
       })
 
-      return chainMatch && typeMatch
+      return chainMatch && typeMatch && addressMatch
     })
 
     console.log('過濾後的錢包列表：', filteredWallets)
@@ -756,9 +806,24 @@ const loadFromWalletList = () => {
     fromWalletListLoading.value = false
 
     if (filteredWallets.length === 0) {
-      message.info('未找到符合條件的錢包')
+      // 如果是因為地址搜尋導致沒有結果，提供可用地址建議
+      const isAddressFiltering = (fromWalletForm.walletType === 'User' || fromWalletForm.walletType === 'External') && fromWalletForm.address
+      if (isAddressFiltering) {
+        const availableUserWallets = walletsMockData.walletList.filter(wallet =>
+          wallet.walletType === fromWalletForm.walletType &&
+          (!fromWalletForm.chainType || wallet.chainType === fromWalletForm.chainType)
+        )
+        if (availableUserWallets.length > 0) {
+          const availableAddresses = availableUserWallets.map(w => w.address).join(', ')
+          message.info(`未找到包含地址 "${fromWalletForm.address}" 的錢包。可用的${fromWalletForm.walletType === 'User' ? '用戶錢包' : '外轉錢包'}地址: ${availableAddresses}`)
+        } else {
+          message.info('未找到符合條件的轉出錢包')
+        }
+      } else {
+        message.info('未找到符合條件的轉出錢包')
+      }
     } else {
-      message.success(`已載入 ${filteredWallets.length} 個錢包`)
+      message.success(`已載入 ${filteredWallets.length} 個轉出錢包`)
     }
   }, 500)
 }
@@ -766,9 +831,12 @@ const loadFromWalletList = () => {
 const loadToWalletList = () => {
   // 移除商戶限制，允許搜尋所有錢包
 
-  console.log('載入轉入錢包列表，條件：', {
+  console.log('🔍 載入轉入錢包列表，搜尋條件：', {
     chainType: toWalletForm.chainType,
-    walletType: toWalletForm.walletType
+    walletType: toWalletForm.walletType,
+    address: toWalletForm.address,
+    addressLength: toWalletForm.address?.length,
+    willFilterByAddress: (toWalletForm.walletType === 'User' || toWalletForm.walletType === 'External') && toWalletForm.address
   })
 
   toWalletListLoading.value = true
@@ -777,7 +845,34 @@ const loadToWalletList = () => {
       const chainMatch = !toWalletForm.chainType || wallet.chainType === toWalletForm.chainType
       const typeMatch = !toWalletForm.walletType || wallet.walletType === toWalletForm.walletType
 
-      return chainMatch && typeMatch
+      // 地址搜尋：僅當錢包類型為用戶錢包或外轉錢包時生效
+      const needAddressFilter = toWalletForm.walletType === 'User' || toWalletForm.walletType === 'External'
+      let addressMatch = true
+
+      if (needAddressFilter && toWalletForm.address) {
+        // 優先匹配真實地址
+        const realAddressMatch = wallet.address?.toLowerCase().includes(toWalletForm.address.toLowerCase())
+        // 為了demo展示，如果沒有真實匹配，則進行模糊匹配（錢包代號、類型等）
+        const demoMatch = wallet.code?.toLowerCase().includes(toWalletForm.address.toLowerCase()) ||
+                         wallet.walletType?.toLowerCase().includes(toWalletForm.address.toLowerCase())
+
+        addressMatch = realAddressMatch || demoMatch
+      }
+
+      console.log(`錢包 ${wallet.code} 詳細檢查:`, {
+        wallet: wallet,
+        toWalletFormType: toWalletForm.walletType,
+        walletType: wallet.walletType,
+        walletAddress: wallet.address,
+        searchAddress: toWalletForm.address,
+        needAddressFilter,
+        chainMatch,
+        typeMatch,
+        addressMatch,
+        passed: chainMatch && typeMatch && addressMatch
+      })
+
+      return chainMatch && typeMatch && addressMatch
     })
 
     console.log('轉入錢包過濾結果：', filteredWallets)

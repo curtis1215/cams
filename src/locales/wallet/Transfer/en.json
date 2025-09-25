@@ -34,6 +34,7 @@
     "walletType": "Wallet Type",
     "currency": "Currency",
     "address": "Address",
+    "walletAddress": "Wallet Address",
     "createTime": "Create Time",
     "auditTime": "Audit Time",
     "auditStatus": "Audit Status",
