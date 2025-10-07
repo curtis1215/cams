@@ -3,7 +3,8 @@
     "roleList": "角色列表",
     "roleManagement": "角色管理",
     "addRole": "新增角色",
-    "editRole": "編輯角色"
+    "editRole": "編輯角色",
+    "walletTransferConfig": "參數配置"
   },
   "field": {
     "roleName": "角色名稱",
@@ -12,12 +13,14 @@
     "createTime": "創建時間",
     "updateTime": "更新時間",
     "twoFactorAuth": "雙重認證",
-    "twoFactorAuthRequired": "是否啟用雙重認證"
+    "twoFactorAuthRequired": "是否啟用雙重認證",
+    "generalTransferLimit": "錢包轉帳限額"
   },
   "action": {
     "addRole": "新增角色",
     "editRole": "編輯角色",
     "deleteRole": "刪除角色",
+    "configParams": "參數配置",
     "save": "保存",
     "cancel": "取消",
     "action": "操作"
@@ -74,10 +77,13 @@
     "saveFailed": "保存失敗",
     "saveSuccess": "保存成功",
     "roleNameRequired": "請輸入角色名稱",
-    "roleDescriptionRequired": "請輸入角色描述"
+    "roleDescriptionRequired": "請輸入角色描述",
+    "transferLimitRequired": "請輸入轉帳限額",
+    "transferLimitMinimum": "轉帳限額必須大於等於0"
   },
   "prompt": {
     "inputRoleName": "請輸入角色名稱",
-    "inputRoleDescription": "請輸入角色描述"
+    "inputRoleDescription": "請輸入角色描述",
+    "inputTransferLimit": "請輸入轉帳限額"
   }
 } 

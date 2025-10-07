@@ -2,14 +2,17 @@
   "title": {
     "transferOrderQuery": "Transfer Order Query",
     "transferList": "Transfer List",
-    "notifyDetail": "Notification Details"
+    "notifyDetail": "Notification Details",
+    "manualConfirmList": "Manual Confirm List"
   },
   "field": {
+    "index": "No.",
     "orderId": "Order ID",
     "walletId": "Wallet ID",
     "address": "Address",
     "relatedOrderId": "Related Order ID",
     "status": "Status",
+    "transferStatus": "Transfer Status",
     "transferType": "Transfer Type",
     "createTime": "Create Time",
     "onChainTime": "On Chain Time",
@@ -19,8 +22,17 @@
     "fromWallet": "From Wallet",
     "toWallet": "To Wallet",
     "transferAmount": "Transfer Amount",
+    "amount": "Amount",
     "timeInfo": "Time Info",
-    "action": "Action"
+    "action": "Action",
+    "txHash": "TxHash",
+    "fromAddress": "From Address",
+    "toAddress": "To Address",
+    "merchant": "Merchant",
+    "chainCoin": "Chain/Coin",
+    "transactionId": "Transaction ID",
+    "relatedOrderIds": "Related Order IDs (Out/In)",
+    "operation": "Operation"
   },
   "prompt": {
     "pleaseInputOrderId": "Please input order ID",
@@ -37,11 +49,14 @@
   "action": {
     "reset": "Reset",
     "query": "Query",
-    "changeType": "Change Type"
+    "changeType": "Change Type",
+    "download": "Download",
+    "setFailed": "Set Failed",
+    "setSuccessAndRelate": "Relate & Set Success"
   },
   "status": {
     "pending": "Pending",
-    "processing": "Processing",
+    "processing": "Transfer Processing",
     "manualConfirm": "Manual Confirm",
     "success": "Success",
     "failed": "Failed"
@@ -51,17 +66,26 @@
     "withdraw": "Withdraw",
     "collection": "Collection",
     "exchange": "Exchange",
-    "replenish": "Replenish",
+    "replenish": "Replenish Fee",
     "manual": "Manual",
     "manualOut": "Manual Out",
     "manualIn": "Manual In",
     "systemError": "System Error",
     "pendingConfirm": "Pending Confirm",
-    "fee": "Fee"
+    "fee": "Fee",
+    "swap": "SWAP"
   },
   "message": {
-    "copySuccess": "Copy Success",
-    "copyFailed": "Copy Failed",
-    "updateSuccess": "Update successful"
+    "copySuccess": "Copy successful",
+    "copyFailed": "Copy failed",
+    "updateSuccess": "Update successful",
+    "downloadSuccess": "Download successful",
+    "pleaseSelectRecords": "Please select records",
+    "operationSuccess": "Operation successful",
+    "cannotSetFailedWhenSelected": "Cannot set failed when records selected",
+    "swapNeedTwoRecords": "Please select two transfer orders for SWAP",
+    "swapNeedInAndOut": "Selected transfers must be one in and one out",
+    "swapTxHashMismatch": "Selected transfers have different txhash",
+    "nonSwapOnlyOneRecord": "Non-SWAP type can only select one record"
   }
-} 
+}

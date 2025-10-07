@@ -32,6 +32,7 @@
     "chainType": "鏈類型",
     "currency": "幣種",
     "enabled": "啟用狀態",
+    "configStorageLimit": "配置儲存上限",
     "collectionWalletLimit": "歸集錢包儲存上限",
     "withdrawWalletLimit": "出款錢包儲存上限"
   },

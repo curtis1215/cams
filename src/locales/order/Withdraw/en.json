@@ -1,7 +1,7 @@
 {
   "title": {
-    "withdrawOrderQuery": "Withdraw Order Query",
-    "orderList": "Withdraw Order List",
+    "withdrawOrderQuery": "Withdraw Query",
+    "orderList": "Withdraw List",
     "notifyHistory": "Notification History",
     "notifyDetail": "Notification Details"
   },

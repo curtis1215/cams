@@ -70,6 +70,14 @@
               <NodeIndexOutlined />
               {{ t('nav.nodeHeightMonitoring') }}
             </a-menu-item>
+            <a-menu-item key="nodeHeightAnalysis" @click="router.push('/report/node-height-analysis')">
+              <BarChartOutlined />
+              {{ t('nav.nodeHeightAnalysis') }}
+            </a-menu-item>
+            <a-menu-item key="depositWithdrawDuration" @click="router.push('/report/deposit-withdraw-duration')">
+              <ClockCircleOutlined />
+              {{ t('nav.depositWithdrawDurationAnalysis') }}
+            </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="wallet">
             <template #title>
@@ -100,23 +108,11 @@
             </template>
             <a-menu-item key="depositOrder" @click="router.push('/order/deposit')">
               <PayCircleOutlined />
-              {{ t('nav.depositOrderQuery') }}
+              {{ t('nav.depositQuery') }}
             </a-menu-item>
             <a-menu-item key="withdrawOrder" @click="router.push('/order/withdraw')">
               <BankOutlined />
-              {{ t('nav.withdrawOrderQuery') }}
-            </a-menu-item>
-            <a-menu-item key="transferOrder" @click="router.push('/order/transfer')">
-              <SwapOutlined />
-              {{ t('nav.transferOrderQuery') }}
-            </a-menu-item>
-            <a-menu-item key="exchangeOrder" @click="router.push('/order/exchange')">
-              <SyncOutlined />
-              {{ t('nav.exchangeOrderQuery') }}
-            </a-menu-item>
-            <a-menu-item key="transactionDetail" @click="router.push('/order/transaction')">
-              <TransactionOutlined />
-              {{ t('nav.transactionDetailQuery') }}
+              {{ t('nav.withdrawQuery') }}
             </a-menu-item>
             <a-menu-item key="swapOrder" @click="router.push('/order/swap')">
               <SwapOutlined />
@@ -125,6 +121,14 @@
             <a-menu-item key="lpOrder" @click="router.push('/order/lp')">
               <SwapOutlined />
               {{ t('nav.lpOrderQuery') }}
+            </a-menu-item>
+            <a-menu-item key="transferOrder" @click="router.push('/order/transfer')">
+              <SwapOutlined />
+              {{ t('nav.transferQuery') }}
+            </a-menu-item>
+            <a-menu-item key="transactionDetail" @click="router.push('/order/transaction')">
+              <TransactionOutlined />
+              {{ t('nav.transactionDetailQuery') }}
             </a-menu-item>
             <a-menu-item key="manualOrder" @click="router.push('/order/manual')">
               <SearchOutlined />
@@ -135,32 +139,16 @@
             <template #title>
               <span>
                 <AccountBookOutlined />
-                {{ t('nav.reconciliation') }}
+                {{ t('nav.financeManagement') }}
               </span>
             </template>
             <a-menu-item key="walletBalance" @click="router.push('/reconciliation/wallet-balance')">
               <WalletFilled />
               {{ t('nav.walletBalanceQuery') }}
             </a-menu-item>
-          </a-sub-menu>
-          <a-sub-menu key="report">
-            <template #title>
-              <span>
-                <BarChartOutlined />
-                {{ t('nav.dataReport') }}
-              </span>
-            </template>
-            <a-menu-item key="depositWithdrawDuration" @click="router.push('/report/deposit-withdraw-duration')">
-              <ClockCircleOutlined />
-              {{ t('nav.depositWithdrawDurationReport') }}
-            </a-menu-item>
             <a-menu-item key="walletProfitLoss" @click="router.push('/report/wallet-profit-loss')">
               <LineChartOutlined />
               {{ t('nav.walletProfitLossQuery') }}
-            </a-menu-item>
-            <a-menu-item key="nodeHeightAnalysis" @click="router.push('/report/node-height-analysis')">
-              <BarChartOutlined />
-              {{ t('nav.nodeHeightAnalysis') }}
             </a-menu-item>
           </a-sub-menu>
           <a-sub-menu key="params">
@@ -333,7 +321,15 @@ const setSelectedKeysByRoute = () => {
   } else if (path.startsWith('/reconciliation')) {
     openKeys.value = ['reconciliation']
   } else if (path.startsWith('/report')) {
-    openKeys.value = ['report']
+    // 節點高度分析和充提時長分析移到監控管理下
+    if (path === '/report/node-height-analysis' || path === '/report/deposit-withdraw-duration') {
+      openKeys.value = ['monitor']
+    } else if (path === '/report/wallet-profit-loss') {
+      // 錢包盈虧分析移到財務管理（對帳管理）下
+      openKeys.value = ['reconciliation']
+    } else {
+      openKeys.value = ['report']
+    }
   }
 
   selectedKeys.value = [pathMap[path] || 'dashboard']
@@ -385,16 +381,16 @@ const menuToAnchorMap = computed<MenuAnchorMap>(() => ({
   walletQuery: t('nav.walletQuery'),
   walletTransfer: t('nav.walletTransfer'),
   tokenExchange: t('nav.tokenExchangeManagement'),
-  depositOrder: t('nav.depositOrderQuery'),
-  withdrawOrder: t('nav.withdrawOrderQuery'),
-  transferOrder: t('nav.transferOrderQuery'),
+  depositOrder: t('nav.depositQuery'),
+  withdrawOrder: t('nav.withdrawQuery'),
+  transferOrder: t('nav.transferQuery'),
   exchangeOrder: t('nav.exchangeOrderQuery'),
   transactionDetail: t('nav.transactionDetailQuery'),
   swapOrder: t('nav.swapOrderQuery'),
   lpOrder: t('nav.lpOrderQuery'),
   manualOrder: t('nav.manualOrderQuery'),
   walletBalance: t('nav.walletBalanceQuery'),
-  depositWithdrawDuration: t('nav.depositWithdrawDurationReport'),
+  depositWithdrawDuration: t('nav.depositWithdrawDurationAnalysis'),
   walletProfitLoss: t('nav.walletProfitLossQuery'),
   nodeHeightAnalysis: t('nav.nodeHeightAnalysis'),
   blockchain: t('nav.blockchainManagement'),

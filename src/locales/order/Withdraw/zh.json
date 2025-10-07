@@ -1,7 +1,7 @@
 {
   "title": {
-    "withdrawOrderQuery": "提現訂單查詢",
-    "orderList": "提現訂單列表",
+    "withdrawOrderQuery": "提幣單查詢",
+    "orderList": "提幣單列表",
     "notifyHistory": "通知歷史",
     "notifyDetail": "通知詳情"
   },

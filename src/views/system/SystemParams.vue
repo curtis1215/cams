@@ -99,41 +99,6 @@
       </a-form>
     </a-modal>
 
-    <!-- 錢包轉帳限額配置 -->
-    <a-card :bordered="false" class="params-card">
-      <template #title>
-        <span class="card-title">{{ t('title.walletTransferLimits') }}</span>
-      </template>
-      <div class="limit-config-section">
-        <a-form :label-col="{ span: 6 }" :wrapper-col="{ span: 16 }">
-          <a-form-item :label="t('field.generalTransferLimit')" name="generalTransferLimit">
-            <a-input-number
-              v-model:value="generalTransferLimit"
-              :min="0"
-              :max="999999999"
-              :precision="2"
-              :placeholder="t('prompt.inputTransferLimit')"
-              addon-after="USDT"
-              style="width: 300px"
-            />
-          </a-form-item>
-          <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
-            <div class="note-text">
-              {{ t('note.largeAmountTransferNote') }}
-            </div>
-          </a-form-item>
-        </a-form>
-      </div>
-      <div class="card-footer">
-        <a-button
-          type="primary"
-          :loading="savingLimit"
-          @click="handleSaveLimit"
-        >
-          {{ t('action.save') }}
-        </a-button>
-      </div>
-    </a-card>
   </div>
 </template>
 
@@ -148,32 +113,23 @@ const messages = {
   zh: {
     title: {
       domainConfiguration: '域名配置',
-      addDomain: '新增域名',
-      walletTransferLimits: '錢包轉帳配置'
+      addDomain: '新增域名'
     },
     field: {
       index: '序號',
       domainName: '域名名稱',
       createTime: '創建時間',
       updateTime: '更新時間',
-      operation: '操作',
-      generalTransferLimit: '一般錢包轉帳限額'
+      operation: '操作'
     },
     prompt: {
-      inputDomain: '請輸入域名',
-      inputTransferLimit: '請輸入轉帳限額'
-    },
-    note: {
-      largeAmountTransferNote: '備註說明：具備大額轉帳權限使用者不受此限制'
+      inputDomain: '請輸入域名'
     },
     message: {
       invalidDomain: '請輸入有效的域名',
       duplicateDomain: '該域名已存在',
-      invalidLimit: '請輸入有效的限額',
       saveSuccess: '儲存成功',
       saveFailed: '儲存失敗',
-      limitSaveSuccess: '轉帳限額配置儲存成功',
-      limitSaveFailed: '轉帳限額配置儲存失敗',
       deleteConfirm: '確定要刪除此域名嗎？',
       deleteSuccess: '刪除成功',
       deleteFailed: '刪除失敗',
@@ -192,32 +148,23 @@ const messages = {
   en: {
     title: {
       domainConfiguration: 'Domain Configuration',
-      addDomain: 'Add Domain',
-      walletTransferLimits: 'Wallet Transfer Configuration'
+      addDomain: 'Add Domain'
     },
     field: {
       index: 'Index',
       domainName: 'Domain Name',
       createTime: 'Create Time',
       updateTime: 'Update Time',
-      operation: 'Operation',
-      generalTransferLimit: 'General Wallet Transfer Limit'
+      operation: 'Operation'
     },
     prompt: {
-      inputDomain: 'Please enter domain name',
-      inputTransferLimit: 'Please input transfer limit'
-    },
-    note: {
-      largeAmountTransferNote: 'Note: Users with large amount transfer permission are not subject to this limit'
+      inputDomain: 'Please enter domain name'
     },
     message: {
       invalidDomain: 'Please enter a valid domain',
       duplicateDomain: 'This domain already exists',
-      invalidLimit: 'Please enter a valid limit',
       saveSuccess: 'Saved successfully',
       saveFailed: 'Save failed',
-      limitSaveSuccess: 'Transfer limit configuration saved successfully',
-      limitSaveFailed: 'Transfer limit configuration save failed',
       deleteConfirm: 'Are you sure you want to delete this domain?',
       deleteSuccess: 'Delete successfully',
       deleteFailed: 'Delete failed',
@@ -333,10 +280,6 @@ const addDomainRules: Record<string, Rule[]> = {
   ]
 }
 
-// 錢包轉帳限額相關數據
-const generalTransferLimit = ref<number>(10000) // 預設限額 10,000 USDT
-const savingLimit = ref(false)
-
 // 驗證域名格式的函數
 const isValidDomain = (domain: string): boolean => {
   const pattern = /^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/
@@ -419,25 +362,6 @@ const handleDeleteDomain = async (id: number) => {
   }
 }
 
-// 處理儲存轉帳限額配置
-const handleSaveLimit = async () => {
-  try {
-    if (!generalTransferLimit.value || generalTransferLimit.value <= 0) {
-      message.error(t('message.invalidLimit'))
-      return
-    }
-
-    savingLimit.value = true
-    // TODO: 這裡添加實際的 API 調用來儲存轉帳限額
-    await new Promise(resolve => setTimeout(resolve, 1000)) // 模擬 API 調用
-    message.success(t('message.limitSaveSuccess'))
-  } catch (error) {
-    message.error(t('message.limitSaveFailed'))
-    console.error('Save limit failed:', error)
-  } finally {
-    savingLimit.value = false
-  }
-}
 </script>
 
 <style scoped>
@@ -603,42 +527,4 @@ const handleSaveLimit = async () => {
   opacity: 0.9;
 }
 
-/* 錢包轉帳限額配置樣式 */
-.limit-config-section {
-  margin-bottom: 16px;
-}
-
-.note-text {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
-  line-height: 1.4;
-  font-style: italic;
-}
-
-/* 深色模式 Form 樣式 */
-:deep(.ant-form-item-label > label) {
-  color: rgba(255, 255, 255, 0.85);
-}
-
-:deep(.ant-input-number) {
-  background-color: #1f1f1f !important;
-  border-color: #434343 !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-:deep(.ant-input-number:hover),
-:deep(.ant-input-number:focus) {
-  border-color: var(--ant-primary-color) !important;
-}
-
-:deep(.ant-input-number .ant-input-number-input) {
-  background-color: transparent !important;
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-:deep(.ant-input-number-group-addon) {
-  background-color: #1f1f1f;
-  border-color: #434343;
-  color: rgba(255, 255, 255, 0.65);
-}
 </style> 

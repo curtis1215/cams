@@ -4,15 +4,18 @@
     {
       "id": "TR001",
       "transferId": "TF20240315001",
+      "merchant": "商戶A",
       "fromAddress": "0x1234567890abcdef1234567890abcdef12345678",
       "toAddress": "0xabcdef1234567890abcdef1234567890abcdef12",
-      "amount": "1.5",
-      "coinCode": "ETH",
+      "amount": "1500.50",
+      "chainCoin": "ETH/USDT",
       "txHash": "0x9876543210fedcba9876543210fedcba98765432",
       "status": "success",
       "createTime": "2024-03-15 10:00:00",
       "onChainTime": "2024-03-15 10:01:00",
       "successTime": "2024-03-15 10:02:00",
+      "transactionId": "TXN20240315001",
+      "relatedOrderIds": "OUT-001/IN-001",
       "transferType": {
         "type": "deposit",
         "orderId": "DEP20240315001"
@@ -21,19 +24,242 @@
     {
       "id": "TR002",
       "transferId": "TF20240315002",
+      "merchant": "商戶B",
       "fromAddress": "0x2345678901abcdef2345678901abcdef23456789",
       "toAddress": "0xbcdef1234567890abcdef1234567890abcdef123",
-      "amount": "2.0",
-      "coinCode": "BTC",
+      "amount": "2000.00",
+      "chainCoin": "TRC20/USDT",
       "txHash": "0x8765432109fedcba8765432109fedcba87654321",
-      "status": "pending",
+      "status": "processing",
       "createTime": "2024-03-15 11:00:00",
-      "onChainTime": null,
+      "onChainTime": "2024-03-15 11:01:00",
       "successTime": null,
+      "transactionId": "TXN20240315002",
+      "relatedOrderIds": "OUT-002/IN-002",
       "transferType": {
         "type": "withdraw",
         "orderId": "WD20240315001"
       }
+    },
+    {
+      "id": "TR003",
+      "transferId": "TF20240315003",
+      "merchant": "商戶C",
+      "fromAddress": "0x3456789012abcdef3456789012abcdef34567890",
+      "toAddress": "0xcdef1234567890abcdef1234567890abcdef1234",
+      "amount": "500.75",
+      "chainCoin": "BSC/BUSD",
+      "txHash": "0x7654321098fedcba7654321098fedcba76543210",
+      "status": "manualConfirm",
+      "createTime": "2024-03-15 12:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transactionId": "TXN20240315003",
+      "relatedOrderIds": "OUT-003",
+      "transferType": {
+        "type": "collection",
+        "orderId": "COL20240315001"
+      }
+    },
+    {
+      "id": "TR004",
+      "transferId": "TF20240315004",
+      "merchant": "商戶A",
+      "fromAddress": "0x4567890123abcdef4567890123abcdef45678901",
+      "toAddress": "0xdef1234567890abcdef1234567890abcdef12345",
+      "amount": "10.50",
+      "chainCoin": "ETH/ETH",
+      "txHash": "0x6543210987fedcba6543210987fedcba65432109",
+      "status": "manualConfirm",
+      "createTime": "2024-03-15 13:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transactionId": "TXN20240315004",
+      "relatedOrderIds": "OUT-004/IN-004",
+      "transferType": {
+        "type": "replenish",
+        "orderId": "REP20240315001"
+      }
+    },
+    {
+      "id": "TR005",
+      "transferId": "TF20240315005",
+      "merchant": "商戶D",
+      "fromAddress": "0x5678901234abcdef5678901234abcdef56789012",
+      "toAddress": "0xef1234567890abcdef1234567890abcdef123456",
+      "amount": "5.00",
+      "chainCoin": "TRC20/TRX",
+      "txHash": "0x5432109876fedcba5432109876fedcba54321098",
+      "status": "failed",
+      "createTime": "2024-03-15 14:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transactionId": "TXN20240315005",
+      "relatedOrderIds": "OUT-005",
+      "transferType": {
+        "type": "fee",
+        "orderId": "FEE20240315001"
+      }
+    },
+    {
+      "id": "TR006",
+      "transferId": "TF20240315006",
+      "merchant": "商戶B",
+      "fromAddress": "0x6789012345abcdef6789012345abcdef67890123",
+      "toAddress": "0xf1234567890abcdef1234567890abcdef1234567",
+      "amount": "3500.00",
+      "chainCoin": "ETH/USDC",
+      "txHash": "0x4321098765fedcba4321098765fedcba43210987",
+      "status": "success",
+      "createTime": "2024-03-15 15:00:00",
+      "onChainTime": "2024-03-15 15:01:00",
+      "successTime": "2024-03-15 15:02:00",
+      "transactionId": "TXN20240315006",
+      "relatedOrderIds": "OUT-006/IN-006",
+      "transferType": {
+        "type": "deposit",
+        "orderId": "DEP20240315002"
+      }
+    },
+    {
+      "id": "TR007",
+      "transferId": "TF20240315007",
+      "merchant": "商戶C",
+      "fromAddress": "0x7890123456abcdef7890123456abcdef78901234",
+      "toAddress": "0x1234567890abcdef1234567890abcdef12345678",
+      "amount": "800.25",
+      "chainCoin": "BSC/BNB",
+      "txHash": "0x3210987654fedcba3210987654fedcba32109876",
+      "status": "manualConfirm",
+      "createTime": "2024-03-15 16:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transactionId": "TXN20240315007",
+      "relatedOrderIds": "OUT-007/IN-007",
+      "transferType": {
+        "type": "withdraw",
+        "orderId": "WD20240315002"
+      }
+    },
+    {
+      "id": "TR008",
+      "transferId": "TF20240315008",
+      "merchant": "商戶A",
+      "fromAddress": "0x8901234567abcdef8901234567abcdef89012345",
+      "toAddress": "0x234567890abcdef1234567890abcdef123456789",
+      "amount": "1200.00",
+      "chainCoin": "TRC20/USDT",
+      "txHash": "0x2109876543fedcba2109876543fedcba21098765",
+      "status": "processing",
+      "createTime": "2024-03-15 17:00:00",
+      "onChainTime": "2024-03-15 17:01:00",
+      "successTime": null,
+      "transactionId": "TXN20240315008",
+      "relatedOrderIds": "OUT-008",
+      "transferType": {
+        "type": "collection",
+        "orderId": "COL20240315002"
+      }
+    },
+    {
+      "id": "TR009",
+      "transferId": "TF20240315009",
+      "merchant": "商戶D",
+      "fromAddress": "0x9012345678abcdef9012345678abcdef90123456",
+      "toAddress": "0x34567890abcdef1234567890abcdef1234567890",
+      "amount": "25.80",
+      "chainCoin": "ETH/USDT",
+      "txHash": "0x1098765432fedcba1098765432fedcba10987654",
+      "status": "manualConfirm",
+      "createTime": "2024-03-15 18:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transactionId": "TXN20240315009",
+      "relatedOrderIds": "OUT-009/IN-009",
+      "transferType": {
+        "type": "replenish",
+        "orderId": "REP20240315002"
+      }
+    },
+    {
+      "id": "TR010",
+      "transferId": "TF20240315010",
+      "merchant": "商戶B",
+      "fromAddress": "0xa012345678abcdefa012345678abcdefa0123456",
+      "toAddress": "0x4567890abcdef1234567890abcdef12345678901",
+      "amount": "6500.50",
+      "chainCoin": "BSC/USDT",
+      "txHash": "0x0987654321fedcba0987654321fedcba09876543",
+      "status": "success",
+      "createTime": "2024-03-15 19:00:00",
+      "onChainTime": "2024-03-15 19:01:00",
+      "successTime": "2024-03-15 19:03:00",
+      "transactionId": "TXN20240315010",
+      "relatedOrderIds": "OUT-010/IN-010",
+      "transferType": {
+        "type": "deposit",
+        "orderId": "DEP20240315003"
+      }
+    },
+    {
+      "id": "TR011",
+      "transferId": "TF20240315011",
+      "merchant": "商戶C",
+      "fromAddress": "0xb012345678abcdefb012345678abcdefb0123456",
+      "toAddress": "0x567890abcdef1234567890abcdef123456789012",
+      "amount": "450.00",
+      "chainCoin": "TRC20/USDC",
+      "txHash": "0xf987654321fedcbaf987654321fedcbaf9876543",
+      "status": "manualConfirm",
+      "createTime": "2024-03-15 20:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transactionId": "TXN20240315011",
+      "relatedOrderIds": "OUT-011",
+      "transferType": {
+        "type": "fee",
+        "orderId": "FEE20240315002"
+      }
+    },
+    {
+      "id": "TR012",
+      "transferId": "TF20240315012",
+      "merchant": "商戶A",
+      "fromAddress": "0xc012345678abcdefc012345678abcdefc0123456",
+      "toAddress": "0x67890abcdef1234567890abcdef1234567890123",
+      "amount": "9800.75",
+      "chainCoin": "ETH/USDT",
+      "txHash": "0xe987654321fedcbae987654321fedcbae9876543",
+      "status": "processing",
+      "createTime": "2024-03-15 21:00:00",
+      "onChainTime": "2024-03-15 21:01:00",
+      "successTime": null,
+      "transactionId": "TXN20240315012",
+      "relatedOrderIds": "OUT-012/IN-012",
+      "transferType": {
+        "type": "withdraw",
+        "orderId": "WD20240315003"
+      }
+    },
+    {
+      "id": "TR013",
+      "transferId": "TF20240315013",
+      "merchant": "商戶A",
+      "fromAddress": "0xd012345678abcdefd012345678abcdefd0123456",
+      "toAddress": "0x78901abcdef1234567890abcdef12345678901ab",
+      "amount": "5000.00",
+      "chainCoin": "ETH/USDT",
+      "txHash": "0xd987654321fedcbad987654321fedcbad9876543",
+      "status": "manualConfirm",
+      "createTime": "2024-03-15 22:00:00",
+      "onChainTime": null,
+      "successTime": null,
+      "transactionId": "TXN20240315013",
+      "relatedOrderIds": "OUT-013/IN-013",
+      "transferType": {
+        "type": "swap",
+        "orderId": "SWAP20240315001"
+      }
     }
   ]
-} 
+}

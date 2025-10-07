@@ -282,7 +282,15 @@
                       </a-checkbox>
                     </div>
                     <div class="currency-settings" v-if="merchantCurrencyConfig[currency.value]?.enabled">
-                      <div class="setting-row-inline">
+                      <div class="storage-limit-config">
+                        <a-checkbox
+                          :checked="merchantCurrencyConfig[currency.value]?.enableStorageLimit || false"
+                          @change="(e) => handleStorageLimitToggle(currency.value, e.target.checked)"
+                        >
+                          {{ t('field.configStorageLimit') }}
+                        </a-checkbox>
+                      </div>
+                      <div class="setting-row-inline" v-if="merchantCurrencyConfig[currency.value]?.enableStorageLimit">
                         <div class="setting-field">
                           <label class="setting-label">{{ t('field.collectionWalletLimit') }}</label>
                           <a-input-number
@@ -555,10 +563,12 @@ const handleCurrencyManagement = (record: MerchantRecord) => {
   Object.entries(currencyMap).forEach(([chainType, currencies]) => {
     currencies.forEach(currency => {
       const key = `${chainType}_${currency}`
+      const enableStorageLimit = Math.random() > 0.5
       config[key] = {
         enabled: Math.random() > 0.3, // 模擬啟用狀態
-        collectionWalletLimit: Math.floor(Math.random() * 10000) + 1000, // 歸集錢包儲存上限
-        withdrawWalletLimit: Math.floor(Math.random() * 5000) + 500 // 出款錢包儲存上限
+        enableStorageLimit: enableStorageLimit, // 是否配置儲存上限
+        collectionWalletLimit: enableStorageLimit ? Math.floor(Math.random() * 10000) + 1000 : 0, // 歸集錢包儲存上限
+        withdrawWalletLimit: enableStorageLimit ? Math.floor(Math.random() * 5000) + 500 : 0 // 出款錢包儲存上限
       }
     })
   })
@@ -585,6 +595,17 @@ const handleCurrencyChainTypeClick = (chainType: string) => {
 const handleCurrencyToggle = (currencyKey: string, checked: boolean) => {
   if (merchantCurrencyConfig.value[currencyKey]) {
     merchantCurrencyConfig.value[currencyKey].enabled = checked
+  }
+}
+
+const handleStorageLimitToggle = (currencyKey: string, checked: boolean) => {
+  if (merchantCurrencyConfig.value[currencyKey]) {
+    merchantCurrencyConfig.value[currencyKey].enableStorageLimit = checked
+    // 如果取消勾選，清空儲存上限值
+    if (!checked) {
+      merchantCurrencyConfig.value[currencyKey].collectionWalletLimit = 0
+      merchantCurrencyConfig.value[currencyKey].withdrawWalletLimit = 0
+    }
   }
 }
 
@@ -991,10 +1012,15 @@ onMounted(() => {
   margin-top: 12px;
 }
 
+.storage-limit-config {
+  margin-bottom: 12px;
+}
+
 .setting-row-inline {
   display: flex;
   gap: 20px;
   align-items: flex-start;
+  margin-top: 12px;
 }
 
 .setting-field {

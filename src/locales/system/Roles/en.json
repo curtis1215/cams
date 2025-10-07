@@ -3,7 +3,8 @@
     "roleList": "Role List",
     "roleManagement": "Role Management",
     "addRole": "Add Role",
-    "editRole": "Edit Role"
+    "editRole": "Edit Role",
+    "walletTransferConfig": "Parameter Configuration"
   },
   "field": {
     "roleName": "Role Name",
@@ -12,12 +13,14 @@
     "createTime": "Create Time",
     "updateTime": "Update Time",
     "twoFactorAuth": "Two-Factor Authentication",
-    "twoFactorAuthRequired": "Enable Two-Factor Authentication"
+    "twoFactorAuthRequired": "Enable Two-Factor Authentication",
+    "generalTransferLimit": "Wallet Transfer Limit"
   },
   "action": {
     "addRole": "Add Role",
     "editRole": "Edit Role",
     "deleteRole": "Delete Role",
+    "configParams": "Config Params",
     "save": "Save",
     "cancel": "Cancel",
     "action": "Actions"
@@ -74,10 +77,13 @@
     "saveFailed": "Save failed",
     "saveSuccess": "Save successful",
     "roleNameRequired": "Please input role name",
-    "roleDescriptionRequired": "Please input role description"
+    "roleDescriptionRequired": "Please input role description",
+    "transferLimitRequired": "Please input transfer limit",
+    "transferLimitMinimum": "Transfer limit must be greater than or equal to 0"
   },
   "prompt": {
     "inputRoleName": "Please input role name",
-    "inputRoleDescription": "Please input role description"
+    "inputRoleDescription": "Please input role description",
+    "inputTransferLimit": "Please input transfer limit"
   }
 } 

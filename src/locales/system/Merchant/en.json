@@ -32,6 +32,7 @@
     "chainType": "Chain Type",
     "currency": "Currency",
     "enabled": "Enabled",
+    "configStorageLimit": "Configure Storage Limit",
     "collectionWalletLimit": "Collection Wallet Storage Limit",
     "withdrawWalletLimit": "Withdraw Wallet Storage Limit"
   },

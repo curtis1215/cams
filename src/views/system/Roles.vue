@@ -32,6 +32,9 @@
                 <a-button type="link" size="small" @click="handleEditRole(record)">
                   {{ t('action.editRole') }}
                 </a-button>
+                <a-button type="link" size="small" @click="handleConfigParams(record)">
+                  {{ t('action.configParams') }}
+                </a-button>
                 <a-button type="link" status="danger" size="small" @click="handleDeleteRole(record)">
                   {{ t('action.deleteRole') }}
                 </a-button>
@@ -114,6 +117,35 @@
               <a-divider v-if="module.key !== modules[modules.length - 1].key" />
             </template>
           </a-card>
+        </a-form-item>
+      </a-form>
+    </a-modal>
+
+    <!-- 參數配置彈窗 -->
+    <a-modal
+      v-model:open="paramsModalVisible"
+      :title="t('title.walletTransferConfig')"
+      @ok="handleSaveParams"
+      @cancel="handleCancelParams"
+      :confirmLoading="paramsConfirmLoading"
+      width="600px"
+    >
+      <a-form
+        :model="paramsForm"
+        :rules="paramsRules"
+        ref="paramsFormRef"
+        layout="vertical"
+      >
+        <a-form-item :label="t('field.generalTransferLimit')" name="generalTransferLimit">
+          <a-input-number
+            v-model:value="paramsForm.generalTransferLimit"
+            :min="0"
+            :max="999999999"
+            :precision="2"
+            :placeholder="t('prompt.inputTransferLimit')"
+            addon-after="USDT"
+            style="width: 100%"
+          />
         </a-form-item>
       </a-form>
     </a-modal>
@@ -235,6 +267,12 @@ const confirmLoading = ref(false)
 const roleFormRef = ref(null)
 const isEdit = ref(false)
 
+// 參數配置相關
+const paramsModalVisible = ref(false)
+const paramsConfirmLoading = ref(false)
+const paramsFormRef = ref(null)
+const currentRole = ref(null)
+
 // 初始化權限對象
 const initPermissions = () => {
   const perms = {}
@@ -262,6 +300,19 @@ const roleForm = reactive({
 const roleRules = {
   roleName: [{ required: true, message: t('message.roleNameRequired'), trigger: 'blur' }],
   roleDescription: [{ required: true, message: t('message.roleDescriptionRequired'), trigger: 'blur' }]
+}
+
+// 參數配置表單數據
+const paramsForm = reactive({
+  generalTransferLimit: 10000
+})
+
+// 參數配置驗證規則
+const paramsRules = {
+  generalTransferLimit: [
+    { required: true, message: t('message.transferLimitRequired'), trigger: 'blur' },
+    { type: 'number', min: 0, message: t('message.transferLimitMinimum'), trigger: 'blur' }
+  ]
 }
 
 // 顯示新增角色彈窗
@@ -320,6 +371,43 @@ const handleCancelRole = () => {
 // 處理表格變更
 const handleTableChange = (pagination, filters, sorter) => {
   console.log('Table change:', { pagination, filters, sorter })
+}
+
+// 處理參數配置
+const handleConfigParams = (record) => {
+  currentRole.value = record
+  // 在實際應用中，這裡需要從後端獲取該角色的參數配置
+  paramsForm.generalTransferLimit = 10000
+  paramsModalVisible.value = true
+}
+
+// 保存參數配置
+const handleSaveParams = async () => {
+  try {
+    await paramsFormRef.value.validate()
+    paramsConfirmLoading.value = true
+
+    // TODO: 實現保存參數配置的 API 調用
+    console.log('保存參數配置:', {
+      roleId: currentRole.value.id,
+      ...paramsForm
+    })
+
+    // 模擬 API 調用
+    setTimeout(() => {
+      message.success(t('message.saveSuccess'))
+      paramsModalVisible.value = false
+      paramsConfirmLoading.value = false
+    }, 1000)
+  } catch (error) {
+    console.error('參數配置驗證失敗:', error)
+  }
+}
+
+// 取消參數配置
+const handleCancelParams = () => {
+  paramsModalVisible.value = false
+  paramsFormRef.value.resetFields()
 }
 </script>
 

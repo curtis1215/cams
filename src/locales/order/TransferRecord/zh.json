@@ -1,15 +1,18 @@
 {
   "title": {
-    "transferOrderQuery": "轉帳訂單查詢",
+    "transferOrderQuery": "轉帳單查詢",
     "transferList": "轉帳列表",
-    "notifyDetail": "通知詳情"
+    "notifyDetail": "通知詳情",
+    "manualConfirmList": "待人工確認列表"
   },
   "field": {
+    "index": "序號",
     "orderId": "訂單編號",
     "walletId": "錢包編號",
     "address": "地址",
     "relatedOrderId": "關聯訂單編號",
     "status": "狀態",
+    "transferStatus": "轉帳狀態",
     "transferType": "轉帳類型",
     "createTime": "創建時間",
     "onChainTime": "上鏈時間",
@@ -19,11 +22,16 @@
     "fromWallet": "來源錢包",
     "toWallet": "目標錢包",
     "transferAmount": "轉帳數量",
+    "amount": "數量",
     "timeInfo": "時間信息",
     "action": "操作",
-    "txHash": "交易哈希",
+    "txHash": "TxHash",
     "fromAddress": "來源地址",
-    "toAddress": "目標地址"
+    "toAddress": "目標地址",
+    "merchant": "商戶",
+    "chainCoin": "鏈路/幣種",
+    "transactionId": "交易明細編號",
+    "relatedOrderIds": "關聯訂單編號(轉出/轉入)"
   },
   "prompt": {
     "pleaseInputOrderId": "請輸入訂單編號",
@@ -41,31 +49,42 @@
     "reset": "重置",
     "query": "查詢",
     "changeType": "修改類型",
-    "download": "下載"
+    "download": "下載",
+    "setFailed": "設定失敗",
+    "setSuccessAndRelate": "關聯且設定成功"
   },
   "status": {
     "pending": "待處理",
-    "processing": "處理中",
+    "processing": "轉帳處理中",
     "manualConfirm": "待人工確認",
     "success": "成功",
     "failed": "失敗"
   },
   "transferType": {
-    "deposit": "充值",
-    "withdraw": "提現",
+    "deposit": "存款",
+    "withdraw": "提款",
     "collection": "歸集",
     "exchange": "兌幣",
-    "replenish": "補幣",
+    "replenish": "補手續費",
     "manual": "手動",
     "manualOut": "手動轉出",
     "manualIn": "手動轉入",
     "systemError": "系統錯誤",
     "pendingConfirm": "待確認",
-    "fee": "手續費"
+    "fee": "手續費",
+    "swap": "SWAP"
   },
   "message": {
     "copySuccess": "複製成功",
     "copyFailed": "複製失敗",
-    "updateSuccess": "更新成功"
+    "updateSuccess": "更新成功",
+    "downloadSuccess": "下載成功",
+    "pleaseSelectRecords": "請選擇記錄",
+    "operationSuccess": "操作成功",
+    "cannotSetFailedWhenSelected": "已勾選記錄時無法設定失敗",
+    "swapNeedTwoRecords": "請勾選SWAP對應的兩筆轉帳單",
+    "swapNeedInAndOut": "已選擇的轉帳單需為入帳和出帳",
+    "swapTxHashMismatch": "已選擇的轉帳單txhash不一致",
+    "nonSwapOnlyOneRecord": "非SWAP類型只能勾選一條記錄"
   }
 } 

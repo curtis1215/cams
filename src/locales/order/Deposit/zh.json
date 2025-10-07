@@ -1,7 +1,7 @@
 {
   "title": {
-    "depositOrderQuery": "充值訂單查詢",
-    "orderList": "充值訂單列表",
+    "depositOrderQuery": "充幣單查詢",
+    "orderList": "充幣單列表",
     "notifyDetail": "通知詳情",
     "notifyHistory": "通知歷史"
   },

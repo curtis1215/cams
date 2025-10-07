@@ -70,18 +70,32 @@
         </a-button>
       </template>
       <a-table
-        :columns="tableColumns"
+        :columns="columns"
         :data-source="tableData"
+        :row-key="(record) => record.id"
         :pagination="pagination"
         :bordered="true"
-        :scroll="{ x: 1500 }"
+        :scroll="{ x: 2000 }"
         @change="handleTableChange"
       >
-        <template #bodyCell="{ column, record }">
-          <template v-if="column.key === 'transferId'">
-            {{ record.transferId }}
+        <template #bodyCell="{ column, record, index }">
+          <template v-if="column.key === 'index'">
+            {{ (pagination.current - 1) * pagination.pageSize + index + 1 }}
           </template>
-          
+
+          <template v-else-if="column.key === 'status'">
+            <a-tag
+              :class="['status-tag', `status-${record.status}`, { 'status-clickable': record.status === 'manualConfirm' }]"
+              @click="record.status === 'manualConfirm' ? handleManualConfirmClick(record) : undefined"
+            >
+              {{ getStatusText(record.status) }}
+            </a-tag>
+          </template>
+
+          <template v-else-if="column.key === 'transferType'">
+            {{ t(`transferType.${record.transferType?.type || 'unknown'}`) }}
+          </template>
+
           <template v-else-if="column.key === 'txHash'">
             <div class="hash-container">
               <span>{{ formatTxHash(record.txHash) }}</span>
@@ -92,61 +106,11 @@
             </div>
           </template>
 
-          <template v-else-if="column.key === 'status'">
-            <a-tag :class="['status-tag', `status-${record.status}`]">
-              {{ getStatusText(record.status) }}
-            </a-tag>
-          </template>
-
-          <template v-else-if="column.key === 'timeInfo'">
-            <div class="time-info">
-              <div class="info-item">
-                <span class="label">{{ t('field.createTime') }}:</span>
-                <span>{{ record.createTime }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">{{ t('field.onChainTime') }}:</span>
-                <span>{{ record.onChainTime || '-' }}</span>
-              </div>
-              <div class="info-item">
-                <span class="label">{{ t('field.successTime') }}:</span>
-                <span>{{ record.successTime || '-' }}</span>
-              </div>
+          <template v-else-if="column.key === 'fromAddress' || column.key === 'toAddress'">
+            <div class="address-container">
+              <span>{{ formatAddress(record[column.key]) }}</span>
+              <copy-outlined class="copy-icon" @click="copyAddress(record[column.key])" />
             </div>
-          </template>
-
-          <template v-else-if="column.key === 'transferType'">
-            <template v-if="['manualOut', 'manualIn', 'systemError'].includes(record.transferType.type)">
-              <a-button type="link" @click="showReason(record)">
-                {{ t(`transferType.${record.transferType.type}`) }}
-              </a-button>
-            </template>
-            <template v-else>
-              <div class="transfer-type-container">
-                <div class="type-text">{{ t(`transferType.${record.transferType.type}`) }}</div>
-                <div v-if="['deposit', 'withdraw', 'collection', 'exchange', 'replenish', 'manual'].includes(record.transferType.type)" 
-                  class="order-id"
-                >
-                  <a-button 
-                    type="link" 
-                    class="order-link"
-                    @click="handleOrderClick(record.transferType.orderId, record.transferType.type)"
-                  >
-                    {{ record.transferType.orderId }}
-                  </a-button>
-                </div>
-              </div>
-            </template>
-          </template>
-
-          <template v-else-if="column.key === 'action'">
-            <a-button 
-              v-if="record.transferType.type === 'pendingConfirm'"
-              type="link" 
-              @click="handleTypeChange(record)"
-            >
-              {{ t('action.changeType') }}
-            </a-button>
           </template>
         </template>
       </a-table>
@@ -186,6 +150,43 @@
     >
       <p>{{ currentReason }}</p>
     </a-modal>
+
+    <a-modal
+      v-model:open="manualConfirmModalVisible"
+      :title="`${t('field.transferId')}${currentTransferId} ${t('title.manualConfirmList')}`"
+      width="1200px"
+      :footer="null"
+    >
+      <a-table
+        :columns="manualConfirmColumns"
+        :data-source="manualConfirmList"
+        :row-selection="manualConfirmRowSelection"
+        :row-key="(record) => record.id"
+        :pagination="false"
+        :bordered="true"
+        :scroll="{ x: 1000 }"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'index'">
+            {{ manualConfirmList.indexOf(record) + 1 }}
+          </template>
+          <template v-else-if="column.key === 'fromAddress' || column.key === 'toAddress'">
+            <div class="address-container">
+              <span>{{ formatAddress(record[column.key]) }}</span>
+              <copy-outlined class="copy-icon" @click="copyAddress(record[column.key])" />
+            </div>
+          </template>
+        </template>
+      </a-table>
+      <div class="modal-footer">
+        <a-button danger type="primary" :disabled="hasSelectedRows" @click="handleSetFailed">
+          {{ t('action.setFailed') }}
+        </a-button>
+        <a-button type="primary" :disabled="!hasSelectedRows" @click="handleSetSuccessAndRelate">
+          {{ t('action.setSuccessAndRelate') }}
+        </a-button>
+      </div>
+    </a-modal>
   </div>
 </template>
 
@@ -212,16 +213,20 @@ interface TransferType {
 interface TransferRecord {
   id: string
   transferId: string
+  merchant?: string
   fromAddress: string
   toAddress: string
   amount: string
-  coinCode: string
+  coinCode?: string
+  chainCoin?: string
   txHash: string
   status: string
   createTime: string
   onChainTime: string | null
   successTime: string | null
   transferType: TransferType
+  transactionId?: string
+  relatedOrderIds?: string
 }
 
 interface QueryParams {
@@ -356,41 +361,50 @@ const formatTransferType = (type: TransferTypeEnum): string => {
 
 const columns = computed(() => [
   {
+    title: t('field.index'),
+    dataIndex: 'index',
+    key: 'index',
+    width: 70,
+    customRender: ({ text, index }: { text: any; index: number }) => {
+      return (pagination.value.current! - 1) * pagination.value.pageSize! + index + 1
+    }
+  },
+  {
     title: t('field.transferId'),
     dataIndex: 'transferId',
     key: 'transferId',
     width: 150,
   },
   {
-    title: t('field.fromWallet'),
-    dataIndex: 'fromWalletId',
-    key: 'fromWalletId',
-    width: 150,
+    title: t('field.merchant'),
+    dataIndex: 'merchant',
+    key: 'merchant',
+    width: 120,
   },
   {
-    title: t('field.toWallet'),
-    dataIndex: 'toWalletId',
-    key: 'toWalletId',
-    width: 150,
+    title: t('field.transferStatus'),
+    dataIndex: 'status',
+    key: 'status',
+    width: 130,
   },
   {
     title: t('field.transferType'),
     dataIndex: 'transferType',
     key: 'transferType',
-    width: 200
+    width: 130
   },
   {
-    title: t('field.transferAmount'),
+    title: t('field.chainCoin'),
+    dataIndex: 'chainCoin',
+    key: 'chainCoin',
+    width: 150,
+  },
+  {
+    title: t('field.amount'),
     dataIndex: 'amount',
     key: 'amount',
     width: 150,
     align: 'right',
-  },
-  {
-    title: t('field.status'),
-    dataIndex: 'status',
-    key: 'status',
-    width: 120,
   },
   {
     title: 'TxHash',
@@ -399,16 +413,34 @@ const columns = computed(() => [
     width: 200,
   },
   {
-    title: t('field.timeInfo'),
-    dataIndex: 'timeInfo',
-    key: 'timeInfo',
-    width: 300,
+    title: t('field.fromAddress'),
+    dataIndex: 'fromAddress',
+    key: 'fromAddress',
+    width: 200,
   },
   {
-    title: t('field.action'),
-    key: 'action',
-    fixed: 'right',
-    width: 120
+    title: t('field.toAddress'),
+    dataIndex: 'toAddress',
+    key: 'toAddress',
+    width: 200,
+  },
+  {
+    title: t('field.transactionId'),
+    dataIndex: 'transactionId',
+    key: 'transactionId',
+    width: 180,
+  },
+  {
+    title: t('field.relatedOrderIds'),
+    dataIndex: 'relatedOrderIds',
+    key: 'relatedOrderIds',
+    width: 200,
+  },
+  {
+    title: t('field.createTime'),
+    dataIndex: 'createTime',
+    key: 'createTime',
+    width: 180,
   }
 ])
 
@@ -596,77 +628,275 @@ const copyAddress = async (address: string): Promise<void> => {
   }
 }
 
-// 表格列定義
-const tableColumns = computed(() => {
-  const columns: TableColumn[] = [
-    {
-      title: t('field.transferId'),
-      dataIndex: 'transferId',
-      key: 'transferId',
-      width: 150
-    },
-    {
-      title: t('field.fromAddress'),
-      dataIndex: 'fromAddress',
-      key: 'fromAddress',
-      width: 200,
-      customRender: ({ text, record }: { text: string; record: TransferRecord }) => {
-        return h('div', { class: 'address-container' }, [
-          h('span', {}, formatAddress(text)),
-          h(CopyOutlined, {
-            class: 'copy-icon',
-            onClick: () => copyAddress(text)
-          })
-        ])
-      }
-    },
-    {
-      title: t('field.toAddress'),
-      dataIndex: 'toAddress',
-      key: 'toAddress',
-      width: 200,
-      customRender: ({ text, record }: { text: string; record: TransferRecord }) => {
-        return h('div', { class: 'address-container' }, [
-          h('span', {}, formatAddress(text)),
-          h(CopyOutlined, {
-            class: 'copy-icon',
-            onClick: () => copyAddress(text)
-          })
-        ])
-      }
-    },
-    {
-      title: t('field.txHash'),
-      dataIndex: 'txHash',
-      key: 'txHash',
-      width: 200,
-      customRender: ({ text, record }: { text: string; record: TransferRecord }) => {
-        return h('div', { class: 'hash-container' }, [
-          h('span', {}, formatTxHash(text)),
-          h(CopyOutlined, {
-            class: 'copy-icon',
-            onClick: () => copyTxHash(text)
-          })
-        ])
-      }
-    },
-    {
-      title: t('field.status'),
-      dataIndex: 'status',
-      key: 'status',
-      width: 120,
-      customRender: ({ text }: { text: TransferStatus }) => formatStatus(text)
-    },
-    {
-      title: t('field.transferType'),
-      dataIndex: ['transferType', 'type'],
-      key: 'transferType',
-      width: 120,
-      customRender: ({ text }: { text: TransferTypeEnum }) => formatTransferType(text)
+// 表格列定義已在上面的 columns computed 中定義
+const tableColumns = columns
+
+// 待人工確認功能
+const manualConfirmModalVisible = ref(false)
+const manualConfirmList = ref<TransferRecord[]>([])
+const selectedRowKeys = ref<string[]>([])
+const currentTransferId = ref('')
+const currentTransferType = ref('')
+
+const manualConfirmColumns = computed(() => [
+  {
+    title: t('field.index'),
+    key: 'index',
+    width: 70,
+  },
+  {
+    title: t('field.transferId'),
+    dataIndex: 'transferId',
+    key: 'transferId',
+    width: 150,
+  },
+  {
+    title: t('field.chainCoin'),
+    dataIndex: 'chainCoin',
+    key: 'chainCoin',
+    width: 150,
+  },
+  {
+    title: t('field.amount'),
+    dataIndex: 'amount',
+    key: 'amount',
+    width: 120,
+    align: 'right',
+  },
+  {
+    title: t('field.fromAddress'),
+    dataIndex: 'fromAddress',
+    key: 'fromAddress',
+    width: 200,
+  },
+  {
+    title: t('field.toAddress'),
+    dataIndex: 'toAddress',
+    key: 'toAddress',
+    width: 200,
+  }
+])
+
+const manualConfirmRowSelection = computed(() => ({
+  selectedRowKeys: selectedRowKeys.value,
+  onChange: (keys: string[]) => {
+    // 非 SWAP 類型只能勾選一條記錄
+    if (currentTransferType.value !== 'swap' && keys.length > 1) {
+      message.warning(t('message.nonSwapOnlyOneRecord'))
+      return
     }
-  ]
-  return columns
-})
+    selectedRowKeys.value = keys
+  }
+}))
+
+const hasSelectedRows = computed(() => selectedRowKeys.value.length > 0)
+
+const handleManualConfirmClick = (record: TransferRecord) => {
+  // 設定當前轉帳單號和轉帳類型
+  currentTransferId.value = record.transferId
+  currentTransferType.value = record.transferType?.type || ''
+
+  // 判斷是否為 SWAP 類型
+  const isSwap = record.transferType?.type === 'swap'
+
+  if (isSwap) {
+    // SWAP 類型：生成一正一負的配對資料（共2筆，txHash 一致）
+    const baseTxHash = record.txHash
+    manualConfirmList.value = [
+      {
+        id: `${record.id}_out`,
+        transferId: `${record.transferId}-OUT`,
+        merchant: record.merchant,
+        fromAddress: record.fromAddress,
+        toAddress: '0x1234567890abcdef1234567890abcdef12345678',
+        amount: `-${record.amount}`, // 負數（出帳）
+        chainCoin: record.chainCoin || record.coinCode,
+        txHash: baseTxHash, // 相同的 txHash
+        status: record.status,
+        createTime: record.createTime,
+        onChainTime: record.onChainTime,
+        successTime: record.successTime,
+        transferType: record.transferType,
+        transactionId: `${record.transactionId}-OUT`,
+        relatedOrderIds: 'OUT-SWAP-001'
+      },
+      {
+        id: `${record.id}_in`,
+        transferId: `${record.transferId}-IN`,
+        merchant: record.merchant,
+        fromAddress: '0x1234567890abcdef1234567890abcdef12345678',
+        toAddress: record.toAddress,
+        amount: record.amount, // 正數（入帳）
+        chainCoin: record.chainCoin || record.coinCode,
+        txHash: baseTxHash, // 相同的 txHash
+        status: record.status,
+        createTime: record.createTime,
+        onChainTime: record.onChainTime,
+        successTime: record.successTime,
+        transferType: record.transferType,
+        transactionId: `${record.transactionId}-IN`,
+        relatedOrderIds: 'IN-SWAP-001'
+      }
+    ]
+  } else {
+    // 非 SWAP 類型：生成多筆資料方便展示多選
+    manualConfirmList.value = [
+      {
+        id: `${record.id}_1`,
+        transferId: `${record.transferId}-1`,
+        merchant: record.merchant,
+        fromAddress: record.fromAddress,
+        toAddress: record.toAddress,
+        amount: record.amount,
+        chainCoin: record.chainCoin || record.coinCode,
+        txHash: record.txHash,
+        status: record.status,
+        createTime: record.createTime,
+        onChainTime: record.onChainTime,
+        successTime: record.successTime,
+        transferType: record.transferType,
+        transactionId: record.transactionId,
+        relatedOrderIds: record.relatedOrderIds
+      },
+      {
+        id: `${record.id}_2`,
+        transferId: `${record.transferId}-2`,
+        merchant: record.merchant,
+        fromAddress: '0xabcdef1234567890abcdef1234567890abcdef12',
+        toAddress: '0x1234567890abcdef1234567890abcdef12345678',
+        amount: '750.00',
+        chainCoin: record.chainCoin || record.coinCode,
+        txHash: '0xaabbccdd1122334455667788aabbccdd11223344',
+        status: record.status,
+        createTime: record.createTime,
+        onChainTime: record.onChainTime,
+        successTime: record.successTime,
+        transferType: record.transferType,
+        transactionId: `${record.transactionId}-2`,
+        relatedOrderIds: 'OUT-101/IN-101'
+      },
+      {
+        id: `${record.id}_3`,
+        transferId: `${record.transferId}-3`,
+        merchant: record.merchant,
+        fromAddress: '0x9988776655443322119988776655443322119988',
+        toAddress: '0x2211334455667788992211334455667788992211',
+        amount: '1250.50',
+        chainCoin: record.chainCoin || record.coinCode,
+        txHash: '0x1122334455667788aabbccdd1122334455667788',
+        status: record.status,
+        createTime: record.createTime,
+        onChainTime: record.onChainTime,
+        successTime: record.successTime,
+        transferType: record.transferType,
+        transactionId: `${record.transactionId}-3`,
+        relatedOrderIds: 'OUT-102'
+      },
+      {
+        id: `${record.id}_4`,
+        transferId: `${record.transferId}-4`,
+        merchant: record.merchant,
+        fromAddress: '0xffeeddccbbaa99887766554433221100ffeeddcc',
+        toAddress: '0x0011223344556677889900112233445566778899',
+        amount: '320.75',
+        chainCoin: record.chainCoin || record.coinCode,
+        txHash: '0xffeeddccbbaa99887766554433221100ffeeddcc',
+        status: record.status,
+        createTime: record.createTime,
+        onChainTime: record.onChainTime,
+        successTime: record.successTime,
+        transferType: record.transferType,
+        transactionId: `${record.transactionId}-4`,
+        relatedOrderIds: 'OUT-103/IN-103'
+      },
+      {
+        id: `${record.id}_5`,
+        transferId: `${record.transferId}-5`,
+        merchant: record.merchant,
+        fromAddress: '0x5544332211009988776655443322110099887766',
+        toAddress: '0x6677889900112233445566778899001122334455',
+        amount: '890.25',
+        chainCoin: record.chainCoin || record.coinCode,
+        txHash: '0x5544332211009988776655443322110099887766',
+        status: record.status,
+        createTime: record.createTime,
+        onChainTime: record.onChainTime,
+        successTime: record.successTime,
+        transferType: record.transferType,
+        transactionId: `${record.transactionId}-5`,
+        relatedOrderIds: 'OUT-104/IN-104'
+      }
+    ]
+  }
+
+  selectedRowKeys.value = []
+  manualConfirmModalVisible.value = true
+}
+
+const handleSetFailed = () => {
+  if (selectedRowKeys.value.length > 0) {
+    message.warning(t('message.cannotSetFailedWhenSelected'))
+    return
+  }
+
+  // TODO: 調用API設定為失敗（將所有未勾選的記錄設定為失敗）
+  console.log('設定失敗 - 處理所有記錄')
+  message.success(t('message.operationSuccess'))
+  manualConfirmModalVisible.value = false
+  handleQuery() // 重新加載列表
+}
+
+const handleSetSuccessAndRelate = () => {
+  if (selectedRowKeys.value.length === 0) {
+    message.warning(t('message.pleaseSelectRecords'))
+    return
+  }
+
+  // SWAP 類型驗證
+  if (currentTransferType.value === 'swap') {
+    // 1. 必須勾選兩筆
+    if (selectedRowKeys.value.length !== 2) {
+      message.warning(t('message.swapNeedTwoRecords'))
+      return
+    }
+
+    // 獲取選中的兩筆記錄
+    const selectedRecords = manualConfirmList.value.filter(r =>
+      selectedRowKeys.value.includes(r.id)
+    )
+
+    if (selectedRecords.length !== 2) {
+      message.warning(t('message.swapNeedTwoRecords'))
+      return
+    }
+
+    const [record1, record2] = selectedRecords
+
+    // 2. 驗證一正一負（一入帳一出帳）
+    const amount1 = parseFloat(record1.amount)
+    const amount2 = parseFloat(record2.amount)
+
+    const hasPositive = amount1 > 0 || amount2 > 0
+    const hasNegative = amount1 < 0 || amount2 < 0
+
+    if (!hasPositive || !hasNegative) {
+      message.warning(t('message.swapNeedInAndOut'))
+      return
+    }
+
+    // 3. 驗證 txHash 一致
+    if (record1.txHash !== record2.txHash) {
+      message.warning(t('message.swapTxHashMismatch'))
+      return
+    }
+  }
+
+  // TODO: 調用API關聯且設定成功
+  console.log('關聯且設定成功:', selectedRowKeys.value)
+  message.success(t('message.operationSuccess'))
+  manualConfirmModalVisible.value = false
+  handleQuery() // 重新加載列表
+}
 
 // 組件掛載時加載數據
 onMounted(() => {
@@ -899,5 +1129,44 @@ onMounted(() => {
 
 .copy-icon:hover {
   color: #40a9ff;
+}
+
+.status-clickable {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.status-clickable:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #303030;
+}
+
+.modal-footer .ant-btn-primary {
+  background-color: #52c41a;
+  border-color: #52c41a;
+}
+
+.modal-footer .ant-btn-primary:hover {
+  background-color: #73d13d;
+  border-color: #73d13d;
+}
+
+.modal-footer .ant-btn-primary.ant-btn-dangerous {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+}
+
+.modal-footer .ant-btn-primary.ant-btn-dangerous:hover {
+  background-color: #ff7875;
+  border-color: #ff7875;
 }
 </style>
