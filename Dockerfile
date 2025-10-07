@@ -4,8 +4,8 @@ FROM node:18-alpine
 # 設置 npm registry 為淘寶鏡像（適合台灣使用）
 RUN npm config set registry https://registry.npmmirror.com
 
-# 安裝 serve 套件用於靜態檔案服務
-RUN npm install -g serve
+# 安裝 http-server 套件用於靜態檔案服務
+RUN npm install -g http-server
 
 # 設置工作目錄
 WORKDIR /app
@@ -17,4 +17,4 @@ COPY dist/ .
 EXPOSE 3001
 
 # 啟動靜態檔案服務
-CMD ["serve", "-s", ".", "-l", "3001"]
+CMD ["http-server", ".", "-p", "3001", "-c-1"]
