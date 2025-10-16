@@ -570,13 +570,6 @@
             :placeholder="t('modal.inputAddress')"
           />
         </a-form-item>
-        <a-form-item :label="t('modal.actionReason')" required>
-          <a-textarea
-            v-model:value="returnActionForm.reason"
-            :placeholder="t('modal.pleaseInputActionReason')"
-            :rows="4"
-          />
-        </a-form-item>
       </a-form>
     </a-modal>
 
@@ -1228,24 +1221,17 @@ const returnActionModalVisible = ref(false)
 const returnActionForm = reactive({
   id: '',
   returnType: 'original',
-  customAddress: '',
-  reason: ''
+  customAddress: ''
 })
 
 const handleReturnAction = (record: AlertRecord) => {
   returnActionForm.id = record.id
   returnActionForm.returnType = 'original'
   returnActionForm.customAddress = ''
-  returnActionForm.reason = ''
   returnActionModalVisible.value = true
 }
 
 const handleReturnActionSubmit = () => {
-  if (!returnActionForm.reason.trim()) {
-    message.error(t('modal.pleaseInputActionReason'))
-    return
-  }
-
   if (returnActionForm.returnType === 'custom' && !returnActionForm.customAddress.trim()) {
     message.error(t('modal.inputAddress'))
     return
