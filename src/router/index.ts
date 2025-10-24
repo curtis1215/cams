@@ -34,6 +34,15 @@ const routes: RouteRecordRaw[] = [
         component: () => import('../views/monitor/NodeHeight.vue')
       },
       {
+        path: '/monitor/asset-monitor',
+        name: 'AssetMonitor',
+        component: () => import('../views/monitor/AssetMonitor.vue'),
+        meta: {
+          title: 'nav.assetMonitor',
+          requiresAuth: true
+        }
+      },
+      {
         path: 'wallet/query',
         name: 'WalletQuery',
         component: () => import('../views/wallet/Query.vue')

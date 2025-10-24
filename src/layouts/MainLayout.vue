@@ -70,6 +70,10 @@
               <NodeIndexOutlined />
               {{ t('nav.nodeHeightMonitoring') }}
             </a-menu-item>
+            <a-menu-item key="assetMonitor" @click="router.push('/monitor/asset-monitor')">
+              <FundViewOutlined />
+              {{ t('nav.assetMonitor') }}
+            </a-menu-item>
             <a-menu-item key="nodeHeightAnalysis" @click="router.push('/report/node-height-analysis')">
               <BarChartOutlined />
               {{ t('nav.nodeHeightAnalysis') }}
@@ -243,6 +247,7 @@ import {
   BarChartOutlined,
   ClockCircleOutlined,
   NodeIndexOutlined,
+  FundViewOutlined,
   WarningOutlined
 } from '@ant-design/icons-vue'
 import { useRouter, useRoute } from 'vue-router'

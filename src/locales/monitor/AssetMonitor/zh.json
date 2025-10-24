@@ -1,0 +1,35 @@
+{
+  "title": {
+    "assetMonitor": "資產監控"
+  },
+  "field": {
+    "currency": "幣種",
+    "chainHoldings": "錢包持有量",
+    "userHoldings": "平台用戶持有量",
+    "projectHoldings": "平台項目方持有量",
+    "difference": "資產差額",
+    "trend": "走勢",
+    "updateTime": "更新時間"
+  },
+  "action": {
+    "refresh": "重新整理",
+    "search": "搜尋",
+    "filter": "篩選",
+    "export": "匯出"
+  },
+  "filter": {
+    "allChains": "全部鏈路",
+    "selectChain": "選擇鏈路",
+    "searchPlaceholder": "請輸入幣種名稱"
+  },
+  "message": {
+    "noData": "暫無數據",
+    "refreshSuccess": "數據已更新",
+    "lastUpdate": "最後更新時間"
+  },
+  "status": {
+    "normal": "正常",
+    "warning": "警告",
+    "error": "異常"
+  }
+}

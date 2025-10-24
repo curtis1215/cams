@@ -1,0 +1,236 @@
+[
+  {
+    "id": "usdt-001",
+    "currency": "USDT",
+    "chainHoldings": {
+      "ETH": 1250000.12345678,
+      "BSC": 875000.50,
+      "TRON": 2100000.75,
+      "POLYGON": 450000.00
+    },
+    "userHoldings": 3930000.87345678,
+    "projectHoldings": 744800.25,
+    "difference": 225.25,
+    "differenceUsdt": 225.25,
+    "trendData": [4670000, 4671000, 4672500, 4673000, 4674000, 4675500, 4676000, 4675000, 4674500, 4673500, 4674000, 4675001],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "btc-002",
+    "currency": "BTC",
+    "chainHoldings": {
+      "ETH": 125.456789,
+      "BSC": 87.654321
+    },
+    "userHoldings": 170.42345678,
+    "projectHoldings": 42.55,
+    "difference": 0.13765522,
+    "differenceUsdt": 13765.52,
+    "trendData": [210, 211, 212, 213, 212.5, 212, 211.5, 212, 212.8, 213, 213.2, 213.11],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "eth-003",
+    "currency": "ETH",
+    "chainHoldings": {
+      "ETH": 5420.87654321,
+      "BSC": 3200.25,
+      "POLYGON": 1850.12345678
+    },
+    "userHoldings": 9071.25,
+    "projectHoldings": 1400.00,
+    "difference": 0.00,
+    "differenceUsdt": 0.00,
+    "trendData": [10450, 10455, 10460, 10465, 10470, 10472, 10471, 10470, 10471, 10470.5, 10471, 10471.25],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "bnb-004",
+    "currency": "BNB",
+    "chainHoldings": {
+      "BSC": 8500.50,
+      "ETH": 3250.75
+    },
+    "userHoldings": 10000.75,
+    "projectHoldings": 1750.00,
+    "difference": 0.50,
+    "differenceUsdt": 300.00,
+    "trendData": [11740, 11742, 11745, 11748, 11750, 11751, 11752, 11751.5, 11751, 11751.2, 11751.1, 11751.25],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "trx-005",
+    "currency": "TRX",
+    "chainHoldings": {
+      "TRON": 15000000.00
+    },
+    "userHoldings": 12500000.00,
+    "projectHoldings": 2500000.00,
+    "difference": 0.00,
+    "differenceUsdt": 0.00,
+    "trendData": [14990000, 14992000, 14995000, 14997000, 14999000, 15000000, 15001000, 15000500, 15000200, 15000100, 15000050, 15000000],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "matic-006",
+    "currency": "MATIC",
+    "chainHoldings": {
+      "POLYGON": 2500000.50,
+      "ETH": 1200000.75
+    },
+    "userHoldings": 3100000.75,
+    "projectHoldings": 600000.00,
+    "difference": 0.50,
+    "differenceUsdt": 0.40,
+    "trendData": [3695000, 3696000, 3697500, 3698500, 3699500, 3700000, 3700500, 3700200, 3700100, 3700050, 3700000, 3700001],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "usdc-007",
+    "currency": "USDC",
+    "chainHoldings": {
+      "ETH": 950000.00,
+      "BSC": 625000.50,
+      "POLYGON": 380000.25
+    },
+    "userHoldings": 1650000.50,
+    "projectHoldings": 305000.00,
+    "difference": 0.25,
+    "differenceUsdt": 0.25,
+    "trendData": [1954800, 1954900, 1955000, 1955100, 1955000.5, 1955000.6, 1955000.7, 1955000.75, 1955000.8, 1955000.75, 1955000.75, 1955000.75],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "dai-008",
+    "currency": "DAI",
+    "chainHoldings": {
+      "ETH": 725000.75,
+      "BSC": 450000.00
+    },
+    "userHoldings": 1005000.50,
+    "projectHoldings": 170000.00,
+    "difference": 0.25,
+    "differenceUsdt": 0.25,
+    "trendData": [1174900, 1174950, 1175000, 1175000.5, 1175000.6, 1175000.7, 1175000.75, 1175000.75, 1175000.75, 1175000.75, 1175000.75, 1175000.75],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "sol-009",
+    "currency": "SOL",
+    "chainHoldings": {
+      "ETH": 8500.12345678
+    },
+    "userHoldings": 7200.00,
+    "projectHoldings": 1300.00,
+    "difference": 0.12345678,
+    "differenceUsdt": 18.52,
+    "trendData": [8495, 8496, 8497, 8498, 8499, 8500, 8500.5, 8500.3, 8500.2, 8500.15, 8500.13, 8500.12],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "avax-010",
+    "currency": "AVAX",
+    "chainHoldings": {
+      "ETH": 12000.50
+    },
+    "userHoldings": 10200.25,
+    "projectHoldings": 1800.00,
+    "difference": 0.25,
+    "differenceUsdt": 9.00,
+    "trendData": [11998, 11999, 12000, 12000.2, 12000.3, 12000.4, 12000.5, 12000.5, 12000.5, 12000.5, 12000.5, 12000.5],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "link-011",
+    "currency": "LINK",
+    "chainHoldings": {
+      "ETH": 45000.75,
+      "BSC": 28000.25
+    },
+    "userHoldings": 62500.50,
+    "projectHoldings": 10500.00,
+    "difference": 0.50,
+    "differenceUsdt": 7.50,
+    "trendData": [72995, 72997, 72999, 73000, 73000.5, 73001, 73001, 73001, 73001, 73001, 73001, 73001],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "uni-012",
+    "currency": "UNI",
+    "chainHoldings": {
+      "ETH": 32000.00
+    },
+    "userHoldings": 27500.00,
+    "projectHoldings": 4500.00,
+    "difference": 0.00,
+    "differenceUsdt": 0.00,
+    "trendData": [31995, 31996, 31997, 31998, 31999, 32000, 32000, 32000, 32000, 32000, 32000, 32000],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "dot-013",
+    "currency": "DOT",
+    "chainHoldings": {
+      "ETH": 65000.50
+    },
+    "userHoldings": 55500.25,
+    "projectHoldings": 9500.00,
+    "difference": 0.25,
+    "differenceUsdt": 1.50,
+    "trendData": [64998, 64999, 65000, 65000.2, 65000.3, 65000.4, 65000.5, 65000.5, 65000.5, 65000.5, 65000.5, 65000.5],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "ada-014",
+    "currency": "ADA",
+    "chainHoldings": {
+      "ETH": 850000.75
+    },
+    "userHoldings": 725000.50,
+    "projectHoldings": 125000.00,
+    "difference": 0.25,
+    "differenceUsdt": 0.15,
+    "trendData": [849998, 849999, 850000, 850000.3, 850000.5, 850000.6, 850000.7, 850000.75, 850000.75, 850000.75, 850000.75, 850000.75],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "xrp-015",
+    "currency": "XRP",
+    "chainHoldings": {
+      "ETH": 1200000.00
+    },
+    "userHoldings": 1050000.00,
+    "projectHoldings": 150500.00,
+    "difference": -500.00,
+    "differenceUsdt": -300.00,
+    "trendData": [1200500, 1200400, 1200300, 1200200, 1200100, 1200050, 1200020, 1200010, 1200005, 1200002, 1200001, 1200000],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "shib-016",
+    "currency": "SHIB",
+    "chainHoldings": {
+      "ETH": 50000000000.00
+    },
+    "userHoldings": 42500000000.00,
+    "projectHoldings": 7500000000.00,
+    "difference": 0.00,
+    "differenceUsdt": 0.00,
+    "trendData": [49990000000, 49992000000, 49995000000, 49997000000, 49999000000, 50000000000, 50000000000, 50000000000, 50000000000, 50000000000, 50000000000, 50000000000],
+    "updateTime": "2025-10-24T10:30:00Z"
+  },
+  {
+    "id": "doge-017",
+    "currency": "DOGE",
+    "chainHoldings": {
+      "ETH": 15000000.50,
+      "BSC": 9500000.00
+    },
+    "userHoldings": 20900000.25,
+    "projectHoldings": 3600000.00,
+    "difference": 0.25,
+    "differenceUsdt": 0.05,
+    "trendData": [24499998, 24499999, 24500000, 24500000.2, 24500000.3, 24500000.4, 24500000.5, 24500000.5, 24500000.5, 24500000.5, 24500000.5, 24500000.5],
+    "updateTime": "2025-10-24T10:30:00Z"
+  }
+]

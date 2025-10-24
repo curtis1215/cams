@@ -1,0 +1,35 @@
+{
+  "title": {
+    "assetMonitor": "Asset Monitor"
+  },
+  "field": {
+    "currency": "Currency",
+    "chainHoldings": "Wallet Holdings",
+    "userHoldings": "User Holdings",
+    "projectHoldings": "Project Holdings",
+    "difference": "Difference",
+    "trend": "Trend",
+    "updateTime": "Update Time"
+  },
+  "action": {
+    "refresh": "Refresh",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export"
+  },
+  "filter": {
+    "allChains": "All Chains",
+    "selectChain": "Select Chain",
+    "searchPlaceholder": "Enter currency name"
+  },
+  "message": {
+    "noData": "No data available",
+    "refreshSuccess": "Data updated",
+    "lastUpdate": "Last update"
+  },
+  "status": {
+    "normal": "Normal",
+    "warning": "Warning",
+    "error": "Error"
+  }
+}

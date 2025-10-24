@@ -185,6 +185,7 @@
     "monitoring": "監控管理",
     "dataMonitoring": "數據監控",
     "alertMonitoring": "告警監控",
+    "assetMonitor": "資產監控",
     "nodeHeightMonitoring": "節點高度監控",
     "nodeHeightAnalysis": "節點高度分析",
     "depositWithdrawDurationAnalysis": "充提時長分析",

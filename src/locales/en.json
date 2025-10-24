@@ -146,6 +146,7 @@
     "monitoring": "Monitoring",
     "dataMonitoring": "Data Monitoring",
     "alertMonitoring": "Alert Monitoring",
+    "assetMonitor": "Asset Monitor",
     "nodeHeightMonitoring": "Node Height Monitoring",
     "nodeHeightAnalysis": "Node Height Analysis",
     "depositWithdrawDurationAnalysis": "Deposit/Withdraw Duration Analysis",
