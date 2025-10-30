@@ -34,13 +34,16 @@ export interface AssetMonitorData {
   /** 資產差額 (扣減保留額度後: sum(chainHoldings) - userHoldings - projectHoldings - reserveAmount) */
   assetDifference: number
 
+  /** 資產差額的 USDT 等值 */
+  assetDifferenceUsdt: number
+
   /** 淨資產差額 (不扣減保留額度: sum(chainHoldings) - userHoldings - projectHoldings) */
   netAssetDifference: number
 
   /** 原資產差額欄位 (已棄用,保留向後相容) @deprecated 請使用 netAssetDifference */
   difference: number
 
-  /** 資產差額的 USDT 價值 */
+  /** 淨資產差額的 USDT 價值 */
   differenceUsdt: number
 
   /** 走勢數據 (最近24小時) */

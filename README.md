@@ -1,6 +1,6 @@
 # CAMS - Cryptocurrency Asset Management System
 
-**版本**: v0.0.16
+**版本**: v0.0.17
 **最後更新**: 2025-10-30
 
 ## 📋 專案概述
@@ -270,10 +270,10 @@ cams/
 
 - **Project**: CAMS (Cryptocurrency Asset Management System)
 - **Repository**: /Users/curtis/Dev/cams
-- **Current Version**: v0.0.16
+- **Current Version**: v0.0.17
 
 ---
 
 **最後更新**: 2025-10-30
-**版本**: v0.0.16
+**版本**: v0.0.17
 **狀態**: ✅ 開發完成並通過測試

@@ -73,12 +73,13 @@
             <span class="number-cell">{{ formatNumber(record.projectHoldings) }}</span>
           </template>
 
-          <!-- 資產差額 (保留額度 + 扣減後差額) -->
+          <!-- 資產差額 (保留額度 + 扣減後差額 + USDT 等值) -->
           <template v-if="column.key === 'assetDifference'">
             <div class="asset-difference-cell">
               <div class="reserve-amount">{{ t('field.reserveAmount') }}: {{ formatNumber(record.reserveAmount) }}</div>
               <div :class="getDifferenceClass(record.assetDifference)">
-                {{ t('field.differenceAmount') }}: {{ formatNumber(record.assetDifference) }}
+                <div>{{ t('field.differenceAmount') }}: {{ formatNumber(record.assetDifference) }}</div>
+                <div class="usdt-value">({{ formatNumber(record.assetDifferenceUsdt) }} U)</div>
                 <ExclamationCircleOutlined v-if="record.assetDifference < 0" style="margin-left: 4px" />
               </div>
             </div>
