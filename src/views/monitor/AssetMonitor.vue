@@ -94,6 +94,11 @@
             </div>
           </template>
 
+          <!-- 24小時交易均價 -->
+          <template v-if="column.key === 'avgPrice24h'">
+            <span class="number-cell price-cell">{{ formatPrice(record.avgPrice24h) }}</span>
+          </template>
+
           <!-- 走勢 -->
           <template v-if="column.key === 'trend'">
             <div class="trend-sparkline" @click="showTrendModal(record)">
@@ -218,6 +223,13 @@ const columns = computed(() => [
     sorter: (a: AssetMonitorData, b: AssetMonitorData) => a.netAssetDifference - b.netAssetDifference
   },
   {
+    title: t('field.avgPrice24h'),
+    dataIndex: 'avgPrice24h',
+    key: 'avgPrice24h',
+    width: 150,
+    align: 'right'
+  },
+  {
     title: t('field.trend'),
     dataIndex: 'trendData',
     key: 'trend',
@@ -294,6 +306,35 @@ const formatNumber = (value: number): string => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 8
   }).format(value)
+}
+
+// 價格格式化（24小時交易均價，依價格大小決定小數位數）
+const formatPrice = (value: number): string => {
+  if (value >= 1000) {
+    // 價格 >= 1000，顯示 2 位小數
+    return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(value)
+  } else if (value >= 1) {
+    // 價格 >= 1 且 < 1000，顯示 4 位小數
+    return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 4
+    }).format(value)
+  } else if (value >= 0.01) {
+    // 價格 >= 0.01 且 < 1，顯示 6 位小數
+    return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 6
+    }).format(value)
+  } else {
+    // 價格 < 0.01，顯示 8 位小數
+    return new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 8
+    }).format(value)
+  }
 }
 
 // 日期時間格式化
@@ -451,6 +492,11 @@ onMounted(() => {
     .number-cell {
       font-family: 'Monaco', 'Courier New', monospace;
       font-size: 13px;
+    }
+
+    .price-cell {
+      color: #1890ff;
+      font-weight: 500;
     }
 
     .chain-holdings-cell {

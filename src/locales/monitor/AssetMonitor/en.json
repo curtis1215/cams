@@ -12,6 +12,7 @@
     "netAssetDifference": "Net Asset Difference",
     "reserveAmount": "Reserve Amount",
     "differenceAmount": "Difference After Deduction",
+    "avgPrice24h": "24h Avg Price",
     "trend": "Trend",
     "updateTime": "Update Time"
   },

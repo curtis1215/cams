@@ -316,7 +316,15 @@
                           />
                         </div>
                       </div>
-                      <div class="setting-row-inline" v-if="merchantCurrencyConfig[currency.value]?.enableStorageLimit" style="margin-top: 12px">
+                      <div class="wallet-alert-config">
+                        <a-checkbox
+                          :checked="merchantCurrencyConfig[currency.value]?.enableWalletAlert || false"
+                          @change="(e) => handleWalletAlertToggle(currency.value, e.target.checked)"
+                        >
+                          {{ t('field.configWalletAlert') }}
+                        </a-checkbox>
+                      </div>
+                      <div class="setting-row-inline" v-if="merchantCurrencyConfig[currency.value]?.enableWalletAlert">
                         <div class="setting-field">
                           <label class="setting-label">{{ t('field.collectionWalletAlertThreshold') }}</label>
                           <a-input-number
@@ -594,13 +602,15 @@ const handleCurrencyManagement = (record: MerchantRecord) => {
     currencies.forEach(currency => {
       const key = `${chainType}_${currency}`
       const enableStorageLimit = Math.random() > 0.5
+      const enableWalletAlert = Math.random() > 0.5
       config[key] = {
         enabled: Math.random() > 0.3, // 模擬啟用狀態
         enableStorageLimit: enableStorageLimit, // 是否配置儲存上限
         collectionWalletLimit: enableStorageLimit ? Math.floor(Math.random() * 10000) + 1000 : 0, // 歸集錢包儲存上限
         withdrawWalletLimit: enableStorageLimit ? Math.floor(Math.random() * 5000) + 500 : 0, // 出款錢包儲存上限
-        collectionWalletAlertThreshold: enableStorageLimit ? Math.floor(Math.random() * 30) + 70 : 0, // 歸集錢包告警水位比例 (70-100%)
-        withdrawWalletAlertThreshold: enableStorageLimit ? Math.floor(Math.random() * 30) + 70 : 0 // 出款錢包告警水位比例 (70-100%)
+        enableWalletAlert: enableWalletAlert, // 是否配置錢包水位
+        collectionWalletAlertThreshold: enableWalletAlert ? Math.floor(Math.random() * 30) + 70 : 0, // 歸集錢包告警水位比例 (70-100%)
+        withdrawWalletAlertThreshold: enableWalletAlert ? Math.floor(Math.random() * 30) + 70 : 0 // 出款錢包告警水位比例 (70-100%)
       }
     })
   })
@@ -637,6 +647,17 @@ const handleStorageLimitToggle = (currencyKey: string, checked: boolean) => {
     if (!checked) {
       merchantCurrencyConfig.value[currencyKey].collectionWalletLimit = 0
       merchantCurrencyConfig.value[currencyKey].withdrawWalletLimit = 0
+    }
+  }
+}
+
+const handleWalletAlertToggle = (currencyKey: string, checked: boolean) => {
+  if (merchantCurrencyConfig.value[currencyKey]) {
+    merchantCurrencyConfig.value[currencyKey].enableWalletAlert = checked
+    // 如果取消勾選，清空告警水位比例值
+    if (!checked) {
+      merchantCurrencyConfig.value[currencyKey].collectionWalletAlertThreshold = 0
+      merchantCurrencyConfig.value[currencyKey].withdrawWalletAlertThreshold = 0
     }
   }
 }
@@ -1045,6 +1066,11 @@ onMounted(() => {
 }
 
 .storage-limit-config {
+  margin-bottom: 12px;
+}
+
+.wallet-alert-config {
+  margin-top: 12px;
   margin-bottom: 12px;
 }
 

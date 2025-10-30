@@ -46,6 +46,9 @@ export interface AssetMonitorData {
   /** 淨資產差額的 USDT 價值 */
   differenceUsdt: number
 
+  /** 24小時交易均價 (USDT) */
+  avgPrice24h: number
+
   /** 走勢數據 (最近24小時) */
   trendData: number[]
 
@@ -64,6 +67,7 @@ export type AssetMonitorColumnKey =
   | 'assetDifference'
   | 'netAssetDifference'
   | 'difference'
+  | 'avgPrice24h'
   | 'hourChange'
   | 'updateTime'
 

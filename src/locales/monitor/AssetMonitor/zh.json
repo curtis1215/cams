@@ -12,6 +12,7 @@
     "netAssetDifference": "淨資產差額",
     "reserveAmount": "保留額度",
     "differenceAmount": "扣減後差額",
+    "avgPrice24h": "24小時交易均價",
     "trend": "走勢",
     "updateTime": "更新時間"
   },

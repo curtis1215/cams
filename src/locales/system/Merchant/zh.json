@@ -35,6 +35,7 @@
     "configStorageLimit": "配置儲存上限",
     "collectionWalletLimit": "歸集錢包儲存上限",
     "withdrawWalletLimit": "出款錢包儲存上限",
+    "configWalletAlert": "配置錢包水位",
     "collectionWalletAlertThreshold": "歸集錢包告警水位比例",
     "withdrawWalletAlertThreshold": "出款錢包告警水位比例"
   },

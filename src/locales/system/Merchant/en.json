@@ -35,6 +35,7 @@
     "configStorageLimit": "Configure Storage Limit",
     "collectionWalletLimit": "Collection Wallet Storage Limit",
     "withdrawWalletLimit": "Withdraw Wallet Storage Limit",
+    "configWalletAlert": "Configure Wallet Alert",
     "collectionWalletAlertThreshold": "Collection Wallet Alert Threshold",
     "withdrawWalletAlertThreshold": "Withdraw Wallet Alert Threshold"
   },
