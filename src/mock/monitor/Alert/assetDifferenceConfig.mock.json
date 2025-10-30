@@ -1,0 +1,44 @@
+{
+  "assetDifferenceConfig": [
+    {
+      "currency": "USDT",
+      "configType": "platform",
+      "customReserveAmount": null
+    },
+    {
+      "currency": "USDC",
+      "configType": "custom",
+      "customReserveAmount": 5000
+    },
+    {
+      "currency": "ETH",
+      "configType": "platform",
+      "customReserveAmount": null
+    },
+    {
+      "currency": "BTC",
+      "configType": "custom",
+      "customReserveAmount": 1
+    },
+    {
+      "currency": "TRX",
+      "configType": "platform",
+      "customReserveAmount": null
+    },
+    {
+      "currency": "MATIC",
+      "configType": "custom",
+      "customReserveAmount": 20000
+    },
+    {
+      "currency": "BNB",
+      "configType": "platform",
+      "customReserveAmount": null
+    },
+    {
+      "currency": "ARB",
+      "configType": "custom",
+      "customReserveAmount": 1000
+    }
+  ]
+}

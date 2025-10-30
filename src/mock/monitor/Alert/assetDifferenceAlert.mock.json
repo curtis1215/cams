@@ -1,0 +1,64 @@
+{
+  "assetDifferenceAlertData": [
+    {
+      "id": "ADA_001",
+      "merchant": "商戶A",
+      "currency": "USDT",
+      "walletTotalHoldings": 1000000,
+      "platformTotalHoldings": 950000,
+      "assetDifference": 45000,
+      "netAssetDifference": 50000,
+      "alertTime": "2024-01-01 10:00:00"
+    },
+    {
+      "id": "ADA_002",
+      "merchant": "商戶B",
+      "currency": "USDC",
+      "walletTotalHoldings": 800000,
+      "platformTotalHoldings": 820000,
+      "assetDifference": -25000,
+      "netAssetDifference": -20000,
+      "alertTime": "2024-01-01 11:00:00"
+    },
+    {
+      "id": "ADA_003",
+      "merchant": "商戶C",
+      "currency": "ETH",
+      "walletTotalHoldings": 500,
+      "platformTotalHoldings": 480,
+      "assetDifference": 18,
+      "netAssetDifference": 20,
+      "alertTime": "2024-01-01 12:00:00"
+    },
+    {
+      "id": "ADA_004",
+      "merchant": "商戶D",
+      "currency": "BTC",
+      "walletTotalHoldings": 100,
+      "platformTotalHoldings": 105,
+      "assetDifference": -6,
+      "netAssetDifference": -5,
+      "alertTime": "2024-01-01 13:00:00"
+    },
+    {
+      "id": "ADA_005",
+      "merchant": "商戶E",
+      "currency": "TRX",
+      "walletTotalHoldings": 10000000,
+      "platformTotalHoldings": 9500000,
+      "assetDifference": 450000,
+      "netAssetDifference": 500000,
+      "alertTime": "2024-01-01 14:00:00"
+    },
+    {
+      "id": "ADA_006",
+      "merchant": "商戶F",
+      "currency": "MATIC",
+      "walletTotalHoldings": 2000000,
+      "platformTotalHoldings": 2100000,
+      "assetDifference": -120000,
+      "netAssetDifference": -100000,
+      "alertTime": "2024-01-01 15:00:00"
+    }
+  ]
+}

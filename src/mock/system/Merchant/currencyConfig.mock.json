@@ -1,0 +1,146 @@
+{
+  "merchantCurrencyConfigs": {
+    "M001": {
+      "BSC_USDT": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 5000,
+        "withdrawWalletLimit": 2000,
+        "collectionWalletAlertThreshold": 80,
+        "withdrawWalletAlertThreshold": 75
+      },
+      "BSC_USDC": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 3000,
+        "withdrawWalletLimit": 1500,
+        "collectionWalletAlertThreshold": 70,
+        "withdrawWalletAlertThreshold": 65
+      },
+      "BSC_BUSD": {
+        "enabled": false,
+        "enableStorageLimit": false,
+        "collectionWalletLimit": 0,
+        "withdrawWalletLimit": 0,
+        "collectionWalletAlertThreshold": 0,
+        "withdrawWalletAlertThreshold": 0
+      },
+      "BSC_DAI": {
+        "enabled": true,
+        "enableStorageLimit": false,
+        "collectionWalletLimit": 0,
+        "withdrawWalletLimit": 0,
+        "collectionWalletAlertThreshold": 0,
+        "withdrawWalletAlertThreshold": 0
+      },
+      "ETH_USDT": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 8000,
+        "withdrawWalletLimit": 3500,
+        "collectionWalletAlertThreshold": 85,
+        "withdrawWalletAlertThreshold": 80
+      },
+      "ETH_USDC": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 6000,
+        "withdrawWalletLimit": 2500,
+        "collectionWalletAlertThreshold": 75,
+        "withdrawWalletAlertThreshold": 70
+      },
+      "ETH_DAI": {
+        "enabled": false,
+        "enableStorageLimit": false,
+        "collectionWalletLimit": 0,
+        "withdrawWalletLimit": 0,
+        "collectionWalletAlertThreshold": 0,
+        "withdrawWalletAlertThreshold": 0
+      },
+      "TRX_USDT": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 10000,
+        "withdrawWalletLimit": 4000,
+        "collectionWalletAlertThreshold": 90,
+        "withdrawWalletAlertThreshold": 85
+      },
+      "TRX_USDC": {
+        "enabled": false,
+        "enableStorageLimit": false,
+        "collectionWalletLimit": 0,
+        "withdrawWalletLimit": 0,
+        "collectionWalletAlertThreshold": 0,
+        "withdrawWalletAlertThreshold": 0
+      },
+      "BTC_BTC": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 50,
+        "withdrawWalletLimit": 20,
+        "collectionWalletAlertThreshold": 80,
+        "withdrawWalletAlertThreshold": 75
+      }
+    },
+    "M002": {
+      "BSC_USDT": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 4500,
+        "withdrawWalletLimit": 1800,
+        "collectionWalletAlertThreshold": 75,
+        "withdrawWalletAlertThreshold": 70
+      },
+      "ETH_USDT": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 7000,
+        "withdrawWalletLimit": 3000,
+        "collectionWalletAlertThreshold": 80,
+        "withdrawWalletAlertThreshold": 75
+      },
+      "TRX_USDT": {
+        "enabled": true,
+        "enableStorageLimit": false,
+        "collectionWalletLimit": 0,
+        "withdrawWalletLimit": 0,
+        "collectionWalletAlertThreshold": 0,
+        "withdrawWalletAlertThreshold": 0
+      }
+    },
+    "M003": {
+      "BSC_USDT": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 6000,
+        "withdrawWalletLimit": 2500,
+        "collectionWalletAlertThreshold": 85,
+        "withdrawWalletAlertThreshold": 80
+      },
+      "BSC_USDC": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 4000,
+        "withdrawWalletLimit": 1600,
+        "collectionWalletAlertThreshold": 70,
+        "withdrawWalletAlertThreshold": 65
+      },
+      "ETH_USDT": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 9000,
+        "withdrawWalletLimit": 4000,
+        "collectionWalletAlertThreshold": 90,
+        "withdrawWalletAlertThreshold": 85
+      },
+      "BTC_BTC": {
+        "enabled": true,
+        "enableStorageLimit": true,
+        "collectionWalletLimit": 30,
+        "withdrawWalletLimit": 15,
+        "collectionWalletAlertThreshold": 75,
+        "withdrawWalletAlertThreshold": 70
+      }
+    }
+  }
+}

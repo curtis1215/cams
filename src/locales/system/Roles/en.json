@@ -14,7 +14,8 @@
     "updateTime": "Update Time",
     "twoFactorAuth": "Two-Factor Authentication",
     "twoFactorAuthRequired": "Enable Two-Factor Authentication",
-    "generalTransferLimit": "Wallet Transfer Limit"
+    "generalTransferLimit": "Daily Wallet Transfer Limit",
+    "dailyWalletTransferLimit": "Daily Wallet Transfer Limit"
   },
   "action": {
     "addRole": "Add Role",
@@ -84,6 +85,6 @@
   "prompt": {
     "inputRoleName": "Please input role name",
     "inputRoleDescription": "Please input role description",
-    "inputTransferLimit": "Please input transfer limit"
+    "inputTransferLimit": "Please input daily wallet transfer limit"
   }
 } 

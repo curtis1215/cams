@@ -34,7 +34,9 @@
     "enabled": "啟用狀態",
     "configStorageLimit": "配置儲存上限",
     "collectionWalletLimit": "歸集錢包儲存上限",
-    "withdrawWalletLimit": "出款錢包儲存上限"
+    "withdrawWalletLimit": "出款錢包儲存上限",
+    "collectionWalletAlertThreshold": "歸集錢包告警水位比例",
+    "withdrawWalletAlertThreshold": "出款錢包告警水位比例"
   },
   "action": {
     "search": "搜尋",
@@ -61,7 +63,9 @@
     "inputLpSlippage": "請輸入LP滑點",
     "inputTxHashNotifyUrl": "請輸入txHash通知地址",
     "inputCollectionWalletLimit": "請輸入歸集錢包儲存上限",
-    "inputWithdrawWalletLimit": "請輸入出款錢包儲存上限"
+    "inputWithdrawWalletLimit": "請輸入出款錢包儲存上限",
+    "inputCollectionWalletAlertThreshold": "請輸入歸集錢包告警水位比例(0-100%)",
+    "inputWithdrawWalletAlertThreshold": "請輸入出款錢包告警水位比例(0-100%)"
   },
   "validation": {
     "nameRequired": "請輸入商戶名稱",

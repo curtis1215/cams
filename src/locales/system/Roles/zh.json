@@ -14,7 +14,8 @@
     "updateTime": "更新時間",
     "twoFactorAuth": "雙重認證",
     "twoFactorAuthRequired": "是否啟用雙重認證",
-    "generalTransferLimit": "錢包轉帳限額"
+    "generalTransferLimit": "單日錢包轉帳限額",
+    "dailyWalletTransferLimit": "單日錢包轉帳限額"
   },
   "action": {
     "addRole": "新增角色",
@@ -84,6 +85,6 @@
   "prompt": {
     "inputRoleName": "請輸入角色名稱",
     "inputRoleDescription": "請輸入角色描述",
-    "inputTransferLimit": "請輸入轉帳限額"
+    "inputTransferLimit": "請輸入單日錢包轉帳限額"
   }
 } 

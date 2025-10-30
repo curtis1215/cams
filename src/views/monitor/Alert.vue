@@ -175,10 +175,6 @@
       <template #title>
         <div class="card-header">
           <span class="card-title">{{ t('card.walletBalance') }}</span>
-          <a-button type="primary" size="small" @click="showWalletBalanceSettingModal">
-            <template #icon><SettingOutlined /></template>
-            {{ t('settings') }}
-          </a-button>
         </div>
       </template>
 
@@ -197,6 +193,30 @@
               </span>
             </template>
           </template>
+        </a-table>
+      </div>
+    </a-card>
+
+    <!-- 資產差額告警卡片 -->
+    <a-card :bordered="false" class="alert-card" :bodyStyle="{ padding: '20px 24px' }">
+      <template #title>
+        <div class="card-header">
+          <span class="card-title">{{ t('card.assetDifference') }}</span>
+          <a-button type="primary" size="small" @click="showAssetDifferenceSettingModal">
+            <template #icon><SettingOutlined /></template>
+            {{ t('settings') }}
+          </a-button>
+        </div>
+      </template>
+
+      <div class="table-container">
+        <a-table
+          :columns="assetDifferenceColumns"
+          :data-source="assetDifferenceData"
+          :pagination="pagination"
+          :scroll="{ x: 1400 }"
+          :bordered="true"
+        >
         </a-table>
       </div>
     </a-card>
@@ -573,36 +593,39 @@
       </a-form>
     </a-modal>
 
-    <!-- 錢包水位告警設置彈窗 -->
+    <!-- 資產差額告警配置彈窗 -->
     <a-modal
-      v-model:open="walletBalanceSettingModalVisible"
-      :title="t('modal.walletBalance')"
-      @ok="handleWalletBalanceSettingSave"
+      v-model:open="assetDifferenceSettingModalVisible"
+      :title="t('modal.assetDifference')"
+      @ok="handleAssetDifferenceSettingSave"
+      :width="800"
     >
-      <a-form :model="walletBalanceSettings" :label-col="{ span: 12 }" :wrapper-col="{ span: 12 }">
-        <a-form-item :label="t('threshold.dangerLevel')">
-          <a-input-number
-            v-model:value="walletBalanceSettings.dangerLevel"
-            :min="1"
-            :max="100"
-            :step="1"
-            style="width: 150px"
-          >
-            <template #addonAfter>%</template>
-          </a-input-number>
-        </a-form-item>
-        <a-form-item :label="t('threshold.warningLevel')">
-          <a-input-number
-            v-model:value="walletBalanceSettings.warningLevel"
-            :min="1"
-            :max="100"
-            :step="1"
-            style="width: 150px"
-          >
-            <template #addonAfter>%</template>
-          </a-input-number>
-        </a-form-item>
-      </a-form>
+      <a-table
+        :columns="assetDifferenceConfigColumns"
+        :data-source="assetDifferenceConfigData"
+        :pagination="false"
+        :bordered="true"
+        :scroll="{ y: 400 }"
+      >
+        <template #bodyCell="{ column, record }">
+          <template v-if="column.key === 'configType'">
+            <a-radio-group v-model:value="record.configType" size="small">
+              <a-radio value="platform">{{ t('modal.followPlatform') }}</a-radio>
+              <a-radio value="custom">{{ t('modal.customAmount') }}</a-radio>
+            </a-radio-group>
+          </template>
+          <template v-else-if="column.key === 'customReserveAmount'">
+            <a-input-number
+              v-model:value="record.customReserveAmount"
+              :disabled="record.configType === 'platform'"
+              :min="0"
+              :precision="2"
+              :placeholder="t('modal.pleaseInputReserveAmount')"
+              style="width: 100%"
+            />
+          </template>
+        </template>
+      </a-table>
     </a-modal>
 
     <!-- 操作記錄彈窗 -->
@@ -669,6 +692,8 @@ import {
 import { message } from 'ant-design-vue'
 import mockData from '@/mock/monitor/Alert/alert.mock.json'
 import alertSettingsMockData from '@/mock/monitor/Alert/alertSettings.mock.json'
+import assetDifferenceAlertMockData from '@/mock/monitor/Alert/assetDifferenceAlert.mock.json'
+import assetDifferenceConfigMockData from '@/mock/monitor/Alert/assetDifferenceConfig.mock.json'
 import zhLocale from '@/locales/monitor/Alert/zh.json'
 import enLocale from '@/locales/monitor/Alert/en.json'
 import { useRouter } from 'vue-router'
@@ -689,11 +714,6 @@ interface AlertRecord {
   confirmReason?: string
   operator?: string
   [key: string]: any
-}
-
-interface WalletBalanceSettings {
-  dangerLevel: number
-  warningLevel: number
 }
 
 interface WalletAbnormalSettings {
@@ -968,6 +988,74 @@ const walletBalanceColumns = computed(() => [
 
 const walletBalanceData = computed(() => mockData.walletBalanceData || [])
 
+// 資產差額告警欄位定義
+const assetDifferenceColumns = computed(() => [
+  {
+    title: t('column.merchant'),
+    dataIndex: 'merchant',
+    key: 'merchant',
+    width: 120,
+  },
+  {
+    title: t('column.currency'),
+    dataIndex: 'currency',
+    key: 'currency',
+    width: 100,
+  },
+  {
+    title: t('column.walletTotalHoldings'),
+    dataIndex: 'walletTotalHoldings',
+    key: 'walletTotalHoldings',
+    width: 150,
+  },
+  {
+    title: t('column.platformTotalHoldings'),
+    dataIndex: 'platformTotalHoldings',
+    key: 'platformTotalHoldings',
+    width: 150,
+  },
+  {
+    title: t('column.assetDifference'),
+    dataIndex: 'assetDifference',
+    key: 'assetDifference',
+    width: 150,
+  },
+  {
+    title: t('column.netAssetDifference'),
+    dataIndex: 'netAssetDifference',
+    key: 'netAssetDifference',
+    width: 150,
+  },
+  {
+    title: t('column.alertTime'),
+    dataIndex: 'alertTime',
+    key: 'alertTime',
+    width: 180,
+  },
+])
+
+const assetDifferenceData = computed(() => assetDifferenceAlertMockData.assetDifferenceAlertData || [])
+
+// 資產差額告警配置欄位定義
+const assetDifferenceConfigColumns = computed(() => [
+  {
+    title: t('column.currency'),
+    dataIndex: 'currency',
+    key: 'currency',
+    width: 120,
+  },
+  {
+    title: t('modal.configType'),
+    key: 'configType',
+    width: 300,
+  },
+  {
+    title: t('modal.reserveAmount'),
+    key: 'customReserveAmount',
+    width: 200,
+  },
+])
+
 const isHeightColumn = (key: string) => {
   return ['serviceHeight', 'nodeHeight', 'chainHeight'].includes(key)
 }
@@ -1052,9 +1140,9 @@ const handleHeightSettingSave = () => {
 
 const getRemainingLevelColor = computed(() => {
   return (level: number) => {
-    if (level <= walletBalanceSettings.dangerLevel) return '#ff4d4f'
-    if (level <= walletBalanceSettings.warningLevel) return '#faad14'
-    return '#52c41a'
+    if (level <= 20) return '#ff4d4f'  // 危險水位: ≤20%
+    if (level <= 50) return '#faad14'  // 警告水位: ≤50%
+    return '#52c41a'                   // 正常水位: >50%
   }
 })
 
@@ -1313,26 +1401,34 @@ const handleWalletAbnormalSettingSave = () => {
   walletAbnormalSettingModalVisible.value = false
 }
 
-// 錢包水位告警設置
-const walletBalanceSettingModalVisible = ref(false)
-const walletBalanceSettings = reactive({
-  dangerLevel: 20,
-  warningLevel: 50
-})
+// 資產差額告警設置
+const assetDifferenceSettingModalVisible = ref(false)
+const assetDifferenceConfigData = ref(assetDifferenceConfigMockData.assetDifferenceConfig.map(item => ({ ...item })))
 
-const showWalletBalanceSettingModal = () => {
-  walletBalanceSettingModalVisible.value = true
+const showAssetDifferenceSettingModal = () => {
+  // 重新載入配置資料
+  assetDifferenceConfigData.value = assetDifferenceConfigMockData.assetDifferenceConfig.map(item => ({ ...item }))
+  assetDifferenceSettingModalVisible.value = true
 }
 
-const handleWalletBalanceSettingSave = () => {
-  if (walletBalanceSettings.dangerLevel >= walletBalanceSettings.warningLevel) {
-    message.error(t('message.dangerLevelMustBeLower'))
+const handleAssetDifferenceSettingSave = () => {
+  // 驗證自訂保留額度輸入
+  const hasInvalidInput = assetDifferenceConfigData.value.some(item => {
+    if (item.configType === 'custom' && (item.customReserveAmount === null || item.customReserveAmount === undefined)) {
+      return true
+    }
+    return false
+  })
+
+  if (hasInvalidInput) {
+    message.error(t('modal.pleaseInputReserveAmount'))
     return
   }
-  
+
   // TODO: 調用API保存設置
+  console.log('Save asset difference settings:', assetDifferenceConfigData.value)
   message.success(t('message.settingsSaved'))
-  walletBalanceSettingModalVisible.value = false
+  assetDifferenceSettingModalVisible.value = false
 }
 
 // 操作記錄相關數據

@@ -73,12 +73,23 @@
             <span class="number-cell">{{ formatNumber(record.projectHoldings) }}</span>
           </template>
 
-          <!-- 資產差額 -->
-          <template v-if="column.key === 'difference'">
-            <div :class="getDifferenceClass(record.difference)">
-              <div>{{ formatNumber(record.difference) }}</div>
+          <!-- 資產差額 (保留額度 + 扣減後差額) -->
+          <template v-if="column.key === 'assetDifference'">
+            <div class="asset-difference-cell">
+              <div class="reserve-amount">{{ t('field.reserveAmount') }}: {{ formatNumber(record.reserveAmount) }}</div>
+              <div :class="getDifferenceClass(record.assetDifference)">
+                {{ t('field.differenceAmount') }}: {{ formatNumber(record.assetDifference) }}
+                <ExclamationCircleOutlined v-if="record.assetDifference < 0" style="margin-left: 4px" />
+              </div>
+            </div>
+          </template>
+
+          <!-- 淨資產差額 -->
+          <template v-if="column.key === 'netAssetDifference'">
+            <div :class="getDifferenceClass(record.netAssetDifference)">
+              <div>{{ formatNumber(record.netAssetDifference) }}</div>
               <div class="usdt-value">({{ formatNumber(record.differenceUsdt) }} U)</div>
-              <ExclamationCircleOutlined v-if="record.difference < 0" style="margin-left: 4px" />
+              <ExclamationCircleOutlined v-if="record.netAssetDifference < 0" style="margin-left: 4px" />
             </div>
           </template>
 
@@ -190,11 +201,20 @@ const columns = computed(() => [
     align: 'right'
   },
   {
-    title: t('field.difference'),
-    dataIndex: 'difference',
-    key: 'difference',
+    title: t('field.assetDifference'),
+    dataIndex: 'assetDifference',
+    key: 'assetDifference',
+    width: 180,
+    align: 'right',
+    sorter: (a: AssetMonitorData, b: AssetMonitorData) => a.assetDifference - b.assetDifference
+  },
+  {
+    title: t('field.netAssetDifference'),
+    dataIndex: 'netAssetDifference',
+    key: 'netAssetDifference',
     width: 150,
-    align: 'right'
+    align: 'right',
+    sorter: (a: AssetMonitorData, b: AssetMonitorData) => a.netAssetDifference - b.netAssetDifference
   },
   {
     title: t('field.trend'),
@@ -459,6 +479,23 @@ onMounted(() => {
     .time-cell {
       font-size: 13px;
       color: #595959;
+    }
+
+    // 資產差額欄位樣式
+    .asset-difference-cell {
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+
+      .reserve-amount {
+        color: #8c8c8c;
+        margin-bottom: 4px;
+      }
+
+      .difference-positive,
+      .difference-negative,
+      .difference-zero {
+        margin-top: 4px;
+      }
     }
 
     // 資產差額樣式

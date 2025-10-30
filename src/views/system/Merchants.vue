@@ -316,6 +316,36 @@
                           />
                         </div>
                       </div>
+                      <div class="setting-row-inline" v-if="merchantCurrencyConfig[currency.value]?.enableStorageLimit" style="margin-top: 12px">
+                        <div class="setting-field">
+                          <label class="setting-label">{{ t('field.collectionWalletAlertThreshold') }}</label>
+                          <a-input-number
+                            :value="merchantCurrencyConfig[currency.value]?.collectionWalletAlertThreshold || 0"
+                            @update:value="(value) => updateCurrencyConfig(currency.value, 'collectionWalletAlertThreshold', value)"
+                            :min="0"
+                            :max="100"
+                            :precision="0"
+                            size="small"
+                            :placeholder="t('prompt.inputCollectionWalletAlertThreshold')"
+                            addon-after="%"
+                            style="width: 100%"
+                          />
+                        </div>
+                        <div class="setting-field">
+                          <label class="setting-label">{{ t('field.withdrawWalletAlertThreshold') }}</label>
+                          <a-input-number
+                            :value="merchantCurrencyConfig[currency.value]?.withdrawWalletAlertThreshold || 0"
+                            @update:value="(value) => updateCurrencyConfig(currency.value, 'withdrawWalletAlertThreshold', value)"
+                            :min="0"
+                            :max="100"
+                            :precision="0"
+                            size="small"
+                            :placeholder="t('prompt.inputWithdrawWalletAlertThreshold')"
+                            addon-after="%"
+                            style="width: 100%"
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -568,7 +598,9 @@ const handleCurrencyManagement = (record: MerchantRecord) => {
         enabled: Math.random() > 0.3, // 模擬啟用狀態
         enableStorageLimit: enableStorageLimit, // 是否配置儲存上限
         collectionWalletLimit: enableStorageLimit ? Math.floor(Math.random() * 10000) + 1000 : 0, // 歸集錢包儲存上限
-        withdrawWalletLimit: enableStorageLimit ? Math.floor(Math.random() * 5000) + 500 : 0 // 出款錢包儲存上限
+        withdrawWalletLimit: enableStorageLimit ? Math.floor(Math.random() * 5000) + 500 : 0, // 出款錢包儲存上限
+        collectionWalletAlertThreshold: enableStorageLimit ? Math.floor(Math.random() * 30) + 70 : 0, // 歸集錢包告警水位比例 (70-100%)
+        withdrawWalletAlertThreshold: enableStorageLimit ? Math.floor(Math.random() * 30) + 70 : 0 // 出款錢包告警水位比例 (70-100%)
       }
     })
   })

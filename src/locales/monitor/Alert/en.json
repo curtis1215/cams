@@ -7,7 +7,8 @@
     "unconfirmedTransfer": "Unconfirmed Transfers",
     "walletBalance": "Wallet Balance Alert",
     "walletAbnormal": "Wallet Abnormal Alert",
-    "riskAddress": "Risk Address Deposit Alert"
+    "riskAddress": "Risk Address Deposit Alert",
+    "assetDifference": "Asset Difference Alert"
   },
   "settings": "Settings",
   "modal": {
@@ -28,7 +29,13 @@
     "returnOptions": "Please select return method",
     "originalRoute": "Return to original route",
     "customAddress": "Enter custom address",
-    "inputAddress": "Please enter address"
+    "inputAddress": "Please enter address",
+    "assetDifference": "Asset Difference Alert Configuration",
+    "configType": "Configuration Type",
+    "followPlatform": "Follow Platform Reserve Amount",
+    "customAmount": "Custom Reserve Amount",
+    "reserveAmount": "Reserve Amount",
+    "pleaseInputReserveAmount": "Please input reserve amount"
   },
   "threshold": {
     "deposit": "Large Deposit Threshold",
@@ -76,7 +83,13 @@
     "alertDuration": "Alert Duration",
     "lastEditTime": "Last Edit Time",
     "edit": "Edit",
-    "delete": "Delete"
+    "delete": "Delete",
+    "walletTotalHoldings": "Wallet Total Holdings",
+    "platformTotalHoldings": "Platform Total Holdings",
+    "assetDifference": "Asset Difference",
+    "netAssetDifference": "Net Asset Difference",
+    "alertTime": "Alert Time",
+    "currency": "Currency"
   },
   "reason": {
     "serviceHeightBehind": "Service Height Behind",

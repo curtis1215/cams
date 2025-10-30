@@ -7,7 +7,8 @@
   },
   "tabs": {
     "blockchainInfo": "區塊鏈資訊",
-    "nodeManagement": "節點管理"
+    "nodeManagement": "節點管理",
+    "walletParameters": "錢包參數"
   },
   "field": {
     "chainType": "鏈類型",
@@ -27,7 +28,11 @@
     "smallTransactionFilter": "小額交易過濾",
     "enableSmallTransactionFilter": "啟用小額交易過濾",
     "smallTransactionThreshold": "小額交易閾值",
-    "amountUnit": "數量"
+    "amountUnit": "數量",
+    "collectionWalletStorageLimit": "歸集錢包儲存上限",
+    "withdrawWalletStorageLimit": "出款錢包儲存上限",
+    "collectionWalletAlertThreshold": "歸集錢包告警水位比例",
+    "withdrawWalletAlertThreshold": "出款錢包告警水位比例"
   },
   "action": {
     "add": "新增",
@@ -52,7 +57,11 @@
     "inputNodeUrl": "請輸入節點URL",
     "inputPriority": "請輸入優先順序",
     "inputSmallTransactionThreshold": "請輸入小額交易閾值",
-    "minuteUnit": "分鐘"
+    "minuteUnit": "分鐘",
+    "inputCollectionWalletStorageLimit": "請輸入歸集錢包儲存上限",
+    "inputWithdrawWalletStorageLimit": "請輸入出款錢包儲存上限",
+    "inputCollectionWalletAlertThreshold": "請輸入歸集錢包告警水位比例(0-100%)",
+    "inputWithdrawWalletAlertThreshold": "請輸入出款錢包告警水位比例(0-100%)"
   },
   "description": {
     "expectedTime": "轉帳上鏈超過該時間，則會觸發異常告警",

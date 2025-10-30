@@ -34,7 +34,9 @@
     "enabled": "Enabled",
     "configStorageLimit": "Configure Storage Limit",
     "collectionWalletLimit": "Collection Wallet Storage Limit",
-    "withdrawWalletLimit": "Withdraw Wallet Storage Limit"
+    "withdrawWalletLimit": "Withdraw Wallet Storage Limit",
+    "collectionWalletAlertThreshold": "Collection Wallet Alert Threshold",
+    "withdrawWalletAlertThreshold": "Withdraw Wallet Alert Threshold"
   },
   "action": {
     "search": "Search",
@@ -61,7 +63,9 @@
     "inputLpSlippage": "Please input LP slippage",
     "inputTxHashNotifyUrl": "Please input txHash notify URL",
     "inputCollectionWalletLimit": "Please input collection wallet storage limit",
-    "inputWithdrawWalletLimit": "Please input withdraw wallet storage limit"
+    "inputWithdrawWalletLimit": "Please input withdraw wallet storage limit",
+    "inputCollectionWalletAlertThreshold": "Please input collection wallet alert threshold (0-100%)",
+    "inputWithdrawWalletAlertThreshold": "Please input withdraw wallet alert threshold (0-100%)"
   },
   "validation": {
     "nameRequired": "Please input merchant name",

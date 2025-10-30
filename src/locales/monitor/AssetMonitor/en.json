@@ -8,6 +8,10 @@
     "userHoldings": "User Holdings",
     "projectHoldings": "Project Holdings",
     "difference": "Difference",
+    "assetDifference": "Asset Difference",
+    "netAssetDifference": "Net Asset Difference",
+    "reserveAmount": "Reserve Amount",
+    "differenceAmount": "Difference After Deduction",
     "trend": "Trend",
     "updateTime": "Update Time"
   },

@@ -7,7 +7,8 @@
   },
   "tabs": {
     "blockchainInfo": "Blockchain Info",
-    "nodeManagement": "Node Management"
+    "nodeManagement": "Node Management",
+    "walletParameters": "Wallet Parameters"
   },
   "field": {
     "chainType": "Chain Type",
@@ -27,7 +28,11 @@
     "smallTransactionFilter": "Small Transaction Filter",
     "enableSmallTransactionFilter": "Enable Small Transaction Filter",
     "smallTransactionThreshold": "Small Transaction Threshold",
-    "amountUnit": "Amount"
+    "amountUnit": "Amount",
+    "collectionWalletStorageLimit": "Collection Wallet Storage Limit",
+    "withdrawWalletStorageLimit": "Withdraw Wallet Storage Limit",
+    "collectionWalletAlertThreshold": "Collection Wallet Alert Threshold",
+    "withdrawWalletAlertThreshold": "Withdraw Wallet Alert Threshold"
   },
   "action": {
     "add": "Add",
@@ -52,7 +57,11 @@
     "inputNodeUrl": "Please input node URL",
     "inputPriority": "Please input priority",
     "inputSmallTransactionThreshold": "Please input small transaction threshold",
-    "minuteUnit": "minutes"
+    "minuteUnit": "minutes",
+    "inputCollectionWalletStorageLimit": "Please input collection wallet storage limit",
+    "inputWithdrawWalletStorageLimit": "Please input withdraw wallet storage limit",
+    "inputCollectionWalletAlertThreshold": "Please input collection wallet alert threshold (0-100%)",
+    "inputWithdrawWalletAlertThreshold": "Please input withdraw wallet alert threshold (0-100%)"
   },
   "description": {
     "expectedTime": "An alert will be triggered if the transfer time exceeds this value",

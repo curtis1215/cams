@@ -7,7 +7,8 @@
     "unconfirmedTransfer": "未確認轉帳",
     "walletBalance": "錢包水位告警",
     "walletAbnormal": "錢包異常告警",
-    "riskAddress": "風險地址入帳告警"
+    "riskAddress": "風險地址入帳告警",
+    "assetDifference": "資產差額告警"
   },
   "settings": "告警設置",
   "modal": {
@@ -28,7 +29,13 @@
     "returnOptions": "請選擇退回方式",
     "originalRoute": "原路退回",
     "customAddress": "自行輸入地址",
-    "inputAddress": "請輸入地址"
+    "inputAddress": "請輸入地址",
+    "assetDifference": "資產差額告警配置",
+    "configType": "配置類型",
+    "followPlatform": "跟隨平台保留額度",
+    "customAmount": "自訂保留額度",
+    "reserveAmount": "保留額度",
+    "pleaseInputReserveAmount": "請輸入保留額度"
   },
   "threshold": {
     "deposit": "大額存款閾值",
@@ -76,7 +83,13 @@
     "alertDuration": "告警時長",
     "lastEditTime": "最後編輯時間",
     "edit": "編輯",
-    "delete": "刪除"
+    "delete": "刪除",
+    "walletTotalHoldings": "錢包持有總量",
+    "platformTotalHoldings": "平台持有總量",
+    "assetDifference": "資產差額",
+    "netAssetDifference": "淨資產差額",
+    "alertTime": "告警時間",
+    "currency": "幣種"
   },
   "reason": {
     "serviceHeightBehind": "服務高度落後",

@@ -213,14 +213,66 @@
                   />
                 </template>
                 <template v-if="column.key === 'action'">
-                  <DeleteOutlined 
-                    class="action-icon" 
-                    @click="handleDeleteNode(index)" 
+                  <DeleteOutlined
+                    class="action-icon"
+                    @click="handleDeleteNode(index)"
                   />
                 </template>
               </template>
             </a-table>
           </div>
+        </a-tab-pane>
+
+        <!-- 錢包參數分頁 -->
+        <a-tab-pane :key="3" :tab="t('tabs.walletParameters')">
+          <a-form
+            :model="formData"
+            layout="vertical"
+          >
+            <a-form-item :label="t('field.collectionWalletStorageLimit')" name="collectionWalletStorageLimit">
+              <a-input-number
+                v-model:value="formData.collectionWalletStorageLimit"
+                :placeholder="t('prompt.inputCollectionWalletStorageLimit')"
+                :min="0"
+                :precision="2"
+                style="width: 100%"
+              />
+            </a-form-item>
+
+            <a-form-item :label="t('field.collectionWalletAlertThreshold')" name="collectionWalletAlertThreshold">
+              <a-input-number
+                v-model:value="formData.collectionWalletAlertThreshold"
+                :placeholder="t('prompt.inputCollectionWalletAlertThreshold')"
+                :min="0"
+                :max="100"
+                :precision="0"
+                addon-after="%"
+                style="width: 100%"
+              />
+            </a-form-item>
+
+            <a-form-item :label="t('field.withdrawWalletStorageLimit')" name="withdrawWalletStorageLimit">
+              <a-input-number
+                v-model:value="formData.withdrawWalletStorageLimit"
+                :placeholder="t('prompt.inputWithdrawWalletStorageLimit')"
+                :min="0"
+                :precision="2"
+                style="width: 100%"
+              />
+            </a-form-item>
+
+            <a-form-item :label="t('field.withdrawWalletAlertThreshold')" name="withdrawWalletAlertThreshold">
+              <a-input-number
+                v-model:value="formData.withdrawWalletAlertThreshold"
+                :placeholder="t('prompt.inputWithdrawWalletAlertThreshold')"
+                :min="0"
+                :max="100"
+                :precision="0"
+                addon-after="%"
+                style="width: 100%"
+              />
+            </a-form-item>
+          </a-form>
         </a-tab-pane>
       </a-tabs>
     </a-modal>
@@ -379,6 +431,10 @@ const formData = reactive<BlockchainFormData>({
   addressRegex: '',
   enableSmallTransactionFilter: false,
   smallTransactionThreshold: undefined,
+  collectionWalletStorageLimit: undefined,
+  collectionWalletAlertThreshold: undefined,
+  withdrawWalletStorageLimit: undefined,
+  withdrawWalletAlertThreshold: undefined,
   nodes: []
 })
 
@@ -454,6 +510,10 @@ const handleAdd = () => {
     addressRegex: '',
     enableSmallTransactionFilter: false,
     smallTransactionThreshold: undefined,
+    collectionWalletStorageLimit: undefined,
+    collectionWalletAlertThreshold: undefined,
+    withdrawWalletStorageLimit: undefined,
+    withdrawWalletAlertThreshold: undefined,
     nodes: []
   })
   modalVisible.value = true

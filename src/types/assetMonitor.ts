@@ -28,7 +28,16 @@ export interface AssetMonitorData {
   /** 平台項目方持有量 (所有鏈路總和) */
   projectHoldings: number
 
-  /** 資產差額 (計算值: sum(chainHoldings) - userHoldings - projectHoldings) */
+  /** 保留額度 */
+  reserveAmount: number
+
+  /** 資產差額 (扣減保留額度後: sum(chainHoldings) - userHoldings - projectHoldings - reserveAmount) */
+  assetDifference: number
+
+  /** 淨資產差額 (不扣減保留額度: sum(chainHoldings) - userHoldings - projectHoldings) */
+  netAssetDifference: number
+
+  /** 原資產差額欄位 (已棄用,保留向後相容) @deprecated 請使用 netAssetDifference */
   difference: number
 
   /** 資產差額的 USDT 價值 */
@@ -49,6 +58,51 @@ export type AssetMonitorColumnKey =
   | 'chainHoldings'
   | 'userHoldings'
   | 'projectHoldings'
+  | 'assetDifference'
+  | 'netAssetDifference'
   | 'difference'
   | 'hourChange'
   | 'updateTime'
+
+/**
+ * 資產差額告警數據介面
+ */
+export interface AssetDifferenceAlert {
+  /** 唯一識別碼 */
+  id: string
+
+  /** 商戶名稱 */
+  merchant: string
+
+  /** 幣種代碼 */
+  currency: string
+
+  /** 錢包持有總量 */
+  walletTotalHoldings: number
+
+  /** 平台持有總量 (用戶持有量 + 項目方持有量) */
+  platformTotalHoldings: number
+
+  /** 資產差額 (錢包持有總量 - 平台持有總量 - 保留額度) */
+  assetDifference: number
+
+  /** 淨資產差額 (錢包持有總量 - 平台持有總量) */
+  netAssetDifference: number
+
+  /** 告警時間 */
+  alertTime: string
+}
+
+/**
+ * 資產差額告警配置介面
+ */
+export interface AssetDifferenceConfig {
+  /** 幣種代碼 */
+  currency: string
+
+  /** 配置類型: 'platform' = 跟隨平台保留額度, 'custom' = 自訂 */
+  configType: 'platform' | 'custom'
+
+  /** 自訂保留額度 (當 configType 為 'custom' 時使用) */
+  customReserveAmount?: number
+}

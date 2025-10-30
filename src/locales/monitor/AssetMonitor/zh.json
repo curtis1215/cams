@@ -8,6 +8,10 @@
     "userHoldings": "平台用戶持有量",
     "projectHoldings": "平台項目方持有量",
     "difference": "資產差額",
+    "assetDifference": "資產差額",
+    "netAssetDifference": "淨資產差額",
+    "reserveAmount": "保留額度",
+    "differenceAmount": "扣減後差額",
     "trend": "走勢",
     "updateTime": "更新時間"
   },

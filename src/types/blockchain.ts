@@ -36,6 +36,11 @@ export interface BlockchainFormData {
   enableSmallTransactionFilter: boolean;
   smallTransactionThreshold?: number;
   nodes: BlockchainNode[];
+  // 新增：錢包儲存上限和告警水位比例欄位
+  collectionWalletStorageLimit?: number;
+  collectionWalletAlertThreshold?: number;
+  withdrawWalletStorageLimit?: number;
+  withdrawWalletAlertThreshold?: number;
 }
 
 // 定義表格變更事件的參數類型
