@@ -32,10 +32,10 @@
     "inputAddress": "Please enter address",
     "assetDifference": "Asset Difference Alert Configuration",
     "configType": "Configuration Type",
-    "followPlatform": "Follow Platform Reserve Amount",
-    "customAmount": "Custom Reserve Amount",
-    "reserveAmount": "Reserve Amount",
-    "pleaseInputReserveAmount": "Please input reserve amount"
+    "followPlatform": "Follow Platform",
+    "customAmount": "Custom",
+    "reserveAmount": "Alert Upper/Lower Limit",
+    "pleaseInputReserveAmount": "Please input alert upper/lower limit"
   },
   "threshold": {
     "deposit": "Large Deposit Threshold",

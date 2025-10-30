@@ -32,10 +32,10 @@
     "inputAddress": "請輸入地址",
     "assetDifference": "資產差額告警配置",
     "configType": "配置類型",
-    "followPlatform": "跟隨平台保留額度",
-    "customAmount": "自訂保留額度",
-    "reserveAmount": "保留額度",
-    "pleaseInputReserveAmount": "請輸入保留額度"
+    "followPlatform": "跟隨平台",
+    "customAmount": "自訂",
+    "reserveAmount": "告警上下限",
+    "pleaseInputReserveAmount": "請輸入告警上下限"
   },
   "threshold": {
     "deposit": "大額存款閾值",

@@ -617,7 +617,6 @@
           <template v-else-if="column.key === 'customReserveAmount'">
             <a-input-number
               v-model:value="record.customReserveAmount"
-              :disabled="record.configType === 'platform'"
               :min="0"
               :precision="2"
               :placeholder="t('modal.pleaseInputReserveAmount')"
