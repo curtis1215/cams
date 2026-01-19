@@ -11,6 +11,14 @@
             style="width: 200px"
           />
         </a-form-item>
+        <a-form-item :label="t('field.code')" class="form-item">
+          <a-input
+            v-model:value="queryParams.code"
+            :placeholder="t('prompt.inputCode')"
+            allow-clear
+            style="width: 200px"
+          />
+        </a-form-item>
         <a-form-item :label="t('field.status')" class="form-item">
           <a-select
             v-model:value="queryParams.status"
@@ -464,6 +472,7 @@ const merchantCurrencyConfig = ref<Record<string, any>>({})
 // 查詢參數
 const queryParams = reactive({
   name: '',
+  code: '',
   status: undefined,
 })
 
@@ -538,6 +547,7 @@ const generatePrivateKey = () => {
 const handleQuery = () => {
   const filteredData = mockData.merchantList.filter(item => {
     if (queryParams.name && !item.name.includes(queryParams.name)) return false
+    if (queryParams.code && !item.code.includes(queryParams.code)) return false
     if (queryParams.status && item.status !== queryParams.status) return false
     return true
   })
