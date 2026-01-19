@@ -13,6 +13,7 @@
       "usdtValue": "1234567890123.45678900",
       "lastTransactionTime": "2024-03-15 10:30:25",
       "isDisabled": false,
+      "createdBy": "Admin",
       "balances": {
         "USDT": "1234567890123.45678900",
         "ETH": "567890.12345678",
@@ -32,6 +33,7 @@
       "usdtValue": "5432098765.43210987",
       "lastTransactionTime": "2024-03-15 09:45:12",
       "isDisabled": true,
+      "createdBy": "System",
       "balances": {
         "BTC": "123456789.12345678"
       }
@@ -49,6 +51,7 @@
       "usdtValue": "987654321.87654321",
       "lastTransactionTime": "2024-03-15 11:20:33",
       "isDisabled": false,
+      "createdBy": "Operator",
       "balances": {
         "USDT": "987654321.87654321",
         "TRX": "12345678.90123456"
@@ -67,6 +70,7 @@
       "usdtValue": "43210987.65432109",
       "lastTransactionTime": "2024-03-15 08:15:45",
       "isDisabled": false,
+      "createdBy": "Admin",
       "balances": {
         "ETH": "12345.67890123",
         "USDT": "9876.54321098",
@@ -86,6 +90,7 @@
       "usdtValue": "337000123.45678900",
       "lastTransactionTime": "2024-03-15 13:40:18",
       "isDisabled": false,
+      "createdBy": "Manager",
       "balances": {
         "BTC": "7654.32109876"
       }
@@ -103,6 +108,7 @@
       "usdtValue": "876543.21098765",
       "lastTransactionTime": "2024-03-15 14:55:27",
       "isDisabled": false,
+      "createdBy": "System",
       "balances": {
         "TRX": "8765432.10987654",
         "USDT": "12345.67890123"
@@ -121,6 +127,7 @@
       "usdtValue": "9876543.21098765",
       "lastTransactionTime": "2024-03-15 15:10:42",
       "isDisabled": true,
+      "createdBy": "Operator",
       "balances": {
         "USDT": "9876543.21098765",
         "ETH": "2345.67890123"
@@ -139,6 +146,7 @@
       "usdtValue": "54321098.76543210",
       "lastTransactionTime": "2024-03-15 16:25:33",
       "isDisabled": false,
+      "createdBy": "Admin",
       "balances": {
         "BTC": "1234.56789012"
       }
@@ -156,6 +164,7 @@
       "usdtValue": "5432.10987654",
       "lastTransactionTime": "2024-03-15 17:30:15",
       "isDisabled": false,
+      "createdBy": "Manager",
       "balances": {
         "USDT": "5432.10987654",
         "TRX": "543210.98765432"
@@ -174,6 +183,7 @@
       "usdtValue": "23765432.10987654",
       "lastTransactionTime": "2024-03-15 18:45:55",
       "isDisabled": true,
+      "createdBy": "System",
       "balances": {
         "ETH": "6789.01234567",
         "USDT": "12345.67890123",
@@ -193,6 +203,7 @@
       "usdtValue": "13703670.37037037",
       "lastTransactionTime": "2024-03-15 19:30:22",
       "isDisabled": false,
+      "createdBy": "Operator",
       "balances": {
         "BNB": "45678.90123456",
         "USDT": "7890.12345678",
@@ -212,6 +223,7 @@
       "usdtValue": "123456.78901234",
       "lastTransactionTime": "2024-03-15 20:15:44",
       "isDisabled": false,
+      "createdBy": "Admin",
       "balances": {
         "BUSD": "123456.78901234",
         "BNB": "567.89012345",

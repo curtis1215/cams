@@ -39,7 +39,9 @@
     "auditTime": "Audit Time",
     "auditStatus": "Audit Status",
     "typeLabel": "Type",
-    "action": "Action"
+    "action": "Action",
+    "submitter": "Submitter",
+    "reviewer": "Reviewer"
   },
   "balance": {
     "current": "Current Balance",

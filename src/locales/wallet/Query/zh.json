@@ -15,7 +15,8 @@
     "usdtValue": "USDT價值",
     "assetValue": "資產價值(USDT)",
     "status": "狀態",
-    "sortByAmount": "按數量排序"
+    "sortByAmount": "按數量排序",
+    "createdBy": "提交人"
   },
   "walletType": {
     "user": "用戶錢包",

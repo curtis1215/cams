@@ -75,7 +75,7 @@
         :row-key="(record) => record.id"
         :pagination="pagination"
         :bordered="true"
-        :scroll="{ x: 2000 }"
+        :scroll="{ x: 2200 }"
         @change="handleTableChange"
       >
         <template #bodyCell="{ column, record, index }">
@@ -386,6 +386,18 @@ const columns = computed(() => [
     dataIndex: 'status',
     key: 'status',
     width: 130,
+  },
+  {
+    title: t('field.submitter'),
+    dataIndex: 'submitter',
+    key: 'submitter',
+    width: 100,
+  },
+  {
+    title: t('field.reviewer'),
+    dataIndex: 'reviewer',
+    key: 'reviewer',
+    width: 100,
   },
   {
     title: t('field.transferType'),

@@ -284,6 +284,12 @@ const columns: TableColumnType<WalletRecord>[] = [
     customRender: ({ text }: { text: string }) => formatNumberWithColor(text)
   },
   {
+    title: t('field.createdBy'),
+    dataIndex: 'createdBy',
+    key: 'createdBy',
+    width: 100
+  },
+  {
     title: t('status.label'),
     dataIndex: 'status',
     key: 'status',

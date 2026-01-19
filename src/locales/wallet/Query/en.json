@@ -15,7 +15,8 @@
     "usdtValue": "USDT Value",
     "assetValue": "Asset Value",
     "status": "Status",
-    "sortByAmount": "Sort by Amount"
+    "sortByAmount": "Sort by Amount",
+    "createdBy": "Created By"
   },
   "walletType": {
     "user": "User Wallet",

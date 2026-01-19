@@ -111,32 +111,33 @@ The system SHALL provide functionality to search assets by currency name.
 ---
 
 ### Requirement: Support multi-language interface
-The system MUST support Traditional Chinese and English interface language switching for all UI elements.
+The system SHALL support Traditional Chinese and English interface language switching, including all UI elements and new field labels. 系統必須支援繁體中文和英文介面語言切換,包含所有 UI 元素和新增的欄位標籤。
 
-#### Scenario: Traditional Chinese interface
-**Given** system language is set to Traditional Chinese
-**When** user visits asset monitoring page
-**Then** all interface text SHALL display in Traditional Chinese
-**And** column headers SHALL use Chinese labels
-**And** button text SHALL use Chinese labels
+#### Scenario: Traditional Chinese interface with new fields
+**Given** 系統語言設定為繁體中文
+**When** 使用者訪問資產監控頁面
+**Then** "資產差額"欄位標籤應顯示"資產差額"
+**And** "淨資產差額"欄位標籤應顯示"淨資產差額"
+**And** 保留額度文字應顯示"保留額度"
+**And** 差額文字應顯示"差額"
 
-#### Scenario: English interface
-**Given** system language is set to English
-**When** user visits asset monitoring page
-**Then** all interface text SHALL display in English
-**And** column headers SHALL use English labels
-**And** button text SHALL use English labels
+#### Scenario: English interface with new fields
+**Given** 系統語言設定為英文
+**When** 使用者訪問資產監控頁面
+**Then** "資產差額"欄位標籤應顯示"Asset Difference"
+**And** "淨資產差額"欄位標籤應顯示"Net Asset Difference"
+**And** 保留額度文字應顯示"Reserve"
+**And** 差額文字應顯示"Difference"
 
-**Translation key mappings:**
-- zh: "title.assetMonitor" → "資產監控"
-- en: "title.assetMonitor" → "Asset Monitor"
-- zh: "field.currency" → "幣種"
-- en: "field.currency" → "Currency"
-- zh: "field.chain" → "鏈路"
-- en: "field.chain" → "Chain"
-- (additional translations in localization files)
-
----
+**新增翻譯鍵值對應**:
+- zh: "field.assetDifference" → "資產差額"
+- en: "field.assetDifference" → "Asset Difference"
+- zh: "field.netAssetDifference" → "淨資產差額"
+- en: "field.netAssetDifference" → "Net Asset Difference"
+- zh: "label.reserve" → "保留額度"
+- en: "label.reserve" → "Reserve"
+- zh: "label.differenceAmount" → "差額"
+- en: "label.differenceAmount" → "Difference"
 
 ### Requirement: Provide table pagination functionality
 The system SHALL provide pagination functionality when the number of asset records exceeds the single-page display limit.
@@ -187,6 +188,45 @@ The system MUST load and render asset monitoring data within reasonable time con
 **When** system reloads data
 **Then** refresh completion time SHALL be < 1 second
 **And** SHALL not block other UI operations
+
+---
+
+### Requirement: Provide sorting functionality for difference columns
+The system SHALL provide sorting functionality for asset difference and net asset difference columns. 系統必須為資產差額和淨資產差額欄位提供排序功能。
+
+#### Scenario: Sort by asset difference ascending
+**Given** 使用者在資產監控頁面
+**When** 使用者點擊"資產差額"欄位標題
+**Then** 表格應按資產差額由小到大排序
+**And** 負數應排在最前面
+**And** 排序圖示應顯示向上箭頭
+
+#### Scenario: Sort by asset difference descending
+**Given** 表格已按資產差額升序排序
+**When** 使用者再次點擊"資產差額"欄位標題
+**Then** 表格應按資產差額由大到小排序
+**And** 正數應排在最前面
+**And** 排序圖示應顯示向下箭頭
+
+#### Scenario: Sort by net asset difference ascending
+**Given** 使用者在資產監控頁面
+**When** 使用者點擊"淨資產差額"欄位標題
+**Then** 表格應按淨資產差額由小到大排序
+**And** 負數應排在最前面
+**And** 排序圖示應顯示向上箭頭
+
+#### Scenario: Sort by net asset difference descending
+**Given** 表格已按淨資產差額升序排序
+**When** 使用者再次點擊"淨資產差額"欄位標題
+**Then** 表格應按淨資產差額由大到小排序
+**And** 正數應排在最前面
+**And** 排序圖示應顯示向下箭頭
+
+#### Scenario: Clear sorting
+**Given** 表格已套用排序
+**When** 使用者點擊其他欄位標題或清除排序
+**Then** 表格應恢復預設排序
+**And** 排序圖示應移除
 
 ---
 

@@ -535,6 +535,14 @@
     >
       <div class="audit-detail" v-if="selectedRecord">
         <div class="audit-detail-item">
+          <span class="audit-detail-label">{{ t('field.submitter') }}：</span>
+          <span class="audit-detail-value">{{ selectedRecord.submitter || '-' }}</span>
+        </div>
+        <div class="audit-detail-item">
+          <span class="audit-detail-label">{{ t('field.reviewer') }}：</span>
+          <span class="audit-detail-value">{{ selectedRecord.reviewer || '-' }}</span>
+        </div>
+        <div class="audit-detail-item">
           <span class="audit-detail-label">{{ t('field.auditOperation') }}：</span>
           <span class="audit-detail-value">{{ selectedRecord.auditStatus === 'approved' ? t('auditStatus.approved') : t('auditStatus.rejected') }}</span>
         </div>
@@ -579,6 +587,8 @@ interface TransferRecord {
   requiredConfirmations?: number;
   walletType?: string;
   fromMerchant?: string;
+  submitter?: string;
+  reviewer?: string;
 }
 
 interface WalletInfo {
@@ -1139,6 +1149,18 @@ const columns = [
       }
       return statusMap[text] || text
     }
+  },
+  {
+    title: t('field.submitter'),
+    dataIndex: 'submitter',
+    key: 'submitter',
+    width: 100,
+  },
+  {
+    title: t('field.reviewer'),
+    dataIndex: 'reviewer',
+    key: 'reviewer',
+    width: 100,
   },
   {
     title: t('transferStatus.label'),

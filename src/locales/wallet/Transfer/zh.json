@@ -39,7 +39,9 @@
     "auditTime": "審核時間",
     "auditStatus": "審核狀態",
     "typeLabel": "類型",
-    "action": "操作"
+    "action": "操作",
+    "submitter": "提交人",
+    "reviewer": "審核人"
   },
   "balance": {
     "current": "當前餘額",

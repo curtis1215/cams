@@ -19,7 +19,9 @@
       "transferType": {
         "type": "deposit",
         "orderId": "DEP20240315001"
-      }
+      },
+      "submitter": "Admin",
+      "reviewer": "Manager"
     },
     {
       "id": "TR002",
@@ -39,7 +41,9 @@
       "transferType": {
         "type": "withdraw",
         "orderId": "WD20240315001"
-      }
+      },
+      "submitter": "Operator",
+      "reviewer": null
     },
     {
       "id": "TR003",
@@ -59,7 +63,9 @@
       "transferType": {
         "type": "collection",
         "orderId": "COL20240315001"
-      }
+      },
+      "submitter": "System",
+      "reviewer": null
     },
     {
       "id": "TR004",
@@ -79,7 +85,9 @@
       "transferType": {
         "type": "replenish",
         "orderId": "REP20240315001"
-      }
+      },
+      "submitter": "Admin",
+      "reviewer": null
     },
     {
       "id": "TR005",
@@ -99,7 +107,9 @@
       "transferType": {
         "type": "fee",
         "orderId": "FEE20240315001"
-      }
+      },
+      "submitter": "Operator",
+      "reviewer": "Supervisor"
     },
     {
       "id": "TR006",
@@ -119,7 +129,9 @@
       "transferType": {
         "type": "deposit",
         "orderId": "DEP20240315002"
-      }
+      },
+      "submitter": "Manager",
+      "reviewer": "Admin"
     },
     {
       "id": "TR007",
@@ -139,7 +151,9 @@
       "transferType": {
         "type": "withdraw",
         "orderId": "WD20240315002"
-      }
+      },
+      "submitter": "Operator",
+      "reviewer": null
     },
     {
       "id": "TR008",
@@ -159,7 +173,9 @@
       "transferType": {
         "type": "collection",
         "orderId": "COL20240315002"
-      }
+      },
+      "submitter": "System",
+      "reviewer": null
     },
     {
       "id": "TR009",
@@ -179,7 +195,9 @@
       "transferType": {
         "type": "replenish",
         "orderId": "REP20240315002"
-      }
+      },
+      "submitter": "Admin",
+      "reviewer": null
     },
     {
       "id": "TR010",
@@ -199,7 +217,9 @@
       "transferType": {
         "type": "deposit",
         "orderId": "DEP20240315003"
-      }
+      },
+      "submitter": "Operator",
+      "reviewer": "Manager"
     },
     {
       "id": "TR011",
@@ -219,7 +239,9 @@
       "transferType": {
         "type": "fee",
         "orderId": "FEE20240315002"
-      }
+      },
+      "submitter": "System",
+      "reviewer": null
     },
     {
       "id": "TR012",
@@ -239,7 +261,9 @@
       "transferType": {
         "type": "withdraw",
         "orderId": "WD20240315003"
-      }
+      },
+      "submitter": "Manager",
+      "reviewer": null
     },
     {
       "id": "TR013",
@@ -259,7 +283,9 @@
       "transferType": {
         "type": "swap",
         "orderId": "SWAP20240315001"
-      }
+      },
+      "submitter": "Operator",
+      "reviewer": null
     }
   ]
 }

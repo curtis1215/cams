@@ -26,7 +26,9 @@
       "auditTime": "2024-03-15 11:00:00",
       "auditStatus": "approved",
       "auditReason": "正常轉帳",
-      "transferStatus": "completed"
+      "transferStatus": "completed",
+      "submitter": "Admin",
+      "reviewer": "Manager"
     },
     {
       "key": 2,
@@ -44,7 +46,9 @@
       "auditTime": null,
       "auditStatus": "pending",
       "auditReason": null,
-      "transferStatus": null
+      "transferStatus": null,
+      "submitter": "Operator",
+      "reviewer": null
     },
     {
       "key": 3,
@@ -62,7 +66,9 @@
       "auditTime": "2024-03-15 09:00:00",
       "auditStatus": "approved",
       "auditReason": "正常轉帳",
-      "transferStatus": "onchain"
+      "transferStatus": "onchain",
+      "submitter": "Operator",
+      "reviewer": "Admin"
     },
     {
       "key": 4,
@@ -82,7 +88,9 @@
       "auditReason": "正常轉帳",
       "transferStatus": "confirming",
       "confirmations": 3,
-      "requiredConfirmations": 12
+      "requiredConfirmations": 12,
+      "submitter": "Manager",
+      "reviewer": "Admin"
     },
     {
       "key": 5,
@@ -100,7 +108,9 @@
       "auditTime": "2024-03-15 07:00:00",
       "auditStatus": "rejected",
       "auditReason": "金額超過限制",
-      "transferStatus": null
+      "transferStatus": null,
+      "submitter": "Operator",
+      "reviewer": "Manager"
     },
     {
       "key": 6,
@@ -118,7 +128,9 @@
       "auditTime": "2024-03-15 06:00:00",
       "auditStatus": "approved",
       "auditReason": "正常轉帳",
-      "transferStatus": "failed"
+      "transferStatus": "failed",
+      "submitter": "Admin",
+      "reviewer": "Manager"
     }
   ]
-} 
+}

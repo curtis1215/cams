@@ -32,7 +32,9 @@
     "chainCoin": "Chain/Coin",
     "transactionId": "Transaction ID",
     "relatedOrderIds": "Related Order IDs (Out/In)",
-    "operation": "Operation"
+    "operation": "Operation",
+    "submitter": "Submitter",
+    "reviewer": "Reviewer"
   },
   "prompt": {
     "pleaseInputOrderId": "Please input order ID",

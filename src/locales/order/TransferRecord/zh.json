@@ -31,7 +31,9 @@
     "merchant": "商戶",
     "chainCoin": "鏈路/幣種",
     "transactionId": "交易明細編號",
-    "relatedOrderIds": "關聯訂單編號(轉出/轉入)"
+    "relatedOrderIds": "關聯訂單編號(轉出/轉入)",
+    "submitter": "提交人",
+    "reviewer": "審核人"
   },
   "prompt": {
     "pleaseInputOrderId": "請輸入訂單編號",
